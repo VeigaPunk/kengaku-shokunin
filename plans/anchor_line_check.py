@@ -65,6 +65,11 @@ ROW_RE = re.compile(r"^ {0,3}\|\s*(S\d{3,})\s*\|")
 # `(.*?)` truncated escaped-quote anchors at their first inner escape and ingested the
 # trailing backslash, flagging byte-true rows (S201) as `line` defects.
 QUOTE_RE = re.compile(r':(\d+)\s+"((?:[^"\\]|\\.)*)"(?=\s*(?:\(\d+\s+words?\)|[;,]|$|\s+and\s))')
+# Round-91 R82-F1 repair: two anchor shapes the round-58 regex could not see (S260/S261/S265/S266).
+# QUOTE_CURLY_RE: `:N quote “…”` (curly quotes, optional `quote` keyword before them).
+# QUOTE_PAREN_LINE_RE: `quote “…” (W words, line N)` — the line sits inside the parenthetical.
+QUOTE_CURLY_RE = re.compile(r':(\d+)\s+(?:quote\s+)?\u201c((?:[^\u201d\\]|\\.)*)\u201d(?=\s*(?:\(\d+\s+words?\)|[;,]|$|\s+and\s))')
+QUOTE_PAREN_LINE_RE = re.compile(r'quote\s+\u201c((?:[^\u201d\\]|\\.)*)\u201d\s*\((\d+)\s+words?,\s*line\s+(\d+)\)')
 WORDS_RE = re.compile(r'\s*\((\d+)\s+words?\)')
 RANGE_RE = re.compile(r'[\w./-]+\.[A-Za-z0-9]+:(\d+)-(\d+)')
 SHA_RE = re.compile(r'sha256\s+`?([0-9a-f]{64})\b')
@@ -99,10 +104,24 @@ def evidence_index(lane):
     return idx
 
 
+def anchor_quotes(anchor):
+    """-> [(line, quote, declared_words_or_None)] over all three anchor shapes (round 91)."""
+    found = []
+    for m in QUOTE_RE.finditer(anchor):
+        w = WORDS_RE.match(anchor, m.end())
+        found.append((int(m.group(1)), m.group(2).replace('\\"', '"'), int(w.group(1)) if w else None))
+    for m in QUOTE_CURLY_RE.finditer(anchor):
+        w = WORDS_RE.match(anchor, m.end())
+        found.append((int(m.group(1)), m.group(2), int(w.group(1)) if w else None))
+    for m in QUOTE_PAREN_LINE_RE.finditer(anchor):
+        found.append((int(m.group(3)), m.group(1), int(m.group(2))))
+    return found
+
+
 def row_defects(cells, line, idx, lane):
     """-> (cited, capture_rel or None, [defect kinds])"""
     anchor = cells[5] if len(cells) >= 11 else ""
-    quotes = list(QUOTE_RE.finditer(anchor))
+    quotes = anchor_quotes(anchor)
     if not quotes:
         return False, None, []
     caps = [rel for h in SHA_RE.findall(line) for rel in idx.get(h, [])]
@@ -114,16 +133,14 @@ def row_defects(cells, line, idx, lane):
     nlines = len(text.splitlines())
     rng = RANGE_RE.search(anchor)
     out = []
-    for m in quotes:
-        n, q = int(m.group(1)), m.group(2).replace('\\"', '"')
+    for n, q, declared in quotes:
         if not (1 <= n <= len(lines)) or q not in lines[n - 1]:
             out.append("line")
         if rng:
             a, b = int(rng.group(1)), int(rng.group(2))
             if b > nlines or not (a <= n <= b):
                 out.append("range")
-        w = WORDS_RE.match(anchor, m.end())
-        if w and int(w.group(1)) != len(q.split()):
+        if declared is not None and declared != len(q.split()):
             out.append("words")
     return True, rel, out
 
