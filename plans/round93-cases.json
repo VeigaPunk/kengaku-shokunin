@@ -1,0 +1,23 @@
+{
+  "member": "schemelike-metacircular-eval",
+  "subject": "corpus/evidence/round93/graders/schemelike-metacircular-eval/tests/test_outputs.py",
+  "leg_order": ["outcome", "passed", "failed", "total", "timeouts"],
+  "cases": [
+    {"id": "C01-reference-full", "eval": "reference", "tests": "full", "predicted": "P,63,0,63,0",
+     "why": "the captured reference solution against all 63 captured test programs (test/ 32 + shadow_test/ 31): the positive control"},
+    {"id": "C02-absent-full", "eval": "absent", "tests": "full", "predicted": "F,0,63,63,0",
+     "why": "no eval.scm: every through-eval run fails to open the file"},
+    {"id": "C03-echo-full", "eval": "echo-filename", "tests": "full", "predicted": "F,0,63,63,0",
+     "why": "an evaluator that echoes its input path instead of interpreting it"},
+    {"id": "C04-mutant-mul-full", "eval": "mutant-mul", "tests": "full", "predicted": "F,19,44,63,0",
+     "why": "the reference with one primitive mapping changed (* evaluates as +): the 19 programs whose output does not depend on multiplication still pass"},
+    {"id": "C05-true-suffix-newline-full", "eval": "true-suffix-newline", "tests": "full", "predicted": "F,0,63,63,0",
+     "why": "the reference plus (newline)(display \"True\"): normalize_output drops the trailing True line but not the blank line before it, so no comparison matches"},
+    {"id": "C06-fib-heavy-single", "eval": "fib-heavy", "tests": "single:test/01-factorial.scm", "predicted": "F,0,1,1,1",
+     "why": "the timing wall: a through-eval run (fib 35 in the interpreted language) that cannot finish inside the grader's 60 s subprocess timeout"},
+    {"id": "C07-absent-none", "eval": "absent", "tests": "none", "predicted": "P,-,-,-,0",
+     "why": "no test directories and no eval.scm: find_test_files() is empty and test_interp() returns 1 before any assert, so the grader passes with no evaluator at all"},
+    {"id": "C08-true-suffix-bare-full", "eval": "true-suffix-bare", "tests": "full", "predicted": "F,56,7,63,0",
+     "why": "the reference plus a bare (display \"True\"): normalize_output strips one trailing True line; the five metacircular runs (05-simple-io x2, calculator, closures x2) print two and fail, and y_combinator x2 also fail (mechanism not established before freeze): seven fail. The pre-dry-run stacking hypothesis said 3: mispredicted, corrected from the dry run before freeze; only the vector is frozen"}
+  ]
+}
