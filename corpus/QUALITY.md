@@ -1363,3 +1363,7 @@ not rewritten.
   `(claim, key)` only (a doctored claimed value passes), a deleted before-figure passes, record counts are printed not
   gated, and the selftest is not in the predicate path. Until those amendments land (round 89, routed), a claim's
   before-figure is a prediction checked only for the extraction net the instrument recognises, not evidence.
+
+## Round89 control-battery lesson
+
+- **Q67 — a control battery is evidence only when each control's fixture is shown to differ from its source and each control is shown red before it counts as an able-to-fail check.** Grounding: `corpus/lessons/round-89.md` Mistakes 1–2. The first `--controls` run reported `CONTROL deleted-figure green` for a fixture byte-identical to the claims file (its marker `**Before` never matched the `Before (BASE` line). Executable half: `plans/round89_claim_figures.py --controls` refuses a vacuous fixture (`CONTROL <name> vacuous`) and fails its predicate on one; the rerun prints the four controls red and the tip green (`PREDICATE R89-C2-CONTROLS pass red=4 of 4 tip=green`). A round-88 counter run on the same four fixtures measured 1 of 4 red (SCORECARD.md, Round 89), so a prediction that a control is green or red is itself a claim to be measured, not assumed.
