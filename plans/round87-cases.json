@@ -1,0 +1,59 @@
+{
+  "member": "mteb-retrieve",
+  "class": "file-artifact",
+  "subject_capture": "corpus/evidence/round52/graders/mteb-retrieve/tests/test_outputs.py",
+  "subject_sha": "e4e6b21fed6662adb4a42aba23d35609450392839a2282f3ba77c70c8d907c0b",
+  "source_row": "S275",
+  "legs": ["test_result_exists", "test_data_matches"],
+  "prediction_note": "Predicted vectors are derived by reading the captured grader source (test_outputs.py lines 5-13) before the first execution; they are frozen with this table and never re-derived after observation.",
+  "cases": [
+    {
+      "id": "exact",
+      "predicted": "P/P",
+      "why": "control: the one required line, exact expected value, trailing newline",
+      "result": {"kind": "text", "content": "MTEB: Massive Text Embedding Benchmark\n"}
+    },
+    {
+      "id": "absent-file",
+      "predicted": "F/F",
+      "why": "no /app/result.txt at all: os.path.exists is False (AssertionError) and open() raises FileNotFoundError (graded refusal)",
+      "result": {"kind": "absent"}
+    },
+    {
+      "id": "two-lines",
+      "predicted": "P/F",
+      "why": "two identical lines: exists passes, the len(lines)==1 assert raises AssertionError",
+      "result": {"kind": "text", "content": "MTEB: Massive Text Embedding Benchmark\nMTEB: Massive Text Embedding Benchmark\n"}
+    },
+    {
+      "id": "sibling-value",
+      "predicted": "P/F",
+      "why": "the sibling member mteb-leaderboard's expected value in this grader's slot: exists passes, the equality assert raises AssertionError",
+      "result": {"kind": "text", "content": "GritLM/GritLM-7B\n"}
+    },
+    {
+      "id": "trailing-space",
+      "predicted": "P/P",
+      "why": "control: trailing spaces before the newline are removed by strip() before the equality assert",
+      "result": {"kind": "text", "content": "MTEB: Massive Text Embedding Benchmark   \n"}
+    },
+    {
+      "id": "empty-file",
+      "predicted": "P/F",
+      "why": "zero lines: readlines() returns [], the len==1 assert raises AssertionError",
+      "result": {"kind": "text", "content": ""}
+    },
+    {
+      "id": "result-is-directory",
+      "predicted": "P/E",
+      "why": "uncaught error: os.path.exists is True for a directory; open() raises IsADirectoryError, which the harness counts as E (not a graded refusal)",
+      "result": {"kind": "dir"}
+    },
+    {
+      "id": "non-utf8-bytes",
+      "predicted": "P/E",
+      "why": "uncaught error: bytes FF FE 00 are not UTF-8 under the sandbox locale; readlines() raises UnicodeDecodeError, counted as E",
+      "result": {"kind": "bytes_hex", "hex": "fffe00"}
+    }
+  ]
+}
