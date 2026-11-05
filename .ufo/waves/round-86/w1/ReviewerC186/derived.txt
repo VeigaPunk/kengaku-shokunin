@@ -1,0 +1,97 @@
+R86-C1 independent derivation — ReviewerC186
+Inputs used: ONLY corpus/evidence/round52/graders/raman-fitting/tests/test_outputs.py
+(pinned captured grader, Terminal-Bench 2.0 commit 2fd12b88) and the eight case-shape
+names from plans/round-86-claims.md / seat spec. NOT read before this derivation:
+plans/round86-cases.json, plans/round86_raman_probe.py.
+
+================================================================================
+1. GRADER STRUCTURE (three tests = three legs, in definition order)
+================================================================================
+Leg E  test_result_file_exists : assert Path("/app/results.json").exists()
+Leg G  test_G_Peak             : json.load(/app/results.json); reads data["G"]["x0"|"gamma"|"amplitude"|"offset"]
+Leg 2  test_2D_Peak            : same for data["2D"]
+
+Bands (from bytes):
+  G leg:  |x0 - 1580.3|  < 5        (ABSOLUTE)
+          |gamma - 9.06| < 1        (ABSOLUTE)
+          |1 - A/8382.69|  < 0.05   (RELATIVE, strict <)
+          |1 - offset/5561.03| < 0.1(RELATIVE, strict <)
+  2D leg: |1 - x0/2670.08|  < 0.05  (RELATIVE — note: relative here, absolute for G)
+          |gamma - 17.52| < 1       (ABSOLUTE)
+          |1 - A/12314.42|  < 0.05  (RELATIVE)
+          |1 - offset/1239.09| < 0.1(RELATIVE)
+Each leg asserts the conjunction of its four checks.
+
+Baseline ("exact") values assumed = the grader's own expected constants:
+  G  : x0=1580.3  gamma=9.06  amplitude=8382.69  offset=5561.03
+  2D : x0=2670.08 gamma=17.52 amplitude=12314.42 offset=1239.09
+
+================================================================================
+2. PYTHON/JSON SEMANTICS RELIED ON
+================================================================================
+S1 json.load parses extra keys silently; tests index only fixed keys, so
+   additional schema keys are INERT (no validation of key set).
+S2 data["K"] with "K" absent raises KeyError -> uncaught in test -> leg FAILS
+   (pytest counts any uncaught exception as a test failure, same as assert).
+S3 str / float is unsupported: "8382.69" / 8382.69 raises TypeError
+   ("unsupported operand type(s) for /: 'str' and 'float'") at the A_correct
+   line -> leg FAILS. No string-to-number coercion in Python arithmetic.
+S4 None["x0"] raises TypeError ('NoneType' object is not subscriptable)
+   -> leg FAILS.
+S5 Path.exists() False -> AssertionError -> leg E FAILS; open(missing) raises
+   FileNotFoundError in legs G and 2D -> both FAIL. All three legs fail.
+S6 Strict inequality: abs(1 - A/A_exp) < 0.05 is False at exactly 0.05, so a
+   value just OUTSIDE the band (e.g. 5.1% off) fails A_correct -> leg FAILS.
+S7 Tests are independent: an exception in one leg does not affect the others.
+Vector order used below: (E, G, 2D) — file-exists, G-peak, 2D-peak — the tests'
+definition order. PASS = test returns normally; FAIL = assertion failure or
+uncaught exception.
+
+================================================================================
+3. PREDICTED THREE-LEG VECTOR PER CASE SHAPE
+================================================================================
+C1 exact                  file present, both peaks exact -> all bands hold
+                          -> (PASS, PASS, PASS)
+C2 missing-2D-key         "2D" absent: E passes (file exists); G passes (G
+                          intact); 2D hits S2 KeyError -> (PASS, PASS, FAIL)
+C3 g-amplitude-string     G.amplitude is a string: E passes; G hits S3
+                          TypeError at A_correct; 2D untouched, passes
+                          -> (PASS, FAIL, PASS)
+C4 extra-schema-keys      extra keys added: S1 -> inert; all bands hold
+                          -> (PASS, PASS, PASS)
+C5 absent-file            no /app/results.json: S5 -> (FAIL, FAIL, FAIL)
+C6 g-key-renamed          "G" renamed: E passes; G hits S2 KeyError on
+                          data["G"]; 2D passes -> (PASS, FAIL, PASS)
+C7 2D-null-value          data["2D"] = null: E passes; G passes; 2D hits S4
+                          TypeError on None subscript -> (PASS, PASS, FAIL)
+C8 g-amplitude-just-outside  G.amplitude just outside the 5% band: E passes;
+                          G fails via S6 (A_correct False -> assert fails);
+                          2D passes -> (PASS, FAIL, PASS)
+
+================================================================================
+4. DERIVATION TABLE (leg order E,G,2D)
+================================================================================
+exact                 PASS PASS PASS
+missing-2D-key        PASS PASS FAIL
+g-amplitude-string    PASS FAIL PASS
+extra-schema-keys     PASS PASS PASS
+absent-file           FAIL FAIL FAIL
+g-key-renamed         PASS FAIL PASS
+2D-null-value         PASS PASS FAIL
+g-amplitude-just-outside PASS FAIL PASS
+
+Sanity cross-checks embedded in the derivation:
+- C2 and C7 are distinguishable only at the exception level (KeyError vs
+  TypeError), not at the pass/fail level; both give (PASS, PASS, FAIL). If the
+  frozen table records only pass/fail, they collapse to the same vector — that
+  is expected, not a defect.
+- C3, C6, C8 all give (PASS, FAIL, PASS) at pass/fail level for the same
+  reason (the G leg fails for three different mechanisms: TypeError,
+  KeyError, band violation). Expected collapse.
+- C1 and C4 are identical vectors (extra keys are inert); expected collapse.
+Distinct vectors observed: (P,P,P) x2, (P,P,F) x2, (P,F,P) x3, (F,F,F) x1.
+
+Encoding caveat: this derivation predicts per-leg outcomes, not the probe's
+concrete token spelling (pass/fail vs 0/1 vs ok/err). If the frozen table uses
+another leg order (e.g. G,2D,E), vectors must be compared under that
+permutation; content, not spelling, is the prediction.

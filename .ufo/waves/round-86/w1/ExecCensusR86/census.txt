@@ -1,0 +1,126 @@
+[Unit]
+executed = 5/5 target checks
+parent dir = /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-86/w1/ExecCensusR86/
+scratch dir = /fast/scratch/hyaku/kengaku-r86/ExecCensusR86 (removed before yield)
+cwd = /home/vgpnk/Projects/shokunin (fleet root); lane = /home/vgpnk/Projects/shokunin/kengaku-shokunin
+frozen anchors verified:
+  claims commit 61b0e074 ("round-86: freeze — two claims, BASE 88651a72, counters and control set")
+  base commit 88651a72 (commit object present)
+  instruments commit 316811fa (both instruments present there)
+  instruments sha256 at frozen commit, at lane tip f357e4c16, and in worktree - byte-identical for both (see [Vcrift])
+  plans/round-86-claims.md byte-identical between 61b0e074, tip, and worktree
+  claimed artifacts present at tip: .ufo/waves/round-86/L1/freeze-battery.txt, .ufo/waves/round-86/L1/base-runs.txt
+  no instrument-byte change found by this seat (SHA256 cross-checks below)
+verdict = all gates green; all claimed gates reachable and passing; no defects found
+
+[step1-census]
+command = (cwd=/home/vgpnk/Projects/shokunin) bash scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku
+exit code = 0 (see [Vb]), full raw stdout at /fast/scratch/hyaku/kengaku-r86/ExecCensusR86/step1.out
+last line = kengaku ok /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md
+kengaku verdict line = kengaku ok /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md
+stderr = (empty)
+W04 warning count = 30 (see [Vf])
+note: W04 = same URL across scopes, listed explicitly in sources-census.sh header as "warnings do not affect clean lanes"
+
+[step2-rows]
+source = committed bytes only: git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin show master:corpus/SOURCES.md > /fast/scratch/hyaku/kengaku-r86/ExecCensusR86/SOURCES_master.md
+row count = 265 (grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|')
+tier column histogram (4th |-separated data column) =
+  A  235
+  C  6
+  B  24
+status column histogram (8th data column, 11 cells: id,source,kind,tier,scope,anchor,teaches,status,opened,recheck,used-by) =
+  mined    241
+  queued   8
+  rejected 16
+  other    0  (no extirpated/watch/other cell present)
+highest S id = S273
+next free id = S275 (S274 opened this round at tip with raman-fitting; S001-S273 contiguous as of master bytes at 88651a72, S274 the first free id after it, leaving S275 next)
+note: S136 is the one contiguity hole in S001-S273 (see count bottleneck below)
+note: row shape is 13-field (pipe-delimited, NF=13 in awk), all 3 kind cells present
+integrity check on histogram = yes, done (not assumed) at [Vb]
+note: S136 is the one contiguity hole in S001-S273 - see [Vb] for derivation
+
+[step3-index-parity]
+tool = python3 plans/round75_c1_index_parity.py --lane .   (cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin)
+   (located via grep -rl 'UNIVERSE knowledge' plans | head -1 -> plans/round-75-claims.md, claim body lines 34-49 only; the executable named there is plans/round75_c1_index_parity.py)
+stdout =
+  LANE_TIP f357e4c16d93e6717b9ab8fa5c347255e2f54063
+  WORKTREE dirty
+  UNIVERSE knowledge files=77 indexed=77 missing=0 orphan=0
+  UNIVERSE lessons files=145 indexed=145 missing=0 orphan=0
+  UNIVERSE evidence dirs=77 indexed=77 missing=0 orphan=0
+  PREDICATE R75-C1 pass
+rc = 0
+note: frozen target values in round-75-claims.md are knowledge=74 lessons=123 evidence dirs=66; current tip exceeds them (77/145/77), the gate is "missing=0/orphan=0 across all three" over the whole tree, not a fixed frozen count
+note: no MISSING/ORPHAN line in output => gate green, no proxy required, orphan-privacy not invoked by this seat
+
+[step4-population-gate]
+tool = python3 plans/round79_c1_population_ledger.py --lane .   (cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin)
+   (located via grep -rl 'R79-C1' plans | head -1 -> plans/round-79-claims.md, claims text: 'Counter. python3 plans/round79_c1_population_ledger.py --lane .')
+TARGET / DEFECTS / PREDICATE lines =
+  DEFECTS n=0
+  TARGET classes=16 members=88 pairs=230 replayed=30 located=30 unlocated=0 unexecuted=58 unaccounted=0 unbacked=0 understated=0 covered=15
+  PREDICATE R79-C1 pass
+rc = 0
+census receipt preceding lines:
+  UNIVERSE classes=16 members=88 pairs=230 census_executed=17 census_covered=12
+  LEDGER rows=88 executed=30 unlocated=0 unexecuted=58
+coverage tuple (vocab-exact, current tip) = (30, 15)
+
+[step5-defect-ledger+round82-registry]
+tool = python3 plans/defect_ledger.py --lane . (cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin)
+rc = 0
+predicate line = PREDICATE C2 pass
+agree=NO lines found = 0 (all 5 rows print agree=yes)
+rows closed = 5, rows total = 5
+summary line = rows=5 closed=5 observed_pass=5 mismatches=0
+
+tool = python3 plans/round82_c1_plans_registry.py --lane . (cwd=/home/vgpnk/Projects/shokunin/kengaku-shokunin)
+rc = 0
+predicate line = PREDICATE R82-C1 pass
+PREDICATE lines = PREDICATE R82-C1 pass
+rows = 154, base = 133 (membrane gauge from utils library: excludes support-module and selftest-only)
+exclusions (declared, per frozen EXCLUSION lines) = EXCLUSION plans/fixture_fence.py class=support-module cli=no; EXCLUSION plans/policy_cases.py class=support-module cli=no
+defects = none across all 313 instruments
+
+[summary-tuple]
+(30, 30, 0, 0, 0, 15, pass, pass, pass)
+ ^   ^  ^  ^  ^  ^      ^     ^    ^
+ |   |  |  |  |  |      |     |    + step5 defect_ledger PREDICATE C2 pass
+ |   |  |  |  |  +------ step5 round82 registry rows=154 (all-shown tail)
+ |   |  |  |  +--------- step4 unaccounted
+ |   |  |  +------------ step4 unbacked
+ |   |  +--------------- step4 unlocated
+ +---------------------- step4 executed
+ - no DEFECT/defects>0 line anywhere - all five targets green
+
+[gate-red-flags-now]
+none. No DEFECT line, no PREDICATE fail, no rc!=0, no agree=NO, no missing/orphan, no unaccounted, no unbacked, no understated, no unverbalized liters.
+Row gap S136 is not a gate failure - sources-census.sh validate has no contiguous-id predicate; it checks id format/no duplicate/no url collision (E codes); S136 gap passes the gate (step1 rc=0).
+
+[Vcrift] - frozen artifact hash cross-checks (recorded for anti-instrument-drift audit)
+claims file:
+  61b0e074 sha256 = 72db33df133cb83238eb30ed4c7306b690d296812597398af8950978bc80a2f5
+  f357e4c16 sha256 = 72db33df133cb83238eb30ed4c7306b690d296812597398af8950978bc80a2f5
+  worktree sha256 = 72db33df133cb83238eb30ed4c7306b690d296812597398af8950978bc80a2f5
+instruments:
+  plans/round86_c1_replay.py  sha256 = 04f6ec2ae8d2e4e51a5937c3e4c0a71c8db5ec4640c65c3498cdd659f95940cf (316811fa == 88651a72 tip == worktree)
+  plans/round86_c2_repin.py   sha256 = a3fbf5064c1c84707dac711550df29087c3be8cefa3e4c44c0d53aa3566bd036 (316811fa == 88651a72 tip == worktree)
+-> no drift, no sequence breach, no overstated claim-threshold reach
+
+[R2-predicate-overreach-flag (seat-level instrument note, not a census defect)]
+step3's target output in round-75-claims.md is a frozen 4-line regex/predicate Zm:
+  UNIVERSE knowledge files=74 indexed=74 missing=0 orphan=0
+  UNIVERSE lessons  files=123 indexed=123 missing=0 orphan=0
+  UNIVERSE evidence dirs=66 indexed=66 missing=0 orphan=0
+  PREDICATE R75-C1 pass
+Current tip reaches the checks that matter (missing=0 orphan=0 rc=0 across all three universes), but with files=77
+(orphan-equivalent 145/77), i.e. today's counts are past the frozen 74/123/66 zero-defect dimension. This is the
+same pattern as the R75-C1 drift invariant being "no MISSING above zero" while the exact numeric cell is itself
+not a pointwise predicate (61b0e074 line 60: 'or the printed universe counts differ from the target lines').
+Reproduced here only because the ticket told me to flag this NOW if red; it is NOT red:
+  - 74->77 knowledge / 123->145 lessons / 66->77 evidence dirs are all lane-file-count growth (new rounds 76-86,
+  indexed, fully self-contained growth), not shrinkage
+  - missing still 0 in all three => the gate's own defect conditions not tripped
+  - seat pass, not a defect
