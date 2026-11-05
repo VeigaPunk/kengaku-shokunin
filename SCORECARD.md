@@ -4055,3 +4055,60 @@ The optimistic C2 admission and bilateral separation statements above are supers
 R85-C1's eight cases reproduce, but the frozen class figure is corrected from 0/9→1/9 to **1/10→2/10** (ReviewerC185 F1). No first-in-class claim survives: db-wal-recovery was already executed. S272 is preserved with its erroneous annotation; S273 corrects the quote to **line 31, nine words**. Final registry rows 263→265 (A233→235; mined239→241), not the intermediate 264 above. Expansion unchanged; quality unchanged (real repairs offset by open gates); discernment unchanged pending outside judgment. No score or capability increase.
 
 CriticR85 F3 further limits C1: the score leg is recomputed by the harness, not observed inside the grader. A strict-type grader mutant still yields the entire frozen vector. **R85-C1 is therefore unprovable as worded**, despite its genuine located member execution and green numerical target. Both claims are an honest stop; no admission is requested. The earlier “met” row means the executable target only, not frozen-contract verification.
+
+## Round 86 (hyaku run 15, attempt 1, 2026-11-05): one more executed member and the lane's last self-assessment mismatch
+
+Base `88651a72ef112ed9f5361e1c8c197babec691f96`; claims freeze `61b0e074a44259c8c022aa2fda257182a0708346`;
+instrument bytes `316811fa604eeef1d157bdbf62b5595891dc015a`; population-ledger row `f357e4c1`;
+receipt and tip measurement `276abd46123974f31365866b173b329c641873cf`. Two causally separable claims on two distinct axes; no frozen sentence,
+case table, control set, leg list or kill rule changed after the freeze.
+
+| claim / axis | before → after and measured commit | counting command | verdict / score |
+|---|---|---|---|
+| R86-C1 / **coverage** (lowest non-retired axis, held at its L0 cap): a fourth located offline member replay, `raman-fitting` | BASE `88651a72`: `TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=7`, `PREDICATE R86-C1 fail`, exit 1 (`.ufo/waves/round-86/L1/base-runs.txt`). At `276abd46123974f31365866b173b329c641873cf`: `TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=0`, `PREDICATE R86-C1 pass`, exit 0. Population: executed 29 → 30; `serialization-schema` 2 of 10 → 3 of 10; `file-artifact` 21 of 76 → 22 of 76; `numeric-band` 2 of 10 → 3 of 10 (R79 gate re-prices all three cells). | `python3 plans/round86_c1_replay.py --lane . --rev REV --work DIR` (BASE: `--rev 88651a72ef112ed9f5361e1c8c197babec691f96`) | **met on its frozen predicate**; coverage stays at **7** — the L0 cap `kengaku | round-25/33/51` still holds the axis, and this round re-prices nothing outside it |
+| R86-C2 / **calibration** (held at ceiling 10): the lane's self-assessment mismatch count 1 → 0, by derivation | BASE `88651a72`: `TARGET derived_line=151 shonen_pointer=PROVINCE.md:129 pin_line=129 state_mismatches=1 selftest=pass defects=3`, `PREDICATE R86-C2 fail`, exit 1; `plans/state_check.py --summary --root <BASE tree>` → `assertions=329 match=317 mismatch=1`, `VERDICT: FAIL`. At `276abd46123974f31365866b173b329c641873cf`: `TARGET … state_mismatches=0 … defects=0`, `PREDICATE R86-C2 pass`, exit 0; the same summary prints `mismatch=0`, `VERDICT: PASS`. | `python3 plans/round86_c2_repin.py --lane . --rev REV --work DIR`; `python3 plans/state_check.py --summary` | **met on its frozen predicate**; calibration **10 held**, exercised (a repair of the lane's own stale assertion restores, it does not extend the ceiling) |
+
+**Controls and batteries (all re-run after the last instrument commit, before the tip data existed).** C1: selftest
+`cases=10 red=10 failures=0`; mutants `real=6 necessary=5 redundant=1 declared_redundant=1`; do-nothing `defects=7`,
+ledger-only `5`, fabricated-observations `2`, forged-receipt `1` — each `target_reached=False`. C2: selftest
+`cases=4 red=4`; mutants `real=3 necessary=1 redundant=2 declared_redundant=2` with `caught_by` named per redundant
+mutant; do-nothing `3`, stale-pin `3`, pointer-only `1`, pin-only `2` — each `target_reached=False`. Transcripts:
+`.ufo/waves/round-86/L1/freeze-battery.txt`, `base-runs.txt`, `c1-tip.txt`, `c2-tip.txt`, `separation.txt`.
+
+**Separation.** Reverting C1's receipt and ledger row in a fixture of the tip leaves `R86-C2` at `defects=0`; reverting
+C2's two-line repair leaves `R86-C1` at `defects=0` (`L1/separation.txt`).
+
+**Honest limits.** The eight cases produce **five** distinct frozen vectors, not eight (`P/P/P` ×2, `P/P/E` ×2,
+`P/E/P` ×2, `F/F/F`, `P/F/P`; command: `python3 -c "import json,collections;print(collections.Counter(c['predicted'] for c in json.load(open('plans/round86-cases.json'))['cases']))"`). The vector is a statement about the captured
+bytes plus this probe harness, not about Terminal-Bench's own harness. C2's repair landed in the inherited attempt's
+commit `0481a6d3` and this round froze and measured it; the round's own additions are the counter, the derive leg, the
+controls and the mutant battery.
+
+**Other axis scores.** novelty 8 (held), depth 10 (held), operability 10 (held — three new instruments with committed
+batteries, but the replay method is rounds 83–85's, so no capability row), freshness 10 (held; `:34113` and `:45669`
+remain `000`, the `:1234` router answers 200, the pinned URL was re-fetched byte-identical), adjacency 9 (held; the
+connector scan is report-only, nothing absorbed).
+
+**Sources.** S274 admitted (`corpus/SOURCES.md`; pinned `raman-fitting/tests/test_outputs.py`, member replay only).
+Rows 265 → 266; A 235 → 236; B 24; C 6; mined 241 → 242; rejected 16; queued 8; census exit 0 before and after,
+W04 30 → 30. `expansion: unchanged`. Assimilation: none — `merge/kengaku/` stays blocked by L0 `kengaku | round-54`.
+
+**Correction row (append-only).**
+
+- **R86-E1 (2026-11-05)** supersedes `R26-E11` — now `pointer=PROVINCE.md:151` `pointer_count=1` `target=PROVINCE.md:151` `token=### Adjacent` `token_hits=1`; the assertion is compared and matches, not superseded. R26-E11 (2026-11-02) had recorded the same assertion as superseded with `token_hits=0`; that record stays as written, and this row names it as the row it replaces.
+R26-E11 (2026-11-02) had recorded the same assertion as superseded with `token_hits=0`; that record stays as written, and this row names it as the row it replaces.
+
+### Round86 capabilities
+
+No new capability row: the replay instrument is rounds 83–85's, extended this round with a schema-drift case class
+(`E` = uncaught error as an observation) and a derivation-based self-assessment leg, neither of which is a new method.
+
+### Planned (round 87; not a claim until frozen)
+
+1. Coverage: a member whose grader needs a non-Python runtime, with the blocker proved from its bytes before the
+   member is chosen (the round-85 `Rscript` refusal is the model), or a fifth member with a case class that separates
+   vectors the current eight collapse (`extra keys` and `absent file` are already singleton vectors).
+2. Calibration: the standing TB2 admission counter that Q61's limits section still names as open, gated on the Q13
+   checker shape (L0 `kengaku | round-84`).
+3. Operability: keep the new R77/R79/R82 cells in the same commit as every append that moves them — this round found
+   the canonical surface count three appends stale.

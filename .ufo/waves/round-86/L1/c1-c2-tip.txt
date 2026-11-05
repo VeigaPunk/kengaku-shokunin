@@ -1,0 +1,21 @@
+# R86 tip measurement — measured revision 276abd46123974f31365866b173b329c641873cf (the commit that carries the re-minted receipt)
+$ python3 plans/round86_c1_replay.py --lane . --rev 276abd46123974f31365866b173b329c641873cf --work /fast/scratch/hyaku/kengaku-r86/L1t/c1
+TARGET members=1 cases=8 legs=24 mismatches=0 located=1 executed=1 defects=0
+PREDICATE R86-C1 pass
+rc=0
+
+$ python3 plans/round86_c2_repin.py --lane . --rev 276abd46123974f31365866b173b329c641873cf --work /fast/scratch/hyaku/kengaku-r86/L1t/c2
+TARGET derived_line=151 shonen_pointer=PROVINCE.md:151 pin_line=151 state_mismatches=0 selftest=pass defects=0
+PREDICATE R86-C2 pass
+rc=0
+
+$ python3 plans/state_check.py --summary
+assertions=329 match=318 mismatch=0 superseded=6 offline_unverifiable=5
+VERDICT: PASS — all comparable frozen assertions match
+rc=0
+
+$ python3 plans/round79_c1_population_ledger.py --lane .
+DEFECTS n=0
+TARGET classes=16 members=88 pairs=230 replayed=30 located=30 unlocated=0 unexecuted=58 unaccounted=0 unbacked=0 understated=0 covered=15
+PREDICATE R79-C1 pass
+rc=0

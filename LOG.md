@@ -3286,3 +3286,46 @@ excluded from any waiver — **no stagnation waiver applies** (novelty has moved
 - **Closing correction / honest stop (2026-11-04).** C2's optimistic “discharged” and full-separation statements above are superseded by `corpus/lessons/round-85.md` §Closing erratum: post-scoring V8/V3 changes mean the frozen claim is not verified; original reverse separation reaches 7/8 only. Q20 clone red rows remain debt. Actual serialization-schema movement is 1/10→2/10, not first-in-class. S273 supersedes S272's line/count annotation (31/nine, not 30/six), giving final sources 263→265, A233→235, mined239→241. Sentinel S1–S6 remain routed findings. No novel construct, capability, score increase or round admission is asserted.
 
 - **Scope correction.** The current novelty score is 8, not the historical 7 copied into this section's opening; coverage 7 is the unique lowest axis, no tie-break is needed. No live serving endpoint or absent external host tree was probed this round; “remains ABSENT” above is carried history, not fresh verification. CriticR85 F3 makes the C1 frozen wording unprovable too: the score is harness-recomputed, not grader-internal observation. Both claims stop honestly; the genuine replay is retained without admission.
+
+## Round 86 — fourth located offline member replay (`raman-fitting`) and the last self-assessment mismatch repaired by derivation (hyaku run 15, attempt 1, 2026-11-05)
+
+Axes: **coverage** is the lowest non-retired axis (7, held by L0 `kengaku | round-25/33/51`) and is the second
+claim's opposite pole on **calibration** (10, ceiling). No stagnation waiver applies (novelty moved in r83–r84 and is
+8 today). Base `88651a72ef112ed9f5361e1c8c197babec691f96`; freeze `61b0e074a44259c8c022aa2fda257182a0708346`;
+instrument bytes `316811fa604eeef1d157bdbf62b5595891dc015a`; ledger row `f357e4c1`; receipt and tip measurement
+`276abd46123974f31365866b173b329c641873cf`. Inherited from the earlier attempt of this same round (L1 died on provider failure): the probe, case table,
+both counters and the box-4 re-pin (`0481a6d3`, `c939e6b5`, `bfda0472`). All were re-verified this round; two battery
+legs were repaired before any tip run (QUALITY Q63–Q65).
+
+- **R86-C1 (coverage) — `raman-fitting`, eight frozen schema-drift cases, three legs each.** The pinned capture
+  (`sha256 171fae77…`) runs unmodified inside bubblewrap over eight staged `/app/results.json` end states; `P` = the
+  test function returned, `F` = `AssertionError`/`FileNotFoundError`, `E` = any other exception (a schema violation
+  surfacing as a traceback, which is the class this round adds). Tip `TARGET members=1 cases=8 legs=24 mismatches=0
+  located=1 executed=1 defects=0`, `PREDICATE R86-C1 pass`, exit 0; BASE `defects=7`, exit 1. Population executed
+  29 → 30, `serialization-schema` 2/10 → 3/10, `file-artifact` 21/76 → 22/76, `numeric-band` 2/10 → 3/10.
+  Controls: do-nothing, ledger-only, fabricated-observations, forged-receipt — each `target_reached=False`;
+  selftest 10/10; mutant battery 5 necessary + 1 declared redundant.
+- **R86-C2 (calibration) — self-assessment mismatch 1 → 0.** `plans/state_check.py --summary` printed
+  `mismatch=1` at BASE (`P3c.box.4.pointer.1`: `SHONEN.md` box 4 pointed at `PROVINCE.md:129`, which is a table
+  rule today) and prints `mismatch=0`, `VERDICT: PASS` at the tip. The pointer is re-derived from `PROVINCE.md`
+  bytes, not hand-edited: `### Adjacent` was at line 129 in the commits that froze it (`8ea41f9e`, `3a2aeb15`) and
+  slid to 151 as PROVINCE grew, so the repair follows the token. `STALE_LINE = 129` is retained as history.
+  Controls: do-nothing, stale-pin, pointer-only, pin-only — each `target_reached=False`; selftest 4/4; mutants
+  1 necessary + 2 declared redundant (each names its catcher).
+- **Q20 outside-copy roster** at `276abd46123974f31365866b173b329c641873cf`'s predecessor: `grader.py` 733 checks PASS, `sources_adopt` 17 cases,
+  R75 index parity PASS, R79 population `DEFECTS n=0`, R82 plans registry `DEFECTS n=0`, `defect_ledger`
+  `mismatches=0`, `state_check --selftest` exit 0 (`.ufo/waves/round-86/L1/outside-gates.txt`, run in a shared clone,
+  because two of those gates need git history).
+- **Repairs found by the round's own gates.** The canonical surface row (`PROVINCE.md:1041`) still said `rows=253`
+  while the registry held 265 before this round's append; re-counted to 266 with the dated supersession, and R76/R77
+  are green again. `SKILL.md`'s three class cells were re-priced from the ledger (R79 gates them).
+- **Census**: `sh scripts/sources-census.sh validate --root … kengaku` exit 0 before and after; rows 265 → 266,
+  A 235 → 236, B 24, C 6, mined 241 → 242, rejected 16, queued 8, W04 30 → 30. S274 admitted (member replay only).
+- **Re-verification**: the pinned URL was fetched this round (HTTP 200, 2029 B, sha256 `171fae77…`, `cmp` silent
+  against the round-52 capture); `:34113` and `:45669` answer `000`, the `:1234` router answers 200.
+- **Frontier**: `merge/kengaku/` still blocked by L0 `kengaku | round-54` (assimilation: none); no new
+  `considerthese/` proposal was taken (its §2 counter remains Q61's open half).
+- **Commits**: `61b0e074` freeze, `877f6512` instruments bound to the freeze, `316811fa` battery repairs,
+  `48a1ffbd` pre-data receipt, `d5e67d9c` wave spec/dispatch, `f357e4c1` ledger row, `981d6f19` corpus + Q63–Q65,
+  `ab9da0d4` wave evidence, `4d2a0ee8` self-test row backing, `a571044c` surface re-count, `276abd46123974f31365866b173b329c641873cf` receipt +
+  tip measurement. Transcripts: `.ufo/waves/round-86/L1/`; wave evidence `.ufo/waves/round-86/`.

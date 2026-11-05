@@ -63,6 +63,16 @@ ground lands as S274 + the executed population-ledger row + the receipt + this G
   in the inherited attempt's commit `0481a6d3`; this round's own work is the counter, the derive leg,
   the four controls and the mutant battery, all committed at `316811fa` before any tip run.
 
+- **R86-V2 — `P4-state` read the lane worktree's instrument, not the measured tree's (2026-11-05).**
+  Seat `SentinelR86` (F1) showed `state_summary`/`state_selftest` preferred `lane/plans/state_check.py`
+  whenever a `--root` tree was measured, so a worktree edit could move a committed tree's verdict.
+  Repaired at `e23bec07` before the tip run: the measured tree's instrument is authoritative, and every
+  `git`/`tar` child gets a fixed env (its F4, `GIT_DIR`/`TAR_OPTIONS` cannot steer the read). The v2
+  battery and both BASE runs were re-taken at the new bytes
+  (`L1/freeze-battery-v2.txt`, `L1/base-runs-v2.txt`) and are green as designed. Limitation named in
+  this change: `pointer-only` and `pin-only` now show two defects each, because `P4` reads the same
+  tree the fixture edited — that is the point.
+
 ## Mistakes
 
 | class | evidence pointer | captured-by | fix |
