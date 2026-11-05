@@ -1,0 +1,26 @@
+# R86 BASE runs — lane revision 88651a72ef112ed9f5361e1c8c197babec691f96
+$ python3 plans/round86_c1_replay.py --lane . --rev 88651a72ef112ed9f5361e1c8c197babec691f96 --work /fast/scratch/hyaku/kengaku-r86/L1/base1
+DEFECT L1-receipt missing corpus/evidence/round86/raman-fitting-probe.txt
+DEFECT L2-stamp
+DEFECT L3-tip
+DEFECT L4-table missing plans/round86-cases.json@rev 88651a72ef11
+DEFECT L5-vectors
+DEFECT L6-reproduce no tool plans/round86_raman_probe.py@rev 88651a72ef11
+DEFECT L7-ledger status=unexecuted,round=None,receipt=None,subject=None,verdict=None
+TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects=7
+PREDICATE R86-C1 fail
+rc=1
+
+$ python3 plans/round86_c2_repin.py --lane . --rev 88651a72ef112ed9f5361e1c8c197babec691f96 --work /fast/scratch/hyaku/kengaku-r86/L1/base2
+DEFECT P2-shonen pointer=PROVINCE.md:129 derived=PROVINCE.md:151
+DEFECT P3-pin line=129 derived=151
+DEFECT P4-state mismatches=1
+TARGET derived_line=151 shonen_pointer=PROVINCE.md:129 pin_line=129 state_mismatches=1 selftest=pass defects=3
+PREDICATE R86-C2 fail
+rc=1
+
+$ python3 plans/state_check.py --summary   # the population C2 counts, on the BASE extraction
+assertions=329 match=317 mismatch=1 superseded=6 offline_unverifiable=5
+MISMATCH: P3c.box.4.pointer.1:12 — {"assertion_document": "SHONEN.md", "correction_line": null, "correction_tokens": null, "derived_tokens": null, "observed": {"pointer": "PROVINCE.md:129", "pointer_count": 0, "target_line": 151, "target_text": "### Adjacent", "token": "### Adjacent", "token_hits": 1}}
+VERDICT: FAIL — at least one frozen assertion mismatches
+rc=1

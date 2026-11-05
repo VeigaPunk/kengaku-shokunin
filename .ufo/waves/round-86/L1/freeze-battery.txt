@@ -1,0 +1,72 @@
+# R86 battery and BASE — instrument 316811fa (freeze 61b0e074, BASE 88651a72); run BEFORE any tip data
+$ python3 plans/round86_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b1 --selftest
+SELFTEST tip-receipt-present pass
+SELFTEST tip-table-frozen pass
+SELFTEST tip-vectors-frozen pass
+SELFTEST absent-receipt-red pass
+SELFTEST ledger-only-red pass
+SELFTEST vector-mismatch-red pass
+SELFTEST tool-sha-red pass
+SELFTEST table-drift-red pass
+SELFTEST freeze-anchor-present pass
+SELFTEST freeze-anchor-fails-closed pass
+SELFTEST cases=10 red=10 failures=0
+rc=0
+
+$ python3 plans/round86_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b2 --mutants
+MUTANT no-vectors-no-reproduce fixture=fabricated unmutated_defect=True mutant_reaches_target=True
+MUTANT no-ledger fixture=ledger-bad unmutated_defect=True mutant_reaches_target=True
+MUTANT no-tool-sha fixture=tool unmutated_defect=True mutant_reaches_target=True
+MUTANT no-tip-binding fixture=tip unmutated_defect=True mutant_reaches_target=True
+MUTANT no-table-binding fixture=table unmutated_defect=True mutant_reaches_target=False
+MUTANT no-exit fixture=exit unmutated_defect=True mutant_reaches_target=True
+MUTANTS real=6 necessary=5 redundant=1 declared_redundant=1
+rc=0
+
+$ python3 plans/round86_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b3 --control-do-nothing
+CONTROL do-nothing target_reached=False defects=7 legs=L1-receipt,L2-stamp,L3-tip,L4-table,L5-vectors,L6-reproduce,L7-ledger
+rc=0
+
+$ python3 plans/round86_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b4 --control-ledger-only
+CONTROL ledger-only target_reached=False defects=5 legs=L1-receipt,L2-stamp,L3-tip,L5-vectors,L6-reproduce
+rc=0
+
+$ python3 plans/round86_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b5 --control-fabricated-observations
+CONTROL fabricated-observations target_reached=False defects=2 legs=L5-vectors,L6-reproduce
+rc=0
+
+$ python3 plans/round86_c1_replay.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b6 --control-forged-receipt
+CONTROL forged-receipt target_reached=False defects=1 legs=L3-tip
+rc=0
+
+$ python3 plans/round86_c2_repin.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b7 --selftest
+SELFTEST derive-unique pass
+SELFTEST derive-is-not-the-stale-line pass
+SELFTEST absent-token-fails-closed pass
+SELFTEST duplicate-token-fails-closed pass
+SELFTEST cases=4 red=4 failures=0
+rc=0
+
+$ python3 plans/round86_c2_repin.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b8 --mutants
+MUTANT no-state fixture=state-other declared=necessary unmutated_defect=True mutant_reaches_target=True caught_by=none
+MUTANT no-shonen fixture=shonen-stale declared=redundant unmutated_defect=True mutant_reaches_target=False caught_by=P3-pin,P4-state
+MUTANT no-pin fixture=pin-stale declared=redundant unmutated_defect=True mutant_reaches_target=False caught_by=P4-state
+MUTANTS real=3 necessary=1 redundant=2 declared_redundant=2
+rc=0
+
+$ python3 plans/round86_c2_repin.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b9 --control-do-nothing
+CONTROL do-nothing target_reached=False defects=3 legs=P2-shonen,P3-pin,P4-state
+rc=0
+
+$ python3 plans/round86_c2_repin.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b10 --control-stale-pin
+CONTROL stale-pin target_reached=False defects=3 legs=P2-shonen,P3-pin,P4-state
+rc=0
+
+$ python3 plans/round86_c2_repin.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b11 --control-pointer-only
+CONTROL pointer-only target_reached=False defects=1 legs=P3-pin
+rc=0
+
+$ python3 plans/round86_c2_repin.py --lane . --work /fast/scratch/hyaku/kengaku-r86/L1/b12 --control-pin-only
+CONTROL pin-only target_reached=False defects=2 legs=P2-shonen,P4-state
+rc=0
+
