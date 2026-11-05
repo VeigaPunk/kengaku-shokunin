@@ -1,0 +1,5 @@
+CONTROL positive rc=0;PREDICATE R89-C1 pass 1 DEFECT L6-reproduce probe re-run rc=2 produced no observation block
+CONTROL do-nothing rc=1;PREDICATE R89-C1 fail 1 DEFECT L4-table plans/round89-cases.json absent at measured | DEFECT L9-tool plans/round89_polyglot_probe.py absent at 192e809d582e | DEFECT L1-receipt corpus/evidence/round89/polyglot-rust-c-probe.txt absent at 192e809d582e | DEFECT L7-ledger row {"classes": ["shell-exec", "stdout-inspection", "subprocess-exec"], "evidence": "no-blocker: tests/test_outputs.py sha256=baed5e4d0cc0e580", "reason": "unattempted", "status": "unexecuted"}
+CONTROL ledger-only rc=1;DEFECT L1-receipt 1 DEFECT L1-receipt corpus/evidence/round89/polyglot-rust-c-probe.txt absent at ae4618ff7101
+CONTROL forged-receipt rc=1;DEFECT L3-tip 1 DEFECT L6-reproduce probe re-run rc=2 produced no observation block [predicted L3-tip NOT observed: forged hash is an ancestor of the run rev by construction; see report.md F2]
+CONTROL forged-probe rc=1;DEFECT L9-tool 1 DEFECT L9-tool probe sha=d1ecc58be81b0b1d != TRUSTED_TOOL_SHA 03c202f5072e8aa5

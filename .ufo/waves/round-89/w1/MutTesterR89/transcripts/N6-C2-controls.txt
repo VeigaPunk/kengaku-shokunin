@@ -1,0 +1,30 @@
+CMD /usr/bin/python /fast/scratch/hyaku/kengaku-r89/MutTesterR89/mN6/round89_claim_figures.py --lane /fast/scratch/hyaku/kengaku-r89/MutTesterR89/lane --rev a9b8a1a00b6a5ab5206be4d377dba439e02f8244 --work /fast/scratch/hyaku/kengaku-r89/MutTesterR89/wN6 --controls
+RC 1
+WALL 24.3s
+--- stdout ---
+SELFTEST T1-doctored-extract pass records=[('defects', 9)]
+SELFTEST T1-doctored-mismatch pass verdict=mismatch (doctored figure must not match BASE output)
+SELFTEST T2-marker-negatives pass spans=0
+SELFTEST T3-atbase-backward pass spans=[('R99-C9', 'atbase', '**Target.** `defects=7`, `located=0`, `PREDICATE R99-C9 fail`, exit 1 at BASE')]
+SELFTEST T4-dedupe pass defects=7 records=1
+CONTROL doctored-claimed red rc=1 defects=4 first=F7-record-missing ('R87-C1', 'kv', 'defects', '=', 7)
+--- stderr ---
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r89/MutTesterR89/mN6/round89_claim_figures.py", line 629, in <module>
+    sys.exit(main(sys.argv[1:]))
+             ~~~~^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r89/MutTesterR89/mN6/round89_claim_figures.py", line 623, in main
+    return controls(lane, rev, work)
+  File "/fast/scratch/hyaku/kengaku-r89/MutTesterR89/mN6/round89_claim_figures.py", line 574, in controls
+    rc, defects = run_check(lane, rev, work / name, quiet=True, **spec)
+                  ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r89/MutTesterR89/mN6/round89_claim_figures.py", line 523, in run_check
+    st = selftest_fn(lane, rev, work) if selftest_fn else selftest_defects(lane, rev, work)
+                                                          ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r89/MutTesterR89/mN6/round89_claim_figures.py", line 422, in selftest_defects
+    tmp = Path(tempfile.mkdtemp(prefix="q66-selftest-", dir=work)) / "claims.md"
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/tempfile.py", line 381, in mkdtemp
+    _os.mkdir(file, 0o700)
+    ~~~~~~~~~^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/fast/scratch/hyaku/kengaku-r89/MutTesterR89/wN6/deleted-figure/q66-selftest-nfkxz84c'

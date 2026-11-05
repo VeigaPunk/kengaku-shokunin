@@ -1,0 +1,11 @@
+--- a/plans/round89_c1_replay.py
++++ b/plans/round89_c1_replay.py
+@@ -220,7 +220,7 @@
+         if observed_block is None:
+             defect("L5-vectors", "no OBSERVATIONS block")
+         else:
+-            if tuple((c, p) for c, p, _ in observed_cases) != FROZEN:
++            if tuple(c for c, _, _ in observed_cases) != tuple(c for c, _ in FROZEN):
+                 defect("L5-vectors", f"case set/predicted differs: {[c for c, _, _ in observed_cases]}")
+             for case_id, predicted, observed in observed_cases:
+                 if observed != predicted:

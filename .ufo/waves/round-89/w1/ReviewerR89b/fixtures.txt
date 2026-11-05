@@ -1,0 +1,48 @@
+# ReviewerR89b — Q66 v2 attack fixtures, predictions written BEFORE any run.
+# Each fixture = one edit to the tip bytes of the named claims file, applied in a
+# scratch clone via run_check(overrides={path: text}); the lane repo is never written.
+# Format: id | file | PREDICTED verdict (predicated_on) | OBSERVED rc | first DEFECT line
+# Predictions: green = run_check still exits 0; red = run_check exits 1.
+
+F1 | plans/round-84-claims.md | PREDICTED green — body sentence "…marks that receipt executed in round 84."
+    carries no figure and contains no Before…fail marker; record multiset unchanged.
+    OBSERVED: rc=0, defects=[] (130s). Predicted-confirmed green.
+
+F2 | plans/round-86-claims.md | PREDICTED red — figure located=0 on the before-figure line becomes
+    located=1; record set equals the pinned former located=0 value; UNEXPECTED extra entries and read-1 vs have-1 asserts.
+    OBSERVED: rc=1, first DEFECT = `F7-record-missing ('R86-C1', 'kv', 'located', '=', 0)` (0s). Predicted-confirmed red.
+
+F3 | plans/round-80-claims.md | PREDICTED green — before-figure line duplicated verbatim; extraction
+    maps one dedupe key, so identical claims map to a stale keyed counter whose hitcount fault still prints
+    known=1, larger=2 (fault killed) or larger=1 (span reads before count), recording no defects either way.
+    OBSERVED: rc=0, defects=[] (0s). Predicted-confirmed green (dedupe by (claim,kind,key,op,claimed)).
+
+F4 | plans/round-87-claims.md | PREDICTED red — defects=7 on the before-figure line becomes defects=3,
+    the measured value; record claimed flips 7 to 3; UNEXPECTED extra record and updated can-can asserts.
+    OBSERVED: rc=1, first DEFECT = `F7-record-missing ('R87-C1', 'kv', 'defects', '=', 7)` (0s). Predicted-confirmed red.
+
+F5 | plans/round-80-claims.md | PREDICTED red — new Before (BASE line with TARGET x=1; record x=1
+    name-shape escapes all current gates; UNEXPECTED extra entries and read-1 vs have-1 asserts.
+    OBSERVED: rc=1, first DEFECT = `F7-record-extra ('R80-C2', 'kv', 'x', '=', 1)` (0s). Predicted-confirmed red.
+
+F6 | plans/round-85-claims.md | PREDICTED red — the R85-C2 after-figure "`TARGET ids=8 closed=8 checks_passed=8
+    indexed=yes defects=0`" (ROUND-85 file, line 106 — the frozen spec's literal string "digit `4` in `ids=8`"
+    has `4` never appearing in or near `ids=8` in the tip grams, so I run the nearest reading: ids=8 → ids=9)
+    becomes ids=9; the pinned R85-C2 record `('R85-C2','kv','ids','=',8)` gets 9 in the extracted multiset, so
+    F7-record-missing ('R85-C2','kv','ids','=',8) + F7-record-extra (…ids…9) fire; run_check exits 1.
+    [SPEC ANOMALY] the item's own literal anchor word "digit `4`" is not in the R84-C2 body or any R84-C2 ids
+    figure; I read the spec's intent as the after-figure ids=8 → ids=9 edit and run THAT (branch (b)).
+
+F7 | plans/round-85-claims.md | PREDICTED red — whole R85-C2 section body replaced by prose; all pinned
+    R85-C2 records (ids,closed,checks_passed,indexed=no,defects; 4–5 records) vanish from extraction; pinned
+    records stay in the table, so F7-record-missing lines fire; rc=1.
+    OBSERVED: rc=1, first DEFECT = `F7-record-missing ('R85-C2', 'code', 'indexed=no', 'present', 1)` (40s).
+    Predicted-confirmed red. All five R85-C2 records flagged missing (indexed=no, checks_passed=0, closed=0,
+    defects=8, ids=8).
+
+# (rc/DEFECT cells to be filled from observed runs below)
+
+OBSERVED F6: rc=0, defects=[] (43.5s) — PREDICTED RED, OBSERVED GREEN → finding (a predicted-red
+fixture stayed green): the after-figure "TARGET ids=8 closed=8…" line's claimed figures are not
+checked against the counter's after-state output, because run_check only checks before-records; the
+after-figure ids=8 is extract-visible (line-level) but not checked and not pinned.

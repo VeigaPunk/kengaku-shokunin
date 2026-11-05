@@ -1,0 +1,11 @@
+--- a/plans/round89_claim_figures.py
++++ b/plans/round89_claim_figures.py
+@@ -477,7 +477,7 @@
+     if pinned is None:
+         defects.append(f"F7-table-absent {RECORD_TABLE} at {rev[:12]}")
+     else:
+-        for row in sorted(set(pinned) - set(current)):
++        for row in []:
+             defects.append(f"F7-record-missing {row}")
+         for row in sorted(set(current) - set(pinned)):
+             defects.append(f"F7-record-extra {row}")

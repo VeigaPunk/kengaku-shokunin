@@ -1,0 +1,92 @@
+# round88_claim_figures.py (R88-C2) on round-89 control fixtures
+# lane: scratch clone at a9b8a1a00b6a5ab5206be4d377dba439e02f8244
+# work: /fast/scratch/hyaku/kengaku-r89/ExecCtrlC2/work
+# fixture a: plans/round-87-claims.md, first 'defects=7' -> 'defects=9'
+# fixture b: plans/round-85-claims.md, R85-C1 line 58 removed: Before (BASE `0de45354`): `TARGET members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects>=1`,
+# fixture c: plans/round-87-claims.md, first 'defects=7' -> 'defect=7'
+# tip: unmodified bytes at a9b8a1a00b6a5ab5206be4d377dba439e02f8244
+
+## run_check (selftest not called)
+=== SCENARIO tip rev=a9b8a1a00b6a5ab5206be4d377dba439e02f8244 ===
+MISMATCH KNOWN R87-C1 kv:defects claimed==7 defects claimed =7 measured 3
+RECORDS claims=17 files=8 records=56 checked=56 matched=55 mismatches=1 prose=0
+DEFECTS n=0
+TARGET claims=17 records=56 checked=56 matched=55 mismatches=1 defects=0
+PREDICATE R88-C2 pass
+=== RC tip run_check rc=0 ===
+=== SCENARIO a rev=a9b8a1a00b6a5ab5206be4d377dba439e02f8244 ===
+MISMATCH KNOWN R87-C1 kv:defects claimed==9 defects claimed =9 measured 3
+RECORDS claims=17 files=8 records=56 checked=56 matched=55 mismatches=1 prose=0
+DEFECTS n=0
+TARGET claims=17 records=56 checked=56 matched=55 mismatches=1 defects=0
+PREDICATE R88-C2 pass
+=== RC a run_check rc=0 ===
+=== SCENARIO b rev=a9b8a1a00b6a5ab5206be4d377dba439e02f8244 ===
+MISMATCH KNOWN R87-C1 kv:defects claimed==7 defects claimed =7 measured 3
+RECORDS claims=17 files=8 records=49 checked=49 matched=48 mismatches=1 prose=0
+DEFECTS n=0
+TARGET claims=17 records=49 checked=49 matched=48 mismatches=1 defects=0
+PREDICATE R88-C2 pass
+=== RC b run_check rc=0 ===
+=== SCENARIO c rev=a9b8a1a00b6a5ab5206be4d377dba439e02f8244 ===
+RECORDS claims=17 files=8 records=56 checked=56 matched=55 mismatches=0 prose=0
+DEFECT F4-unparsed R87-C1:kv:defect defect absent from TARGET
+DEFECT F5-missing-known R87-C1 kv:defects
+DEFECTS n=2
+TARGET claims=17 records=56 checked=56 matched=55 mismatches=0 defects=2
+PREDICATE R88-C2 fail
+=== RC c run_check rc=1 ===
+
+## selftest (run separately, --selftest path)
+=== SELFTEST SCENARIO tip rev=a9b8a1a00b6a5ab5206be4d377dba439e02f8244 ===
+SELFTEST T1-doctored-extract pass records=[('defects', 9)]
+SELFTEST T1-doctored-mismatch pass verdict=mismatch (doctored figure must not match BASE output)
+SELFTEST T2-marker-negatives pass spans=0
+SELFTEST T3-atbase-backward pass spans=[('R99-C9', 'atbase', '**Target.** `defects=7`, `located=0`, `PREDICATE R99-C9 fail`, exit 1 at BASE')]
+SELFTEST T4-dedupe pass defects=7 records=1
+DEFECTS n=0
+PREDICATE R88-C2-SELFTEST pass
+=== RC tip selftest rc=0 ===
+=== SELFTEST SCENARIO a rev=a9b8a1a00b6a5ab5206be4d377dba439e02f8244 ===
+SELFTEST T1-doctored-extract pass records=[('defects', 9)]
+SELFTEST T1-doctored-mismatch pass verdict=mismatch (doctored figure must not match BASE output)
+SELFTEST T2-marker-negatives pass spans=0
+SELFTEST T3-atbase-backward pass spans=[('R99-C9', 'atbase', '**Target.** `defects=7`, `located=0`, `PREDICATE R99-C9 fail`, exit 1 at BASE')]
+SELFTEST T4-dedupe pass defects=7 records=1
+DEFECTS n=0
+PREDICATE R88-C2-SELFTEST pass
+=== RC a selftest rc=0 ===
+=== SELFTEST SCENARIO b rev=a9b8a1a00b6a5ab5206be4d377dba439e02f8244 ===
+SELFTEST T1-doctored-extract pass records=[('defects', 9)]
+SELFTEST T1-doctored-mismatch pass verdict=mismatch (doctored figure must not match BASE output)
+SELFTEST T2-marker-negatives pass spans=0
+SELFTEST T3-atbase-backward pass spans=[('R99-C9', 'atbase', '**Target.** `defects=7`, `located=0`, `PREDICATE R99-C9 fail`, exit 1 at BASE')]
+SELFTEST T4-dedupe pass defects=7 records=1
+DEFECTS n=0
+PREDICATE R88-C2-SELFTEST pass
+=== RC b selftest rc=0 ===
+=== SELFTEST SCENARIO c rev=a9b8a1a00b6a5ab5206be4d377dba439e02f8244 ===
+SELFTEST T1-doctored-extract fail records=[]
+SELFTEST T1-doctored-mismatch fail verdict=unparsed (doctored figure must not match BASE output)
+SELFTEST T2-marker-negatives pass spans=0
+SELFTEST T3-atbase-backward pass spans=[('R99-C9', 'atbase', '**Target.** `defects=7`, `located=0`, `PREDICATE R99-C9 fail`, exit 1 at BASE')]
+SELFTEST T4-dedupe pass defects=7 records=1
+DEFECTS n=2
+PREDICATE R88-C2-SELFTEST fail
+=== RC c selftest rc=1 ===
+
+## run_check rc by scenario
+{'tip': (0, ['PREDICATE R88-C2 pass']), 'a': (0, ['PREDICATE R88-C2 pass']), 'b': (0, ['PREDICATE R88-C2 pass']), 'c': (1, ['PREDICATE R88-C2 fail'])}
+
+## selftest rc by scenario
+{'tip': 0, 'a': 0, 'b': 0, 'c': 1}
+
+## grep selftest|run_check round88_claim_figures.py
+376:def run_check(lane: Path, rev: str, work: Path) -> int:
+493:def selftest(lane: Path, rev: str, work: Path) -> int:
+512:        tmp = Path(tempfile.mkdtemp(prefix="q66-selftest-", dir=work)) / "claims.md"
+551:    tmp = Path(tempfile.mkdtemp(prefix="q66-selftest-", dir=work)) / "dup.md"
+568:    parser.add_argument("--selftest", action="store_true",
+579:    if args.selftest:
+580:        return selftest(lane, proc.stdout.strip(), work)
+581:    return run_check(lane, proc.stdout.strip(), work)

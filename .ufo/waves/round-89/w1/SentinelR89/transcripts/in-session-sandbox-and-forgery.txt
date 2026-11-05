@@ -1,0 +1,49 @@
+# IN-SESSION OUTPUT (sandbox working; captured before host user-namespace outage)
+# These lines are copied verbatim from tool output produced in this session while bwrap worked.
+# They are NOT regenerated; the outage made them impossible to re-run at the time of writing.
+# Host sysctl user.max_user_namespaces was 0 when the transcripts in ../ were captured.
+
+## 1. bwrap argv (probe.sandbox_argv, scratch case dir)
+/usr/bin/bwrap --unshare-all --die-with-parent --new-session --ro-bind /usr /usr --ro-bind /etc /etc --symlink usr/bin /bin --symlink usr/bin /sbin --symlink usr/lib /lib --symlink usr/lib /lib64 --proc /proc --dev /dev --bind <case>/app /app --dir /tests --ro-bind <capture> /tests/test_outputs.py --ro-bind <case>/harness.py /harness.py --clearenv --setenv PATH /usr/bin --setenv LANG C.UTF-8 --setenv LC_ALL C.UTF-8 --chdir /app /usr/bin/python3 -I -B /harness.py
+rc 0 (diagnostic harness, caller env carried SENTINEL_CANARY=should-not-appear; probe passes env={"PATH": "/usr/bin"})
+CONTAIN keys: uid_gid=[1000,1000]; env_keys=['LANG','LC_ALL','PATH','PWD']; cwd=/app; tmp_exists=False; fast_exists=False; lane_exists=False
+ls_home = ERR FileNotFoundError: '/home'
+var_list = ERR FileNotFoundError: '/var'; run_list = ERR FileNotFoundError: '/run'
+write_etc = ERR OSError [Errno 30] Read-only file system: '/etc/zz_sentinel'
+write_usr = ERR OSError [Errno 30] Read-only file system: '/usr/zz_sentinel'
+write_app = 1   (app_listing ['zz_sentinel'])
+read_etc_passwd_bytes = 1819
+proc_pids = ['1','2']; mountinfo_lines = 15
+connect_1111_53 = ERR OSError [Errno 101] Network is unreachable
+connect_loopback_22 = ERR ConnectionRefusedError [Errno 111] Connection refused
+net_ifaces = ERR FileNotFoundError '/sys/class/net'
+host check after run: /etc/zz_sentinel exists False; /usr/zz_sentinel exists False; host app dir ['zz_sentinel']
+
+## 2. Adversarial grader, true-verdict control (V0: Rust prints wrong value, no injection)
+run_case -> [['test_fibonacci_polyglot', 'F', 'AssertionError']]
+
+## 3. Fake PAYLOAD via /proc/<ppid>/fd/1 plus real line (V1)
+run_case -> SetupDefect: sandbox-protocol
+
+## 4. Fake PAYLOAD via /proc/<ppid>/fd/1, then kill -9 the harness (V2)
+run_case -> SetupDefect: sandbox-exit=137 (no forged verdict accepted)
+
+## 5. SIGSTOP the harness (denial)
+run_case -> uncaught TimeoutExpired (bwrap command timed out after 120 s); not a SetupDefect; exit 1 path in probe main
+
+## 6. C1 forgery F2 (receipt observation flipped, same probe) - in-session
+--- F2 receipt observation flipped: rc=1
+DEFECT L5-vectors exact observed=F predicted=P
+DEFECT L6-reproduce re-run observation block differs from the receipt
+TARGET executed_rows=33 member=polyglot-rust-c located=0 executed=0 cases=8 legs=8 mismatches=1 defects=2
+PREDICATE R89-C1 fail
+
+## 7. C1 forgery F3 (LANE_TIP names a non-ancestor orphan commit) - in-session
+--- F3 LANE_TIP=1e4c215a919d non-ancestor: rc=1
+DEFECT L3-tip LANE_TIP 1e4c215a919d is not an ancestor of f0165e5b4a23
+TARGET executed_rows=33 member=polyglot-rust-c located=0 executed=0 cases=8 legs=8 mismatches=0 defects=1
+PREDICATE R89-C1 fail
+
+## 8. C1 tip replay - in-session (also saved as ../in-session-tip-c1.txt)
+TARGET executed_rows=33 member=polyglot-rust-c located=1 executed=1 cases=8 legs=8 mismatches=0 defects=0
+PREDICATE R89-C1 pass   rc 0

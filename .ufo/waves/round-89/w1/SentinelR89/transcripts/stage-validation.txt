@@ -1,0 +1,15 @@
+# probe.load_inputs + probe.stage on modified copies of the case table (scratch only)
+'../escape.txt'                  | SetupDefect: wrong-table path exact:../escape.txt | 
+'/tmp/abs.txt'                   | SetupDefect: wrong-table path exact:/tmp/abs.txt | 
+'polyglot/../../escape.txt'      | SetupDefect: wrong-table path exact:polyglot/../../escape.txt | 
+'a/..'                           | SetupDefect: wrong-table path exact:a/.. | 
+'..'                             | SetupDefect: wrong-table path exact:.. | 
+''                               | ACCEPTED by load_inputs | stage raised uncaught IsADirectoryError
+'.'                              | ACCEPTED by load_inputs | stage raised uncaught IsADirectoryError
+'polyglot/./main.rs'             | ACCEPTED by load_inputs | stage ok, files=['app/polyglot/main.rs']
+'a//b'                           | ACCEPTED by load_inputs | stage ok, files=['app/a/b']
+'polyglot/..x'                   | ACCEPTED by load_inputs | stage ok, files=['app/polyglot/..x']
+'polyglot\\..\\..\\x'            | ACCEPTED by load_inputs | stage ok, files=['app/polyglot\\..\\..\\x']
+'x/../../y'                      | SetupDefect: wrong-table path exact:x/../../y | 
+'polyglot/...'                   | ACCEPTED by load_inputs | stage ok, files=['app/polyglot/...']
+'polyglot/main.rs\n../x'         | ACCEPTED by load_inputs | stage ok, files=['app/polyglot/main.rs\n../x']

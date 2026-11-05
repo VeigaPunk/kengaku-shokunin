@@ -1,0 +1,11 @@
+--- a/plans/round89_claim_figures.py
++++ b/plans/round89_claim_figures.py
+@@ -512,7 +512,7 @@
+ 
+     # (a) the KNOWN check compares (claim, key, claimed, measured)
+     for cid, key, claimed, measured in mismatches:
+-        status = "KNOWN" if (cid, key, claimed, measured) in KNOWN else "UNEXPECTED"
++        status = "KNOWN" if (cid, key, measured) in {(k[0], k[1], k[3]) for k in KNOWN} else "UNEXPECTED"
+         emit(f"MISMATCH {status} {cid} {key} {claimed} measured {measured}")
+     for row in sorted(set(mismatches) - KNOWN):
+         defects.append(f"F5-unexpected {row[0]} {row[1]} {row[2]} measured {row[3]}")

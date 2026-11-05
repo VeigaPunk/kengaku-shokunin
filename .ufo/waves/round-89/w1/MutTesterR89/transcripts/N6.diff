@@ -1,0 +1,11 @@
+--- a/plans/round89_claim_figures.py
++++ b/plans/round89_claim_figures.py
+@@ -519,7 +519,7 @@
+     for row in sorted(KNOWN - set(mismatches)):
+         defects.append(f"F5-missing-known {row[0]} {row[1]} {row[2]} measured {row[3]}")
+ 
+-    work.mkdir(parents=True, exist_ok=True)
++    pass
+     st = selftest_fn(lane, rev, work) if selftest_fn else selftest_defects(lane, rev, work)
+     for tid in st:
+         defects.append(f"F8-selftest {tid}")

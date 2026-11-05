@@ -1,0 +1,29 @@
+$ (cd lane @ 5df9e8783a77a9d5dc6c169a416c6a8614c29d2c) python3 plans/round89_claim_figures.py --rev 5df9e8783a77a9d5dc6c169a416c6a8614c29d2c --controls
+SELFTEST T1-doctored-extract pass records=[('defects', 9)]
+SELFTEST T1-doctored-mismatch pass verdict=mismatch (doctored figure must not match BASE output)
+SELFTEST T2-marker-negatives pass spans=0
+SELFTEST T3-atbase-backward pass spans=[('R99-C9', 'atbase', '**Target.** `defects=7`, `located=0`, `PREDICATE R99-C9 fail`, exit 1 at BASE')]
+SELFTEST T4-dedupe pass defects=7 records=1
+CONTROL doctored-claimed green rc=0 defects=0 first=none
+SELFTEST T1-doctored-extract pass records=[('defects', 9)]
+SELFTEST T1-doctored-mismatch pass verdict=mismatch (doctored figure must not match BASE output)
+SELFTEST T2-marker-negatives pass spans=0
+SELFTEST T3-atbase-backward pass spans=[('R99-C9', 'atbase', '**Target.** `defects=7`, `located=0`, `PREDICATE R99-C9 fail`, exit 1 at BASE')]
+SELFTEST T4-dedupe pass defects=7 records=1
+CONTROL deleted-figure red rc=1 defects=7 first=F7-record-missing ('R85-C1', 'kv', 'cases', '=', 0)
+SELFTEST T1-doctored-extract pass records=[('defects', 9)]
+SELFTEST T1-doctored-mismatch pass verdict=mismatch (doctored figure must not match BASE output)
+SELFTEST T2-marker-negatives pass spans=0
+SELFTEST T3-atbase-backward pass spans=[('R99-C9', 'atbase', '**Target.** `defects=7`, `located=0`, `PREDICATE R99-C9 fail`, exit 1 at BASE')]
+SELFTEST T4-dedupe pass defects=7 records=1
+CONTROL doctored-key green rc=0 defects=0 first=none
+CONTROL selftest-in-path red rc=1 defects=1 first=F8-selftest T-injected-failure
+SELFTEST T1-doctored-extract pass records=[('defects', 9)]
+SELFTEST T1-doctored-mismatch pass verdict=mismatch (doctored figure must not match BASE output)
+SELFTEST T2-marker-negatives pass spans=0
+SELFTEST T3-atbase-backward pass spans=[('R99-C9', 'atbase', '**Target.** `defects=7`, `located=0`, `PREDICATE R99-C9 fail`, exit 1 at BASE')]
+SELFTEST T4-dedupe pass defects=7 records=1
+CONTROL tip green rc=0 defects=0
+PREDICATE R89-C2-CONTROLS fail red=2 of 4 tip=green
+
+[rc=1]

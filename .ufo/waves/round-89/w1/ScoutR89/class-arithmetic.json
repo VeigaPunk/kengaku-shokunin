@@ -1,0 +1,772 @@
+[
+ {
+  "member": "install-windows-3.11",
+  "reason": "vm-required",
+  "classes": [
+   "crypto-credential",
+   "file-artifact",
+   "network-service",
+   "process-environment",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "crypto-credential": "3 of 12",
+   "file-artifact": "24 of 76",
+   "network-service": "4 of 8",
+   "process-environment": "2 of 3",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "crypto-credential",
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 3.713,
+  "deficit": 120,
+  "hits": [
+   [
+    20,
+    "def qemu_pid():"
+   ],
+   [
+    21,
+    "result = subprocess.run([\"pgrep\", \"qemu-system\"], capture_output=True, text=True)"
+   ],
+   [
+    23,
+    "\"QEMU process not found - Windows 3.11 VM is not running\""
+   ],
+   [
+    31,
+    "def cmdline(qemu_pid):"
+   ],
+   [
+    33,
+    "[\"cat\", f\"/proc/{qemu_pid}/cmdline\"],"
+   ],
+   [
+    37,
+    "assert cmdline_result.returncode == 0, \"Failed to get QEMU command line\""
+   ],
+   [
+    50,
+    "return \"/tmp/qemu-monitor.sock\""
+   ],
+   [
+    64,
+    "def test_qemu_running_with_correct_params(qemu_pid, cmdline, img_path):"
+   ],
+   [
+    65,
+    "\"\"\"Test that QEMU process is running and configured with Windows 3.11 compatible parameters\"\"\""
+   ],
+   [
+    66,
+    "# qemu_pid and cmdline provided by fixtures"
+   ],
+   [
+    69,
+    "assert \"snapshot=on\" in cmdline or \"-snapshot\" in cmdline, \"QEMU is not running in snapshot mode\""
+   ],
+   [
+    98,
+    "assert \"qemu-system-i386\" in cmdline or \"qemu-system-x86_64\" in cmdline, ("
+   ]
+  ],
+  "net_install": false,
+  "offline": false
+ },
+ {
+  "member": "reshard-c4-data",
+  "reason": "unattempted",
+  "classes": [
+   "crypto-credential",
+   "file-artifact",
+   "filesystem-metadata",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "crypto-credential": "3 of 12",
+   "file-artifact": "24 of 76",
+   "filesystem-metadata": "2 of 10",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "crypto-credential",
+   "file-artifact",
+   "filesystem-metadata",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 3.679,
+  "deficit": 123,
+  "hits": [],
+  "net_install": true,
+  "offline": false
+ },
+ {
+  "member": "modernize-scientific-stack",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "filesystem-metadata",
+   "numeric-band",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "filesystem-metadata": "2 of 10",
+   "numeric-band": "3 of 10",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "file-artifact",
+   "filesystem-metadata",
+   "numeric-band",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 3.629,
+  "deficit": 121,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "merge-diff-arc-agi-task",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "git-plumbing",
+   "serialization-schema",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "git-plumbing": "1 of 3",
+   "serialization-schema": "3 of 10",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "file-artifact",
+   "git-plumbing",
+   "serialization-schema",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 3.496,
+  "deficit": 115,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "caffe-cifar-10",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "filesystem-metadata",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "filesystem-metadata": "2 of 10",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "file-artifact",
+   "filesystem-metadata",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.929,
+  "deficit": 114,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "compile-compcert",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "filesystem-metadata",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "filesystem-metadata": "2 of 10",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "file-artifact",
+   "filesystem-metadata",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.929,
+  "deficit": 114,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "build-pov-ray",
+  "reason": "unattempted",
+  "classes": [
+   "crypto-credential",
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "crypto-credential": "3 of 12",
+   "file-artifact": "24 of 76",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "crypto-credential",
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.879,
+  "deficit": 115,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "custom-memory-heap-crash",
+  "reason": "unattempted",
+  "classes": [
+   "crypto-credential",
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "crypto-credential": "3 of 12",
+   "file-artifact": "24 of 76",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "crypto-credential",
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.879,
+  "deficit": 115,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "large-scale-text-editing",
+  "reason": "unattempted",
+  "classes": [
+   "crypto-credential",
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "crypto-credential": "3 of 12",
+   "file-artifact": "24 of 76",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "crypto-credential",
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.879,
+  "deficit": 115,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "winning-avg-corewars",
+  "reason": "unattempted",
+  "classes": [
+   "crypto-credential",
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "crypto-credential": "3 of 12",
+   "file-artifact": "24 of 76",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "crypto-credential",
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.879,
+  "deficit": 115,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "adaptive-rejection-sampler",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "numeric-band",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "numeric-band": "3 of 10",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "file-artifact",
+   "numeric-band",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.829,
+  "deficit": 113,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "dna-assembly",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "numeric-band",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "numeric-band": "3 of 10",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "file-artifact",
+   "numeric-band",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.829,
+  "deficit": 113,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "dna-insert",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "numeric-band",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "numeric-band": "3 of 10",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "file-artifact",
+   "numeric-band",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.829,
+  "deficit": 113,
+  "hits": [
+   [
+    46,
+    "# Reference the directory the agent operated in (the WORKDIR in the Docker env)"
+   ]
+  ],
+  "net_install": false,
+  "offline": false
+ },
+ {
+  "member": "schemelike-metacircular-eval",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec",
+   "timing-wall"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45",
+   "timing-wall": "3 of 9"
+  },
+  "thin": [
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec",
+   "timing-wall"
+  ],
+  "score": 2.796,
+  "deficit": 112,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "gpt2-codegolf",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.129,
+  "deficit": 106,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "mcmc-sampling-stan",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.129,
+  "deficit": 106,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "path-tracing",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.129,
+  "deficit": 106,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "pytorch-model-cli",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.129,
+  "deficit": 106,
+  "hits": [],
+  "net_install": true,
+  "offline": false
+ },
+ {
+  "member": "write-compressor",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "file-artifact",
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 2.129,
+  "deficit": 106,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "git-multibranch",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "network-service",
+   "shell-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "network-service": "4 of 8",
+   "shell-exec": "2 of 6"
+  },
+  "thin": [
+   "file-artifact",
+   "shell-exec"
+  ],
+  "score": 1.851,
+  "deficit": 60,
+  "hits": [
+   [
+    7,
+    "def test_multi_branch_https_deploy():"
+   ],
+   [
+    13,
+    "DEBIAN_FRONTEND=noninteractive apt-get install -y curl expect git openssh-client"
+   ],
+   [
+    15,
+    "mkdir -p ~/.ssh"
+   ],
+   [
+    18,
+    "UserKnownHostsFile=/dev/null\" > ~/.ssh/config"
+   ],
+   [
+    19,
+    "chmod 600 ~/.ssh/config"
+   ],
+   [
+    72,
+    "MAIN=$(curl -sk --max-time 5 https://localhost:8443/index.html 2>/dev/null || echo \"\")"
+   ],
+   [
+    73,
+    "DEV=$(curl -sk --max-time 5 https://localhost:8443/dev/index.html 2>/dev/null || echo \"\")"
+   ],
+   [
+    99,
+    "assert \"TEST PASSED\" in result, \"HTTPS multi-branch deploy test failed\""
+   ]
+  ],
+  "net_install": true,
+  "offline": false
+ },
+ {
+  "member": "model-extraction-relu-logits",
+  "reason": "candidate-library-required",
+  "classes": [
+   "candidate-import",
+   "file-artifact",
+   "shell-exec"
+  ],
+  "class_cells": {
+   "candidate-import": "3 of 6",
+   "file-artifact": "24 of 76",
+   "shell-exec": "2 of 6"
+  },
+  "thin": [
+   "file-artifact",
+   "shell-exec"
+  ],
+  "score": 1.851,
+  "deficit": 59,
+  "hits": [],
+  "net_install": false,
+  "offline": true
+ },
+ {
+  "member": "qemu-alpine-ssh",
+  "reason": "unattempted",
+  "classes": [
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "class_cells": {
+   "stdout-inspection": "9 of 29",
+   "subprocess-exec": "11 of 45"
+  },
+  "thin": [
+   "stdout-inspection",
+   "subprocess-exec"
+  ],
+  "score": 1.445,
+  "deficit": 54,
+  "hits": [
+   [
+    9,
+    "def test_sshpass():"
+   ],
+   [
+    10,
+    "\"\"\"Test that Alpine Linux is running in QEMU with SSH access enabled."
+   ],
+   [
+    13,
+    "1. A QEMU virtual machine is successfully running Alpine Linux"
+   ],
+   [
+    14,
+    "2. SSH server is properly configured and accessible on port 2222"
+   ],
+   [
+    15,
+    "3. Root login via SSH is enabled with the specified password"
+   ],
+   [
+    18,
+    "The test connects via SSH using sshpass to automate password authentication,"
+   ],
+   [
+    20,
+    "expected Alpine Linux LTS kernel version, confirming the full QEMU+SSH"
+   ],
+   [
+    25,
+    "\"sshpass\","
+   ],
+   [
+    28,
+    "\"ssh\","
+   ],
+   [
+    41,
+    "assert \"6.6.4-1-lts\" in result.stdout, \"Output of ssh is wrong version\""
+   ]
+  ],
+  "net_install": false,
+  "offline": false
+ },
+ {
+  "member": "overfull-hbox",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "shell-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "shell-exec": "2 of 6"
+  },
+  "thin": [
+   "file-artifact",
+   "shell-exec"
+  ],
+  "score": 1.351,
+  "deficit": 56,
+  "hits": [
+   [
+    20,
+    "os.system(\"/usr/bin/pdflatex -jobname=main main_original.tex \")"
+   ]
+  ],
+  "net_install": true,
+  "offline": false
+ },
+ {
+  "member": "qemu-startup",
+  "reason": "unattempted",
+  "classes": [
+   "file-artifact",
+   "shell-exec"
+  ],
+  "class_cells": {
+   "file-artifact": "24 of 76",
+   "shell-exec": "2 of 6"
+  },
+  "thin": [
+   "file-artifact",
+   "shell-exec"
+  ],
+  "score": 1.351,
+  "deficit": 56,
+  "hits": [
+   [
+    39,
+    "\"\"\"Test that Alpine Linux is running in QEMU and accessible via telnet."
+   ],
+   [
+    42,
+    "1. QEMU successfully started Alpine Linux in the virtual machine"
+   ],
+   [
+    49,
+    "the output. This validates that the QEMU VM is running correctly with"
+   ],
+   [
+    52,
+    "# Reference the directory the agent operated in (the WORKDIR in the Docker env)"
+   ]
+  ],
+  "net_install": false,
+  "offline": false
+ }
+]

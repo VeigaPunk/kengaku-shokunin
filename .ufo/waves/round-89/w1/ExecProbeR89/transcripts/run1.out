@@ -1,0 +1,25 @@
+# tb2 polyglot-rust-c grader probe
+MEMBER polyglot-rust-c
+SUBJECT_CAPTURE corpus/evidence/round52/graders/polyglot-rust-c/tests/test_outputs.py
+SUBJECT_SHA baed5e4d0cc0e5809ff41a7df1815d18c65c708a3a3f264428e1cda11ce692f9
+CASE_TABLE_SHA 7dff1654c2e73811d4311ea3784371c5668abf046cd3dabe886444bbcebc2d78
+TOOL plans/round89_polyglot_probe.py
+TOOL_SHA 03c202f5072e8aa55636592fed9c2fb64b6a7684ec853f8968428e73d50df898
+HOST_PYTHON Python 3.14.8
+HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+LANE_TIP 63d61d0f8db90016f5f4fafdadbcf3af87020004
+WORKTREE dirty
+COMMAND python3 plans/round89_polyglot_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r89/ExecProbeR89/run1
+EXIT 0
+OBSERVATIONS_BEGIN
+CASE exact predicted=P observed=P
+CASE padded-output predicted=P observed=P
+CASE extra-file predicted=F observed=F
+CASE off-by-one-rust predicted=F observed=F
+CASE cpp-exits-nonzero predicted=E observed=E
+CASE rust-only predicted=F observed=F
+CASE cpp-only predicted=F observed=F
+CASE neither-compiles predicted=F observed=F
+cases=8 legs=8 mismatches=0
+PREDICATE R89-PROBE pass
+OBSERVATIONS_END

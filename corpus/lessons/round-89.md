@@ -69,6 +69,38 @@ Measured figures are filled by the report; the counting commands are in `plans/r
    freeze (`d1c4f1b0`) and committed at `0e6bb05f`; Mistakes 1–2 fixes landed after that commit and before the tip.
    These are the instruments' bytes, not the claims text: no frozen predicate, target, case table or KNOWN set changed.
 
+## Attempt 2 — re-measurement at tip `00462b59` (KengakuR89a2, 2026-11-05)
+
+Attempt 1 (`KengakuR89`) ended without a report after dispatching wave `w1`. Attempt 2 re-runs both counters at the current tip
+and does not re-declare any claim. Frozen files are byte-identical to the freeze commit `d1c4f1b0`
+(`git diff --stat d1c4f1b0 master -- plans/round-89-claims.md plans/round89-cases.json` prints nothing).
+
+- **R89-C1, re-measured at tip `00462b59`: verified on its frozen predicate.** `plans/round89_c1_replay.py --rev 00462b59…` →
+  `TARGET executed_rows=33 member=polyglot-rust-c located=1 executed=1 cases=8 legs=8 mismatches=0 defects=0`, `PREDICATE R89-C1 pass`, exit 0.
+  The first attempt-2 run (earlier in the same session) failed at L6 (`DEFECT L6-reproduce probe re-run rc=2 produced no observation block`) because the host read `max_user_namespaces` = 0 and bwrap could not create a namespace (ENOSPC). The host later read `122865` and bwrap ran (rc 0); the re-run above is on that host state. Attempt 1's PASS was measured while ExecProbeR89 had raised the sysctl for one window (`.ufo/waves/round-89/w1/ExecProbeR89/report.md`).
+  Forgery limit (SentinelR89 `forge-f1`, scratch commits `3a04bfa9` → `25188f73`, not in the lane): a commit that rewrites the counter's own `TRUSTED_TOOL_SHA` together with an echo probe passes C1 with rc 0. L9 checks the probe against a pin that the measured revision carries itself. The lane tip is not such a commit (the counter bytes at `00462b59` equal the instrument commit `0e6bb05f`), so the verdict stands for the tip; a third party must check the counter bytes against the instrument commit.
+- **R89-C2, re-measured: pass at tip.** `plans/round89_claim_figures.py --rev 00462b59…` →
+  `RECORDS claims=17 files=8 records=56 checked=56 matched=55 mismatches=1 prose=0`, `DEFECTS n=0`, `PREDICATE R89-C2 pass`, exit 0.
+  `--controls` → `CONTROL doctored-claimed red`, `CONTROL deleted-figure red`, `CONTROL doctored-key red`, `CONTROL selftest-in-path red`,
+  `CONTROL tip green`, `PREDICATE R89-C2-CONTROLS pass red=4 of 4 tip=green`, exit 0.
+  Do-nothing control (round-88 counter on the same attack fixtures, ExecCtrlC2 `round88-baseline.txt`): doctored-claimed `pass`, deleted-figure `pass`, doctored-key `fail`.
+
+## Mistakes (attempt 2)
+
+5. **Class `environment` (receipt depends on a host sysctl).** Evidence: the first attempt-2 run found `/proc/sys/user/max_user_namespaces` = `0`; `bwrap --ro-bind / / --dev /dev --proc /proc true` failed with ENOSPC; the L6 leg reported `DEFECT L6-reproduce probe re-run rc=2 produced no observation block` and `PREDICATE R89-C1 fail`, rc 1. The same host later read `122865`, bwrap ran, and the counter passed at the tip (rc 0). Captured-by: L6-reproduce (it reported the failure and did not pass a stale receipt). Fix: none in the lane; the frozen probe and predicate are not repaired. The receipt stamp does not record the host sysctl, so a transient change leaves no trace in committed bytes; recording it is a round-90 candidate.
+6. **Class `figure-not-measured` (after-figure side).** Evidence: `.ufo/waves/round-89/w1/ReviewerR89b/report.md` Finding 1 — the
+   R85-C2 Target after-figure `ids=8` → `ids=9` leaves `RECORDS … mismatches=1`, `DEFECTS n=0`, `PREDICATE R89-C2 pass`, exit 0.
+   Captured-by: none (the record table pins before-figures only, `claim_spans` reads `Before (BASE` / `at BASE` spans). Fix: not made this round
+   (frozen predicate and record table); routed to round 90 as a counter-side extension with a fail-before control.
+7. **Class `spec-error` (wave item anchor).** Evidence: `ReviewerR89b` report, "Spec anomaly" — the item asks for the digit `4` in
+   `ids=8`; `grep -n "ids=" plans/round-*-claims.md` finds no such anchor. Captured-by: none. Fix: none in the frozen spec; disclosed.
+8. **Class `process-contamination` (blindness).** Evidence: `ReviewerR89a/agreement.md` "Process disclosure" — the frozen `predicted`
+   values were visible before the seat's derivation. The seat restaged a blind copy and re-derived; the 8/8 agreement is reported with that
+   caveat. Captured-by: none. Fix: routed to the wave-context template (blind staging copy before any read of the case table).
+9. **Class `self-pinned instrument` (a commit can rewrite the pins it is checked against).** Evidence: SentinelR89 H1–H3 (`.ufo/waves/round-89/w1/SentinelR89/report.md` §2; transcripts `forge-c2-ii-regen-table.txt`, `forge-known-kv-counter-edit.txt`, `forge-f1-echo-same-commit-pin.txt`). Scratch-only forged commits in the sentinel's clone (not in the lane): a regenerated record table passes after a deleted before-figure (`PREDICATE R89-C2 pass`); a doctored claim with a KNOWN edit and a regenerated table passes; an echo probe with `TRUSTED_TOOL_SHA` rewritten in the same counter commit passes C1 (`PREDICATE R89-C1 pass`, rc 0). ExecCtrlC1 control 5b shows L9 is the only defence against the echo probe. Captured-by: none (L9 checks the probe against a pin the measured revision carries; C2 pins nothing). The lane tip is not such a commit: the counter bytes at `00462b59` equal instrument commit `0e6bb05f` (`git diff --stat 0e6bb05f master -- plans/round89_c1_replay.py` prints nothing). Fix: none this round (frozen instruments). Routed to round 90: pin counter, probe and record table to the freeze commit by ancestry and blob sha, checked by a leg that a same-commit rewrite cannot satisfy.
+10. **Class `frozen-text` (a frozen claim sentence the instrument does not implement).** Evidence: CriticR89 F1 (`plans/round-89-claims.md:14`, C2 change (d): "pinned to its blob sha at the freeze commit"; the table is absent at `d1c4f1b0` and first committed at `0e6bb05f`, and the counter has no sha pin), F3 (`plans/round-89-claims.md:44`: control `selftest-removed-from-path` is implemented as `selftest-in-path`), F5/F6 (C1 predicate sentence and C2 controls clause diverge from the counter's printed line). Captured-by: none (the claim was frozen with text the counter was not checked against). Fix: none; frozen text is reported, not repaired. The verdict on C2 is taken on its predicate; the operator rules whether the unimplemented element (d) admits the claim (see the report).
+11. **Disclosure gap, now corrected.** CriticR89 F2: the committed record did not say that the C1 probe re-runs happened in a transient user-namespace window. Attempt-2 Mistake 5 above and the C1 bullet add that disclosure; the attempt-1 SCORECARD/LOG entries do not, and this is named in the report as an open correction.
+
 ## Frontier
 
 One source admitted (S278); one new member executed (33 of 88 ledger members). The thinnest executed classes at BASE were
@@ -78,3 +110,13 @@ One source admitted (S278); one new member executed (33 of 88 ledger members). T
 
 Routed-findings burn-down (considerthese item 1) remains open. The round-88 KNOWN-check hole is closed by Q66 v2 only for the
 four named fixtures; record-level drift in the claims file outside the pinned table is caught by F7, not by a semantic check.
+
+Attempt-2 routing (wave `w1` attack findings, not repaired in round 89):
+
+- Pin the counters, the probe and the record table to the freeze commit by ancestry and blob sha (Mistake 9; SentinelR89 H1–H3).
+- C2 counter: check after-figures as well as before-figures (ReviewerR89b F6: `ids=8` → `ids=9` at `plans/round-85-claims.md:106` is green).
+- Mutants that survive the tip predicate: C1 M1–M5, M7 (leg-disabling; only fixtures kill them, and M2/M5 have no real-harness fixture); C2 N1 (label-only KNOWN text), N4 (vacuity guard prints only), N6 (`work.mkdir` removal gives a traceback, not a verdict). `.ufo/waves/round-89/w1/MutTesterR89/mutants.md`.
+- Frozen text corrections, reported not repaired: Mistake 10 (CriticR89 F1/F3/F5/F6, and the control name).
+- Sentinel L1–L6 (hostile case path stall 120 s and uncaught crash; empty or `"."` paths; control "red" means rc≠0; literal `claims=17`; prior counters run from the working tree, not BASE blobs; `/proc` stdout reach, fail-closed).
+- Record the host `user.max_user_namespaces` value in the probe receipt (Mistake 5).
+- Scout candidate set for round 90 (24 unexecuted members with captured grader bytes at the tip): `.ufo/waves/round-89/w1/ScoutR89/next.md`.
