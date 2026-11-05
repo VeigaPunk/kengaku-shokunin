@@ -4158,3 +4158,30 @@ Base `801b903af6412cb424209a60b3a52e56c3532866`; claims freeze `0220c2f9f356bf03
 1. Operability (routed from round 88's attack wave, the first item): amend the Q66 counter so the KNOWN check compares `(claim, key, claimed, measured)`, gates record counts per claim against claims blobs pinned at commit A, fails a claim that loses its before-figure while its counter still fails, and invokes the selftest from the predicate path. Frozen claim, instrument and controls first; the round-88 doctored-`defects=9` and deleted-sentence fixtures become the controls.
 2. Coverage: pin the C1 probe bytes to the instrument commit and run the frozen probe from there (Sentinel F1), or name the member whose replay adds a new surface, not another count.
 3. Discernment: the round-88 wave's attack-seat pattern (one reviewer per frozen predicate, one executor per control prediction) is the standing pre-freeze control for every later instrument.
+
+## Round 89 (hyaku run 15, attempt 1, 2026-11-05): a seventh executed member, probe-pinned, and the Q66 counter hardened on the four round-88 attack findings
+
+Base `192e809d582ecbd544798cbc03da1666a0de23f7`; claims and case table freeze `d1c4f1b04bb39d18967075974b5984238b7c97f7`; instruments `0e6bb05f3a6c2d9a96bb26db31a4fd39f58c2619`; fixes and ledger row `000b7d1cdbbadb8086f6bb41149c3d32744105ad`; registry row and measured tip `a9b8a1a00b6a5ab5206be4d377dba439e02f8244`. Two claims on distinct surfaces; no frozen predicate, target, case table, record table, KNOWN set or kill rule changed after the freeze. Instrument edits between commit B and the tip (a `mkdir`, a vacuity guard, and the deleted-figure marker) are disclosed in `corpus/lessons/round-89.md` Mistakes 1–2.
+
+| claim / axis | before → after at the measured tip | counting command | verdict / score |
+|---|---|---|---|
+| R89-C1 / **coverage** (lowest non-retired axis, held at its L0 cap 7): a seventh located offline replay, `polyglot-rust-c`, with the probe pinned by sha | BASE `192e809d`: `TARGET executed_rows=32 member=polyglot-rust-c located=0 executed=0 cases=0 legs=0 mismatches=0 defects=4`, `PREDICATE R89-C1 fail`, exit 1 (L1-receipt, L4-table, L7-ledger, L9-tool). At `a9b8a1a0`: `TARGET executed_rows=33 member=polyglot-rust-c located=1 executed=1 cases=8 legs=8 mismatches=0 defects=0`, `PREDICATE R89-C1 pass`, exit 0. Ledger: executed 32 → 33 of 88; `shell-exec` 1 of 6 → 2 of 6; `stdout-inspection` 8 of 29 → 9 of 29; `subprocess-exec` 10 of 45 → 11 of 45. | `python3 plans/round89_c1_replay.py --lane . --rev REV --work DIR` | **met as frozen.** Coverage held at 7 (L0 cap): the movement is a count within three existing classes, one of them the thinnest executed class in the ledger, not a new surface. |
+| R89-C2 / **calibration** (held at ceiling 10): the Q66 counter-side check made sound on its four round-88 attack fixtures | BASE `192e809d`, the round-88 counter run on the four control fixtures (`.ufo/waves/round-89/L1/` and the wave transcripts): `doctored-claimed` PASS, `deleted-figure` PASS, `doctored-key` FAIL (incidental, `F4-unparsed R87-C1:kv:defect`), selftest outside the predicate path. **1 of 4 red, not the predicted 0 of 4** (mispredict recorded). At `a9b8a1a0`: `RECORDS claims=17 files=8 records=56 checked=56 matched=55 mismatches=1 prose=0`, `DEFECTS n=0`, `PREDICATE R89-C2 pass`; `--controls`: `doctored-claimed` red (`F7-record-missing`), `deleted-figure` red (7 defects), `doctored-key` red (`F7-record-missing`), `selftest-in-path` red (`F8-selftest`), tip green, `PREDICATE R89-C2-CONTROLS pass red=4 of 4 tip=green`. | `python3 plans/round89_claim_figures.py --lane . --rev REV --work DIR` (`--controls`, `--selftest`, `--freeze-records`) | **met as frozen**; calibration held at 10 (ceiling; a count moved at the ceiling is recorded, not added to the score). |
+
+**Other axis scores.** novelty 8 (held), depth 10 (held), operability 10 (held; the wave's instruments are attacked, not promoted), freshness 10 (held; the pinned grader re-fetched HTTP 200, 1638 B, byte-identical to the capture), adjacency 9 (held; the connector scan is report-only).
+
+**Sources.** S278 admitted (`corpus/SOURCES.md`; pinned `polyglot-rust-c/tests/test_outputs.py`, member replay only). Rows 269 → 270; A 239 → 240; mined 244 → 245; rejected 17; queued 8; census `sources-census.sh validate --root … kengaku` exit 0 before (269 rows) and after (270 rows); W04 standing duplicate-URL warnings 30 → 30.
+
+**Mistakes mined** (`corpus/lessons/round-89.md`): `vacuous` (a control fixture equal to its source, caught by the first controls run), an instrument-side `mkdir` bug, and probe stdout pollution by the grader's own `print`. The round-88 counter carries the same `mkdir` defect (`plans/round88_claim_figures.py` `run_check`), recorded here and not repaired in the round-88 file.
+
+**Honest limits.** The eight cases yield **three** distinct predicted vectors (P, F, E), not eight. The C1 counter does not pin itself: an adversary who can write the counter can rewrite it (`corpus/lessons/round-89.md`; SentinelR89). The C2 record table pins the claim population at commit B, so a legitimate new before-figure in a future round requires a re-freeze of the table, by design.
+
+### Round89 capabilities
+
+No new capability row: the replay method is rounds 83–88's; L9 is a pin on the probe bytes, not a new method. The Q66 v2 controls are an acceptance battery for the instrument, not a capability.
+
+### Planned (round 90; not a claim until frozen)
+
+1. Routed-findings burn-down (considerthese item 1 in `considerthese/2026-10-26.md`): every routed finding gets an id and a row in one append-only file, and a freeze refuses a new coverage claim while the oldest open routed finding is more than two rounds old.
+2. Coverage: the next offline member from `ScoutR89`'s class arithmetic (`shell-exec` and `stdout-inspection` candidates), with its own S-row opened in the round.
+3. Calibration: pin the counter bytes themselves (C1 `TRUSTED_TOOL_SHA` analogue for `round89_c1_replay.py`) so the counter is not forgeable by a lane-tree writer.
