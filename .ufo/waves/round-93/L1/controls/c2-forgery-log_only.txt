@@ -1,0 +1,14 @@
+$ python3 plans/round93_c2_counter.py --lane . --rev 17cb9337b99344814bc449d62eed771e29e33981 --work /fast/scratch/hyaku/kengaku-r93/L1/w-c2-log_only --tool-file plans/round93_c2_forgeries/log_only.py
+TOOL from-file plans/round93_c2_forgeries/log_only.py
+W1 pass rc=1 summary=(4, 1, 3) intact=['plans/round92_c1_replay.py']
+W2 w2-intact ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 w2-edited ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-edit-revert ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-lying-table RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-unrelated ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 fail
+W3 pass
+W4 fail claims-absent plans/round-93-claims.md at 17cb9337b993
+TARGET legs_passed=2 of 4
+PREDICATE R93-C2 fail
+rc=1
