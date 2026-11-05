@@ -222,61 +222,93 @@ def control(lane: Path, work: Path, name: str) -> int:
 
 
 MUTANTS = (
-    # (name, fixture, [(needle, replacement)], defect the unmutated counter must raise)
-    ("no-shonen", "pointer-only", [('if shonen_pointer(root)[1] != derived:', "if False:")],
-     "P2-shonen"),
-    ("no-pin", "pin-only", [("if not pin_ok or line != derived:", "if False:")], "P3-pin"),
-    ("no-state", "stale-pin", [("if not passed:", "if False:")], "P4-state"),
+    # (name, fixture, [(needle, replacement)], leg the unmutated counter must name, declared)
+    ("no-state", "state-other", [("if not passed:", "if False:")], "P4-state", "necessary"),
+    ("no-shonen", "shonen-stale", [("if shonen_pointer(root)[1] != derived:", "if False:")],
+     "P2-shonen", "redundant"),
+    ("no-pin", "pin-stale", [("if not pin_ok or line != derived:", "if False:")],
+     "P3-pin", "redundant"),
 )
+
+# An unrelated content-pinned assertion: `state_check.py`'s P2b holds SCORECARD.md:162 to
+# `**novelty**` + `**7**`. Breaking that token makes the instrument report its own MISMATCH
+# while P1-P3 stay green, so only P4 can see the fixture.
+SCORECARD_ANCHOR_LINE = 162
+SCORECARD_ANCHOR_TOKEN = "**novelty**"
+
+
+def break_axis_anchor(root: Path) -> None:
+    path = root / "SCORECARD.md"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    index = SCORECARD_ANCHOR_LINE - 1
+    if index >= len(lines) or SCORECARD_ANCHOR_TOKEN not in lines[index]:
+        raise SetupDefect("fixture-needle-absent SCORECARD.md axis anchor")
+    lines[index] = lines[index].replace(SCORECARD_ANCHOR_TOKEN, "**novelty-drift**", 1)
+    temp = path.with_suffix(path.suffix + ".tmp")
+    temp.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    os.replace(temp, path)
+
+
+def mutant_fixture(root: Path, kind: str, derived: int) -> None:
+    """Put exactly one leg in the red, so the removed check is the one that decides it."""
+    if kind == "state-other":
+        break_axis_anchor(root)
+    elif kind == "shonen-stale":
+        rewrite(root / SHONEN, f"{PROVINCE}:{derived}", f"{PROVINCE}:{STALE_LINE}")
+        rewrite(root / STATE, f'4, "{PROVINCE}:{derived}", {derived},',
+                f'4, "{PROVINCE}:{STALE_LINE}", {STALE_LINE},')
+    elif kind == "pin-stale":
+        rewrite(root / STATE, f'4, "{PROVINCE}:{derived}", {derived},',
+                f'4, "{PROVINCE}:{STALE_LINE}", {STALE_LINE},')
 
 
 def mutants(lane: Path, work: Path) -> int:
-    necessary = redundant = 0
+    """One leg is mutation-separable; two are declared redundant because `state_check.py`
+    re-derives the same fact, so no single removed check can turn that fixture green."""
     source = Path(__file__).resolve().read_text(encoding="utf-8")
     base = Path(__file__).resolve()
     tip = extract(lane, "master", work)
-    for name, fixture, edits, expected in MUTANTS:
+    necessary = redundant = 0
+    honest = True
+    for name, fixture, edits, expected, declared in MUTANTS:
         if any(needle not in source for needle, _ in edits):
             print(f"MUTANT {name} NOT-APPLICABLE")
-            redundant += 1
+            honest = False
             continue
         root = hardlink_copy(tip, work, f"mut-{name}")
-        derived = derive(root)
-        if fixture == "pointer-only":
-            rewrite(root / STATE, f'4, "{PROVINCE}:{derived}", {derived},',
-                    f'4, "{PROVINCE}:{STALE_LINE}", {STALE_LINE},')
-        elif fixture == "pin-only":
-            rewrite(root / SHONEN, f"{PROVINCE}:{derived}", f"{PROVINCE}:{STALE_LINE}")
-        elif fixture == "stale-pin":
-            rewrite(root / SHONEN, f"{PROVINCE}:{derived}", f"{PROVINCE}:{STALE_LINE}")
-            rewrite(root / STATE, f'4, "{PROVINCE}:{derived}", {derived},',
-                    f'4, "{PROVINCE}:{STALE_LINE}", {STALE_LINE},')
+        mutant_fixture(root, fixture, derive(root))
         mutated = work / f"mutant-{name}.py"
         text = source
         for needle, replacement in edits:
             text = text.replace(needle, replacement, 1)
         mutated.write_text(text, encoding="utf-8")
-        plain = subprocess.run([sys.executable, "-I", "-B", str(base), "--lane", str(root),
-                                "--root", str(root), "--work", str(work / f"pw-{name}"),
-                                "--no-selftest"],
-                               capture_output=True, text=True, timeout=900,
-                               env={"PATH": "/usr/bin", "PYTHONDONTWRITEBYTECODE": "1"})
-        mutant = subprocess.run([sys.executable, "-I", "-B", str(mutated), "--lane", str(root),
-                                 "--root", str(root), "--work", str(work / f"mw-{name}"),
-                                 "--no-selftest"],
-                                capture_output=True, text=True, timeout=900,
-                                env={"PATH": "/usr/bin", "PYTHONDONTWRITEBYTECODE": "1"})
-        ok_plain = plain.returncode == 1 and expected in plain.stdout
-        ok_mutant = "PREDICATE R86-C2 pass" in mutant.stdout
-        print(f"MUTANT {name} fixture={fixture} unmutated_defect={ok_plain} "
-              f"mutant_reaches_target={ok_mutant}")
-        if ok_plain and ok_mutant:
-            necessary += 1
+
+        def run(script: Path, tag: str) -> subprocess.CompletedProcess:
+            return subprocess.run([sys.executable, "-I", "-B", str(script), "--lane", str(root),
+                                   "--root", str(root), "--work", str(work / f"{tag}-{name}"),
+                                   "--no-selftest"],
+                                  capture_output=True, text=True, timeout=900,
+                                  env={"PATH": "/usr/bin", "PYTHONDONTWRITEBYTECODE": "1"})
+
+        plain, mutant = run(base, "pw"), run(mutated, "mw")
+        plain_rejected = plain.returncode == 1 and expected in plain.stdout
+        reaches = "PREDICATE R86-C2 pass" in mutant.stdout
+        caught = sorted({line.split()[1] for line in mutant.stdout.splitlines()
+                         if line.startswith("DEFECT ")})
+        print(f"MUTANT {name} fixture={fixture} declared={declared} "
+              f"unmutated_defect={plain_rejected} mutant_reaches_target={reaches} "
+              f"caught_by={','.join(caught) or 'none'}")
+        if declared == "necessary":
+            ok = plain_rejected and reaches
+            necessary += ok
         else:
-            redundant += 1
+            ok = plain_rejected and not reaches and bool(caught)
+            redundant += ok
+        honest = honest and ok
         shutil.rmtree(root, ignore_errors=True)
-    print(f"MUTANTS real={len(MUTANTS)} necessary={necessary} redundant={redundant}")
-    return 0 if necessary == len(MUTANTS) else 1
+    print(f"MUTANTS real={len(MUTANTS)} necessary={necessary} redundant={redundant} "
+          f"declared_redundant={sum(1 for m in MUTANTS if m[4] == 'redundant')}")
+    return 0 if honest else 1
 
 
 def selftest(lane: Path, work: Path) -> int:
@@ -295,9 +327,7 @@ def selftest(lane: Path, work: Path) -> int:
     check_case("derive-is-not-the-stale-line", derived != STALE_LINE)
 
     root = hardlink_copy(tip, work, "sel-no-token")
-    lines = (root / PROVINCE).read_text(encoding="utf-8").splitlines()
-    lines[derived - 1] = "### Adjacent-renamed"
-    (root / PROVINCE).write_text("\n".join(lines) + "\n", encoding="utf-8")
+    rewrite(root / PROVINCE, TOKEN, TOKEN + "-renamed")
     try:
         derive(root)
     except SetupDefect:
@@ -306,8 +336,7 @@ def selftest(lane: Path, work: Path) -> int:
         check_case("absent-token-fails-closed", False)
 
     root = hardlink_copy(tip, work, "sel-double")
-    text = (root / PROVINCE).read_text(encoding="utf-8")
-    (root / PROVINCE).write_text(text + "\n### Adjacent\n", encoding="utf-8")
+    rewrite(root / PROVINCE, TOKEN, TOKEN + "\n\n" + TOKEN)
     try:
         derive(root)
     except SetupDefect:

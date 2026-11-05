@@ -638,16 +638,21 @@ def selftest(lane: Path, work: Path) -> int:
         check_case("freeze-anchor-present", False)
     else:
         check_case("freeze-anchor-present", freeze.has(TABLE))
-        root = copy_tree(freeze, work, "sel-freeze")
-        (root / TABLE).unlink()
-        proc = subprocess.run([sys.executable, "-I", "-B", str(Path(__file__).resolve()),
-                               "--lane", str(root), "--repo", str(lane), *freeze_args(),
-                               "--work", str(work / "sel-freeze-w")],
-                              capture_output=True, text=True, timeout=600,
-                              env={"PATH": "/usr/bin", "TMPDIR": str(work)})
-        check_case("freeze-anchor-fails-closed",
-                   proc.returncode == 2 and "DEFECT SETUP" in proc.stdout
-                   and "PREDICATE R86-C1 fail" in proc.stdout)
+
+    # The frozen table is read from the REPO at the freeze revision, never from the measured
+    # tree, so the fail-closed case must name a resolvable revision that does not carry it.
+    base = git(lane, "rev-parse", "--verify", "--quiet", f"{BASE_REV}^{{commit}}")
+    base_tip = base.stdout.decode().strip()
+    missing_at_base = (base.returncode == 0
+                       and git(lane, "cat-file", "-e", f"{base_tip}:{TABLE}").returncode != 0)
+    proc = subprocess.run([sys.executable, "-I", "-B", str(Path(__file__).resolve()),
+                           "--lane", str(lane), "--repo", str(lane), "--freeze", BASE_REV,
+                           "--work", str(work / "sel-freeze-w")],
+                          capture_output=True, text=True, timeout=600,
+                          env={"PATH": "/usr/bin", "TMPDIR": str(work)})
+    check_case("freeze-anchor-fails-closed",
+               missing_at_base and proc.returncode == 2 and "DEFECT SETUP" in proc.stdout
+               and "PREDICATE R86-C1 fail" in proc.stdout)
 
     print(f"SELFTEST cases={checks} red={checks - failures} failures={failures}")
     return 0 if failures == 0 else 1
