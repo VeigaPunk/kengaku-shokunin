@@ -151,11 +151,12 @@ def vacuous_check(cmd: str) -> bool:
 
 
 def run_check(command: str, cwd: Path) -> tuple[int, str]:
+    fleet_root = os.environ.get("SHOKUNIN_ROOT") or str(cwd.parent)
     try:
         proc = subprocess.run(["sh", "-c", command], cwd=cwd, capture_output=True,
                               text=True, timeout=300,
                               env={"PATH": "/usr/bin:/bin", "HOME": str(cwd),
-                                   "LANE": str(cwd)})
+                                   "LANE": str(cwd), "SHOKUNIN_ROOT": fleet_root})
     except (OSError, subprocess.SubprocessError) as error:
         return 2, f"check-unrunnable {error}"
     return proc.returncode, (proc.stdout or proc.stderr).strip()[-200:]
@@ -260,7 +261,7 @@ def evaluate(lane: Lane, rev: str, freeze_round: int | None, work: Path) -> tupl
         deciding_row[row["id"]] = end_row
     superseded_invalid: set[str] = set()
     for sid in invalid_named:
-        end = chain_end_cache.get(sid, sid)
+        end = chain_end(sid)
         resolution = by_id.get(end)
         if resolution is not None and resolution.get("supersedes") is not None:
             state[sid] = resolution["status"]
