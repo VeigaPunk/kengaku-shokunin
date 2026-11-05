@@ -1,0 +1,37 @@
+# ScoutR86 — stdout of the pinned probe, run by me in my own scratch at master (a571044c).
+# The round's own committed receipt is corpus/evidence/round86/raman-fitting-probe.txt
+# (re-minted at 276abd46, LANE_TIP b8f05bef, WORKTREE clean).
+# My run: the OBSERVATIONS block is byte-identical to the committed receipt's block
+# (10 lines, compared programmatically: fresh_block == receipt_block -> True).
+
+# tb2 raman-fitting grader probe
+MEMBER raman-fitting
+SUBJECT_CAPTURE corpus/evidence/round52/graders/raman-fitting/tests/test_outputs.py
+SUBJECT_SHA 171fae772ccf262aec8ddac5bd2c6c731eed842421f5d8439a330b158c9f8c13
+CASE_TABLE_SHA f8aa21f3b3f6ccf9616f9d54e9b6aa2c8482de1f32fadbb33166713c6b2210a4
+TOOL plans/round86_raman_probe.py
+TOOL_SHA 09731b3ebcf4448546184b39d21d9a28016693af935a20f7efddec5cff209cde
+HOST_PYTHON Python 3.14.8
+HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+LANE_TIP a571044c1ea7c243791330607c5b90b6afce9a15
+WORKTREE dirty
+COMMAND python3 plans/round86_raman_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r86/ScoutR86/probe
+EXIT 0
+OBSERVATIONS_BEGIN
+CASE exact predicted=P/P/P observed=P/P/P
+CASE missing-2D-key predicted=P/P/E observed=P/P/E
+CASE g-amplitude-string predicted=P/E/P observed=P/E/P
+CASE extra-schema-keys predicted=P/P/P observed=P/P/P
+CASE absent-file predicted=F/F/F observed=F/F/F
+CASE g-key-renamed predicted=P/E/P observed=P/E/P
+CASE 2D-null-value predicted=P/P/E observed=P/P/E
+CASE g-amplitude-just-outside predicted=P/F/P observed=P/F/P
+cases=8 legs=24 mismatches=0
+PREDICATE R86-PROBE pass
+OBSERVATIONS_END
+
+rc=0
+
+# The committed receipt (re-minted) carries the same eight vectors, same summary line and
+# the same PREDICATE line; only the stamp fields LANE_TIP/WORKTREE/COMMAND differ
+# (b8f05bef / clean / .../L1/mint5), because the re-mint happened at a clean committed tip.

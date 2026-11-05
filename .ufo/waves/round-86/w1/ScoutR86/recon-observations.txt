@@ -1,0 +1,31 @@
+# ScoutR86 — independent offline replay of the captured raman-fitting grader
+# Private scratch replay (bubblewrap namespace), NOT the round's receipt.
+# Harness is the pinned probe's own HARNESS text (plans/round86_raman_probe.py:60-77).
+# Host: Arch x86_64, python3 3.14.8, /usr/bin/bwrap (bubblewrap 0.13.1-1).
+# Capture: corpus/evidence/round52/graders/raman-fitting/tests/test_outputs.py
+#          sha256 171fae772ccf262aec8ddac5bd2c6c731eed842421f5d8439a330b158c9f8c13
+
+$ python3 recon.py            # eight frozen case shapes, plans/round86-cases.json
+exact                      predicted=P/P/P  observed=P/P/P   (no exception)
+missing-2D-key             predicted=P/P/E  observed=P/P/E   E=KeyError@54  (data["2D"])
+g-amplitude-string         predicted=P/E/P  observed=P/E/P   E=TypeError@33 (abs(1 - A / A_expected))
+extra-schema-keys          predicted=P/P/P  observed=P/P/P   (no exception)
+absent-file                predicted=F/F/F  observed=F/F/F   F=AssertionError@11, F=FileNotFoundError@17, F=FileNotFoundError@46
+g-key-renamed              predicted=P/E/P  observed=P/E/P   E=KeyError@28  (G_peak["amplitude"])
+2D-null-value              predicted=P/P/E  observed=P/P/E   E=TypeError@60 (abs(1 - x0 / x0_expected))
+g-amplitude-just-outside   predicted=P/F/P  observed=P/F/P   F=AssertionError@36 (and-only 5 % band)
+
+# All eight frozen predicted vectors reproduce exactly; mismatches=0, legs=24.
+
+$ python3 extra.py           # five shapes OUTSIDE the frozen table (reachability map only)
+malformed-json      -> P/JSONDecodeError/JSONDecodeError  types= test_result_file_exists:P,test_G_Peak:JSONDecodeError18:data = json.load(f),test_2D_Peak:JSONDecodeError47:data = json.load(f)
+top-level-list      -> P/TypeError/TypeError             types= test_result_file_exists:P,test_G_Peak:TypeError25:G_peak = data["G"],test_2D_Peak:TypeError54:G_peak = data["2D"]
+G-not-a-dict        -> P/TypeError/KeyError               types= test_result_file_exists:P,test_G_Peak:TypeError26:x0 = G_peak["x0"],test_2D_Peak:KeyError55:x0 = G_peak["x0"]
+G-x0-null           -> P/TypeError/P                      types= test_result_file_exists:P,test_G_Peak:TypeError31:x0_correct = abs(x0 - x0_expected) < 5,test_2D_Peak:P
+G-missing-offset    -> P/KeyError/P                       types= test_result_file_exists:P,test_G_Peak:KeyError29:offset = G_peak["offset"],test_2D_Peak:P
+
+# Arithmetic check of the frozen "just outside" case:
+$ python3 -c "print(8802.662769/8382.69, abs(1-8802.662769/8382.69))"
+1.0501 0.05010000000000003      # > 0.05, so the strict 5 % relative band fails -> AssertionError
+
+# Scratch used: /fast/scratch/hyaku/kengaku-r86/ScoutR86/ (deleted at yield).
