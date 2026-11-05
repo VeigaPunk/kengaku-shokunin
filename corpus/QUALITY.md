@@ -1322,3 +1322,31 @@ A witness at one granularity does not price the finer one.
 ## Round85 freeze-input lesson
 
 - **Q62 — frozen inputs exist at the frozen revision or scoring is SETUP, never a silent unbound fallback.** Grounding: `corpus/lessons/round-85.md` Mistakes, outside R84-V2. Name each frozen input and use `git cat-file -e FREEZE:path` before scoring; refuse absence. This round carries the case table and defect list in `1a45aeb5`; C1 selftest `freeze-anchor-fails-closed` exercises a missing-table refusal. A bare export without the authority objects is a setup failure, not the declared BASE measurement. This rule does not certify internal-score observation or fix the post-scoring amendments disclosed in the closing erratum.
+
+## Round86 instrument-battery lesson
+
+*Append-only correction to Q62's last sentence.* Q62 said the round-85 C1 selftest
+`freeze-anchor-fails-closed` "exercises a missing-table refusal". Round 86 opened that leg and found it
+could not: it deleted the table from a local extraction while `frozen_table()` reads the table from the
+*repository* at the freeze revision, so the leg failed only because a placeholder revision did not
+resolve. Q62's rule stands; its evidence pointer does not, and is corrected by Q63 below. Q62's text is
+not rewritten.
+
+- **Q63 — a self-test leg must exercise the same read path as the counter.** Grounding:
+  `corpus/lessons/round-86.md` Mistakes 1. A leg that mutates one copy of an input while the counter
+  reads another copy is green on a broken check and red on a working one. Name the read path in the leg
+  (`git show REV:path` vs the extracted tree) and drive the failure through it. Executable half:
+  `plans/round86_c1_replay.py --selftest` runs the missing-table case against a **resolvable** revision
+  that does not carry `plans/round86-cases.json` and requires exit 2 + `DEFECT SETUP`.
+- **Q64 — a fixture never writes through a hardlink.** Grounding: `corpus/lessons/round-86.md`
+  Mistakes 2. `cp -al` plus a plain `write_text` truncates the shared inode, so the fixture edits its
+  own source and later legs measure a tree no case prepared. Every fixture edit goes through a fresh
+  inode and an atomic replace. Executable half: `plans/round86_c2_repin.py --selftest`'s
+  `absent-token-fails-closed` and `duplicate-token-fails-closed` cases (4/4 red at `316811fa`).
+- **Q65 — a mutation battery declares, per mutant, whether the removed check is necessary or
+  redundant, and names the leg that still catches a redundant one.** Grounding:
+  `corpus/lessons/round-86.md` Mistakes 3. A battery that reports `necessary=0` without naming the
+  catcher reads as a weak instrument when it is a statement about overlapping legs. A declared
+  redundant mutant is not a failure; an undeclared one is. Executable half:
+  `plans/round86_c2_repin.py --mutants` prints `declared=` and `caught_by=` per mutant and returns 0
+  only when every declared expectation holds.

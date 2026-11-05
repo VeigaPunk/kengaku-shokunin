@@ -937,6 +937,8 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `lessons/round-84.md` | Round 84 — second offline replay of `gcode-to-text` (R84-C1, executed) and the round-83 entry's Q1/Q21 repair with its Q13 re-admission held open (R84-C2, unmet); Gate S271, corrections R83-V1/V2, mined mistakes | LOG.md round 84; plans/round-84-claims.md |
 | `lessons/round-84-verifier-spotcheck.md` | Non-author closure of round 84 (base `4087b2f8` → delivered `b8c10ad5`): R84-C1 met, R84-C2 unmet on Q13, `rejected-honest-stop`; routed defects R84-V1…V9 | closure of round 84; lessons/round-85.md Corrections |
 | `lessons/round-85.md` | Round 85 — third offline member replay (`sqlite-db-truncate`, first `serialization-schema` member, R85-C1) and the eight owner-routed round-84 defects discharged with a base-sensitive gate (R85-C2); Gate S272, corrections R84-V1…V9, mined mistakes, definition horizon, `expansion: unchanged` | LOG.md round 85; plans/round-85-claims.md; corpus/QUALITY.md Q61 |
+| `lessons/round-85-verifier-spotcheck.md` | Non-author closure of round 85 (base `0de45354` → delivered `c83e39ce`): both frozen claims unprovable, `rejected-honest-stop`; records the class-figure correction 1/10 → 2/10, S273, and the routed S1–S6 findings. Written by the hyaku closure session, indexed here only | closure of round 85 |
+| `lessons/round-86.md` | Round 86 — one more executed Terminal-Bench 2.0 member (`raman-fitting`, eight frozen schema-drift cases: three legs, 24 leg observations) and the lane's last self-assessment mismatch repaired by derivation (box-4 `PROVINCE.md:129` → `:151`, mismatch 1 → 0); Gate S274, three instrument criteria Q63–Q65, mined mistakes, definition horizon; `expansion: unchanged` | LOG.md round 86; plans/round-86-claims.md; corpus/QUALITY.md Q63–Q65 |
 
 ### Knowledge index rows (3)
 
@@ -977,6 +979,7 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 - `corpus/evidence/round83/` — frozen controls and initial census; first code-from-image replay and counter receipts; eight correction checks and base sensitivity; historical round-82 census/results/report-preservation evidence.
 - `corpus/evidence/round84/` — round-84 claim receipt: the `gcode-to-text` member replay (`gcode-to-text-probe.txt`, `PREDICATE R84-PROBE pass`, eight vectors, `LANE_TIP 767c907b` with `WORKTREE clean`); the C1 and C2 counter transcripts live under `.ufo/waves/round-84/w1/`.
 - `corpus/evidence/round85/` — round-85 claim receipt: the `sqlite-db-truncate` member replay (`sqlite-db-truncate-probe.txt`, `PREDICATE R85-PROBE pass`, eight cases / sixteen legs, `LANE_TIP 99a7cb3b` with `WORKTREE clean`); the C1/C2 counter transcripts live under `.ufo/waves/round-85/`.
+- `corpus/evidence/round86/` — round-86 claim receipt: the `raman-fitting` member replay (`raman-fitting-probe.txt`, `PREDICATE R86-PROBE pass`, eight cases / 24 legs / zero mismatches, `LANE_TIP` = the ledger-row commit with `WORKTREE clean`); the C1/C2 counter transcripts, batteries and controls live under `.ufo/waves/round-86/`.
 
 ## Round-75 supporting artifacts (2026-11-04)
 
