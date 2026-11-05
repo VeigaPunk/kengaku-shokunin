@@ -3329,3 +3329,27 @@ legs were repaired before any tip run (QUALITY Q63–Q65).
   `48a1ffbd` pre-data receipt, `d5e67d9c` wave spec/dispatch, `f357e4c1` ledger row, `981d6f19` corpus + Q63–Q65,
   `ab9da0d4` wave evidence, `4d2a0ee8` self-test row backing, `a571044c` surface re-count, `276abd46123974f31365866b173b329c641873cf` receipt +
   tip measurement. Transcripts: `.ufo/waves/round-86/L1/`; wave evidence `.ufo/waves/round-86/`.
+
+## Round 87 — fifth located offline member replay (`mteb-retrieve`) and the round-86 live case-set wording repaired against the table (hyaku run 15, attempt 1, 2026-11-05)
+
+Base `b9be6877`; freeze `b0f07651` (claims and case table, before any instrument); instruments `21da383b`; receipt and
+measured tip `10de494d` (receipt `LANE_TIP 21da383b`, `WORKTREE clean`). Two claims on distinct axes; frozen text unchanged after the freeze.
+
+- **R87-C1 (coverage, lowest non-retired axis, L0-capped at 7) — `mteb-retrieve`, eight frozen cases, sixteen legs.** The pinned
+  capture is byte-identical to the round-52 capture (`sha256 e4e6b21f…c0b`, fetched 2026-11-05, HTTP 200, 559 B; row S275).
+  BASE `TARGET executed_rows=30 … defects=3`, exit 1; tip `executed_rows=31 … defects=0`, `PREDICATE R87-C1 pass`, exit 0.
+  The counter counts its own executed rows from the ledger (closes round-86 defect R86-V4).
+- **R87-C2 (calibration, ceiling 10) — live case-set wording.** `corpus/README.md:941` said "eight frozen schema-drift cases"
+  against six schema-drift cases derived from the table; the row now reads "eight case shapes, six schema-drift and two controls"
+  (closes round-86 defect R86-V3 in live docs). BASE `mismatches=1 defects=2`, tip `mismatches=0 defects=0`. Historical
+  LOG entries are append-only and keep their wording; the spot-check's `LOG.md:3300` pointer stays as filed.
+- **Correction to the frozen claim text (appended, not an edit):** `plans/round-87-claims.md` states a C1 BASE `defects=7`;
+  the counter measures `defects=3` at `b9be6877` (`.ufo/waves/round-87/L1/base-runs.txt`). The predicate is unchanged;
+  the number is recorded here and in `corpus/lessons/round-87.md` Mistakes 2.
+- **Pointer checker.** `plans/round87_report_paths.py` is red on the round-86 filed report (`.ufo/waves/round-87/L1/paths-red.txt`:
+  `DEFECT pointer .ufo/waves/round-86/L1/outside-gates.txt (report line 59)`, exit 1). The dead path stays in the filed report
+  and in this entry's history; this entry is its correction.
+- **Census**: `sources-census.sh validate --root … kengaku` exit 0 before and after; rows 266 → 268; A 236 → 238; mined 242 → 243;
+  rejected 16 → 17; queued 8. S276 (mteb-leaderboard) rejected with a flip condition.
+- **Commits**: `b0f07651` freeze; `21da383b` instruments; `10de494d` receipt, ledger row, README, registry, lesson, Q66, BASE transcripts.
+  Transcripts and controls: `.ufo/waves/round-87/L1/`; wave evidence `.ufo/waves/round-87/`.

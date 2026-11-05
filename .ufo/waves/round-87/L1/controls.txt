@@ -1,0 +1,25 @@
+# R87 controls, each run against a scratch fixture built from the measured tip 10de494d (fixtures are throwaway clones under /fast/scratch/hyaku/kengaku-r87/L1/ctl)
+
+## ledger-only (receipt removed, ledger row kept executed) -> expect L1
+DEFECT L1-receipt corpus/evidence/round87/mteb-retrieve-probe.txt absent at 8c13fa6cada4
+TARGET executed_rows=31 member=mteb-retrieve located=0 executed=0 cases=0 legs=0 mismatches=0 defects=1
+PREDICATE R87-C1 fail
+rc=1
+
+## forged LANE_TIP (orphan commit, not an ancestor) -> expect L3
+DEFECT L3-tip LANE_TIP 55029516a974 is not an ancestor of 28735bf6eed9
+TARGET executed_rows=31 member=mteb-retrieve located=0 executed=0 cases=8 legs=16 mismatches=0 defects=1
+PREDICATE R87-C1 fail
+rc=1
+
+## C2 canon-wrong (five schema-drift, three controls) -> expect canon defect
+DEFECT CANON corpus/README.md lessons/round-86.md row lacks 'eight case shapes, six schema-drift and two controls'
+TARGET mismatches=0 defects=1 total=8 schema=6 control=2
+PREDICATE R87-C2 fail
+rc=1
+
+## C2 stray count (five schema-drift cases in PROVINCE) -> expect mismatch
+DEFECT MISMATCH PROVINCE.md:1 asserts 'five' schema-drift cases; derived 6
+TARGET mismatches=1 defects=1 total=8 schema=6 control=2
+PREDICATE R87-C2 fail
+rc=1

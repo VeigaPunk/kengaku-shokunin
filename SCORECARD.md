@@ -4112,3 +4112,26 @@ No new capability row: the replay instrument is rounds 83–85's, extended this 
    checker shape (L0 `kengaku | round-84`).
 3. Operability: keep the new R77/R79/R82 cells in the same commit as every append that moves them — this round found
    the canonical surface count three appends stale.
+
+## Round 87 (hyaku run 15, attempt 1, 2026-11-05): a fifth executed member, and the round-86 live-wording mismatch repaired by derivation
+
+Base `b9be687774e6b559470f5b0d9b936315b51ff311`; claims freeze `b0f076518dad55f62a89183c5a873957ad3cf6a5` (claims and case table, before any instrument); instrument commit `21da383b44a399f40faf346eed89210c9114848d`; receipt and measured tip `10de494d14abf0b77979225f51b3b72e73c0d2ed` (receipt `LANE_TIP 21da383b`, `WORKTREE clean`). Two claims on two distinct axes, causally separable; no frozen sentence, case table, control set or kill rule changed after the freeze.
+
+| claim / axis | before → after and measured commit | counting command | verdict / score |
+|---|---|---|---|
+| R87-C1 / **coverage** (lowest non-retired axis, held at its L0 cap 7): a fifth located offline member replay, `mteb-retrieve` | BASE `b9be6877`: `TARGET executed_rows=30 member=mteb-retrieve located=0 executed=0 cases=0 legs=0 mismatches=0 defects=3`, `PREDICATE R87-C1 fail`, exit 1 (`.ufo/waves/round-87/L1/base-runs.txt`). At `10de494d`: `TARGET executed_rows=31 member=mteb-retrieve located=1 executed=1 cases=8 legs=16 mismatches=0 defects=0`, `PREDICATE R87-C1 pass`, exit 0 (`.ufo/waves/round-87/L1/tip-runs.txt`). Ledger executed 30 → 31; `file-artifact` 22 of 76 → 23 of 76. The frozen claim text states BASE `defects=7`; the measured BASE is 3 (lesson Mistakes 2; the predicate is unchanged). | `python3 plans/round87_c1_replay.py --lane . --rev REV --work DIR` (BASE: `--rev b9be687774e6b559470f5b0d9b936315b51ff311`) | **met on its frozen predicate**; coverage stays at **7** (L0 cap); the expansion observable is unchanged (same replay method as rounds 83–86, no new class) |
+| R87-C2 / **calibration** (held at ceiling 10): the live case-set wording mismatch count 1 → 0, against the table-derived split | BASE `b9be6877`: `TARGET mismatches=1 defects=2 total=8 schema=6 control=2`, `PREDICATE R87-C2 fail`, exit 1 (`corpus/README.md:941` asserted "eight frozen schema-drift cases"). At `10de494d`: `TARGET mismatches=0 defects=0 total=8 schema=6 control=2`, `PREDICATE R87-C2 pass`, exit 0. | `python3 plans/round87_c2_wording.py --lane . --rev REV --work DIR` | **met on its frozen predicate**; calibration **10 held** (round-86 C2 precedent: a count move at the ceiling is recorded, not added to the score) |
+
+**Controls and batteries** (`.ufo/waves/round-87/L1/`): do-nothing at BASE (both counters, above); ledger-only fixture → `DEFECT L1-receipt`, rc 1; forged `LANE_TIP` (orphan commit) → `DEFECT L3-tip`, rc 1; C2 canon-wrong fixture → `DEFECT CANON`, `mismatches=0 defects=1`, rc 1 (the frozen control text expected `mismatches>=1`; the counter rejects the fixture through the canonical-row leg, and the frozen wording is reported as imprecise, not repaired); C2 stray-count fixture → `DEFECT MISMATCH`, `mismatches=1`, rc 1. Pointer checker: `plans/round87_report_paths.py` on the round-86 filed report → `DEFECT pointer .ufo/waves/round-86/L1/outside-gates.txt`, exit 1 (`.ufo/waves/round-87/L1/paths-red.txt`).
+
+**Sources.** S275 admitted (`corpus/SOURCES.md`; pinned `mteb-retrieve/tests/test_outputs.py`, member replay only, sha256 identical to the round-52 capture); S276 rejected (`mteb-leaderboard`, flip stated). Registry 266 → 268; A 236 → 238; B 24; C 6; mined 242 → 243; rejected 16 → 17; queued 8; census `sources-census.sh validate --root … kengaku` exit 0 before and after.
+
+**Other axis scores.** novelty 8 (held), depth 10 (held), operability 10 (held), freshness 10 (held), adjacency 9 (held). Nothing else in this round moves a score row; the round adds no capability row (the replay method is rounds 83–86's, and the `executed_rows` repair is a counter fix, not a capability).
+
+**Mistakes mined** (`corpus/lessons/round-87.md`): reference-drift (the round-86 dead evidence pointer; fixed by the pointer checker, red on the round-86 report), number-drift (a BASE figure carried into a frozen claim; criterion Q66, no executable half yet), vacuous (the `members=1` literal; fixed by the executed-row count).
+
+### Planned (round 88; not a claim until frozen)
+
+1. Coverage: `fix-git` (two stdlib tests, `crypto-credential` class, no row yet) or another member whose replay adds an edge class; open its source and write its S-row first.
+2. Calibration: the Q66 counter-side check, re-running each frozen claim's counter at BASE and comparing the figure in the claim text with the measured output.
+3. Operability: the R87 pointer checker run on each filed report before its closure.
