@@ -1,0 +1,46 @@
+TOOL from-file /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-94/w1/ExecC2Rerun/forgeries/F3b-octopus-anchor-kept.py sha256=1659a8247bd2ffbf04a9288d03eed9fc7aeec01a84ccb0e4193b84a78b28f171
+W1a r92 ok rc=1 summary=(4, 1, 3) intact=['plans/round92_c1_replay.py'] predicate_line_ok=True
+W1b r93 ok rc=0 summary=(9, 9, 0) predicate_line_ok=True
+W1 pass
+W2 w2-intact ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0) predicate_line_ok=True
+W2 w2-edited ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-edit-revert ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-lying-table ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-unrelated ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0) predicate_line_ok=True
+W2 w2-rev-below-head ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0) predicate_line_ok=True
+W2 w2-edit-revert-unrelated ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-lie-repaired ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-treesame-merge ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-second-block ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 w2-duplicate-row ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 w2-not-ancestor ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 w2-paths-dup ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 w2-paths-absent ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 w2-paths-edited ok rc=1 want_rc=1 summary=(2, 1, 1) want=(2, 1, 1) predicate_line_ok=True
+W2 w2-octopus RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-delete-readd ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-rename ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-spaced-row ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 w2-unterminated ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 fail fixtures=20 ok=19
+W3 echo SELFTEST cases=15 ok=15
+W3 echo SELFTEST cases=15 ok=15
+W3 P1-no-full-history ok rc=1 selftest=['cases=15 ok=14'] predicate=['fail'] want=battery-red,rc=1,fail
+W3 P2-touched-threshold-2 ok rc=1 selftest=['cases=15 ok=14'] predicate=['fail'] want=battery-red,rc=1,fail
+W3 P3-dups-ignored ok rc=1 selftest=['cases=15 ok=14'] predicate=['fail'] want=battery-red,rc=1,fail
+W3 pass probes=3
+W4 fail claims-add-commits=0 plans/round-95-claims.md at 4524072dfae9
+W5 null RED fixtures_ok=19 of 20
+W5 K1-head-not-rev killed designated=w2-rev-below-head red=w2-octopus,w2-rev-below-head
+W5 K2-rev-minus-1 killed designated=w2-edit-revert-unrelated red=w2-edit-revert-unrelated,w2-octopus,w2-paths-absent
+W5 K3-table-at-rev killed designated=w2-lie-repaired red=w2-lie-repaired,w2-octopus
+W5 K4-cne-exit0-pass killed designated=w2-not-ancestor red=w2-duplicate-row,w2-not-ancestor,w2-octopus,w2-paths-absent,w2-paths-dup,w2-second-block,w2-spaced-row,w2-unterminated
+W5 K5-no-full-history killed designated=w2-treesame-merge red=w2-octopus,w2-treesame-merge
+W5 K6-second-block-ignored killed designated=w2-second-block red=w2-octopus,w2-second-block
+W5 K7-duplicate-row-accepted killed designated=w2-duplicate-row red=w2-duplicate-row,w2-octopus
+W5 K8-paths-dup-accepted killed designated=w2-paths-dup red=w2-octopus,w2-paths-dup
+W5 K9-unterminated-accepted killed designated=w2-unterminated red=w2-octopus,w2-unterminated
+W5 K10-absent-at-freeze-skipped killed designated=w2-paths-absent red=w2-octopus,w2-paths-absent
+W5 fail mutants=10 killed=10
+TARGET legs_passed=2 of 5
+PREDICATE R95-C2 fail
