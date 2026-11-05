@@ -1,0 +1,47 @@
+R91-C2 control battery — ExecC2Battery (wave round-91 w1)
+Clone: /fast/scratch/hyaku/kengaku-r91/ExecC2Battery/lane (git clone --shared of the lane; detached at tip C a8de3e69).
+Each control: one scratch commit on top of a8de3e69 (or an uncommitted working-tree edit where marked "uncommitted"),
+then the checker run below. CMD prefix: python3 plans/round91_counter_pin.py --lane $S/lane. rc = process exit code.
+The lane itself was not modified.
+
+ID   Control                                        Command suffix                                   rc  First defect line / observation
+---- ---------------------------------------------- ------------------------------------------------ --- --------------------------------------------------------------
+1    positive at a8de3e69 (no skip)                 --rev a8de3e69 --work $S/w-c1                    0   no DEFECT lines. PINS checked=16 matched=16 mismatched=0; SELFTEST cases=8 red-green-ok=8; PREDICATE R91-C2 pass
+DN   do-nothing at BASE 59764383 (skip)             --rev 59764383 --work $S/w-base --skip-selftest  2   DEFECT SETUP unreadable plans/counter-pins-r91.json; PREDICATE R91-C2 could-not-evaluate
+2    one-space append to round88_claim_figures.py   --rev 1e83e8eb --work $S/w-c2 --skip-selftest      1   DEFECT PIN-MISMATCH bytes plans/round88_claim_figures.py; PINS checked=16 matched=15 mismatched=1
+3    delete plans/round91_burndown.py               --rev edd9ebe9 --work $S/w-c3 --skip-selftest      1   DEFECT PIN-MISMATCH absent plans/round91_burndown.py; PINS checked=16 matched=15 mismatched=1
+4    one-byte change to round89-q66-records.json    --rev 4c55b21b --work $S/w-c4 --skip-selftest      1   DEFECT RECORD-TABLE mismatch plans/round89-q66-records.json 2d8d48a458e1a78c != 163f284316141a83 (byte 0: '[' -> 'X')
+5    checker line 87 self-leg forced to pass,       --rev 00f4625c --work $S/w-c5 --skip-selftest      1   DEFECT PIN-MISMATCH bytes plans/round91_counter_pin.py (the table leg on the checker's own entry fires;
+     ledger NOT regenerated (commit)                                                                                    SELF-PIN-MISMATCH was NOT reached — rc matches, first defect line is the bytes leg, not the self-pin leg)
+5b   same edit, UNCOMMITTED, at clean tip           --rev a8de3e69 --work $S/w-c5b --skip-selftest   0   PREDICATE R91-C2 pass. The self-pin leg is bypassed when the running file itself is edited: the committed bytes
+     (extra)                                                                                                            at a8de3e69 match the pin, so the table passes, and the running copy skips its own leg.
+5b-full same edit, UNCOMMITTED, no skip             --rev a8de3e69 --work $S/w-c5b-full              1   SELFTEST self-pin-mismatch rc=0 want=1 defect-ok=False ok=False; SELFTEST-CHILD self-pin-mismatch (child PREDICATE pass);
+     (extra)                                                                                                            SELFTEST-DETAIL cases=8 red-green-ok=7. The in-path selftest catches 5b; the skip variant does not.
+5c   honest uncommitted comment append (extra)      --rev a8de3e69 --work $S/w-c5c --skip-selftest   1   DEFECT SELF-PIN-MISMATCH plans/round91_counter_pin.py; PINS checked=16 matched=15 mismatched=1 (leg works on an unmodified-leg edit)
+6    checker self-leg forced to pass AND pin        --rev 198db47c --work $S/w-c6 --skip-selftest      0   PINS checked=16 matched=16 mismatched=0; PREDICATE R91-C2 pass.
+     regenerated (sha 4653f79e…) in ONE commit                                                                         RESIDUAL OBSERVED AS PREDICTED: a one-commit checker+pin rewrite passes.
+6b   same commit, no skip (extra)                   --rev 198db47c --work $S/w-c6b                   1   SELFTEST self-pin-mismatch rc=0 want=1 defect-ok=False ok=False; SELFTEST-CHILD (child PREDICATE pass); PREDICATE R91-C2 fail.
+                                                                                                                     The in-path selftest closes this variant; the residual survives only with --skip-selftest.
+7a   blob-anchor-missing expectation weakened to "" committed, pin NOT regenerated, no skip
+                                                    --rev 85b618b5 --work $S/w-c7a                   1   DEFECT PIN-MISMATCH bytes plans/round91_counter_pin.py; PINS checked=16 matched=15 mismatched=1.
+                                                                                                                     SELFTEST cases=8 red-green-ok=8 — the weakened red case stays GREEN; the rc 1 comes from the pin, not the selftest.
+7b   same weakening + pin regenerated (sha 7e88f740…) in ONE commit, no skip
+                                                    --rev 752506bf --work $S/w-c7b                   0   PINS checked=16 matched=16; SELFTEST cases=8 red-green-ok=8; PREDICATE R91-C2 pass.
+                                                                                                                     RESIDUAL (not in the claim text): a weakened red-case expectation plus a regenerated pin passes the predicate.
+7c   blob-anchor-missing expected rc flipped 1->0 (a red case demanding the wrong rc) + pin regenerated (sha 4dfc41b0…), no skip
+                                                    --rev 196cf8be --work $S/w-c7c                   1   SELFTEST blob-anchor-missing rc=1 want=0 defect-ok=True ok=False; SELFTEST-CHILD blob-anchor-missing stdout='DEFECT RECORD-TABLE
+                                                                                                                     anchor plans91/b.json (anchor HEAD~1 holds absent)\nPINS checked=1 matched=0 mismatched=1\nPREDICATE R91-C2 fail\n'.
+                                                                                                                     PINS checked=16 matched=16 — the selftest leg alone fails the predicate (it is in the path). Note: summary line prints
+                                                                                                                     "SELFTEST cases=8 red-green-ok=0" while SELFTEST-DETAIL says red-green-ok=7 (summary is all-or-nothing; cosmetic inconsistency).
+8    delete plans/counter-pins-r91.json             --rev aece70ce --work $S/w-c8 --skip-selftest      2   DEFECT SETUP unreadable plans/counter-pins-r91.json; PREDICATE R91-C2 could-not-evaluate
+
+RESIDUAL (control 6), stated as observed: a single commit that changes plans/round91_counter_pin.py and regenerates
+plans/counter-pins-r91.json passes the checker run with --skip-selftest (rc 0, PREDICATE R91-C2 pass). The checker's
+own pin does not stop it. The in-path selftest (default run, no skip) catches the self-leg variant (6b, rc 1), but
+7b shows a second route: weakening a selftest expectation together with a regenerated pin passes (rc 0).
+
+Measurement vs prediction (claims file, "After" line): PINS K=16 predicted and measured (13 sha + 3 blob).
+SELFTEST C predicted 6 in the claims file ("6 fixture cases"); measured 8 (the checker declares and runs 8).
+Mispredict recorded, not repaired in the frozen text.
+
+Tool installs: none.
