@@ -13,7 +13,7 @@ green. Frozen inputs that cannot be read at all are `DEFECT SETUP` + exit 2 (Q62
 synthetic substitute.
 
 Usage:  python3 plans/round91_counter_pin.py --lane <repo> --rev <rev> --work <scratch dir>
-        [--selftest] [--skip-selftest] [--self-entry-path <fixture path for the self-pin leg>]
+        [--selftest] [--self-entry-path <fixture path for the self-pin leg>]
 Exit:   0 predicate pass, 1 a pin mismatch or a selftest case wrong, 2 could-not-evaluate.
 """
 from __future__ import annotations
@@ -207,8 +207,9 @@ def fixture_repo(work: Path, commits: list[dict[str, str | None]]) -> Path:
 
 
 def selftest(work: Path, self_entry: str, expect_obj: list) -> int:
-    """Eight fixture repos. Each red case must exit its named code and print its named defect; the
-    clean case must be green. Children run the production entry point with --skip-selftest so the
+    """Nine fixture repos. Each red case must exit its named code and print its named defect; the
+    clean case must be green. Children run the production entry point in child mode (the
+    R91_C2_CHILD_MODE env var, set by the parent's own invocation) so the
     selftest does not recurse. The self-pin case plants a stale checker at the self path."""
     here = Path(__file__).resolve()
     checks: list[tuple[str, Path, str, int, str]] = []
