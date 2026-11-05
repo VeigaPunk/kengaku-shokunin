@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m07-L6summaryOnly.py	2026-11-05 02:52:22.982914670 -0300
+@@ -239,7 +239,7 @@
+             rerun = observation_block(proc.stdout) if proc.stdout else None
+             if rerun is None:
+                 defect("L6-reproduce", f"probe re-run rc={proc.returncode} produced no observation block")
+-            elif rerun != observed_block:
++            elif [l for l in rerun if l.startswith("cases=")] != [l for l in (observed_block or []) if l.startswith("cases=")]:  # MUT m07: L6 compares only the summary line
+                 defect("L6-reproduce", "re-run observation block differs from the receipt")
+     elif receipt_raw is not None:
+         defect("L6-reproduce", f"{TOOL} absent at {rev_sha[:12]}")

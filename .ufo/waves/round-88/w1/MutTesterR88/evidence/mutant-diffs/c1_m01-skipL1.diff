@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m01-skipL1.py	2026-11-05 02:52:22.942914588 -0300
+@@ -163,7 +163,7 @@
+ 
+     # L1 — the receipt exists
+     if receipt_raw is None:
+-        defect("L1-receipt", f"{RECEIPT} absent at {rev_sha[:12]}")
++        pass  # MUT m01: L1 receipt-existence defect removed
+ 
+     stamp = parse_stamp(receipt)
+     observed_block = observation_block(receipt) if receipt else None

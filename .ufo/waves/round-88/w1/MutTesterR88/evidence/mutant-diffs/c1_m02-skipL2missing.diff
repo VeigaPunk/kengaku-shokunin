@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m02-skipL2missing.py	2026-11-05 02:52:22.944914592 -0300
+@@ -183,7 +183,7 @@
+     if receipt_raw is not None:
+         missing = [key for key in REQUIRED if key not in stamp]
+         if missing:
+-            defect("L2-stamp", f"missing {','.join(missing)}")
++            pass  # MUT m02: L2 missing-field defect removed
+         expect = {
+             "MEMBER": MEMBER,
+             "SUBJECT_CAPTURE": CAP,

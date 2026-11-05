@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_base.py	2026-11-05 02:49:25.793877530 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_m04-skipF6norecords.py	2026-11-05 02:53:56.715569907 -0300
+@@ -444,7 +444,7 @@
+         rc, out = entry
+         if not recs:
+             _f, _c, mode, _a = CLAIMS[cid]
+-            if mode in ("rev", "tree") and (rc == 0 or "PREDICATE" not in out):
++            if False:  # MUT m04: F6-norecords skipped
+                 defects.append(f"F6-norecords {cid} rc={rc} (before-state must fail at BASE)")
+             continue
+         for rec in recs:

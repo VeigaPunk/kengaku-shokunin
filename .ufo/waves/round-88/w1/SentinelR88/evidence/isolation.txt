@@ -1,0 +1,12 @@
+== sandbox payload (probe's own sandbox_argv, unchanged flags)
+rc=0
+{"cwd": "/app", "env_keys": ["LANG", "LC_ALL", "PATH", "PWD"], "exists": {"/app": true, "/etc/shadow": true, "/fast": false, "/home": false, "/home/vgpnk": false, "/home/vgpnk/Projects/shokunin/kengaku-shokunin": false, "/root": false, "/tests": true, "/usr/bin/python3": true}, "net": "OSError: [Errno 101] Network is unreachable", "net_ifaces": ["lo"], "read": {"/etc/passwd": "readable", "/etc/shadow": "PermissionError"}, "root": ["app", "bin", "dev", "etc", "harness.py", "lib", "lib64", "proc", "sbin", "tests", "usr"], "uid": 1000, "write": {"/app/probe-x": "written", "/etc/probe-x": "OSError", "/tests/probe-x": "written", "/usr/probe-x": "OSError"}}
+stderr=
+host-case-app-after-run=['probe-x', 'resources']
+host /app exists=False
+
+== import shadow
+rc=0 {"hashlib": "/usr/lib/python3.14/hashlib.py", "cwd": "/app", "isolated": 1} stderr=
+
+== bash -lc under env={PATH}
+HOME=

@@ -1,0 +1,22 @@
+Fixture method: each fixture is `git clone --no-hardlinks` of a scratch clone of the lane, checked out at the measured tip 7fcc680b86599eedd63e862a061848298428b3cc (detached), then one fixture commit with identity MutTesterR88 <muttester@scratch.invalid>. Every fixture's rev is its HEAD. All were created under /fast/scratch/hyaku/kengaku-r88/MutTesterR88/fx/ (deleted before yield).
+
+C1 fixtures (counter plans/round88_c1_replay.py, --rev HEAD)
+  c1-L1    fe001513  fix-git-probe receipt deleted                              (targets L1)
+  c1-L2m   135598ca  receipt COMMAND line removed                                (targets L2 missing-field)
+  c1-L3o   c430c2c3  receipt LANE_TIP = 368cfa7a (orphan commit, resolvable, not an ancestor)  (targets L3 ancestor)
+  c1-L3a   aeb16cab  receipt LANE_TIP = absent                                    (targets L3 resolve)
+  c1-L4    4682840e  case table gains a comment key (probe ignores it); CASE_TABLE_SHA updated to 52ea3b2a  (targets L4)
+  c1-L5    0a482de1  receipt CASE exact observed=F/P (predicted P/P)              (targets L5)
+  c1-L6x   fc29d71e  non-CASE line inserted inside OBSERVATIONS block             (targets L6 full-block compare)
+  c1-L7s   ac923b24  ledger fix-git status "planned"                              (targets L7 compare)
+  c1-L7r   111ce118  ledger fix-git receipt -> corpus/evidence/round88/other-probe.txt  (targets L7 receipt field)
+  c1-L8    16d0e20e  grader capture gains a leading comment; receipt SUBJECT_SHA updated to 18cff308  (targets L8)
+  c1-rows  ad86f7bf  ledger gains one extra status "executed" row (zz-fixture-row)  (targets executed_rows)
+
+Q66 fixtures (counter plans/round88_claim_figures.py, --rev HEAD)
+  c2-claimed9  626aab86  round-87 claims R87-C1 before-figure defects=7 -> defects=9 at both mentions
+  c2-unexp     20ce1f07  round-87 claims R87-C1 before-figure executed=0 -> executed=1
+  c2-missing   090f9d12  round-87 claims R87-C1 defects=7 -> defects=3 at both mentions (KNOWN mispredict vanishes)
+  c2-kv4       630def94  round87_c1_replay.py TARGET prints defects=len+1 (measured 4 vs frozen 3)
+  c2-f6        dd432f3d  round-80 claims made figure-free; round80_c1_located_replay.py forged to print PREDICATE R80-C1 pass and exit 0 (placed after the __future__ import).
+               Superseded commit 8e7d676d placed the forged line above `from __future__` (SyntaxError, rc 1 with no PREDICATE). Its results were discarded and the column re-run at dd432f3d.

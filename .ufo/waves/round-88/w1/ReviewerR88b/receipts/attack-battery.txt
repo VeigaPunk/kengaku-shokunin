@@ -1,0 +1,57 @@
+Receipt: extraction-engine attack battery (task 2). Driver: python3 -c importlib load of
+/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round88_claim_figures.py; synthetic texts
+written only under /fast/scratch/hyaku/kengaku-r88/ReviewerR88b/attacks/. Production untouched.
+check_record simulated against a canonical FAILING BASE output:
+  TARGET executed_rows=31 member=x located=0 executed=0 cases=0 legs=0 mismatches=0 defects=3
+  PREDICATE R99 fail / rc=1
+
+========== E1-prose-number (should yield record, expect evasion)
+  records=0 prose=0
+  F6-norecords would fire: False (counter failed at BASE with PREDICATE -> evasion invisible)
+========== E2-at-Base-case (expected evasion)
+  span: ('R99-C2', 'atbase', "'- **Red line:** `TARGET defects=7 located=0`, `PREDICATE R99-C2 fail`, exit 1 at Base'")
+  rec: R99-C2 kv defects = 7
+  rec: R99-C2 kv located = 0
+  records=2 prose=0
+  check: ('mismatch', 'defects claimed =7 measured 3')
+  check: ('match', 'located claimed =0 measured 0')
+  [ANTI-FINDING: engine captured it — (?i) at line 120 scopes the whole alternation,
+   so \bat BASE\b is case-insensitive. NOT an escape.]
+========== E3-predicate-first (should yield record, expect evasion)
+  records=0 prose=0
+  F6-norecords would fire: False (evasion invisible)
+========== E4-state-at-BASE-prefix (should yield record, expect evasion)
+  records=0 prose=0
+  F6-norecords would fire: False (evasion invisible)
+========== E5-colon-figures (should yield record, expect prose-only)
+  span: ('R99-C5', 'before', "'Before (BASE):** `TARGET defects: 7 located: 0`, `'")
+  records=0 prose=1
+  F6-norecords would fire: False (evasion invisible; prose count is not a defect)
+========== F1-after-figure-in-forward-span (expect FALSE record defects=0)
+  span: ('R99-C9', 'before', "'Before (BASE):** `TARGET defects=3` and after the fix `TARGET defects=0`, '")
+  rec: R99-C9 kv defects = 3
+  rec: R99-C9 kv defects = 0      <- the AFTER figure extracted as a before-record
+  records=2 prose=0
+  check: ('match', 'defects claimed =3 measured 3')
+  check: ('mismatch', 'defects claimed =0 measured 3')   <- would be MISMATCH UNEXPECTED
+========== F2-backward-span-after-figure (expect FALSE records)
+  span: ('R99-C10', 'atbase', "'So unlike `TARGET executed_rows=32 defects=0`, exit 1 at BASE'")
+  rec: R99-C10 kv executed_rows = 32   <- tip figures extracted as before-records
+  rec: R99-C10 kv defects = 0
+  records=2 prose=0
+  check: ('mismatch', 'executed_rows claimed =32 measured 31')
+  check: ('mismatch', 'defects claimed =0 measured 3')
+========== F3-hypothetical-figure (expect FALSE record defects=9)
+  span: ('R99-C11', 'before', "'Before (BASE):** a forged ledger would print `TARGET defects=9` — the real figure is `TARG'")
+  rec: R99-C11 kv defects = 9      <- hypothetical, not observed, extracted as record
+  rec: R99-C11 kv defects = 3
+  records=2 prose=0
+  check: ('mismatch', 'defects claimed =9 measured 3')
+  check: ('match', 'defects claimed =3 measured 3')
+========== F4-wrapped-target-line (expected false alarm — did NOT fire)
+  span: ('R99-C12', 'before', "'Before (BASE):** `TARGET defects=3\\n  located=0`, `'")
+  rec: R99-C12 kv defects = 3
+  rec: R99-C12 kv located = 0
+  records=2 prose=0
+  check: ('match', ...both...)    <- KV_RE handles the wrapped claims line; counter TARGET
+                                     is single-line so both keys parse. ANTI-FINDING.

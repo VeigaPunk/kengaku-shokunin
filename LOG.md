@@ -3375,3 +3375,10 @@ frozen text unchanged after the freeze.
   mined 243 → 244; rejected 17; queued 8.
 - **Commits**: `0220c2f9` freeze; `1f267d4b` instruments; `da16ec39` S277 + lesson; receipt/ledger/SKILL/README/Q66 `7fcc680b`; transcripts `HEAD`.
   Transcripts and controls: `.ufo/waves/round-88/L1/`; wave evidence `.ufo/waves/round-88/`.
+
+**Round 88 — correction and wave 1 (appended, not an edit of the entry above).**
+
+- Wording: "first `crypto-credential` movement since round 41/80" is replaced by: the class moves 2 → 3 of 12; the previous executed member of the class is `openssl-selfsigned-cert` (round 80). The round-87 lesson's SKILL.md `file-artifact` cell read 22 of 76 at BASE while the ledger counted 23 (the round-87 movement was not reflected); round 88 sets 24 of 76 and discloses the drift.
+- Wave 1 (12 seats, attack share 6 of 12, one connector; `.ufo/waves/round-88/w1/`): ScribeR88 FINDINGS 1 (cosmetic); CriticR88 FINDINGS 15 (six MAJOR); SentinelR88 FINDINGS 8 (2 High); ReviewerR88c SPOTCHECK admit=agree q66=agree; ReviewerR88a 2 MINOR; ReviewerR88b 5; MutTesterR88 C1 13 mutants (9 killed, 4 survived), Q66 10 mutants (6 killed, 4 survived); ExecCtrlR88 two predictions wrong (control B: a doctored `defects=9` passes C2; control C: a deleted before-figure passes C2).
+- Disposition: none repaired in-round. The frozen kill rules make any post-commit-A edit void both claims, so every finding is routed to round 89 as an amendment with its own frozen predicate (`corpus/lessons/round-88.md` "Routed to round 89"). Coverage C1 and capability C2 are met as frozen at `7fcc680b`; the Q66 check is not yet a sound guard (QUALITY.md Q66 corrected).
+- Quarantine: shokuknow absent-defect register rows S091 (unverifiable: HTTP 403) and S105 (refused: quote absent from the cited capture); no adoption.

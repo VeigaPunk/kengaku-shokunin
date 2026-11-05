@@ -1356,8 +1356,10 @@ not rewritten.
 - **Q66 — a before-count written into a frozen claim is copied from its counter's own BASE output, measured before the freeze commit.** Grounding:
   `corpus/lessons/round-87.md` Mistakes 2. Round 87's claim text stated `defects=7` at BASE for a member whose
   counter measures `defects=3` at that revision; the 7 was a figure carried from a sibling claim. Executable half:
-  landed round 88 — `plans/round88_claim_figures.py` extracts every before-figure record from the eight frozen
-  claims files (rounds 80–87), re-runs each claim's own counter at its own BASE, and requires the mismatch set to
-  equal the frozen KNOWN set `{(R87-C1, kv:defects): claimed 7, measured 3}` exactly (`PREDICATE R88-C2 pass`,
-  `MISMATCH KNOWN` on the record, `--selftest` able-to-fail). The round-87 mispredict stays wrong on the record;
-  it is reported, not repaired. A claim's before-figure is now evidence only while this counter stays green.
+  partial executable half landed round 88 — `plans/round88_claim_figures.py` extracts before-figure records from the
+  eight frozen claims files (rounds 80–87), re-runs each claim's own counter at its own BASE, and reports the frozen
+  KNOWN mispredict `{(R87-C1, kv:defects): claimed 7, measured 3}` as `MISMATCH KNOWN` (`PREDICATE R88-C2 pass`).
+  The round-88 attack wave (`.ufo/waves/round-88/w1/`) showed the check is not yet sound: the KNOWN check compares
+  `(claim, key)` only (a doctored claimed value passes), a deleted before-figure passes, record counts are printed not
+  gated, and the selftest is not in the predicate path. Until those amendments land (round 89, routed), a claim's
+  before-figure is a prediction checked only for the extraction net the instrument recognises, not evidence.

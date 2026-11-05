@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m13-skipL5vectors.py	2026-11-05 02:52:22.992914691 -0300
+@@ -215,7 +215,7 @@
+             if tuple((c, p) for c, p, _ in observed_cases) != FROZEN:
+                 defect("L5-vectors", f"case set/predicted differs: {[c for c, _, _ in observed_cases]}")
+             for case_id, predicted, observed in observed_cases:
+-                if observed != predicted:
++                if False:  # MUT m13: L5 observed-vs-predicted comparison removed
+                     defect("L5-vectors", f"{case_id} observed={observed} predicted={predicted}")
+             if summary != SUMMARY:
+                 defect("L5-vectors", f"summary {summary!r}")

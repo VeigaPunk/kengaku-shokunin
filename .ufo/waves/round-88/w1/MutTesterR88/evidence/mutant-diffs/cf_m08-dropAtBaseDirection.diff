@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_base.py	2026-11-05 02:49:25.793877530 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_m08-dropAtBaseDirection.py	2026-11-05 02:53:56.728109576 -0300
+@@ -179,7 +179,7 @@
+                 if not FAIL_RE.search(window) or not CONVO_RE.search(span):
+                     continue
+                 spans.append((cid, "before", marker + span))
+-            else:
++            elif False:  # MUT m08: backward at-BASE direction disabled
+                 # backward: figures precede 'at BASE'
+                 prefix = body[:mm.start()][-1200:]
+                 # clause boundary: last ';' / '. ' / '.\n' / blank line / list row

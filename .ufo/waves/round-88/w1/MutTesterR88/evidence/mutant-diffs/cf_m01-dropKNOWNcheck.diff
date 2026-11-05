@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_base.py	2026-11-05 02:49:25.793877530 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_m01-dropKNOWNcheck.py	2026-11-05 02:53:56.712931130 -0300
+@@ -461,7 +461,7 @@
+     # Mismatch keys are 'kind:key' scoped by claim; KNOWN holds (claim, key)
+     # pairs for kind='kv' records, normalised here to 'claim:kv:key'.
+     measured_pairs = {(cid, key) for cid, key, _c, _d in mismatches}
+-    known_pairs = {(c, f"kv:{k}") for (c, k) in KNOWN}
++    known_pairs = set()  # MUT m01: KNOWN check dropped, mispredict becomes UNEXPECTED
+     unexpected = measured_pairs - known_pairs
+     missing_known = known_pairs - measured_pairs
+     for cid, key, claimed, detail in mismatches:

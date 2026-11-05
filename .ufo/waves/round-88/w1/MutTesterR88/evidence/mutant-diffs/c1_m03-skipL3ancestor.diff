@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m03-skipL3ancestor.py	2026-11-05 02:52:22.972914649 -0300
+@@ -204,7 +204,7 @@
+         resolved = lane.resolves(tip) if tip and tip != "absent" else None
+         if resolved is None:
+             defect("L3-tip", f"LANE_TIP {tip!r} does not resolve to a commit")
+-        elif not lane.is_ancestor(resolved, rev_sha):
++        elif False:  # MUT m03: L3 ancestor check removed
+             defect("L3-tip", f"LANE_TIP {resolved[:12]} is not an ancestor of {rev_sha[:12]}")
+ 
+     # L5 — the receipt's eight CASE lines carry the frozen vectors and read clean

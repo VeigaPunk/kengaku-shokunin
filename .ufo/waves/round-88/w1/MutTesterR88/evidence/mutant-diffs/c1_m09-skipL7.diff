@@ -1,0 +1,14 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m09-skipL7.py	2026-11-05 02:52:22.985914676 -0300
+@@ -246,9 +246,9 @@
+ 
+     # L7 — the ledger marks the member executed in round 88 with this receipt
+     row = ledger_row(lane)
+-    if row is None:
++    if False:  # MUT m09: L7 row-absent defect removed
+         defect("L7-ledger", f"{LEDGER} has no {MEMBER} row at {rev_sha[:12]}")
+-    elif (row.get("status"), row.get("round"), row.get("receipt"), row.get("subject"),
++    elif False and (row.get("status"), row.get("round"), row.get("receipt"), row.get("subject"),  # MUT m09: L7 compare removed
+           row.get("verdict")) != ("executed", LEDGER_ROUND, RECEIPT, LEDGER_SUBJECT, LEDGER_VERDICT):
+         defect("L7-ledger", f"row {json.dumps(row, sort_keys=True)}")
+ 

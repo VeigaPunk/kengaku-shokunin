@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_base.py	2026-11-05 02:49:25.793877530 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_m03-labelAlwaysKnown.py	2026-11-05 02:53:56.715125878 -0300
+@@ -465,7 +465,7 @@
+     unexpected = measured_pairs - known_pairs
+     missing_known = known_pairs - measured_pairs
+     for cid, key, claimed, detail in mismatches:
+-        status = "KNOWN" if (cid, key) in known_pairs else "UNEXPECTED"
++        status = "KNOWN"  # MUT m03: label always KNOWN
+         print(f"MISMATCH {status} {cid} {key} {claimed} {detail}")
+     for cid, key in sorted(unexpected):
+         defects.append(f"F5-unexpected {cid} {key}")

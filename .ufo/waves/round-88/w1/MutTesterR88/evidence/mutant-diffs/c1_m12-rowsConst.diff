@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m12-rowsConst.py	2026-11-05 02:52:22.991914688 -0300
+@@ -253,7 +253,7 @@
+         defect("L7-ledger", f"row {json.dumps(row, sort_keys=True)}")
+ 
+     raw_ledger = lane.blob(LEDGER)
+-    executed_rows = (sum(1 for v in json.loads(raw_ledger)["members"].values()
++    executed_rows = (32 if raw_ledger else "absent") or (sum(1 for v in json.loads(raw_ledger)["members"].values()  # MUT m12: executed_rows constant
+                          if v.get("status") == "executed") if raw_ledger else "absent")
+     cases = len(observed_cases)
+     legs = 2 * cases

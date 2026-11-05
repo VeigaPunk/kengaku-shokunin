@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m11-skipL8.py	2026-11-05 02:52:22.989914684 -0300
+@@ -152,7 +152,7 @@
+     # L8 — the captured grader bytes are the frozen subject
+     if capture is None:
+         defect("L8-subject", f"{CAP} absent at {rev_sha[:12]}")
+-    elif sha256(capture) != SUBJECT_SHA:
++    elif False:  # MUT m11: L8 subject-sha defect removed
+         defect("L8-subject", f"sha={sha256(capture)[:16]} != frozen")
+ 
+     # L4 — the table is the frozen table

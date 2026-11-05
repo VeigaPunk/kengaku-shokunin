@@ -1,0 +1,110 @@
+# CriticR88 evidence transcript (read-only review of round-88 frozen claims)
+# Scratch: /fast/scratch/hyaku/kengaku-r88/CriticR88 (deleted before yield).
+# Lane was only read (git log/show/cat-file/diff/grep/ls-tree/archive). All fixtures are
+# commits made with `git commit-tree` in a scratch clone (--no-hardlinks, --no-checkout);
+# the lane was never written, checked out or committed to.
+# Tip tree = `git archive 7fcc680b` extracted into scratch, with the clone's .git copied in.
+
+## 0. Frozen-byte checks (read-only git)
+- `git diff 1f267d4b 7fcc680b -- plans/round88_c1_replay.py plans/round88_claim_figures.py plans/round88_fixgit_probe.py plans/round88-cases.json corpus/evidence/round52/graders/fix-git/tests/test_outputs.py` -> empty (exit 0)
+- `git diff 0220c2f9 7fcc680b -- plans/round-88-claims.md plans/round88-cases.json` -> empty
+- `git diff 801b903a 7fcc680b -- plans/round-8?-claims.md` -> empty (claims 80-87 unchanged BASE -> tip)
+- sha256 round88_c1_replay.py 0c47f5ec.. == 1f267d4b bytes; round88_claim_figures.py 229a0edd.. == 1f267d4b bytes; round88_fixgit_probe.py 50ae36d6.. == receipt TOOL_SHA
+- sha256 grader (tip) a8a6f51e..43f3 == SUBJECT_SHA; size 1194 B
+- `git cat-file -e 801b903a:plans/round88_claim_figures.py` -> fatal, rc=128 (absent at BASE)
+
+## 1. R88-C1 counter
+### BASE 801b903a
+DEFECT L4-table plans/round88-cases.json absent at measured
+DEFECT L1-receipt corpus/evidence/round88/fix-git-probe.txt absent at 801b903af641
+DEFECT L7-ledger row {"classes": ["crypto-credential", "file-artifact"], ... "status": "unexecuted"}
+TARGET executed_rows=31 member=fix-git located=0 executed=0 cases=0 legs=0 mismatches=0 defects=3
+PREDICATE R88-C1 fail          (rc=1)
+### tip 7fcc680b
+TARGET executed_rows=32 member=fix-git located=1 executed=1 cases=8 legs=16 mismatches=0 defects=0
+PREDICATE R88-C1 pass          (rc=0)
+
+## 2. R88-C2 counter at tip (7fcc680b), work dir scratch
+MISMATCH KNOWN R87-C1 kv:defects claimed==7 defects claimed =7 measured 3
+RECORDS claims=17 files=8 records=56 checked=56 matched=55 mismatches=1 prose=0
+DEFECTS n=0
+TARGET claims=17 records=56 checked=56 matched=55 mismatches=1 defects=0
+PREDICATE R88-C2 pass          (rc=0, 23 s)
+### --selftest at tip
+SELFTEST T1-doctored-extract pass records=[('defects', 9)]
+SELFTEST T1-doctored-mismatch pass verdict=mismatch
+SELFTEST T2-marker-negatives pass spans=0
+SELFTEST T3-atbase-backward pass
+SELFTEST T4-dedupe pass defects=7 records=1
+PREDICATE R88-C2-SELFTEST pass (rc=0)
+
+## 3. Per-file extraction at tip (dump of extract_records)
+R80 records=6 (R80-C1 deftotal>=6, kv located/reproduced/ledger_flipped=0; R80-C2 deftotal>=6, code debt-unregistered=6)
+R81 records=7 (R81-C1 deftotal=2, kv located/reproduced/ledger_flipped=0; R81-C2 deftotal=7, code debt-unregistered=6, indexed=no present 1)
+R82 records=6 (R82-C1 deftotal=6, code missing=4, code unclassified=2; R82-C2 deftotal=8, code debt-unregistered=7, index-missing present 1)
+R83 records=2 (R83-C1 kv located=0, executed=0)           <- R83-C2 contributes ZERO records
+R84 records=12; R85 records=12; R86 records=5; R87 records=6 (R87-C1 kv executed_rows=30, located, executed, defects=7; R87-C2 kv mismatches=1, defects=2)
+TOTAL 56 (spans 15, before/at-BASE marker hits 50)
+Real before-figures in the corpus with NO record (checked by nothing):
+- R83-C2 "before eight unregistered ids plus missing index, fail"   (no CONVO token -> span gated out)
+- R81-C1 "`RECEIPT-UNTRACKED` ×2"                                   (count-after-code form not in CODE_RE/CODE2_RE)
+- R82-C3 "Before (BASE_REV): the gate, the map and the receipt are absent; ..." (prose-mode, span gated out; prose=0 reported)
+
+## 4. Doctored-claims fixtures (commits on top of 7fcc680b in scratch clone; claims read from the measured rev)
+### E1 fixture a9d2468df5f4a01a865776ca6f9eb85671448a0a
+  adds to R86-C1 (after the line containing "PREDICATE R86-C1 fail`, exit 1 at BASE."):
+  "- Before (BASE `88651a72`): `defects=9`, exit 1."     (false: R86-C1 BASE measures defects=7)
+  output identical byte-for-byte to the tip run (records=56 mismatches=1 PREDICATE R88-C2 pass; diff empty)
+### E2 fixture 66f41fa3ecac31abc426e546eeb38cdb4e40b99e
+  adds to R87-C1: "- **Before (BASE `b9be6877`, restated):** `TARGET defects=9`, `PREDICATE R87-C1 fail`, exit 1."
+  MISMATCH KNOWN R87-C1 kv:defects claimed==7 ...
+  MISMATCH KNOWN R87-C1 kv:defects claimed==9 defects claimed =9 measured 3
+  RECORDS claims=17 files=8 records=57 checked=57 matched=55 mismatches=2 prose=0
+  DEFECTS n=0 ; PREDICATE R88-C2 pass (rc=0)
+### E5 control fixture 7c2e67ab0937ba5b1fc8088cdbc2ee20d7b99f9d
+  adds to R86-C1: "- Before (BASE `88651a72`): `TARGET defects=9`, `PREDICATE R86-C1 fail`, exit 1."
+  MISMATCH UNEXPECTED R86-C1 kv:defects claimed==9 defects claimed =9 measured 7
+  DEFECT F5-unexpected R86-C1 kv:defects ; DEFECTS n=1 ; PREDICATE R88-C2 fail (rc=1)
+### E6 narrowing fixture 1f76c07489332e57307d20de750b7e9be71aea3e
+  removes "`defects=3`, `state_mismatches=1`," from R86-C2 before-figure (text left: "`PREDICATE R86-C2 fail`, exit 1 at BASE.")
+  RECORDS claims=17 files=8 records=54 checked=54 matched=53 mismatches=1 prose=1
+  DEFECTS n=0 ; PREDICATE R88-C2 pass (rc=0)
+
+## 5. C1 fake-probe fixture 1173ac8d42301c2c542245bc5c473cab26c24d0e (on top of 7fcc680b)
+  change 1: plans/round88_fixgit_probe.py: `payload = run_case(staged, work, case["result"])`
+            replaced by `payload = {"tests": [[n, c, ""] for n, c in zip(TESTS, case["predicted"].split("/"))]}`
+            (no bubblewrap sandbox, no grader execution; predicted vectors are echoed)
+  change 2: corpus/evidence/round88/fix-git-probe.txt TOOL_SHA line -> sha256 of the edited probe (80bceffc..f722)
+  TARGET executed_rows=32 member=fix-git located=1 executed=1 cases=8 legs=16 mismatches=0 defects=0
+  PREDICATE R88-C1 pass (rc=0)
+  (L1 controls in .ufo/waves/round-88/L1/controls.txt cover ledger-only and forged LANE_TIP only; no probe-pin control exists.)
+
+## 6. Separability (R88-C1 vs R88-C2)
+- lane-noC1 = tip worktree with plans/round88_c1_replay.py, plans/round88_fixgit_probe.py, plans/round88-cases.json,
+  plans/round-88-claims.md and corpus/evidence/round88/ deleted; C2 run at --rev 7fcc680b:
+  -> identical RECORDS line (records=56 checked=56 matched=55 mismatches=1), PREDICATE R88-C2 pass (rc=0)
+- lane-noC2 = tip worktree with plans/round88_claim_figures.py deleted; C1 run at --rev 7fcc680b (git objects only):
+  -> PREDICATE R88-C1 pass (rc=0)
+- CLAIMS_FILES = plans/round-80..87-claims.md (round-88-claims.md not scanned). C2 reads no ledger, table, receipt or probe.
+  Caveat: C2 runs child counters from the WORKTREE (`lane / counter`, round88_claim_figures.py:270), not from the measured rev.
+
+## 7. C1 coverage: ledger history and class evidence
+- crypto-credential executed members by ledger commit:
+  5d684313 (round 79 freeze) constraints-scheduling executed  [receipt round41]  -> 1
+  6669fe72 (round 80)          openssl-selfsigned-cert executed -> 2  (last prior movement = round 80, not 41)
+  7fcc680b (round 88)          fix-git executed -> 3
+- crypto-credential is a keyword class: plans/round62_c1_class_survey.py:92
+  `("crypto-credential", r"\bhashlib\b|\bsha1\b|\bsha256\b|\bmd5\b|\bopenssl\b|\bgpg\b|\bhmac\b")`
+  fix-git matches on `import hashlib` / `hashlib.md5(...)`; no key, certificate or openssl artefact is staged.
+- constraints-scheduling (executed, round 41) grader already uses hashlib.sha256 over app file text
+  (tip corpus/evidence/round52/graders/constraints-scheduling/tests/test_outputs.py:4,95).
+- mteb-retrieve-probe.txt (round 87) already has `CASE result-is-directory predicted=P/E observed=P/E`.
+
+## 8. Claim-text figures
+- SKILL.md file-artifact cell at BASE read "executed 22 of 76"; ledger at BASE counts 23 executed; tip cell "24 of 76".
+- Round-88 claim text figures reproduced: executed_rows 31->32, crypto 2->3 of 12, file-artifact 23->24 of 76 (ledger).
+- Grader hashlib.md5 is applied to `file.read().strip()` (grader lines 6-9), so trailing-whitespace case is an exercised normalisation.
+
+## 9. Not verified
+- Census `scripts/sources-census.sh validate` (268 -> 269 rows) not run.
+- "Section 9 sizing rules" text was not found in repo files at tip or HEAD (grep); evaluated against the three criteria in the seat brief.

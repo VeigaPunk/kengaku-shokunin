@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m05-L4measuredTable.py	2026-11-05 02:52:22.979914664 -0300
+@@ -142,7 +142,7 @@
+         defects.append(leg)
+         print(f"DEFECT {leg} {detail}")
+ 
+-    frozen_table = lane.blob(TABLE, FREEZE_REV)
++    frozen_table = lane.blob(TABLE)  # MUT m05: table read from measured tree, not FREEZE_REV
+     table = lane.blob(TABLE)
+     capture = lane.blob(CAP)
+     tool = lane.blob(TOOL)

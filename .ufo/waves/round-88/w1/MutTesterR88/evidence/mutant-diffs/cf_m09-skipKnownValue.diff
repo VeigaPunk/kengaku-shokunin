@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_base.py	2026-11-05 02:49:25.793877530 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_m09-skipKnownValue.py	2026-11-05 02:53:56.730109580 -0300
+@@ -472,7 +472,7 @@
+     for cid, key in sorted(missing_known):
+         defects.append(f"F5-missing-known {cid} {key}")
+     # value check on known mismatches: measured must equal the frozen measured value
+-    for (cid, key), (claimed_v, measured_v) in KNOWN.items():
++    for (cid, key), (claimed_v, measured_v) in []:  # MUT m09: KNOWN value check skipped
+         for m_cid, m_key, m_claimed, m_detail in mismatches:
+             if m_cid == cid and m_key == f"kv:{key}":
+                 mm = re.search(r"measured (\d+)", m_detail)

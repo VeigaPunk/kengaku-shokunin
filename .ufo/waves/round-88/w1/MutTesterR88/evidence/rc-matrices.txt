@@ -1,0 +1,43 @@
+C1 counter rc (rows = counter, cols = fixture)
+counter                   tip         c1-L1       c1-L2m      c1-L3a      c1-L3o      c1-L4       c1-L5       c1-L6x      c1-L7r      c1-L7s      c1-L8       c1-rows    
+unmut                     0           1           1           1           1           1           1           1           1           1           1           0          
+m01-skipL1                0           0           1           1           1           1           1           1           1           1           1           0          
+m02-skipL2missing         0           1           0           1           1           1           1           1           1           1           1           0          
+m03-skipL3ancestor        0           1           1           1           0           1           1           1           1           1           1           0          
+m04-anyLaneTip            0           1           1           0           0           1           1           1           1           1           1           0          
+m05-L4measuredTable       0           1           1           1           1           0           1           1           1           1           1           0          
+m06-skipL5                0           1           1           1           1           1           1           1           1           1           1           0          
+m07-L6summaryOnly         0           1           1           1           1           1           1           0           1           1           1           0          
+m08-skipL6                0           1           1           1           1           1           1           0           1           1           1           0          
+m09-skipL7                0           1           1           1           1           1           1           1           0           0           1           0          
+m10-skipL7receipt         0           1           1           1           1           1           1           1           0           1           1           0          
+m11-skipL8                0           1           1           1           1           1           1           1           1           1           1           0          
+m12-rowsConst             0           1           1           1           1           1           1           1           1           1           1           0          
+m13-skipL5vectors         0           1           1           1           1           1           1           1           1           1           1           0          
+
+Q66 counter rc, check run (rows = counter, cols = fixture)
+counter                   tip         c2-claimed9 c2-unexp    c2-missing  c2-kv4      c2-f6      
+unmut                     0           0           1           1           1           1          
+m01-dropKNOWNcheck        1           1           1           0           1           1          
+m02-emptyKNOWN            1           1           1           0           1           1          
+m03-labelAlwaysKnown      0           0           1           1           1           1          
+m04-skipF6norecords       0           0           1           1           1           0          
+m05-widenCONVO            0           0           1           1           1           1          
+m06-dedupeOff             0           0           1           1           1           1          
+m07-dropFAILre            0           0           1           1           1           1          
+m08-dropAtBaseDirection   0           0           1           1           1           1          
+m09-skipKnownValue        0           0           1           1           0           1          
+m10-skipMissingKnown      0           0           1           0           1           1          
+
+Q66 selftest rc (tip)
+unmut: 0
+m01-dropKNOWNcheck: 0
+m02-emptyKNOWN: 0
+m03-labelAlwaysKnown: 0
+m04-skipF6norecords: 0
+m05-widenCONVO: 0
+m06-dedupeOff: 0
+m07-dropFAILre: 0
+m08-dropAtBaseDirection: 1
+m09-skipKnownValue: 0
+m10-skipMissingKnown: 0

@@ -1,0 +1,19 @@
+Receipt: freeze verification (task 5). Lane repo /home/vgpnk/Projects/shokunin/kengaku-shokunin.
+All five frozen revisions resolve as commits: 0220c2f9… (A), 7fcc680b… (measured tip),
+1f267d4b… (instruments), 801b903a… (BASE), b9be6877… (R87 BASE). Lane HEAD = d9cb2b40… (beyond tip).
+
+$ git diff --stat 0220c2f9f356bf032bd58b4ed39e32f6e26fa440 7fcc680b86599eedd63e862a061848298428b3cc -- plans/round-88-claims.md plans/round88-cases.json
+(no output, exit 0)   -> frozen claim file + case table byte-identical A..tip
+
+$ git diff --stat 0220c2f9f356bf032bd58b4ed39e32f6e26fa440 7fcc680b86599eedd63e862a061848298428b3cc -- plans/round-80-claims.md plans/round-81-claims.md plans/round-82-claims.md plans/round-83-claims.md plans/round-84-claims.md plans/round-85-claims.md plans/round-86-claims.md plans/round-87-claims.md
+(no output, exit 0)   -> all eight frozen claims files byte-identical A..tip (C2 kill-rule leg)
+
+$ git diff --stat 1f267d4b6f60f1137ebf8b905d318bd2d9894e99 7fcc680b86599eedd63e862a061848298428b3cc -- plans/round88_c1_replay.py plans/round88_claim_figures.py plans/round88_fixgit_probe.py
+(no output, exit 0)   -> all three instruments byte-identical instruments-freeze..tip
+
+Ledger before-numbers recomputed from git blobs (read-only):
+  BASE  801b903a: total_members=88 executed_rows=31  crypto-credential 2/12  file-artifact 23/76
+  TIP   7fcc680 : total_members=88 executed_rows=32  crypto-credential 3/12  file-artifact 24/76
+  (class denominators = members carrying the class; fix-git row flips
+   unexecuted -> executed with receipt corpus/evidence/round88/fix-git-probe.txt, round 88)
+Matches plans/round-88-claims.md:24-25 exactly.

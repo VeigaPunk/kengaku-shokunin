@@ -1,0 +1,20 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m08-skipL6.py	2026-11-05 02:52:22.984914674 -0300
+@@ -225,7 +225,7 @@
+                 defect("L5-vectors", f"EXIT {stamp.get('EXIT')!r}")
+ 
+     # L6 — the probe re-run from an extraction of the measured tree reproduces the observation block
+-    if receipt_raw is not None and tool is not None:
++    if False:  # MUT m08: L6 skipped
+         work.mkdir(parents=True, exist_ok=True)
+         with tempfile.TemporaryDirectory(prefix="r88c1-tree-", dir=work) as temp:
+             tree = Path(temp) / "tree"
+@@ -241,7 +241,7 @@
+                 defect("L6-reproduce", f"probe re-run rc={proc.returncode} produced no observation block")
+             elif rerun != observed_block:
+                 defect("L6-reproduce", "re-run observation block differs from the receipt")
+-    elif receipt_raw is not None:
++    elif False:  # MUT m08: L6 absent-tool branch skipped
+         defect("L6-reproduce", f"{TOOL} absent at {rev_sha[:12]}")
+ 
+     # L7 — the ledger marks the member executed in round 88 with this receipt

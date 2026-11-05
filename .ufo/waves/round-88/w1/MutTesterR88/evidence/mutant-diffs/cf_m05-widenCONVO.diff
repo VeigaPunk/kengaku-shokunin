@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_base.py	2026-11-05 02:49:25.793877530 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_m05-widenCONVO.py	2026-11-05 02:53:56.717428665 -0300
+@@ -125,7 +125,7 @@
+ FAIL_RE = re.compile(r"fail|exit 1|could-not-evaluate")
+ # a legitimate before-span quotes counter output — prose 'before'/'after'
+ # narration never carries these tokens
+-CONVO_RE = re.compile(r"TARGET |DEFECTS |PREDICATE |located=|executed=|"
++CONVO_RE = re.compile(r"\w+=\w+|TARGET |DEFECTS |PREDICATE |"
+                       r"reproduced=|ledger_flipped=|mismatches=|indexed=|"
+                       r"state_mismatches=|DEFECT |q\d+=")
+ KV_RE = re.compile(r"\b([A-Za-z_][A-Za-z0-9_]*)\s*(=>=|>=|=)\s*(\d+)\b")

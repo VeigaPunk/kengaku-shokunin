@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m04-anyLaneTip.py	2026-11-05 02:52:22.977914660 -0300
+@@ -199,7 +199,7 @@
+                 defect("L2-stamp", f"{key}={stamp.get(key)!r} != measured {value!r}")
+ 
+     # L3 — the stamp's LANE_TIP is a resolvable ancestor of the measured revision
+-    if receipt_raw is not None:
++    if False:  # MUT m04: L3 skipped, any LANE_TIP accepted
+         tip = stamp.get("LANE_TIP", "")
+         resolved = lane.resolves(tip) if tip and tip != "absent" else None
+         if resolved is None:

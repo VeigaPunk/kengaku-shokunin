@@ -1,0 +1,13 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m10-skipL7receipt.py	2026-11-05 02:52:22.988914682 -0300
+@@ -248,8 +248,8 @@
+     row = ledger_row(lane)
+     if row is None:
+         defect("L7-ledger", f"{LEDGER} has no {MEMBER} row at {rev_sha[:12]}")
+-    elif (row.get("status"), row.get("round"), row.get("receipt"), row.get("subject"),
+-          row.get("verdict")) != ("executed", LEDGER_ROUND, RECEIPT, LEDGER_SUBJECT, LEDGER_VERDICT):
++    elif (row.get("status"), row.get("round"), row.get("subject"),  # MUT m10: L7 receipt field dropped from compare
++          row.get("verdict")) != ("executed", LEDGER_ROUND, LEDGER_SUBJECT, LEDGER_VERDICT):
+         defect("L7-ledger", f"row {json.dumps(row, sort_keys=True)}")
+ 
+     raw_ledger = lane.blob(LEDGER)

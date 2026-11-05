@@ -1,0 +1,18 @@
+    --unshare-all                Unshare every namespace we support by default
+    --share-net                  Retain the network namespace (can only combine with --unshare-all)
+    --unshare-user               Create new user namespace (may be automatically implied if not root)
+    --unshare-user-try           Create new user namespace if possible else continue by skipping it
+--
+    --clearenv                   Unset all environment variables
+    --setenv VAR VALUE           Set an environment variable
+    --unsetenv VAR               Unset an environment variable
+--
+    --ro-bind SRC DEST           Bind mount the host path SRC readonly on DEST
+    --ro-bind-try SRC DEST       Equal to --ro-bind but ignores non-existent SRC
+    --bind-fd FD DEST            Bind open directory or path fd on DEST
+    --ro-bind-fd FD DEST         Bind open directory or path fd read-only on DEST
+--
+    --new-session                Create a new terminal session
+    --die-with-parent            Kills with SIGKILL child process (COMMAND) when bwrap or bwrap's parent dies.
+    --as-pid-1                   Do not install a reaper process with PID=1
+    --cap-add CAP                Add cap CAP when running as privileged user

@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_base.py	2026-11-05 02:49:25.793877530 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_m10-skipMissingKnown.py	2026-11-05 02:53:56.730109580 -0300
+@@ -469,7 +469,7 @@
+         print(f"MISMATCH {status} {cid} {key} {claimed} {detail}")
+     for cid, key in sorted(unexpected):
+         defects.append(f"F5-unexpected {cid} {key}")
+-    for cid, key in sorted(missing_known):
++    for cid, key in []:  # MUT m10: F5-missing-known check skipped
+         defects.append(f"F5-missing-known {cid} {key}")
+     # value check on known mismatches: measured must equal the frozen measured value
+     for (cid, key), (claimed_v, measured_v) in KNOWN.items():

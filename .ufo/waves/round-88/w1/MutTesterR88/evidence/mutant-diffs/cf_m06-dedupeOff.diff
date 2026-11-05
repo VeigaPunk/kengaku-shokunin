@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_base.py	2026-11-05 02:49:25.793877530 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_m06-dedupeOff.py	2026-11-05 02:53:56.718630163 -0300
+@@ -208,7 +208,7 @@
+ 
+     def add(rec: dict) -> None:
+         key = (rec["claim"], rec["kind"], rec["key"], rec["op"], rec["claimed"])
+-        if key not in seen:
++        if True:  # MUT m06: dedupe disabled
+             seen.add(key)
+             records.append(rec)
+ 

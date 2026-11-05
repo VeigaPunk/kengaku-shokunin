@@ -1,0 +1,17 @@
+Receipt: independent re-run of plans/round87_c1_replay.py at its BASE revision (KNOWN-set verification).
+Command:
+  python3 /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round87_c1_replay.py \
+    --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin \
+    --rev b9be687774e6b559470f5b0d9b936315b51ff311 \
+    --work /fast/scratch/hyaku/kengaku-r88/ReviewerR88b/r87work
+Observed output (verbatim):
+DEFECT L4-table plans/round87-cases.json absent at measured
+DEFECT L1-receipt corpus/evidence/round87/mteb-retrieve-probe.txt absent at b9be687774e6
+DEFECT L7-ledger row {"classes": ["file-artifact"], "evidence": "no-blocker: tests/test_outputs.py sha256=e4e6b21fed6662ad", "reason": "unattempted", "status": "unexecuted"}
+TARGET executed_rows=30 member=mteb-retrieve located=0 executed=0 cases=0 legs=0 mismatches=0 defects=3
+PREDICATE R87-C1 fail
+rc=1
+Measured defects=3. Round-87 claims file (plans/round-87-claims.md:18 and :28) asserts
+defects=7 — the only disagreeing figure; all other before figures (executed_rows=30,
+member=mteb-retrieve, located=0, executed=0, mismatches=0) match this output exactly.
+Confirms frozen KNOWN {("R87-C1","defects"): (7, 3)} (plans/round88_claim_figures.py:111-113).

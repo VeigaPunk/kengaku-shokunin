@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_base.py	2026-11-05 02:49:25.793877530 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/cf_m07-dropFAILre.py	2026-11-05 02:53:56.724257487 -0300
+@@ -176,7 +176,7 @@
+                         span = span[:idx]
+                         cut = min(cut, idx)
+                 window = tail[:cut + 300]
+-                if not FAIL_RE.search(window) or not CONVO_RE.search(span):
++                if not CONVO_RE.search(span):  # MUT m07: FAIL_RE requirement dropped
+                     continue
+                 spans.append((cid, "before", marker + span))
+             else:

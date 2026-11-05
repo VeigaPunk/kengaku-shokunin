@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_base.py	2026-11-05 02:49:25.791452793 -0300
++++ /fast/scratch/hyaku/kengaku-r88/MutTesterR88/mut/c1_m06-skipL5.py	2026-11-05 02:52:22.981914668 -0300
+@@ -208,7 +208,7 @@
+             defect("L3-tip", f"LANE_TIP {resolved[:12]} is not an ancestor of {rev_sha[:12]}")
+ 
+     # L5 — the receipt's eight CASE lines carry the frozen vectors and read clean
+-    if receipt_raw is not None:
++    if False:  # MUT m06: L5 skipped
+         if observed_block is None:
+             defect("L5-vectors", "no OBSERVATIONS block")
+         else:

@@ -1,0 +1,131 @@
+# ExecCtrlR88 independent control rebuild — round 88 w1
+# tip clone: 7fcc680b86599eedd63e862a061848298428b3cc ; instrument-unchanged verified: git diff 1f267d4b..7fcc680b -- plans/round88_* empty
+# lane: fresh clones via 'git clone --no-hardlinks /home/vgpnk/Projects/shokunin/kengaku-shokunin /fast/scratch/hyaku/kengaku-r88/ExecCtrlR88/<name>' then checkout 7fcc680b; commits inside clones use -c user.name=fixture -c user.email=fixture@scratch.local
+
+## CONTROL 1 — ledger-only (expect DEFECT L1-receipt only)
+$ git -C ledger-only rm corpus/evidence/round88/fix-git-probe.txt && git -C ledger-only -c user.name=fixture -c user.email=fixture@scratch.local commit -qm "control: ledger-only receipt removed"
+ea06ddb2097ea1dbb7f166fa3ef64c7f395b64c5
+$ python3 plans/round88_c1_replay.py --lane $S/ledger-only --rev HEAD --work $S/work-ledger-only
+DEFECT L1-receipt corpus/evidence/round88/fix-git-probe.txt absent at ea06ddb2097e
+TARGET executed_rows=32 member=fix-git located=0 executed=0 cases=0 legs=0 mismatches=0 defects=1
+PREDICATE R88-C1 fail
+rc=1
+
+## CONTROL 2 — forged LANE_TIP (expect DEFECT L3-tip only)
+$ git -C forged-tip commit-tree: orphan commit $ORPHAN = git hash-object -t tree /dev/null; git commit-tree $ORPHAN -m "forged orphan"
+empty tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904
+orphan commit ac236a2f77034d43e5849d9b0396843a4a9ffb10
+receipt blob before: 13090ee2d25c7108093408a98b2251add49b1a1a
+new receipt blob: 8293671ed9779b925a81bb355a7326d60ec80785
+44364c9d978dff77dbed08087d49da61448f9575
+$ python3 plans/round88_c1_replay.py --lane $S/forged-tip --rev HEAD --work $S/work-forged-tip
+DEFECT L3-tip LANE_TIP ac236a2f7703 is not an ancestor of 44364c9d978d
+TARGET executed_rows=32 member=fix-git located=0 executed=0 cases=8 legs=16 mismatches=0 defects=1
+PREDICATE R88-C1 fail
+rc=1
+
+## CONTROL A (own, C1) — doctored observed value, summary left mismatches=0
+CHANGE: line 'CASE exact predicted=P/P observed=P/P' -> 'observed=P/F' (observed != predicted).
+PREDICTED: DEFECT L5-vectors 'exact observed=P/F predicted=P/P' fires by name. L6-reproduce ALSO fires because
+the probe re-run reproduces the honest block (P/P) which differs from the doctored receipt block.
+L2-stamp unchanged (CASE lines are not stamp fields). rc=1.
+$ git -C ctrlA show HEAD:corpus/evidence/round88/fix-git-probe.txt | sed s/observed=P\/P/observed=P\/F/ (first CASE only) > blob; update-index; commit
+3d95732bbdf7736a9d4b929da35f1bcb027b1e4b
+$ python3 plans/round88_c1_replay.py --lane $S/ctrlA --rev HEAD --work $S/work-ctrlA
+DEFECT L5-vectors exact observed=P/F predicted=P/P
+DEFECT L6-reproduce re-run observation block differs from the receipt
+TARGET executed_rows=32 member=fix-git located=0 executed=0 cases=8 legs=16 mismatches=1 defects=2
+PREDICATE R88-C1 fail
+rc=1
+
+## CONTROL B (own, C2) — doctored plans/round-87-claims.md R87-C1 defects=7 -> defects=9
+CHANGE: committed doctored claims file; instrument reads claims bytes via git show at --rev HEAD.
+PREDICTED: extraction yields kv:defects claimed=9 for R87-C1 -> 'MISMATCH UNEXPECTED R87-C1 kv:defects
+claimed==9 measured 3', plus 'DEFECT F5-unexpected R87-C1 kv:defects' (and the frozen KNOWN pair is still
+measured by the same doctored record? NO — the doctored record replaces it: measured_pairs loses
+(R87-C1,kv:defects) -> also 'DEFECT F5-missing-known R87-C1 kv:defects'. records=56 checked=56 mismatches=1
+prose=0; rc=1; PREDICATE R88-C2 fail.
+$ sed s/defects=7/defects=9/ (first occurrence in round-87-claims.md) committed in ctrlB clone
+18:- **Before (BASE `b9be6877`):** `TARGET executed_rows=30 member=mteb-retrieve located=0 executed=0 defects=7`,
+28:- **Do-nothing control:** the counter at BASE must report `defects=7` (exit 1). A ledger-only control (ledger
+8233d991e93dc09201b5c66ed59521dbb63c1bb2
+b47fdfe00e9ca0a97c4f169601ca38fdf095b978
+$ python3 plans/round88_claim_figures.py --lane $S/ctrlB --rev HEAD --work $S/work-ctrlB
+MISMATCH KNOWN R87-C1 kv:defects claimed==9 defects claimed =9 measured 3
+RECORDS claims=17 files=8 records=56 checked=56 matched=55 mismatches=1 prose=0
+DEFECTS n=0
+TARGET claims=17 records=56 checked=56 matched=55 mismatches=1 defects=0
+PREDICATE R88-C2 pass
+rc=0
+
+## CONTROL B retry (own, C2) — ALL occurrences defects=7 -> defects=9 committed
+NOTE: first B run doctored only line 18; the do-nothing-control bullet (line 28) still claimed
+defects=7, so extraction yielded BOTH a defects=9 record (mismatch, correctly UNEXPECTED? no — see
+observed) and a defects=7 record that matched the KNOWN pair, and the instrument printed
+'MISMATCH KNOWN R87-C1 kv:defects claimed==9' — i.e. KNOWN/UNEXPECTED labels key on the CLAIM, not the
+claimed value; the mismatch still matched the frozen (R87-C1,kv:defects) pair so no F5 fired.
+This is a calibration observation, not an instrument defect per se: the KNOWN set is keyed by
+(claim,key) so any doctored value for that claim is labeled KNOWN. Recorded as a finding candidate.
+PREDICTED for v2 (all occurrences doctored): single defects=9 record -> 'MISMATCH KNOWN R87-C1
+kv:defects claimed==9 defects claimed =9 measured 3' + 'DEFECT F5-known-value R87-C1:kv:defects
+frozen-measured=3 now=3'? NO — measured still 3 so value check passes; mismatches=1, mismatches set
+still equals KNOWN pairs -> PREDICATE pass, rc=0. Prediction: instrument CANNOT catch this doctoring
+because KNOWN is keyed by claim+key only. Will report observed.
+$ python3 plans/round88_claim_figures.py --lane $S/ctrlB --rev HEAD --work $S/work-ctrlB2
+MISMATCH KNOWN R87-C1 kv:defects claimed==9 defects claimed =9 measured 3
+RECORDS claims=17 files=8 records=56 checked=56 matched=55 mismatches=1 prose=0
+DEFECTS n=0
+TARGET claims=17 records=56 checked=56 matched=55 mismatches=1 defects=0
+PREDICATE R88-C2 pass
+rc=0
+
+## CONTROL C (own, C2) — doctored plans/round-85-claims.md: R85-C1 before-figure sentence deleted
+CHANGE: removed the whole 'Before (BASE 0de45354): TARGET ... defects>=1 ... PREDICATE R85-C1 fail,
+exit 1.' sentence (lines 58-59 of round-85-claims.md), committed.
+PREDICTED: the R85-C1 section loses its only counter-vocabulary before-span -> zero records extract
+for R85-C1 -> by_claim['R85-C1'] empty -> mode=rev and BASE counter exits nonzero (rc=1, PREDICATE
+present) -> NO F6-norecords defect (F6 requires rc==0 or missing PREDICATE). Net effect: records drops
+by the R85-C1 record count (defects>=1 deftotal + kv records: members=1 cases=0 legs=0 mismatches=0
+located=0 executed=0 defects>=1 -> records for cases,legs,mismatches,located,executed,defects>=1).
+PREDICTED: records=56-N, no DEFECT lines, PREDICATE R88-C2 pass, rc=0 — the deletion is INVISIBLE to
+the instrument because the empty-record path only fails when the BASE counter itself fails to fail.
+This tests whether F6 actually guards record-loss.
+$ python3 - <<EOF delete lines 58-59 in clone ctrlC
+ plans/round-85-claims.md | 2 --
+ 1 file changed, 2 deletions(-)
+6a099f25353c55508905911c01c1fe37f6d37a10
+$ python3 plans/round88_claim_figures.py --lane $S/ctrlC --rev HEAD --work $S/work-ctrlC
+MISMATCH KNOWN R87-C1 kv:defects claimed==7 defects claimed =7 measured 3
+RECORDS claims=17 files=8 records=49 checked=49 matched=48 mismatches=1 prose=0
+DEFECTS n=0
+TARGET claims=17 records=49 checked=49 matched=48 mismatches=1 defects=0
+PREDICATE R88-C2 pass
+rc=0
+
+## CONTROL C observed — instrument blind spot confirmed
+OBSERVED: records=49 checked=49 matched=48 mismatches=1 prose=0; MISMATCH KNOWN R87-C1 kv:defects
+claimed==7 measured 3; DEFECTS n=0; PREDICATE R88-C2 pass; rc=0.
+Seven R85-C1 records (members=1 cases=0 legs=0 mismatches=0 located=0 executed=0 defects>=1) were
+deleted from the corpus and NO defect fired: F6-norecords only triggers when the claim's BASE counter
+exits 0 or lacks PREDICATE; a failing BASE counter with zero extracted records passes silently.
+records dropped 56 -> 49 with no signal. FINDING: F6 does not guard record-loss for claims whose
+before-state legitimately fails at BASE (i.e. every counter-mode claim).
+
+## CONTROL B observed — KNOWN label keyed by (claim,key), not claimed value
+OBSERVED (both runs): 'MISMATCH KNOWN R87-C1 kv:defects claimed==9 defects claimed =9 measured 3',
+DEFECTS n=0, PREDICATE R88-C2 pass, rc=0. The frozen KNOWN pair (R87-C1,kv:defects) is satisfied by
+ANY claimed value for that claim+key: doctoring defects=7 -> defects=9 (or any integer) still prints
+KNOWN and passes, because status is 'KNOWN' iff (cid,key) in known_pairs regardless of claimed, and
+the value check compares only the MEASURED side (frozen-measured=3 vs now=3). FINDING: a doctored
+before-figure for the KNOWN claim is undetectable by this instrument — claimed==9 is reported but
+labeled KNOWN and passes. Whether this is in-scope depends on the frozen predicate: 'the mismatch
+set equals the frozen KNOWN set exactly' is met, but the KNOWN set was defined as
+{(R87-C1,kv:defects): claimed 7, measured 3} — the claimed side of the frozen tuple is NOT checked.
+
+## SUMMARY TABLE
+control | predicted | observed defects | rc
+1 ledger-only | L1-receipt only | DEFECT L1-receipt ... defects=1 | 1
+2 forged LANE_TIP | L3-tip only | DEFECT L3-tip ... defects=1 | 1
+A doctored observed=P/F | L5-vectors (+L6-reproduce) | DEFECT L5-vectors exact observed=P/F predicted=P/P; DEFECT L6-reproduce ... defects=2 | 1
+B doctored R87-C1 defects=9 | MISMATCH UNEXPECTED + F5 defects | MISMATCH KNOWN ... pass, defects=0 | 0  <-- PREDICTION WRONG, FINDING
+C deleted R85-C1 before-figure | F6-norecords or F5 | records 56->49, no defects, pass | 0  <-- PREDICTION of invisibility CONFIRMED, FINDING (F6 gap)
