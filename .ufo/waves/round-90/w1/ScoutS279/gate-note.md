@@ -359,27 +359,149 @@ variant mined  + used-by lesson+claim: census validate rc=1, "file E11 S279 miss
 
 That is a landing-order choice for the L1, not a defect in the row text.
 
-## 6. Notes for the L1 (frozen text reported, not repaired)
+## 6. Second reading of the landed rows (the lane moved while this seat worked)
 
-- `plans/round-90-claims.md` names S279's anchor for the source row as
-  `https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/merge-diff-arc-agi-task/tests/test_outputs.py`
-  and says the row is opened "with the fetch + byte-compare + located quote recorded in the round
-  lesson's `## Gate` before admission". The fetch, byte-compare and located quote are recorded
-  above; the L1 owns landing the row and the lesson's `## Gate` section.
+The lane tip moved during this seat's work. When this seat began, `corpus/SOURCES.md` had 270 rows
+and no S279; the tip was `a2b22609`. When this seat finished, the tip was `9cf98d90`
+("round-90: S279 admit and S280 reject rows, round-90 lesson, routed-findings triage (34
+resolutions) and 46 seed rows for rounds 83-89 (append-only)") and S279/S280 were already landed
+by another seat. The round-90 lesson's `## Gate` now cites this seat's note as the second reading
+of the same bytes. This seat therefore reports its §1-§5 as an **independent re-read of the landed
+rows**, not as an unlanded proposal, and adds the discrepancies that re-read found.
+
+### 6.1 The landed rows agree with this seat's evidence on every measured point
+
+| point | landed rows | this seat's measurement | agree |
+|---|---|---|---|
+| S279 source URL and pin | `…/2fd12b88aafdd04a52c298e3940bcb189f9766d6/merge-diff-arc-agi-task/tests/test_outputs.py` | same URL, fetched once, HTTP 200, 3034 B | yes |
+| S279 digest | `2754ba6c…85c149` | `2754ba6c5c5f75c9db5ed2c5729d9f5d7e21cb7fdb18aa0c65abdc3e7e85c149`, `cmp` rc=0 against the capture | yes |
+| S280 digest | `c9052954…ab8af8ab9d2` | `c9052954cd6ce25c4a375a2fb48e765b1efa5b39f7991b93993cc793af8ab9d2`, `cmp` rc=0 against the capture | yes |
+| S280 decision | reject, reason and flip present | reject (§4), from the same bytes | yes |
+| offline need | none for the grader; the entry script needs apt/curl/uv over the network | §3, same pattern sweep, same three lines | yes |
+| census at the tip | `validate` exit 0, `kengaku ok` | `validate` rc=0 on the tip tree | yes |
+
+The landed S280 row's `kind` is `tool` and its scope cell reads "harness wrapper only: …"; the
+lane's own `kind` enum includes `tool`, so the census accepts it.
+
+### 6.2 Three discrepancies found in the landed rows (reported, not repaired)
+
+**(a) The landed S279 and S280 rows add two new anchor defects (51 → 53).**
+`python3 plans/anchor_digest_check.py --lane .` at the landed tip `9cf98d90` prints
+`rows=272 tokens=154 defects=53`; at the pre-landing tip `a2b22609` the same command prints
+`rows=270 tokens=152 defects=51` with no S279/S280 line at all. The two new defects are S279's
+and S280's:
+
+```
+DEFECT S279 anchor token=2754ba6c5c5f75c9db5ed2c5729d9f5d7e21cb7fdb18aa0c65abdc3e7e85c149 class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round52/graders/merge-diff-arc-agi-task/tests/test_outputs.py-not-the-capture-this-row-names-corpus/evidence/round90/merge-diff-probe.txt loc=corpus/SOURCES.md:295
+DEFECT S280 anchor token=c9052954cd6ce25c4a375a2fb48e765b1efa5b39f7991b93993cc793af8ab9d2 class=anchor-unbound detail=no-capture-for-upstream-merge-diff-arc-agi-task/tests/test.sh-task=tests loc=corpus/SOURCES.md:296
+```
+
+`digest-wrong-capture` is **not** a new class at the tip — six older rows already carry it
+(`S210`, `S211`, `S219`, `S228`, `S230`, `S232`); S279 is the seventh. What is new is that this
+round's own source row lands in it. S280's `anchor-unbound` is the same shape as the four sibling
+rows S275-S278 (§5).
+
+Cause of S279's defect, read from the binder's own binding order: the landed S279 row's `used-by`
+cell names `corpus/evidence/round90/merge-diff-probe.txt` (the round-90 receipt), and that is the
+only `corpus/evidence/…` path anywhere in the row:
+
+```
+$ grep -nE '^\| S279 \|' corpus/SOURCES.md | grep -oE 'corpus/evidence/[A-Za-z0-9_./-]*[A-Za-z0-9_-]'
+corpus/evidence/round90/merge-diff-probe.txt
+
+$ grep -nE '^\| S280 \|' corpus/SOURCES.md | grep -oE 'corpus/evidence/[A-Za-z0-9_./-]*[A-Za-z0-9_-]'
+(no output)
+```
+
+The binder's `row-path` route therefore binds S279 to the **receipt** (its digest is
+`025119e2eb52b279052b85bd774f885ac77e902bb9f4ef400f453c7033728b3d`, not the grader's
+`2754ba6c…`), while the row's anchor token is the **grader's** digest — hence
+`digest-wrong-capture`. The upstream-URL route cannot save the row either: the member has no
+committed `task.toml` naming its slug, so the `url-task` route never matches (the same reason the
+four sibling rows S275-S278 are `anchor-unbound` at the tip). S280 has no `corpus/evidence/…` path
+at all, so it falls to the upstream route and is `anchor-unbound` like its siblings.
+
+Measured in the scratch clone, on the landed tip, three row shapes:
+
+| S279 shape | anchor verdict |
+|---|---|
+| landed as-is (`used-by` names the receipt) | `digest-wrong-capture` (1 new defect) |
+| anchor cell additionally names `corpus/evidence/round52/graders/merge-diff-arc-agi-task/tests/test_outputs.py` | `capture-unanchored`: the row then names two captures and the single token resolves only one |
+| `used-by` drops the receipt, anchor cell names the grader capture | `BIND … by=row-path` + `RESOLVED`, **0 new defects** |
+
+The third shape is what this seat's §5 draft does, and the same substitution for both landed rows
+takes the tip from `defects=53` back to `defects=51` (the pre-round baseline measured at BASE
+`dcdd494e` and at `a2b22609`: `rows=270 tokens=152 defects=51`) with the census still exit 0.
+This is a report, not a repair: `corpus/SOURCES.md` is outside this seat's write scope, and the
+round's frozen text is not edited here.
+
+**(b) The landed S279 quote word count is 12; `len(quote.split())` is 9.** The landed anchor cell
+reads `test_outputs.py:13 quote \`assert git_path.exists(), "Git repository does not exist in
+/app/repo"\` (12 whitespace-split words)`, and the round-90 lesson's Gate table repeats "line 13: …
+(12 words)". Measured:
+
+```
+>>> len('assert git_path.exists(), "Git repository does not exist in /app/repo"'.split())
+9
+```
+
+The lane's own counting convention is `len(quote.split())` — the round-87 sibling rows count 8 for
+`assert lines[0].strip() == expected, "result.txt contains unexpected value"` (8 by that method),
+and the lane has already filed one correction of exactly this kind (S272 claimed 6 words for the
+`assert score > 6, …` quote; S273 supersedes it with the correct 9). The landed S279 count is
+wrong by 3 in the same direction as the already-corrected S272 error. Both figures stay under the
+25-word limit, so no gate turns on it; the number is simply not what it claims to be.
+
+**(c) The lesson's S280 digest elision is malformed.** `corpus/lessons/round-90.md` writes the
+S280 digest as `c9052954…ab8af8ab9d2`. The real digest ends `…3cc793af8ab9d2`; the written
+elision repeats the substring `ab8af`, so it is not a suffix of the digest it abbreviates. The
+full digest in the S280 row's own anchor cell is correct.
+
+### 6.3 What this seat's independent read adds to the landed rows
+
+The landed rows are sound on every point this seat was asked to check (fetch, byte-compare, located
+quote, offline need, admit/reject decision and its reason). Two things in the landed S279 row are
+worth the L1's attention beyond the anchor defect:
+
+- The **located quote at line 13** grounds only the `.git` leg of the teaches cell; the teaches
+  cell itself enumerates five legs at lines 10, 16, 34, 40 and 52. This seat's §5 draft anchors on
+  the lines 52-55 span (17 whitespace-split words), which names the two graded inputs
+  (`/app/repo/algo.py` and `/tests/test.json`) in one locator, and cites the other four legs by
+  line number in the teaches cell.
+- The landed S279 row's `used-by` cell names the round-90 receipt. That is what breaks the anchor
+  binding; the §5 draft uses `corpus/lessons/round-90.md, plans/round-90-claims.md` instead, which
+  also matches the frozen claims' wording ("used-by the round-90 lesson and the C1 claim").
+
+Both shapes were measured on the landed tip in the scratch clone: census `validate` rc=0, and
+anchor defects 53 → 51 with the §5 rows in place of the landed ones.
+
+## 7. Notes for the L1 (frozen text reported, not repaired)
+
+- The row and the lesson's `## Gate` are already landed at tip `9cf98d90` (§6). This seat's §1-§5
+  is the independent re-read of those bytes; §6 lists the three discrepancies it found. The
+  §5 draft is retained as the row shape that measures clean on the lane's own anchor checker.
+- `plans/round-90-claims.md` says the row is opened "with the fetch + byte-compare + located quote
+  recorded in the round lesson's `## Gate` before admission". The fetch (§1), the byte-compare
+  (§1) and the located quote (§2) are recorded above and in the lesson's Gate table.
 - The frozen claims say the row's status is `mined`, used-by "the round-90 lesson and the C1
-  claim". The draft uses `mined` with `used-by corpus/lessons/round-90.md, plans/round-90-claims.md`
-  to match, and §5 records the `queued` fallback with its measured census effect. The claims file
-  does not name `plans/round90_c1_replay.py` in the used-by list; the drafted cell follows the
-  claims' own wording.
+  claim". The §5 draft uses `mined` with `used-by corpus/lessons/round-90.md, plans/round-90-claims.md`
+  to match the claims' wording, and §5 records the `queued` fallback with its measured census
+  effect. The claims file does not name `plans/round90_c1_replay.py` in the used-by list.
 - The grader's five test functions, their file paths and their assertion lines were re-read
   directly from the captured bytes (§2 line map); every line number in the drafted `teaches` cell
-  was taken from that map, not from the frozen case table.
+  was taken from that map, not from the frozen case table. The landed row's teaches cell cites the
+  same five def lines (10, 16, 34, 40, 52) and this seat confirms each against the bytes.
 - The claims file's `R90-C1` honest limit (c) — "`test_both_bundles_fetched` greps branch *names*,
   so the cases prove name presence, never that a bundle was fetched" — is confirmed by the bytes:
   lines 30-31 assert on the *output* of `git branch -a` (line 21-24), never on bundle content. The
   drafted `teaches` cell says "branch1 and branch2 names appear in the git branch -a output",
   which is the same limitation, stated from the source.
-- No lane file was modified by this seat: `git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin
-  status --porcelain` after this seat's work shows only the pre-existing untracked wave directories
-  `.ufo/scopes/kengaku-r90-w1/` and `.ufo/waves/round-90/`, both owned by the wave, not by this
-  seat.
+- No lane file was modified by this seat. `git -C /home/vgpnk/Projects/shokunin/kengaku-shokunin
+  status --porcelain` after this seat's work shows only the untracked wave directories
+  `.ufo/scopes/kengaku-r90-w1/` and `.ufo/waves/round-90/` (owned by the wave, including this
+  seat's own file `.ufo/waves/round-90/w1/ScoutS279/gate-note.md`). The tip moved from
+  `a2b22609` to `9cf98d90` during the seat's work by another seat's landing; this seat made no
+  commit, no push, and no git or jj mutation of any kind.
+- Scope check on this seat's own file: the note lives only under
+  `.ufo/waves/round-90/w1/ScoutS279/`. Nothing in `plans/`, `corpus/`, `LOG.md`, `SCORECARD.md`,
+  `SKILL.md`, `MANIFEST.json`, `.ufo/state/` or `.scratch/` was written.
