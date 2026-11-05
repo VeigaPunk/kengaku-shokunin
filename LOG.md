@@ -3433,3 +3433,80 @@ Frozen claims `cd0c116e` (commit A, `plans/round-91-claims.md`, `plans/round91-c
 - **Sources & frontier.** S281 admitted (tier A, member replay only); S282 rejected (verifier wrapper). Registry 272 → 274 rows; census `scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` exit 0 before and after. Rows touched old→new: none. Assimilation: none (`merge/kengaku/` held by L0 `kengaku | round-54`).
 - **Quality.** Q68 and Q69 executable halves recorded as landed in the instruments (B and B2); Q70–Q72 added from M3, M4 and M5.
 - **Lane state.** Tip = the closing commit on `master`; the round-91 report cites it. The L0 questions for round 91 are in `.ufo/l0-questions.md`.
+
+## Round 92 — tenth located offline member (`llm-inference-batching-scheduler`), counter-conformance repairs (M7/M12/M9), and freeze gate v3 (hyaku run 15, attempt 1, 2026-11-05)
+
+Base `4ba56182`; frozen claims and case table A `96f249e0`; instruments B `4f6b3c52`, pin-ledger
+refresh B2 `f0018773` (disclosed before any scoring); official receipt, ledger flip 35→36,
+SOURCES S283–S289 and the M14 correction row C `42bd5104`; registry word-count corrections C2
+`d1ccf56d`; probe-tool pin D `b62ea270`; conformance-counter refinements E `6a51ff0e`, E2
+`1d5634e3`, E3 `801b8157`, E4 `5b6c00b8` (all disclosed in `corpus/lessons/round-92.md` M1–M3).
+Measured tips: R92-C1 at D `b62ea270`; R92-C2 at E4 `5b6c00b8`; R92-C3 at E4; F2 at C2 content.
+
+- **R92-C1 — coverage (held at its L0 cap 7): met on its frozen predicate.** A tenth located
+  offline replay, `llm-inference-batching-scheduler` @ `2fd12b88` (crypto-credential,
+  file-artifact, filesystem-metadata, serialization-schema). Tip D: `TARGET executed_rows=36
+  member=llm-inference-batching-scheduler located=1 executed=1 cases=10 legs=60 mismatches=0
+  defects=0`, `PREDICATE R92-C1 pass`, rc 0 (`.ufo/waves/round-92/L1/c1-tip-d.txt`). BASE:
+  `PREDICATE R92-C1 fail`, rc 1 (`c1-base.txt`). The official receipt
+  `corpus/evidence/round92/bs-probe.txt` shows ten of ten `CASE … ok=True` (mismatches=0); the
+  ten predicted vectors were filed at A and held exactly. Counting command:
+  `python3 plans/round92_c1_replay.py --lane . --rev b62ea270… --work DIR`. Ledger 35 → 36 of
+  88; `filesystem-metadata` 3 → 4 of 10; `crypto-credential` 3 → 4 of 12; `serialization-schema`
+  4 → 5 of 10; `file-artifact` 26 → 27 of 76. Source: S283/S284/S285 admitted (tier A, member
+  replay only); S286 rejected (network wrapper). The probe itself is deterministic: a full
+  scratch re-run reproduces the receipt's observation block (counter leg L6).
+- **R92-C2 — calibration (held at ceiling 10): met on its frozen predicate.**
+  `python3 plans/round92_c2_conformance.py --lane . --rev 5b6c00b8… --work DIR` at E4:
+  `M7-CASE-PARSER pass base-rc=1 base-L5=10 tip-rc=0 tip-pass=True`, `M12-HOST-PROBE-GUARD pass
+  base-rc=1 base-predicate-line=False tip-rc=2 tip-closed=True`, `M9-SELFTEST-ESCAPE pass …
+  default-run-rc=0`, `PREDICATE R92-C2 pass`, rc 0 (`.ufo/waves/round-92/L1/c2-tip-final3.txt`).
+  BASE: all three red, `PREDICATE R92-C2 fail`, rc 1. The M7 green leg isolates the parser fix
+  on the SAME receipt bytes (a scratch clone with the ledger rewound to the round-91 population;
+  the r91 counter's frozen `EXECUTED_AFTER=35` constants cannot pass at any rev carrying the
+  r92 growth); the M9 pin-size literal 17 was superseded by all-pins-matched after commit D grew
+  the ledger to 18 — both disclosed in the lesson (M2, M3). The in-tree-pin residual stays
+  disclosed under L0 `kengaku | round-91`, not closed.
+- - **R92-C3 — operability (held at ceiling 10) and capability `routed-findings freeze gate v3`: met on its frozen predicate.**
+  Tip E7 `dd48027f`: `freeze=admitted oldest_pending_round=- pending=0 parked=24 unowned_blocked=0
+  malformed_unresolved=0 seeds_83_91=46 resolutions=75 checks_run=124 overrides=3`, no DEFECT
+  lines, `SELFTEST-DETAIL cases=10 red-green-ok=10` in the same invocation,
+  `PREDICATE R92-C3 pass`, rc 0 (`.ufo/waves/round-92/L1/c3-tip.txt`). BASE `4ba56182`:
+  `freeze=refused`, rc 1, whose only DEFECT is `check-failed R82-V8` — the M6 clone-path defect
+  failing in the measured-revision worktree, the red-before for its own repair (`c3-base.txt`).
+  Decisive control: the v2 gate at the TIP still refuses (`freeze=refused oldest_pending_round=82
+  pending=1` + the three `override-unjustified` DEFECTs, rc 1, `v2-at-tip.txt`) — the code
+  repairs, not the triage rows, changed the verdict. Counting command:
+  `python3 plans/round92_burndown.py --lane . --rev dd48027f… --work DIR --freeze-round 92`.
+  The frozen BASE parenthetical (pending=1/override-unjustified at BASE) was a v2-eye
+  misprediction — recorded as lesson M4, not repaired; the claims' own control design named the
+  chain-aware-at-BASE behavior as the control.
+  The first freeze=admitted since the gate landed in round 90: 33 of the 37 pending rows the
+  round-90 gate refused are resolved by the chain-aware walk plus the round-90/91 triage rows;
+  24 blocked rows are parked with lane-id owners (22 kengaku, 2 kama).
+- **R92-F2 (companion, capture pins): met on its own predicate.** `PREDICATE R92-F2 pass` rc 0,
+  `CAPTURE-PINNED S287=1,S288=1,S289=1`, `ANCHORLINE rows=281 cited=91 captured=78 uncaptured=13
+  defective=10 repaired=10 live=0`, `WRONG-LINE-CAUGHT True`; BASE: no CAPTURE-PINNED lines,
+  rc 1 (`f2-base.txt`). The counter's own red run caught three miscounted word cells before the
+  verdict (M1).
+- **Sources & frontier.** Registry 274 → 281 rows: S283/S284/S285/S287/S288/S289 admitted (tier
+  A, member replay only / own-work), S286 rejected (network wrapper). Census
+  `scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` exit 0 at
+  round start (274) and at the tip (281, 0 malformed). Rows touched old→new: none (append-only;
+  three in-round word-count corrections disclosed at C2 `d1ccf56d`). Assimilation: none
+  (`merge/kengaku/` still held by L0 `kengaku | round-54`).
+- **Do-nothing controls (pre-freeze, committed at A).** `.ufo/waves/round-92/L1/base-batteries.txt`:
+  round-91 C1 counter at BASE rc 1 with ten `DEFECT L5` (M7 red-before); round-91 C2 checker at
+  BASE rc 0 green (the r91 predicate alone is do-nothing-reachable — why the new conjuncts are
+  the claim); round-91 gate at BASE rc 1 refused pending=1 overrides=3.
+- **Wave w1.** 12 seats, one v1 wave, band 8–16: 4 executor (B1/C2/C3 batteries, ledger-flip
+  prep), scout (S283–S289 fetch verification), connector (sibling overlap), scribe (drafts),
+  2 reviewer (predicate audit, frozen-rule diff audit), critic (independent re-derivation),
+  mutation-tester, sentinel. Attack share 5/12 = 42%. Wave-Status-Slot (this entry appended before WAVE-DONE; the wave outcome lands in the report and, if it lands findings, in the round's correction paragraph).
+- **Corrections (append-only).** M14 correction row `R84-V9-R91-R92` (the R84-V9-R91 disposition
+  word) appended at C. The three registry word cells corrected at C2 with the counter's red
+  output as witness (lesson M1).
+- **Lane state.** Tip = the closing commit on `master`; the round-92 report cites it. L0
+  questions for round 90/91 remain open; this round implemented the re-freeze route they
+  requested (instrument defects fixed under a new frozen predicate) and routes around the rest.
+

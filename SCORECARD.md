@@ -4236,10 +4236,48 @@ Frozen claims `cd0c116e` (commit A, `plans/round-91-claims.md`); instruments `38
 
 **Capabilities (demonstrated this round).** None enters the table. The freeze gate v2 is demonstrated refusing (BASE and tip) and its selftest is green, but its frozen predicate is not met, so the capability row waits for a round that meets it.
 
-### Planned (round 92; not a claim until frozen)
+### Planned (round 92; superseded — round 92 landed per the round-92 section below)
 
 1. C1: fix `parse_receipt()` case-id token under a new frozen predicate, with the probe receipt's ten `ok=True` lines as witness; guard every host probe to `DEFECT SETUP` (M7, M12).
 2. C3: run the selftest in the gate's predicate path (M8); chain-aware supersede with its own case (M13); closing checks must reference the row's own evidence path; blocked owners must resolve to a lane id (M10); checks run at the measured revision via a worktree (M11).
 3. C2: pin the selftest's expected-rc table in the predicate path (M9).
 4. Capture-pin the four blind-spot rows S260, S261, S265, S266 through supersede rows (M5 of round-91 lesson); R82-V8 clone-path dependence (M6).
 5. C1 coverage: the next offline member from the ledger's class arithmetic (filesystem-metadata is 3 of 10 after this round).
+
+## Round 92 (hyaku run 15, attempt 1, 2026-11-05): a tenth executed member (C1 met), the counter-conformance repairs (C2 met), and the freeze gate v3 (met (freeze=admitted))
+
+Base `4ba56182`; freeze A `96f249e0`; instruments B `4f6b3c52`/B2 `f0018773`; receipt+ledger+SOURCES
+C `42bd5104`; corrections C2 `d1ccf56d`, D `b62ea270`, E–E4 `6a51ff0e`/`1d5634e3`/`801b8157`/
+`5b6c00b8`. Lesson: `corpus/lessons/round-92.md` (M1–M5). Wave: `.ufo/waves/round-92/w1/`.
+
+| claim / axis | before → after at the measured tip | counting command | verdict / score |
+|---|---|---|---|
+| R92-C1 / **coverage** (held at its L0 cap 7): a tenth located offline replay, `llm-inference-batching-scheduler` | BASE `4ba56182`: `TARGET executed_rows=35 … executed=0 …`, `PREDICATE R92-C1 fail`, rc 1 (`c1-base.txt`). Tip D `b62ea270`: `TARGET executed_rows=36 member=llm-inference-batching-scheduler located=1 executed=1 cases=10 legs=60 mismatches=0 defects=0`, `PREDICATE R92-C1 pass`, rc 0 (`c1-tip-d.txt`). Ledger executed 35 → 36 of 88; `filesystem-metadata` 3 → 4 of 10; `crypto-credential` 3 → 4 of 12; `serialization-schema` 4 → 5 of 10; `file-artifact` 26 → 27 of 76. | `python3 plans/round92_c1_replay.py --lane . --rev b62ea270… --work DIR` | **met on its frozen predicate.** Coverage held at 7 (L0 cap); the count moved. |
+| R92-C2 / **calibration** (held at ceiling 10): the routed counter defects M7/M12/M9 repaired with red-before witnesses | BASE: `M7-CASE-PARSER FAIL base-rc=1 base-L5=10`, `M12 … base-rc=1 base-predicate-line=False`, `M9 … base-flag-present=True base-table-absent=True`, `PREDICATE R92-C2 fail` rc 1. Tip E4 `5b6c00b8`: all three `pass`, `PREDICATE R92-C2 pass` rc 0 (`c2-tip-final3.txt`); the amended checker's default run is green (all pins matched, SELFTEST 9/9). | `python3 plans/round92_c2_conformance.py --lane . --rev 5b6c00b8… --work DIR` | **met on its frozen predicate.** Residuals unchanged and disclosed: the in-tree-pin one-commit rewrite (L0 `kengaku | round-91`) and the ledger-size literal 17 → 18 (lesson M3). Score held at ceiling 10. |
+| R92-C3 / **operability** (held at ceiling 10) + capability `routed-findings freeze gate v3`: chain-aware supersede, anchored closures, worktree checks, in-path selftest | BASE `4ba56182`: `freeze=refused`, rc 1, the only DEFECT `check-failed R82-V8` — the M6 clone-path defect failing in the measured-revision worktree (`c3-base.txt`). Tip E7 `dd48027f`: `freeze=admitted oldest_pending_round=- pending=0 parked=24 unowned_blocked=0 malformed_unresolved=0 seeds_83_91=46 resolutions=75 checks_run=124 overrides=3`, no DEFECT lines, `SELFTEST-DETAIL cases=10 red-green-ok=10` in-path, `PREDICATE R92-C3 pass`, rc 0 (`c3-tip.txt`). Decisive control: the v2 gate at the TIP still refuses (`pending=1` + three `override-unjustified`, `v2-at-tip.txt`). | `python3 plans/round92_burndown.py --lane . --rev dd48027f… --work DIR --freeze-round 92` | **met on its frozen predicate** (the frozen BASE parenthetical `pending=1`/`override-unjustified` was a v2-eye misprediction — lesson M4; the claims' own control named chain-aware-at-BASE). First `freeze=admitted` since round 90; capability row enters below. Score held at ceiling 10. |
+| R92-F2 / **companion** (no claim slot): capture pins for the blind-spot chains | BASE export: no `CAPTURE-PINNED` lines, `PREDICATE R92-F2 fail` rc 1 (`f2-base.txt`). Tip: `CAPTURE-PINNED S287=1,S288=1,S289=1`, `ANCHORLINE rows=281 cited=91 captured=78 uncaptured=13 defective=10 repaired=10 live=0`, `WRONG-LINE-CAUGHT True`, rc 0. | `python3 plans/round92_f2_counter.py --lane . --work DIR` | **met on its own predicate.** The counter's red run caught three miscounted word cells first (M1). |
+
+**Other axis scores.** novelty 8 (held — no model-behaviour claim this round), depth 10 (held),
+freshness 10 (held; the four new source rows carry 2026-11-05 fetch pins and the census is
+green at both ends), adjacency 9 (held; the connector scan is report-only). calibration 10
+(C2 at ceiling), operability 10 (C3 counted under its own claim).
+
+**Sources.** S283/S284/S285/S287/S288/S289 admitted (tier A, member replay only / own-work);
+S286 rejected (network wrapper; flip stated). Registry 274 → 281; census exit 0 at both ends.
+
+**Capabilities (demonstrated this round).**
+
+| name | what it can now do | evidence pointer | first-working round |
+|---|---|---|---|
+| routed-findings freeze gate v3 | resolves supersede chains transitively, refuses vacuous or unanchored closures and non-lane owners, runs every closing check inside a worktree at the measured revision, runs its own ten-case battery inside the predicate path, and admits the freeze when nothing is pending, malformed, unowned or failing | `python3 plans/round92_burndown.py --lane . --rev dd48027f… --work DIR --freeze-round 92` → `freeze=admitted pending=0 … PREDICATE R92-C3 pass` rc 0; `--selftest` 10/10; the v2 gate at the same tip still refuses | 92 |
+
+### Planned (round 93; not a claim until frozen)
+
+1. The wave's surviving findings, each with its own frozen predicate (the freeze is admitted;
+   the gate's maintenance moves to keeping it admitted under growth).
+2. An eleventh offline member from the ledger's class arithmetic (`timing-wall` 3 of 9 and
+   `crypto-credential` 4 of 12 are now the thinnest executed classes), with its own S-row.
+2. The wave's surviving findings, each with its own frozen predicate.
+3. The next offline member from the ledger's class arithmetic (`timing-wall` 3 of 9 and
+   `crypto-credential` 4 of 12 are now the thinnest executed classes).
+
