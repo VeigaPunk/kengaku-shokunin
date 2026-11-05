@@ -161,6 +161,28 @@ def main() -> int:
     flip(d, legacy=False)
     record("D8-legacy-fields-omitted", 1, ["L7"], commit(d, "fixture: legacy fields omitted"))
 
+    # ledger-only: flip (with legacy fields) but no receipt
+    (d / RECEIPT).unlink(missing_ok=True)
+    flip(d, legacy=True)
+    record("ledger-only", 1, ["L1"], commit(d, "fixture: ledger flip only"))
+
+    # member swap: honest receipt and flip, write-compressor un-flipped and regex-chess flipped
+    # (executed total kept at 39; the member set differs from BASE + this member)
+    (d / RECEIPT).write_text(receipt)
+    flip(d, legacy=True)
+    doc = json.loads((d / LEDGER).read_text())
+    doc["members"]["write-compressor"]["status"] = "unexecuted"
+    doc["members"]["regex-chess"]["status"] = "executed"
+    (d / LEDGER).write_text(json.dumps(doc, indent=1) + "\n")
+    record("member-swap", 1, ["L7"], commit(d, "fixture: member swap"))
+
+    # sandbox outage on the honest state
+    p = subprocess.run([sys.executable, "-I", "-B", str(d / "plans/round95_c1_replay.py"), "--lane", str(d),
+                        "--rev", pos, "--work", str(s / "w-sandbox"), "--bwrap", "/nonexistent/bwrap"],
+                       capture_output=True, text=True)
+    results.append(f"sandbox-red rc={p.returncode} want_rc=2 {'OK' if p.returncode == 2 else 'UNEXPECTED'}")
+    (out / "c1-sandbox-red.txt").write_text(f"# --bwrap /nonexistent/bwrap on the honest scratch state {pos[:12]}\n{p.stdout}rc={p.returncode}\n")
+
     (out / "c1-receipt-side-summary.txt").write_text("\n".join(results) + "\n")
     print("\n".join(results))
     shutil.rmtree(s, ignore_errors=True)
