@@ -1,0 +1,239 @@
+##### A1 pins ledger_tip rc=1
+6:  corpus/defects.jsonl        -> plans/defect_ledger.py      CHECKS (r34_d1..r34_d5)
+7:  corpus/defects-round35.jsonl -> plans/round36_c1_verify.py CHECKS (r35_d1..r35_d4)
+72:    ("corpus/defects.jsonl", "plans/defect_ledger.py"),
+73:    ("corpus/defects-round35.jsonl", "plans/round36_c1_verify.py"),
+---
+3:fixture demonstrates — `plans/anchor_digest_check.py`, `plans/ledger_tip.py`, `plans/order_check.py` — killed
+31:"expect": accept|reject|error, "defects": [...], "build": build}]`; `build(ctx, d)` fills the EMPTY directory
+38:`ctx.sh(*argv, cwd=)`. `defects` is the exact class set the reference must print: anchor `class=` tokens;
+53:      tool, expect, defects and argv, never a directory.
+93:    "ledger": "plans/ledger_tip.py",
+98:    "plans/ledger_tip.py": "853bcb2a5052b3c2319d3006459bb5012ba72dfc1e5f22874f7334b62eb77ad4",
+109:L = "plans/ledger_tip.py"
+170:     '                    defects.append(f"DEFECT {sid} anchor token=- class=capture-unanchored "',
+298:                    "defects": fx.get("defects"), "argv": argv})
+404:    return cls in ref[1] and cls in set(fx["defects"]) and cls not in mut[1]  # silence
+432:                  and isinstance(fx.get("defects"), list) and all(isinstance(x, str) for x in fx["defects"])
+500:            ok = res[0] == EXPECT_RC[fx["expect"]] and res[1] == frozenset(fx["defects"])
+503:                  f" declared={','.join(sorted(fx['defects'])) or '-'} observed_rc={res[0]}"
+---
+5 corpus/defects.jsonl
+0
+
+[stderr] 
+##### A2 order_check history rc=0
+---
+34158b0c round-39: battery39 (4 modules), C2 package (entry, S117/S118, README, PROVINCE, SKILL), routed fixes (order gate, anchor, ledger-tip, direction check), Q30, errata, post-hoc C1 audit, wave-1 reports
+---
+948d5e1d2b3429d76a598fd11c4b22856d9f43ec093efd2c6aa0025aa0fc6ecc  plans/order_check.py
+34158b0c round-39: battery39 (4 modules), C2 package (entry, S117/S118, README, PROVINCE, SKILL), routed fixes (order gate, anchor, ledger-tip, direction check), Q30, errata, post-hoc C1 audit, wave-1 reports
+
+[stderr] 
+##### B1 probe absent work rc=0
+RC=1
+
+[stderr] sys.exit(main())
+             ~~~~^^
+  File "/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/git_leak_probe.py", line 258, in main
+    root = pathlib.Path(tempfile.mkdtemp(prefix="k39-glr-", dir=a.work))
+                        ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/tempfile.py", line 381, in mkdtemp
+    _os.mkdir(file, 0o700)
+    ~~~~~~~~~^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp.JxWKFD2QUZ/absent/k39-glr-qyqnwkkw'
+
+##### C1 battery42 rc=0
+a_class.py
+a_route.py
+a_row.py
+o_clause.py
+o_scan.py
+---
+2
+2
+1
+7
+
+[stderr] 
+##### D1 r42 control files rc=0
+c2-stage-check.txt
+c2_filler_control.py
+census-before.txt
+control-c1-attribution.patch
+control-c1-attribution.txt
+control-c1-direction-mislabel.patch
+control-c1-direction-mislabel.txt
+control-c1-hostile-escape.txt
+control-c1-no-mutants.patch
+control-c1-no-mutants.txt
+control-c1-nothing.txt
+control-c1-tool-edited.txt
+control-c1-witness-as-battery.txt
+control-c2-filler.txt
+control-c2-nothing.txt
+envelope.sh
+frozen-digests.txt
+hostile
+witness
+witness-run.txt
+---
+1:CONTROL filler V9 DEFECT case_rows=0/16 bad=["no '## Case table' section", "row ids absent outside source lines: ['S125', 'S126', 'S127']", 'PROVINCE.md names the task and the entry on no line', 'README ## Frontier does not name the task']
+2:CONTROL content V9 ok case_rows=16/16 bad=0
+3:CONTROL-C2-FILLER red-as-required
+---
+rc=1
+
+[stderr] 
+##### E1 scratch selftest rc=0
+ every allow through the same dispatch as
+50:Exit codes: ``0`` ok / deleted / absent; ``1`` check red (sentinel missing, unparseable,
+72:# ---------------------------------------------------------------- sentinel / sizes
+74:def sentinel_state(root):
+78:        return None, "sentinel-missing"
+83:        return None, "sentinel-unreadable:%s" % (exc.strerror or exc)
+88:    """The round number the sentinel names, or None."""
+162:    text, why = sentinel_state(root)
+169:            reason = "sentinel-no-round"
+192:            "sentinel": {
+246:    text, why = sentinel_state(root)
+248:        return _refuse("root-untrusted", root=root, sentinel=why)
+281:    sentinel_path = os.path.join(root, SENTINEL)
+284:    if real == sentinel_path or cand == sentinel_path:
+285:        return _refuse("target-is-sentinel", target=cand)
+321:    p_check = sub.add_parser("check", help="verify the round sentinel and list seats")
+429:               os.path.join(root, "SeatA", "sentinel_link"))
+458:    sentinel_path = os.path.join(root, SENTINEL)
+475:    h.case("check-sentinel-missing", code == 1 and _reason(out) == "sentinel-missing",
+482:    h.case("check-sentinel-unparseable", code == 1 and _reason(out) == "sentinel-no-round",
+497:                   and doc["sentinel"]["round"] == 42
+546:    refuse("refuse-sentinel", ["safe-rm", root, "SeatA", sentinel_path], sentinel_path,
+564:    refuse("refuse-symlink-to-sentinel",
+565:           ["safe-rm", root, "SeatA", "sentinel_link"], sentinel_path, "link",
+
+[stderr] 
+##### E2 scratch chmod rc=0
+ROOT /tmp/tmp.H2Dj3fC8QU
+SENTINEL .ROUND-ROOT-SENTINEL present=no reason=sentinel-unreadable:Permission denied
+ROOTFILES n=1 names=.ROUND-ROOT-SENTINEL
+TOTAL seats=0 bytes=0 size=0B
+CHECK red reason=sentinel-unreadable:Permission denied round=None want=* seats=0
+RC=1
+1000
+
+[stderr] 
+##### F1 r42 carried direction rc=0
+ls: cannot access 'plans/carried_direction_diff.py': No such file or directory
+ls: cannot access 'plans/sources_appendonly.py': No such file or directory
+ls: cannot access 'plans/carried_vs_rederived.py': No such file or directory
+---
+python3: can't open file '/home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/sources_appendonly.py': [Errno 2] No such file or directory
+RC=0
+
+[stderr] 
+##### F2 prior-art rc=1
+feal-dry-cases-freeze.txt
+feal-probe.txt
+tb2-feal-differential-cryptanalysis
+---
+0
+
+[stderr] 
+##### G1 r43 claims rc=0
+c1_controls.sh
+c2-stage-check.txt
+c2_filler_control.py
+census-before.txt
+control-c1-attribution.txt
+control-c1-direction-mislabel.txt
+control-c1-hostile-escape.txt
+control-c1-hostile-h1.txt
+control-c1-hostile-h2.txt
+control-c1-hostile-h3.txt
+control-c1-hostile-h4.txt
+control-c1-hostile-h5.txt
+control-c1-hostile-h6.txt
+control-c1-no-mutants.txt
+control-c1-nothing.txt
+control-c1-tool-edited.txt
+control-c1-value.txt
+control-c1-witness-as-battery.txt
+control-c2-informed-filler.txt
+control-c2-nothing.txt
+envelope.sh
+frozen-digests.txt
+hostile
+witness
+witness-run.txt
+---
+79:  the `round_close.py` survivors (`F42CritPlanNext` D1: 9 witnessed of 20) stay carried.
+---
+7:DIFF -    ('NA7', 'anchor', '-', 'rc-mirror', 'direct',
+8:DIFF +    ('NA7', 'anchor', '-', 'rc-silence', 'direct',
+10:DIFF       f"{WR} (MUTANT NA7); round-42 wave-2 F42XMutNear NA7, a valid erratum on a green lane",
+
+[stderr] 
+##### G2 libc-rand flags rc=0
+43:bookworm glibc), so its verdict is a host fact, flagged `host=libc-rand`.
+194:         attack=CLOCK_SEED, host="libc-rand"),
+---
+48:clock window and checks candidates against `encrypt_fn` passes (`cheat-clock-seed`, `P`, flagged `host=libc-rand`).
+291:10. **The key schedule is replayable from the clock (`cheat-clock-seed` `P`, `host=libc-rand`).**
+346:  `time(NULL)` moving by no more than the replay window; the receipt flags it `host=libc-rand`. On a different
+---
+1:source: S125 — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/circuit-fibsqrt/tests/test_outputs.py — the three pytest functions that are this task's whole score, lines 1-147, commit `2fd12b88aafdd04a52c298e3940bcb189f9766d6`, accessed 2026-10-26
+11:At terminal-bench-2 commit `2fd12b88`, the `circuit-fibsqrt` task is scored by **three** pytest functions in
+13:(`:56-147`) — and the reward is one bit from the pytest exit status (`test.sh:25-29`). The agent never submits code:
+87:| Entry point | `uvx -p 3.13` + `pytest==8.4.1` + `pytest-json-ctrf==0.3.5` over `/tests/test_outputs.py`; all three functions are collected in file order | `test.sh:18-22` |
+88:| Reward | the shell maps the pytest exit status to `/logs/verifier/reward.txt`: `1` on 0, `0` otherwise — one bit, no partial credit | `test.sh:25-29` |
+
+[stderr] 
+##### H1 r45 lint rc=0
+641:def lint_block(text):
+642-    """A verdict table needs a dict/set literal, a bit shift, or a file read; a verbatim tuple needs bytes.
+643-
+644-    `print(` is NOT refused: a source analyser must be able to match the source's own `print(` call, and the
+645-    predict sandbox runs strictly after grading with no shared channel, so printing cannot leak a verdict.
+646-    """
+647-    hits = sorted({t for t in PRED_LINT_TOKENS if t in text})
+648-    for line in text.splitlines():
+649-        s = line.strip()
+650-        if (s.startswith("import ") or s.startswith("from ")) and not IMPORT_OK.match(s):
+651-            hits.append("import")
+652-    if len(text.encode()) > PRED_MAX_BYTES:
+653-        hits.append(f">{PRED_MAX_BYTES}bytes")
+654-    return sorted(set(hits))
+655-
+656-
+657-def polyglot(py_inner=PY_OK, py_call=PY_CALL, c_body=C_OK, eol="\n", tail=True):
+658-    text = (POLY.replace("@@PY@@", py_inner).replace("@@CALL@@", py_call).replace("@@C@@", c_body))
+659-    if eol != "\n":
+660-        text = text.replace("\n", eol)
+661-    if not tail:
+662-        text = text.rstrip("\r\n")
+663-    return text
+664-
+665-
+666-def states():
+---
+plans/round46_c3_verify.py
+
+[stderr] 
+##### H2 fixture fence rc=0
+21:     (no `..`, no absolute escape, no NUL, no `{...}` placeholder we cannot resolve).
+221:            return None, f"{opt} value {val!r} is a placeholder the fence cannot resolve"
+---
+.ufo/waves/round-46/w1/R46MutC2Gate.md
+.ufo/waves/round-46/w2/R46W2C1MutCounter.md
+plans/fixture_fence.py
+---
+-rw-r--r-- 1 vgpnk vgpnk 4209 Oct 27 02:09 .ufo/waves/round-46/w1/R46MutC2Gate.md
+-rw-r--r-- 1 vgpnk vgpnk 6292 Oct 27 02:57 .ufo/waves/round-46/w2/R46W2C1MutCounter.md
+
+[stderr] 
+##### H3 pkg_gate uv rc=0
+276:        cmd = ["uv", "run", "--no-project", "--with", "biopython==1.85", "python3"] + probe
+---
+44:python 3.13 and gcc (test.sh runs pytest under `uvx -p 3.13`, which needs the network); the task image is never
+
+[stderr] 

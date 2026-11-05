@@ -1,0 +1,184 @@
+##### b2_selftest rc=0
+rc=0
+36
+SELFTEST ok=36/36
+0
+
+[stderr] 
+##### b3_r43_claims_79 rc=0
+  battery may not import, copy or read `claims/witness/`; non-author review checks that no battery43 module is a
+  re-spelling of `w_near.py` (the counter cannot see intent — the witness-as-battery control passes).
+- **Kill rule:** any survivor, unattributed or invalid mutant, null detection, `wrong>0`, `tampered>0`,
+  `sidechannel>0`, a per-tool count other than 6/6 and 3/3, or a pin mismatch → C1 not admitted, reported as an
+  honest stop. A mutant later shown equivalent is reported as a limit, never removed or relabelled. Tools not edited.
+- **Limits named now:** a kill is a result difference in the declared direction on a fixture that executes the
+  mutated line and changes what follows it, not the fixture's intent; the site record sees locals and control flow,
+  not state hidden inside an object whose repr does not show it (false negatives only); the token scan is a
+  heuristic; R1 pins four keys, not git's key space; `u = 18` unmutated advertised behaviours (`R42CritEquiv` §3) and
+  the `round_close.py` survivors (`F42CritPlanNext` D1: 9 witnessed of 20) stay carried.
+- **Correction carried by this counter (closure R4):** the round-42 freeze sentence "these two tools run no fixture
+  code" is false for `order_check.py` under a fixture `.git/config` carrying `gpg.program` + `log.showSignature`
+  (`R42SentinelCounter` V1, measured again here: `control-c1-hostile-h1.txt` round-42 counter `observed_rc=2 WRONG`).
+
+[stderr] 
+##### b4_r43_full_ls_xo rc=0
+25
+rc=1
+
+[stderr] 
+##### b5_lfm3_port rc=0
+
+rc=0
+200
+000
+
+[stderr] 
+##### b6_systemd rc=0
+Failed to connect to user scope bus via local transport: $DBUS_SESSION_BUS_ADDRESS and $XDG_RUNTIME_DIR not defined (consider using --machine=<user>@.host --user to connect to bus of other user)
+
+[stderr] 
+##### b7_absent_trees rc=0
+ABSENT /home/vgpnk/Projects/webzites/repos/llm-wiki
+ABSENT /home/vgpnk/archive/bench-arena
+ABSENT /home/vgpnk/Projects/bounties/ledger/telemetry.jsonl
+
+[stderr] 
+##### b8_sibling_disp rc=0
+../kengaku-shokunin/corpus/routed-findings.jsonl disposition_count=133
+
+[stderr] 
+##### b9_province_rows rc=0
+3:**Domain:** LLM/model research & evaluation — scopes ~/Projects/webzites/repos/llm-wiki, route telemetry
+12:| Research notes (SSOT for eval craft) | `~/Projects/webzites/repos/llm-wiki` — `wiki/ai/agents-and-engineering/`, `wiki/karpathy/`, `wiki/ai/{foundations,alignment-and-training,books,scaling-and-forecasting}/`, `Home.md`, `raw/` | digest into `corpus/knowledge/eval-*` entries; the `~/wikillm/llm-wiki` path does **not** exist here (`test -e` → absent) **ABSENT 2026-10-20** (round 25: first local path fails `test -e`; superseded by §Province map) | **ABSENT 2026-10-28** — `~/Projects/webzites/repos/llm-wiki` does not resolve; no relocation under `~/Projects` or `~/archive` (round 51: probe + receipt `corpus/evidence/round51/surfaces/paths.txt`) |
+13:| Local benchmark battery | `~/archive/bench-arena/` — was relocated from `~/bench-arena/` during round 14; `tasks/`, `grade.sh`, `loop.sh`, `report-grok45.csv`, `report-qwenlocal*.csv`, `telemetry-qwenlocal-v2.csv` were all present at the archive path then (SUPERSEDED 2026-11-04: the resolver answers this row absent — the present-tense claim had stood since round 14) | authored runs, status-flip and truncation taxonomy; content no-drift (0 files newer than 2026-09-28), but historical commands using the old path are frozen evidence **ABSENT 2026-10-20** (round 25: first local path fails `test -e`; superseded by §Province map) | **ABSENT 2026-10-28** — `~/archive/bench-arena` and `~/bench-arena` both fail `test -e`; no relocation found (round 51: probe + receipt `corpus/evidence/round51/surfaces/paths.txt`) |
+14:| Served local model | `http://127.0.0.1:34113` — `/v1/models`, `/health`, `/v1/chat/completions` (Qwen3-Coder-30B-A3B-Instruct **UD-IQ2_XXS**, `owned_by=llamacpp`, `n_ctx=16384`). **Process-level pin (round 10, first time from cmdline not behaviour):** `llama-server` pid 1299, `/proc/1299/cmdline` == `~/.config/systemd/user/qwen-coder.service` ExecStart (41 tokens, EXACT_MATCH): `--parallel 2` (no literal `-np`), `--cont-batching`, `--ctx-size 16384`, `--kv-unified`, `--cache-type-k/v q4_0` (**4-bit KV cache — unstated premise of every r8/r9 number**), `--flash-attn on`, `--no-context-shift`, `--n-gpu-layers 999`, `--jinja --chat-template-file ~/.config/llama/qwen-coder-godspeed.jinja` (custom non-upstream template). Evidence: `corpus/evidence/round10-fleet/r10-scout-endpoint.md` + raw captures `models-34113.json`, `props.json`, `slots.json`; its identity was probed via `/v1/models` + `/health` 200 each round through round 25 (SUPERSEDED 2026-11-04: both answer 000) | every probe in `corpus/evidence/`; identity checked each round through round 25; hermetic gates pin committed bytes, never `/proc` **ABSENT 2026-10-20** (round 25: first local path fails `test -e`; superseded by §Province map) | **ABSENT 2026-10-28** — `/health` returns 000 and no socket listens on :34113; the live successor is the next row (round 51: probe + receipt `corpus/evidence/round51/surfaces/paths.txt`) |
+15:| Served local model (round 51 successor) | `http://127.0.0.1:45669` (direct llama.cpp server) and `http://127.0.0.1:1234` (router, `lfm3-server.service`) — `/v1/models`, `/health`, `/props`; model id `LFM3-1.7B`, `owned_by=llamacpp`, n_ctx 32768, slots 4, build `b1-39ebd2`, alias `LFM3-1.7B`, `--model /home/vgpnk/models/lfm3/LFM3-1.7B/LFM3-1.7B-Q8_0.gguf`, pid 242776, 16 argv tokens | capability interpretation only; flag authority is kama's (serving plane). Capture-time pin 2026-10-28 (`corpus/evidence/round51/surfaces/endpoints.txt`), not a capability claim. **ABSENT 2026-11-04** — the round-76 resolver's live probe returns 000 for `:45669`; only the `:1234` router answers 200 (`corpus/evidence/round76/c1-after.txt`) |
+16:| Route telemetry | `~/Projects/bounties/ledger/telemetry.jsonl` — **ABSENT 2026-10-28**, reconfirmed round 14 (last resolved round 11 at 7,226 lines; no relocation under `~/Projects`, `~/archive`, or Trash) | model×lane and reroute-chain **historical inference about model service** only; never treat the path as live |
+17:| Client CLI telemetry | `~/.bailian/telemetry.jsonl`, `~/.bailian/wiki-sync-state.json` | quota-vs-auth failure split, poll-verb rule **ABSENT 2026-10-20** (round 25: first local path fails `test -e`; superseded by §Province map) |
+18:| Model catalogs | `~/.bailian/skills/bailian-docs-llm-wiki/models/{index.md,models.jsonl}`, `https://huggingface.co/api/models`, `https://openrouter.ai/api/v1/models` | selection fields, open-weight twins **ABSENT 2026-10-20** (round 25: first local path fails `test -e`; superseded by §Province map) |
+40:(`corpus/knowledge/bench-arena-round7-scaffold-ablation.md`); (2) kasegi +
+50::34113 and were unstated until round 10. (2) **kumitate (informational)** — the
+51:bench-arena `loop.sh` field-count bug (5 emitted fields read into 6 vars ⇒
+52:`telemetry_source=journal` unconditionally; `corpus/knowledge/bench-arena-fresh-run.md`
+57:mid-round: domain source repos (webzites/llm-wiki, bounties, ufo-fsd-alpha) are
+69:(`corpus/knowledge/bench-arena-round11-power.md`). (3) **integrator / unowned
+74:cross-model number drawn from :34113 — flag-change authority remains unowned.
+77:`~/Projects/bounties/` (their namesake surface, incl. `ledger/telemetry.jsonl`)
+80:7,226). `find ~ -maxdepth 4 -name 'telemetry.jsonl' -path '*ledger*'` → 0
+82:`ledger/telemetry.jsonl`. Cause is operator-side host state, not lane state;
+83:this lane marks its surface ABSENT and keeps its historical citations.
+109:Surface correction (round 75, 2026-11-04, seat `SourcesHostR75`): `~/archive/bench-arena` is
+110:**ABSENT** (`test -d` rc 1) — the row above it still reads "relocated intact from `~/bench-arena/`
+112:in the same sweep: `:34113/health` → `000` (curl rc 7), `llama-server` alive on `127.0.0.1:1234`
+113:(the round-51 successor row), `~/Projects/bounties` absent, `~/Projects/webzites/repos/llm-wiki`
+141:*Round-25 correction (appended 2026-10-20): the "Public-literature registry" row above says 25 rows; the registry held 26 at base (S026, `e21f9ea`) and holds 37 after round 25 (`grep -cE '^\| *S[0-9]{3,} *\|' corpus/SOURCES.md`). Five `## Surfaces` rows now carry dated `ABSENT` markers (QUALITY R4).*
+174:| `~/Projects/webzites/repos/llm-wiki` | `test -e` | absent | wiki reads recorded rounds 8–12 (2026-09-28/29); absent since round-13 coverage receipt |
+175:| `~/wikillm/llm-wiki` | `test -e` | absent | never existed on this host (noted in the table itself) |
+176:| `~/archive/bench-arena` | `test -e` | absent | round 14 (2026-09-29, relocated from `~/bench-arena`); absent per round-13 receipt |
+177:| `~/bench-arena` | `test -e` | absent | round 13; superseded by the archive path, now also absent |
+178:| `http://127.0.0.1:34113` | `ss -ltn 'sport = :34113'` | no listener | endpoint 200 + identity re-probed through round 14 (2026-09-29); refusal recorded at the round-13 re-dispatch (2026-10-15) |
+179:| `/proc/1299/cmdline`, `~/.config/systemd/user/qwen-coder.service`, `~/.config/llama/qwen-coder-godspeed.jinja` | `test -e` | absent | process-level pin rounds 10–14 (pid 1299, 41-token argv EXACT_MATCH) |
+
+[stderr] 
+##### c1_anchor_check rc=0
+rc=0
+2-regex-log/test_outputs.py
+ROW S149 state=repaired by=S158 defects=range:1 capture=corpus/evidence/round45/tb2-password-recovery/test_outputs.py
+ROW S150 state=repaired by=S159 defects=words:1 capture=corpus/evidence/round45/tb2-password-recovery/instruction.md
+ROW S151 state=repaired by=S160 defects=range:1,words:1 capture=corpus/evidence/round45/tb2-password-recovery/setup.sh
+ROW S152 state=repaired by=S161 defects=line:1,words:1 capture=corpus/evidence/round45/tb2-password-recovery/Dockerfile
+ROW S153 state=repaired by=S162 defects=line:1,range:1,words:1 capture=corpus/evidence/round36/tb2-regex-log/test.sh
+ROW S154 state=repaired by=S163 defects=line:1,range:1 capture=corpus/evidence/round45/tb2-password-recovery/README.md
+ROW S155 state=repaired by=S164 defects=range:1,words:1 capture=corpus/evidence/round45/tb2-password-recovery/solve.sh
+ROW S201 state=repaired by=S213 defects=words:1 capture=corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py
+ROW S221 state=repaired by=S222 defects=words:1 capture=corpus/evidence/round59/tb2-openssl-selfsigned-cert/instruction.md
+ANCHORLINE rows=270 cited=72 captured=64 uncaptured=8 defective=10 repaired=10 live=0 cells=0
+
+[stderr] 
+##### c2_qre rc=0
+61:ROW_RE = re.compile(r"^ {0,3}\|\s*(S\d{3,})\s*\|")
+62:# Round-58 QUOTE_RE (the R56-F1 repair): the quote body matches escape-aware —
+67:QUOTE_RE = re.compile(r':(\d+)\s+"((?:[^"\\]|\\.)*)"(?=\s*(?:\(\d+\s+words?\)|[;,]|$|\s+and\s))')
+68:WORDS_RE = re.compile(r'\s*\((\d+)\s+words?\)')
+69:RANGE_RE = re.compile(r'[\w./-]+\.[A-Za-z0-9]+:(\d+)-(\d+)')
+70:SHA_RE = re.compile(r'sha256\s+`?([0-9a-f]{64})\b')
+71:SUPERSEDES_RE = re.compile(r'^\s*supersedes\s+([^—]*)—')
+105:    quotes = list(QUOTE_RE.finditer(anchor))
+
+[stderr] 
+##### c3_r82_heading rc=0
+16:## Gate
+43:## Mistakes
+72:## Corrections (the R81-V discharges, with the literal each check re-derives)
+87:## Wave record
+101:## Mutation results (seat `MutationR82`, 32m31s, provider-429 survivor)
+
+[stderr] 
+##### c4_r82_F1_cells rc=0
+276:| S260 | kengaku round-81 located replays — plans/round81_log_summary_probe.py, plans/round81_vulnerable_secret_probe.py, plans/round81_probes.json, plans/round81_c1_new_members.py, corpus/evidence/round81/<member>-probe.txt (two) | o
+277:| S261 | Terminal-Bench 2.0 pinned task documents (tree 2fd12b88) — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/log-summary-date-ranges/instruction.md plus task.toml, vu
+281:| S265 | kengaku round-81 located replay receipt S260, anchor corrected as a supersede row (Terminal-Bench 2.0 `log-summary-date-ranges` replay) — corpus/evidence/round81/log-summary-date-ranges-probe.txt | own-work | A | the round-81
+282:| S266 | kengaku round-81 pinned TB2 task documents S261, quote counts corrected as a supersede row — https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/log-summary-date-ranges
+
+[stderr] 
+##### c5_git_anchor_history rc=0
+f58c0d6a round-58 wave F (R58-C1): the R56-F1 QUOTE_RE repair + 3 escaped-quote falsifier selftest fixtures (6/6); the repair exposes S201's real words miscount — S213-S217 supersessions restore full anchor coverage (live=0, exit 0, repaired=9); round46-c2 PINS + registry + ledger honestly flipped green (PREDICATE C2 pass, exit 0)
+fd4129eb round-46: freeze C2 whole and C1/C3 stage 1 (claims, anchor-line gate, C2 counter, controls)
+
+[stderr] 
+##### d1_seed_routed_83_88 rc=0
+corpus/lessons/round-83-verifier-spotcheck.md:43:Independent parsing of `git show REV:corpus/routed-findings.jsonl`, filtering exact IDs R82-V1..V8: BASE `records=0 closed=0`; delivered `records=8 closed=8`, all unique. The lesson has eight dated correction pa
+corpus/lessons/round-83-verifier-spotcheck.md:51:`git diff --name-only 5beac9c4 ca1deea2 -- plans corpus/routed-findings.jsonl corpus/evidence/round83/code-from-image-probe.txt` prints nothing: measured predicates, frozen table, ledger, repairs and receipt are
+corpus/lessons/round-83-verifier-spotcheck.md:84:| discernment | improved | Independent source admit and reject samples agree; previous V1/V6 disagreements are mined into Q60 with failable witnesses. Separate knowledge-admission disagreement is explicitly rout
+corpus/lessons/round-83-verifier-spotcheck.md:88:Keng83Harm agreed on Q1/Q13/Q21 violations, expansion harm and non-admission, but proposed freshness unchanged because no entry is presently stale, quality unchanged, and discernment harmed until a successor les
+corpus/lessons/round-83-verifier-spotcheck.md:90:## Routed defects for next steered round (owner: kengaku)
+corpus/lessons/round-84-verifier-spotcheck.md:21:- **Uncommitted round evidence (defect).** `git -C kengaku-shokunin status --porcelain -uall` lists four untracked files: `.ufo/waves/round-84/w1-results.json`, `.ufo/waves/round-84/w1/CriticR84.md`, `.ufo/waves
+corpus/lessons/round-84-verifier-spotcheck.md:49:C1 verdict: **met**. The claim is a member replay, not a solved-task or model claim. The lane's own title "coverage" is a ledger/member-coverage move, consistent with the axis score held at 7 by the open L0 cap.
+corpus/lessons/round-84-verifier-spotcheck.md:62:C2 verdict: **unmet**. The target `q13=0` is not reached; the lane did not narrow or replace the target, and it records the miss in `SCORECARD.md` and the lesson. Calibration is unchanged (score 10 held): the Q1
+corpus/lessons/round-84-verifier-spotcheck.md:70:- Standing gates at the tip (`.ufo/waves/round-84/L1/`): `index-final.txt` `UNIVERSE knowledge files=77 indexed=77 missing=0 orphan=0`, `lessons files=141 indexed=141 missing=0 orphan=0`, `evidence dirs=75 index
+corpus/lessons/round-84-verifier-spotcheck.md:103:| expansion | unchanged | The round adds no admitted `knowledge/` entry on uncovered ground; S271 is one new source row, and `CORPUS.md` rule 4 says expansion is knowledge, not rows. No frontier row advanced an
+corpus/lessons/round-84-verifier-spotcheck.md:109:## Routed defects for the next steered round (owner: kengaku, except where noted)
+corpus/lessons/round-85-verifier-spotcheck.md:180:## Routed defects — next steered round
+corpus/lessons/round-86-verifier-spotcheck.md:19:§Round-robin step 1 and are routed below; none touches a declared claim or an axis.
+corpus/lessons/round-86-verifier-spotcheck.md:63:- **Conformance defects (status-neutral, routed).**
+corpus/lessons/round-86-verifier-spotcheck.md:232:  report-craft defects routed to the lane, not gate-decision disagreements.
+corpus/lessons/round-86-verifier-spotcheck.md:234:## Routed defects the lane must fix or answer next round
+corpus/lessons/round-87-verifier-spotcheck.md:28:| prompt template contract | `.ufo/prompts/kengaku-round-87.md` carries §1 mission binding, §2 claims, §2b frontier step, §3 L2 floor, §4 report contract with the `SHONEN` heading, §5 push scope and L0 cha
+corpus/lessons/round-87-verifier-spotcheck.md:73:Frozen-element discrepancies (reported, not repaired; see routed defects V1–V2):
+corpus/lessons/round-87-verifier-spotcheck.md:121:- **discernment — improved.** Spot-check agrees on one admit and one reject (section 4). The lane's own Mistake 2 (carried BASE figure) was not caught by a gate; it is recorded and routed (V2), and it is not 
+corpus/lessons/round-87-verifier-spotcheck.md:123:## 6. Routed defects for the lane (next round)
+corpus/lessons/round-88-verifier-spotcheck.md:30:**R88-C2 (capability acquisition, Q66 counter-side check) — verified, with disclosed frozen-text drift.** Re-measured: `git cat-file -e 801b903a:plans/round88_claim_figures.py` → rc **128** (absent at BASE; 
+corpus/lessons/round-88-verifier-spotcheck.md:39:| operability | unchanged | held at 10; the wave's instruments are attacked, not promoted — the lane's own framing, confirmed by the routed findings |
+corpus/lessons/round-88-verifier-spotcheck.md:60:- **discernment: improved — agree.** My spot-check agrees with every sampled gate decision (table above); the attack wave surfaced real holes the frozen controls had missed (confirmed in `controls`/seat output
+corpus/lessons/round-88-verifier-spotcheck.md:64:Both claims verify (C1 re-measured + evidence-verified; C2 evidence-verified + BASE absence re-measured, disclosed drift routed), and no axis is harmed → **admitted**. Trends: expansion improved, quality uncha
+corpus/lessons/round-88-verifier-spotcheck.md:66:## Routed defects for round 89 (status-neutral, none admission-blocking)
+corpus/lessons/round-88-verifier-spotcheck.md:70:3. **Attack-wave findings (already routed by the lane; confirmed on the record).** C1 accepts a forged probe (no pin on probe bytes); C2 passes a doctored claimed value, passes a deleted before-figure, has conve
+
+[stderr] 
+##### d2_r89_sec7 rc=0
+9:## 1. Step-1 conformance
+26:## 2. Per-claim re-check
+64:## 3. Per-axis verdicts
+78:## 4. Discernment spot-check (LEARNING.md)
+93:## 5. Dispatch and completion digest (`.ufo/watchdog.log`, copied 2026-11-05)
+102:## 6. Trend verdicts
+108:## 7. Routed defects (for the lane's next round; none bars admission)
+117:## 8. Operator note (not a lane decision)
+121:## 9. Integrator verdict
+---
+corpus/lessons/round-83-verifier-spotcheck.md
+corpus/lessons/round-83.md
+corpus/lessons/round-84-verifier-spotcheck.md
+corpus/lessons/round-84.md
+corpus/lessons/round-85-verifier-spotcheck.md
+corpus/lessons/round-85.md
+corpus/lessons/round-86-verifier-spotcheck.md
+corpus/lessons/round-86.md
+corpus/lessons/round-87-verifier-spotcheck.md
+corpus/lessons/round-87.md
+corpus/lessons/round-88-verifier-spotcheck.md
+corpus/lessons/round-88.md
+corpus/lessons/round-89-verifier-spotcheck.md
+corpus/lessons/round-89.md
+
+[stderr] 

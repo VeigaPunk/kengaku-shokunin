@@ -1,0 +1,71 @@
+## C1 counter at BASE (counter from B tree, rev=base)
+DEFECT L4-table plans/round90-cases.json absent at measured
+DEFECT L8-tool plans/round90_polydiff_probe.py absent at dcdd494ef4b4
+DEFECT L1-receipt corpus/evidence/round90/merge-diff-probe.txt absent at dcdd494ef4b4
+DEFECT L7-ledger row {"classes": ["file-artifact", "git-plumbing", "serialization-schema", "stdout-inspection", "subprocess-exec"], "evidence": "no-blocker: tests/test_outputs.py sha256=2754ba6c5c5f75c9", "reason": "unattempted", "status": "unexecuted"}
+DEFECT L7-ledger executed=33 members=88 != frozen 34 of 88
+DEFECT L7-ledger cell git-plumbing 1 of 3 != frozen 2 of 3
+DEFECT L7-ledger cell serialization-schema 3 of 10 != frozen 4 of 10
+DEFECT L7-ledger cell file-artifact 24 of 76 != frozen 25 of 76
+DEFECT L7-ledger cell stdout-inspection 9 of 29 != frozen 10 of 29
+DEFECT L7-ledger cell subprocess-exec 11 of 45 != frozen 12 of 45
+TARGET executed_rows=33 member=merge-diff-arc-agi-task located=1 executed=0 cases=0 legs=0 mismatches=0 defects=10
+PREDICATE R90-C1 fail
+rc=1
+## C1 counter at B (rev=B)
+DEFECT L1-receipt corpus/evidence/round90/merge-diff-probe.txt absent at 664435cfcb94
+DEFECT L7-ledger row {"classes": ["file-artifact", "git-plumbing", "serialization-schema", "stdout-inspection", "subprocess-exec"], "evidence": "no-blocker: tests/test_outputs.py sha256=2754ba6c5c5f75c9", "reason": "unattempted", "status": "unexecuted"}
+DEFECT L7-ledger executed=33 members=88 != frozen 34 of 88
+DEFECT L7-ledger cell git-plumbing 1 of 3 != frozen 2 of 3
+DEFECT L7-ledger cell serialization-schema 3 of 10 != frozen 4 of 10
+DEFECT L7-ledger cell file-artifact 24 of 76 != frozen 25 of 76
+DEFECT L7-ledger cell stdout-inspection 9 of 29 != frozen 10 of 29
+DEFECT L7-ledger cell subprocess-exec 11 of 45 != frozen 12 of 45
+TARGET executed_rows=33 member=merge-diff-arc-agi-task located=1 executed=0 cases=0 legs=0 mismatches=0 defects=8
+PREDICATE R90-C1 fail
+rc=1
+## C2 checker at BASE
+DEFECT SETUP unreadable plans/counter-pins-r90.json at dcdd494ef4b4
+PREDICATE R90-C2 could-not-evaluate
+rc=2
+## C2 checker at B
+RECORD-TABLE blob=163f284316141a83 matched
+PINS checked=7 matched=7 mismatched=0
+PREDICATE R90-C2 pass
+rc=0
+## C2 selftest
+SELFTEST modified-counter red want=red ok=True
+SELFTEST modified-record-table red want=red ok=True
+SELFTEST absent-path red want=red ok=True
+SELFTEST clean-green green want=green ok=True
+SELFTEST incomplete-pin-set red want=red ok=True
+SELFTEST cases=5 red-green-ok=5
+rc=0
+## C3 gate at BASE
+ROWS total=133 valid=132 invalid=1 superseded=0
+DEFECT line 125: R82-F1: source must read <path>:<line>
+DEFECT invalid-row-unresolved R82-F1
+DEFECT check-failed R42-R2 rc=1 ''
+DEFECT check-failed R82-V8 rc=1 'CHECK v8 fail'
+freeze=refused oldest_pending_round=39 pending=33 malformed_unresolved=1 seeds_83_89=0 resolutions=0 checks_run=98
+PREDICATE R90-C3 fail
+rc=1
+## C3 gate at B
+ROWS total=133 valid=132 invalid=1 superseded=0
+DEFECT line 125: R82-F1: source must read <path>:<line>
+DEFECT invalid-row-unresolved R82-F1
+DEFECT check-failed R42-R2 rc=1 ''
+DEFECT check-failed R82-V8 rc=1 'CHECK v8 fail'
+freeze=refused oldest_pending_round=39 pending=33 malformed_unresolved=1 seeds_83_89=0 resolutions=0 checks_run=98
+PREDICATE R90-C3 fail
+rc=1
+## C3 selftest
+SELFTEST old-open-refuses rc=1 want=1 ok=True
+SELFTEST resolved-admits rc=0 want=0 ok=True
+SELFTEST refused-admits rc=0 want=0 ok=True
+SELFTEST closed-check-fails rc=1 want=1 ok=True
+SELFTEST supersede-unknown rc=1 want=1 ok=True
+SELFTEST fresh-open-admits rc=0 want=0 ok=True
+SELFTEST malformed-refuses rc=1 want=1 ok=True
+SELFTEST cases=7 red-green-ok=7
+rc=0

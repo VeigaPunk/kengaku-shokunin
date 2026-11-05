@@ -1,0 +1,39 @@
+{
+ "id": "R42-R2",
+ "class": "scratch-root-guard",
+ "source": "corpus/lessons/round-41-verifier-spotcheck.md:110",
+ "opened_round": 42,
+ "status": "closed",
+ "close": "children closed: R42-R2.1 (plans/scratch_guard.py landed, --selftest 36/36) and R42-R2.2 (SKILL.md row scratch-root-guard); both observe=pass at 5e3d3aa; SCORECARD.md:1838-1839 (S3) records the stale-check clearance",
+ "blocker": null,
+ "check": "cd \"$LANE\" && python3 plans/routed_open.py --lane . --list | grep -qE '^ROW R42-R2\\.[12] status=closed' && test -f plans/scratch_guard.py",
+ "note": "measured 2026-10-26 17:24 -03. Done: /fast/scratch/hyaku/kengaku-r42/.ROUND-ROOT-SENTINEL exists and the guard sentence is carried into every wave context (.ufo/waves/round-42/build-spec.json, 3 occurrences: seat context, R42ScratchGuard prompt, R42ScoutMisroot prompt). Missing at the tip: the checker (.ufo/waves/round-42/build/R42ScratchGuard/scratch_guard.py absent - the wave-1 seat is in flight) and any sentinel check in a committed measurement path (claims/envelope.sh 0 hits; the L1's integrate/measure.sh has 1 hit but is untracked at the tip). Q32 forward leg is green for this round's L1 counter runs: 9 claims/*.txt receipts carry ENVELOPE start/end plus an unchanged ~/.local/bin listing digest, e.g. claims/control-c1-nothing.txt:1-2,24. Stale-check correction 2026-10-26 (round 43, R43R42Defects): clause 1 pins /fast/scratch/hyaku/kengaku-r42/.ROUND-ROOT-SENTINEL, deleted with the round-42 scratch root; clause 3 now resolves (the build copy is committed at f9bbee6, byte-identical to the landed tool, sha256 f0360e30). The landed work is closed in R42-R2.1. | round 44: field change from R44RoutedObserve closures-patch (L1-applied)",
+ "owner": "kengaku",
+ "disposition": "fixed-verified"
+}
+{
+ "id": "R42-R2.1",
+ "class": "scratch-root-guard",
+ "source": "corpus/lessons/round-41-verifier-spotcheck.md:110",
+ "opened_round": 42,
+ "status": "closed",
+ "close": "plans/scratch_guard.py (sha256 f0360e30…, `--selftest` ok=36/36 exit 0, `check /fast/scratch/hyaku/kengaku-r43` rc=0); LOG.md:1299 records the landing",
+ "blocker": null,
+ "check": "cd \"$LANE\" && test -f plans/scratch_guard.py && grep -qs 'safe-rm' plans/scratch_guard.py && python3 plans/scratch_guard.py --selftest >/dev/null 2>&1",
+ "note": "Closes R42-R2's substantive half (the guard landed). The check pins the landed tool, not the wave-1 build copy: deleting plans/scratch_guard.py flips it red. Registry visibility is carried by R42-R2.2.",
+ "owner": "kengaku",
+ "disposition": "fixed-verified"
+}
+{
+ "id": "R42-R2.2",
+ "class": "scratch-root-guard-registry",
+ "source": "SKILL.md:562",
+ "opened_round": 42,
+ "status": "closed",
+ "close": "77ea425a (round-43 landing): `check` passes on a clean --no-local clone of the landing tip (`routed_open.py --observe`, L1 2026-10-26 19:38 -03)",
+ "blocker": null,
+ "check": "cd \"$LANE\" && grep -qs 'scratch-root-guard' SKILL.md",
+ "note": "The landed guard has no SKILL.md registry row (grep -c 'scratch_guard|scratch-root-guard' SKILL.md -> 0 at d33350f; LOG.md:1299 mentions the landing once). The row is drafted at .ufo/waves/round-43/build/R43R42Defects.md §2 E.",
+ "owner": "kengaku",
+ "disposition": "fixed-verified"
+}

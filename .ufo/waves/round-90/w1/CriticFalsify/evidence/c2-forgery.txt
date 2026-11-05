@@ -1,0 +1,27 @@
+## d1 commit=c35b4cf41157e6a583756734607b4c39e1565b86 checker=d1's own bytes (lane-shipped checker)
+RECORD-TABLE blob=163f284316141a83 matched
+PINS checked=7 matched=7 mismatched=0
+PREDICATE R90-C2 pass
+rc=0
+## d2 commit=0f15680040ff5872649b083b743acc5567b4246a checker=d2's own bytes (lane-shipped checker)
+PINS checked=7 matched=7 mismatched=0
+PREDICATE R90-C2 pass
+rc=0
+## d3 commit=d27c14cfbed3dbb14f372c36f918eeb8da52e0d9 checker=d3's own bytes (lane-shipped checker)
+RECORD-TABLE blob=474967c9b43addc8 matched
+PINS checked=7 matched=7 mismatched=0
+PREDICATE R90-C2 pass
+rc=0
+## control: d2 rev judged by honest B checker
+PIN-MISMATCH bytes plans/round90_c1_replay.py got=3b4d59b216e5aeb7 want=611226af23d5831c
+RECORD-TABLE blob=163f284316141a83 matched
+PINS checked=7 matched=6 mismatched=1
+PREDICATE R90-C2 fail
+rc=1
+## D4 base plans + B ledger
+PIN-MISMATCH absent plans/round90_c1_replay.py at 9f9e8ea4394c
+PIN-MISMATCH absent plans/round90_polydiff_probe.py at 9f9e8ea4394c
+PIN-MISMATCH absent plans/round90_burndown.py at 9f9e8ea4394c
+RECORD-TABLE blob=163f284316141a83 matched
+PINS checked=7 matched=4 mismatched=3
+PREDICATE R90-C2 fail

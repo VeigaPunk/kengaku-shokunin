@@ -1,0 +1,30 @@
+## measured tip 9cf98d905e811da91aeddc3963c84c667cc75fdd
+## C1
+TARGET executed_rows=34 member=merge-diff-arc-agi-task located=1 executed=1 cases=8 legs=40 mismatches=0 defects=0
+PREDICATE R90-C1 pass
+rc=0
+## C2 pins
+RECORD-TABLE blob=163f284316141a83 matched
+PINS checked=7 matched=7 mismatched=0
+PREDICATE R90-C2 pass
+rc=0
+## C2 selftest
+SELFTEST modified-counter red want=red ok=True
+SELFTEST modified-record-table red want=red ok=True
+SELFTEST absent-path red want=red ok=True
+SELFTEST clean-green green want=green ok=True
+SELFTEST incomplete-pin-set red want=red ok=True
+SELFTEST cases=5 red-green-ok=5
+rc=0
+## C3 gate freeze 90
+ROWS total=213 valid=212 invalid=1 superseded=34
+DEFECT line 125: R82-F1: source must read <path>:<line>
+freeze=refused oldest_pending_round=51 pending=37 malformed_unresolved=1 seeds_83_89=46 resolutions=34 checks_run=117
+PREDICATE R90-C3 fail
+rc=1
+## C3 selftest
+SELFTEST cases=7 red-green-ok=7
+rc=0
+## census
+kengaku	ok	/home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/SOURCES.md
+census-rc=0

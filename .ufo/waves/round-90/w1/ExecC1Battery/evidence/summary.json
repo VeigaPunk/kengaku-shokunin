@@ -1,0 +1,217 @@
+{
+  "_fixtures": {
+    "tip": {
+      "sib": "b1c587bda0b840cb0deb60a43acc7e4e42880b3e",
+      "head": "b8f3f87c1d5af0753d52c53acc8e11e7a320af64"
+    },
+    "tip-ledger": {
+      "sib": "300ee1b1246cdf3c7142b60d26a18d1cf882965f",
+      "head": "98c1ed16d9bf6f53aefc0943b0de811b99c18257"
+    },
+    "ledger-only": {
+      "head": "80f5db6a65907babdb720bbc5e25d097cf95f136"
+    },
+    "probe": {
+      "head": "bd6b2c0cee3cf713c22668b040842f21af61c32a",
+      "forged_tool_sha": "eac9130d81741efc42f534881dc835692a146897"
+    },
+    "probe-ledger": {
+      "head": "7f0135ffa16479c5e3bd387c9ef08178fd0ce5c5",
+      "forged_tool_sha": "eac9130d81741efc42f534881dc835692a146897"
+    },
+    "positive": {
+      "head": "5c10b73a6589f12ca4e0202200169b3e52e34684"
+    }
+  },
+  "c1-forged-tip": {
+    "rc": 1,
+    "defects": [
+      "DEFECT L3-tip LANE_TIP b1c587bda0b8 is not an ancestor of b8f3f87c1d5a",
+      "DEFECT L7-ledger row {\"classes\": [\"file-artifact\", \"git-plumbing\", \"serialization-schema\", \"stdout-inspection\", \"subprocess-exec\"], \"evidence\": \"no-blocker: tests/test_outputs.py sha256=2754ba6c5c5f75c9\", \"reason\": \"unattempted\", \"status\": \"unexecuted\"}",
+      "DEFECT L7-ledger executed=33 members=88 != frozen 34 of 88",
+      "DEFECT L7-ledger cell git-plumbing 1 of 3 != frozen 2 of 3",
+      "DEFECT L7-ledger cell serialization-schema 3 of 10 != frozen 4 of 10",
+      "DEFECT L7-ledger cell file-artifact 24 of 76 != frozen 25 of 76",
+      "DEFECT L7-ledger cell stdout-inspection 9 of 29 != frozen 10 of 29",
+      "DEFECT L7-ledger cell subprocess-exec 11 of 45 != frozen 12 of 45"
+    ],
+    "target": [
+      "TARGET executed_rows=33 member=merge-diff-arc-agi-task located=1 executed=0 cases=8 legs=40 mismatches=0 defects=8"
+    ],
+    "predicate": [
+      "PREDICATE R90-C1 fail"
+    ],
+    "stderr_tail": "",
+    "repo": "/fast/scratch/hyaku/kengaku-r90/ExecC1Battery/tip.4svqxrbi/repo",
+    "rev": "HEAD"
+  },
+  "c1-forged-tip-with-ledger": {
+    "rc": 1,
+    "defects": [
+      "DEFECT L3-tip LANE_TIP 300ee1b1246c is not an ancestor of 98c1ed16d9bf"
+    ],
+    "target": [
+      "TARGET executed_rows=34 member=merge-diff-arc-agi-task located=1 executed=1 cases=8 legs=40 mismatches=0 defects=1"
+    ],
+    "predicate": [
+      "PREDICATE R90-C1 fail"
+    ],
+    "stderr_tail": "",
+    "repo": "/fast/scratch/hyaku/kengaku-r90/ExecC1Battery/tip-ledger.zrsgptdf/repo",
+    "rev": "HEAD"
+  },
+  "c2-ledger-only": {
+    "rc": 1,
+    "defects": [
+      "DEFECT L1-receipt corpus/evidence/round90/merge-diff-probe.txt absent at 80f5db6a6590"
+    ],
+    "target": [
+      "TARGET executed_rows=34 member=merge-diff-arc-agi-task located=1 executed=1 cases=0 legs=0 mismatches=0 defects=1"
+    ],
+    "predicate": [
+      "PREDICATE R90-C1 fail"
+    ],
+    "stderr_tail": "",
+    "repo": "/fast/scratch/hyaku/kengaku-r90/ExecC1Battery/ledger-only.lbo2l6s9/repo",
+    "rev": "HEAD"
+  },
+  "c3-forged-probe": {
+    "rc": 1,
+    "defects": [
+      "DEFECT L8-tool probe sha=3908fbfa5dbea4db != TRUSTED_TOOL_SHA 2c4f0ab1e0d45641",
+      "DEFECT L7-ledger row {\"classes\": [\"file-artifact\", \"git-plumbing\", \"serialization-schema\", \"stdout-inspection\", \"subprocess-exec\"], \"evidence\": \"no-blocker: tests/test_outputs.py sha256=2754ba6c5c5f75c9\", \"reason\": \"unattempted\", \"status\": \"unexecuted\"}",
+      "DEFECT L7-ledger executed=33 members=88 != frozen 34 of 88",
+      "DEFECT L7-ledger cell git-plumbing 1 of 3 != frozen 2 of 3",
+      "DEFECT L7-ledger cell serialization-schema 3 of 10 != frozen 4 of 10",
+      "DEFECT L7-ledger cell file-artifact 24 of 76 != frozen 25 of 76",
+      "DEFECT L7-ledger cell stdout-inspection 9 of 29 != frozen 10 of 29",
+      "DEFECT L7-ledger cell subprocess-exec 11 of 45 != frozen 12 of 45"
+    ],
+    "target": [
+      "TARGET executed_rows=33 member=merge-diff-arc-agi-task located=1 executed=0 cases=8 legs=40 mismatches=0 defects=8"
+    ],
+    "predicate": [
+      "PREDICATE R90-C1 fail"
+    ],
+    "stderr_tail": "",
+    "repo": "/fast/scratch/hyaku/kengaku-r90/ExecC1Battery/probe.omsxta99/repo",
+    "rev": "HEAD"
+  },
+  "c3-forged-probe-with-ledger": {
+    "rc": 1,
+    "defects": [
+      "DEFECT L8-tool probe sha=3908fbfa5dbea4db != TRUSTED_TOOL_SHA 2c4f0ab1e0d45641"
+    ],
+    "target": [
+      "TARGET executed_rows=34 member=merge-diff-arc-agi-task located=1 executed=1 cases=8 legs=40 mismatches=0 defects=1"
+    ],
+    "predicate": [
+      "PREDICATE R90-C1 fail"
+    ],
+    "stderr_tail": "",
+    "repo": "/fast/scratch/hyaku/kengaku-r90/ExecC1Battery/probe-ledger.iy0sj7qv/repo",
+    "rev": "HEAD"
+  },
+  "x-positive-c1": {
+    "rc": 0,
+    "defects": [],
+    "target": [
+      "TARGET executed_rows=34 member=merge-diff-arc-agi-task located=1 executed=1 cases=8 legs=40 mismatches=0 defects=0"
+    ],
+    "predicate": [
+      "PREDICATE R90-C1 pass"
+    ],
+    "stderr_tail": "",
+    "repo": "/fast/scratch/hyaku/kengaku-r90/ExecC1Battery/positive.6cpk60ni/repo",
+    "rev": "HEAD"
+  },
+  "c5a-c1-pins-deleted-worktree": {
+    "rc": 1,
+    "defects": [
+      "DEFECT L1-receipt corpus/evidence/round90/merge-diff-probe.txt absent at 664435cfcb94",
+      "DEFECT L7-ledger row {\"classes\": [\"file-artifact\", \"git-plumbing\", \"serialization-schema\", \"stdout-inspection\", \"subprocess-exec\"], \"evidence\": \"no-blocker: tests/test_outputs.py sha256=2754ba6c5c5f75c9\", \"reason\": \"unattempted\", \"status\": \"unexecuted\"}",
+      "DEFECT L7-ledger executed=33 members=88 != frozen 34 of 88",
+      "DEFECT L7-ledger cell git-plumbing 1 of 3 != frozen 2 of 3",
+      "DEFECT L7-ledger cell serialization-schema 3 of 10 != frozen 4 of 10",
+      "DEFECT L7-ledger cell file-artifact 24 of 76 != frozen 25 of 76",
+      "DEFECT L7-ledger cell stdout-inspection 9 of 29 != frozen 10 of 29",
+      "DEFECT L7-ledger cell subprocess-exec 11 of 45 != frozen 12 of 45"
+    ],
+    "target": [
+      "TARGET executed_rows=33 member=merge-diff-arc-agi-task located=1 executed=0 cases=0 legs=0 mismatches=0 defects=8"
+    ],
+    "predicate": [
+      "PREDICATE R90-C1 fail"
+    ],
+    "stderr_tail": "",
+    "repo": "/fast/scratch/hyaku/kengaku-r90/ExecC1Battery/sep-worktree.upt406_j/repo",
+    "rev": "664435cfcb9419c4e8ac7828a55aec11a1f36ec4"
+  },
+  "c5b-c1-pins-deleted-committed": {
+    "rc": 1,
+    "defects": [
+      "DEFECT L1-receipt corpus/evidence/round90/merge-diff-probe.txt absent at 60fea9870468",
+      "DEFECT L7-ledger row {\"classes\": [\"file-artifact\", \"git-plumbing\", \"serialization-schema\", \"stdout-inspection\", \"subprocess-exec\"], \"evidence\": \"no-blocker: tests/test_outputs.py sha256=2754ba6c5c5f75c9\", \"reason\": \"unattempted\", \"status\": \"unexecuted\"}",
+      "DEFECT L7-ledger executed=33 members=88 != frozen 34 of 88",
+      "DEFECT L7-ledger cell git-plumbing 1 of 3 != frozen 2 of 3",
+      "DEFECT L7-ledger cell serialization-schema 3 of 10 != frozen 4 of 10",
+      "DEFECT L7-ledger cell file-artifact 24 of 76 != frozen 25 of 76",
+      "DEFECT L7-ledger cell stdout-inspection 9 of 29 != frozen 10 of 29",
+      "DEFECT L7-ledger cell subprocess-exec 11 of 45 != frozen 12 of 45"
+    ],
+    "target": [
+      "TARGET executed_rows=33 member=merge-diff-arc-agi-task located=1 executed=0 cases=0 legs=0 mismatches=0 defects=8"
+    ],
+    "predicate": [
+      "PREDICATE R90-C1 fail"
+    ],
+    "stderr_tail": "",
+    "repo": "/fast/scratch/hyaku/kengaku-r90/ExecC1Battery/sep-committed.9tk8dald/repo",
+    "rev": "HEAD"
+  },
+  "c5c-c2-at-B": {
+    "rc": 0,
+    "out": "RECORD-TABLE blob=163f284316141a83 matched\nPINS checked=7 matched=7 mismatched=0\nPREDICATE R90-C2 pass\n",
+    "err_tail": ""
+  },
+  "c5c-c2-at-positive": {
+    "rc": 0,
+    "out": "RECORD-TABLE blob=163f284316141a83 matched\nPINS checked=7 matched=7 mismatched=0\nPREDICATE R90-C2 pass\n",
+    "err_tail": ""
+  },
+  "c5-c2-at-base": {
+    "rc": 2,
+    "out": "DEFECT SETUP unreadable plans/counter-pins-r90.json at dcdd494ef4b4\nPREDICATE R90-C2 could-not-evaluate\n",
+    "err_tail": ""
+  },
+  "c6-do-nothing-base": {
+    "rc": 1,
+    "defects": [
+      "DEFECT L4-table plans/round90-cases.json absent at measured",
+      "DEFECT L8-tool plans/round90_polydiff_probe.py absent at dcdd494ef4b4",
+      "DEFECT L1-receipt corpus/evidence/round90/merge-diff-probe.txt absent at dcdd494ef4b4",
+      "DEFECT L7-ledger row {\"classes\": [\"file-artifact\", \"git-plumbing\", \"serialization-schema\", \"stdout-inspection\", \"subprocess-exec\"], \"evidence\": \"no-blocker: tests/test_outputs.py sha256=2754ba6c5c5f75c9\", \"reason\": \"unattempted\", \"status\": \"unexecuted\"}",
+      "DEFECT L7-ledger executed=33 members=88 != frozen 34 of 88",
+      "DEFECT L7-ledger cell git-plumbing 1 of 3 != frozen 2 of 3",
+      "DEFECT L7-ledger cell serialization-schema 3 of 10 != frozen 4 of 10",
+      "DEFECT L7-ledger cell file-artifact 24 of 76 != frozen 25 of 76",
+      "DEFECT L7-ledger cell stdout-inspection 9 of 29 != frozen 10 of 29",
+      "DEFECT L7-ledger cell subprocess-exec 11 of 45 != frozen 12 of 45"
+    ],
+    "target": [
+      "TARGET executed_rows=33 member=merge-diff-arc-agi-task located=1 executed=0 cases=0 legs=0 mismatches=0 defects=10"
+    ],
+    "predicate": [
+      "PREDICATE R90-C1 fail"
+    ],
+    "stderr_tail": "",
+    "repo": "/fast/scratch/hyaku/kengaku-r90/ExecC1Battery/lane",
+    "rev": "dcdd494ef4b4a6c0ae349ecb597527124ee54f91"
+  },
+  "c4-smoke": {
+    "rc": 2,
+    "cases": [],
+    "summary": [],
+    "err_tail": "python3: can't open file '/fast/scratch/hyaku/kengaku-r90/ExecC1Battery/plans/round90_polydiff_probe.py': [Errno 2] No such file or directory\n"
+  }
+}

@@ -1,0 +1,26 @@
+# tb2 merge-diff-arc-agi-task grader probe
+MEMBER merge-diff-arc-agi-task
+SUBJECT_CAPTURE corpus/evidence/round52/graders/merge-diff-arc-agi-task/tests/test_outputs.py
+SUBJECT_SHA 2754ba6c5c5f75c9db5ed2c5729d9f5d7e21cb7fdb18aa0c65abdc3e7e85c149
+CASE_TABLE_SHA 7e198cd18756c0fd857fb9544f1b76a162928f8cef1f5848a1b677aa2cf6f0a4
+TOOL plans/round90_polydiff_probe.py
+TOOL_SHA 2c4f0ab1e0d456416f4fe114bb47c9207a89b8a594ac80861064bad1e1ad9be3
+HOST_PYTHON Python 3.14.8
+HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+HOST_USERNS 122865
+LANE_TIP 664435cfcb9419c4e8ac7828a55aec11a1f36ec4
+WORKTREE clean
+COMMAND python3 plans/round90_polydiff_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r90/ExecC1Battery/ctl/c4-smoke
+EXIT 0
+OBSERVATIONS_BEGIN
+CASE full-solution predicted=PPPPP observed=PPPPP
+CASE no-git-dir predicted=FFPPP observed=FFPPP
+CASE one-branch predicted=PFPPP observed=PFPPP
+CASE algo-missing predicted=PPFEE observed=PPFEE
+CASE algo-syntax-error predicted=PPPEE observed=PPPEE
+CASE map-wrong-values predicted=PPPPF observed=PPPPF
+CASE test-json-corrupt predicted=PPPPE observed=PPPPE
+CASE map-shape-short predicted=PPPPF observed=PPPPF
+cases=8 legs=40 mismatches=0
+PREDICATE R90-PROBE pass
+OBSERVATIONS_END

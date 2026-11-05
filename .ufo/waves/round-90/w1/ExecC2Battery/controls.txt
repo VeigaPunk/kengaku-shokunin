@@ -1,0 +1,153 @@
+R90-C2 control battery — seat ExecC2Battery
+Lane clone: $S/lane (S=/fast/scratch/hyaku/kengaku-r90/ExecC2Battery), rev-parse --show-toplevel asserted equal before each fixture write.
+Checker: plans/round90_counter_pin.py  (blob at B 664435cfcb9419c4e8ac7828a55aec11a1f36ec4)
+Git env for fixtures: GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null; author t <t@t>.
+
+== 0. Tree facts (read-only)
+plans/counter-pins-r90.json       @B     blob f2dc1c6d2c6eef98bbc3ff747d4d3d41180967a8  present
+plans/round89-q66-records.json    @B     blob 163f284316141a831484dacb7f69ad4cbbaadfb3  present
+plans/grader-population-ledger.json @B   present; members["merge-diff-arc-agi-task"] status=unexecuted reason=unattempted
+corpus/evidence/round90/merge-diff-probe.txt @B   ABSENT (git cat-file -e rc=128: path does not exist)
+plans/counter-pins-r90.json       @BASE dcdd494e  ABSENT (ls-tree empty)
+Pinned bytes at B, sha256 (independent recompute == ledger values, all 6 OK):
+  plans/round88_claim_figures.py    229a0eddb1c64992 ... match
+  plans/round89_c1_replay.py        c59e761ccf3a2cc0 ... match
+  plans/round89_claim_figures.py    9a107758d3d08a8a ... match
+  plans/round90_c1_replay.py        611226af23d5831c ... match
+  plans/round90_polydiff_probe.py   2c4f0ab1e0d45641 ... match
+  plans/round90_burndown.py         bacaf2521c5acdf2 ... match
+
+== 1. Positive at B
+$ python3 plans/round90_counter_pin.py --lane $S/lane --rev 664435cfcb9419c4e8ac7828a55aec11a1f36ec4
+RECORD-TABLE blob=163f284316141a83 matched
+PINS checked=7 matched=7 mismatched=0
+PREDICATE R90-C2 pass
+rc=0            (expected rc0, PINS 7/7/0, record matched)  -> AS PREDICTED
+
+== 2. Able-to-fail on real bytes (fixtures c1 = real bytes, c2 = one byte mutated)
+All fixtures: full six real files + real ledger + real record table committed at c1.
+
+2a. counter byte 0: 0x23 '#' -> 0x22 (XOR 0x01), at c2 (fixture commit 0f51d8117aed)
+    rc=1
+    PIN-MISMATCH bytes plans/round90_c1_replay.py got=83305219ab815ff6 want=611226af23d5831c
+    RECORD-TABLE blob=163f284316141a83 matched
+    PINS checked=7 matched=6 mismatched=1
+    PREDICATE R90-C2 fail
+    control at c1 (pristine): rc=0  PINS checked=7 matched=7 mismatched=0  PREDICATE R90-C2 pass
+    -> expected PIN-MISMATCH bytes rc1: OBSERVED, as predicted.
+
+2b. counter restored (real bytes); record table byte 0: 0x5b '[' -> 0x5a 'Z' (XOR 0x01), at c2 (fixture commit e7e0050bd20d)
+    rc=1
+    RECORD-TABLE blob=4cad67dcc1b1e260 != pinned 163f284316141a83
+    PINS checked=7 matched=6 mismatched=1
+    PREDICATE R90-C2 fail
+    control at c1 (restored): rc=0  PINS 7/7/0  PREDICATE R90-C2 pass
+    -> expected RECORD-TABLE blob mismatch rc1: OBSERVED, as predicted.
+
+== 3. Fail-closed on absence
+3a. ledger names ONLY plans/round90-ghost-counter.py (committed nowhere)
+    rc=1
+    PIN-MISMATCH absent plans/round90-ghost-counter.py at b5a71815d31c
+    PIN-MISMATCH pin-file-missing-entry plans/round88_claim_figures.py
+    PIN-MISMATCH pin-file-missing-entry plans/round89_c1_replay.py
+    PIN-MISMATCH pin-file-missing-entry plans/round89_claim_figures.py
+    PIN-MISMATCH pin-file-missing-entry plans/round90_c1_replay.py
+    PIN-MISMATCH pin-file-missing-entry plans/round90_polydiff_probe.py
+    PIN-MISMATCH pin-file-missing-entry plans/round90_burndown.py
+    RECORD-TABLE blob=163f284316141a83 matched
+    PINS checked=2 matched=0 mismatched=7
+    PREDICATE R90-C2 fail
+    -> PIN-MISMATCH absent, never a skip, rc1: OBSERVED.
+
+3b. six real pins + one ghost entry (plans/round90-ghost-counter.py, sha 0*64)
+    rc=1
+    PIN-MISMATCH absent plans/round90-ghost-counter.py at b00b994af643
+    RECORD-TABLE blob=163f284316141a83 matched
+    PINS checked=8 matched=7 mismatched=1
+    PREDICATE R90-C2 fail
+    -> rc1, only the ghost line is red: OBSERVED.
+
+3c. BASE dcdd494ef4b4a6c0ae349ecb597527124ee54f91 (lane clone, pin ledger absent at BASE)
+$ python3 plans/round90_counter_pin.py --lane $S/lane --rev dcdd494ef4b4a6c0ae349ecb597527124ee54f91
+DEFECT SETUP unreadable plans/counter-pins-r90.json at dcdd494ef4b4
+PREDICATE R90-C2 could-not-evaluate
+rc=2
+    -> rc2 SETUP could-not-evaluate, nonzero, no PINS line, no pass line: fail-closed CONFIRMED.
+    -> DEFECT (frozen-text mispredict, recorded, not repaired): claims predicted
+       "exits 1 printing PIN-MISMATCH absent for every path created this round" and
+       "the four pre-existing counters ... printed PIN-OK". Observed: rc2 (the ledger itself is
+       absent so no per-path check runs), and the checker never prints a PIN-OK line at all.
+
+4. Incomplete pin set
+4a. ledger names 1 of 6 (plans/round88_claim_figures.py, its real pin)
+    rc=1
+    PIN-MISMATCH pin-file-missing-entry plans/round89_c1_replay.py
+    PIN-MISMATCH pin-file-missing-entry plans/round89_claim_figures.py
+    PIN-MISMATCH pin-file-missing-entry plans/round90_c1_replay.py
+    PIN-MISMATCH pin-file-missing-entry plans/round90_polydiff_probe.py
+    PIN-MISMATCH pin-file-missing-entry plans/round90_burndown.py
+    RECORD-TABLE blob=163f284316141a83 matched
+    PINS checked=2 matched=0 mismatched=5
+    PREDICATE R90-C2 fail
+    -> one missing-entry line per missing path (5 of 5): OBSERVED.
+4b. ledger names 5 of 6 (omits plans/round90_c1_replay.py)
+    rc=1
+    PIN-MISMATCH pin-file-missing-entry plans/round90_c1_replay.py
+    RECORD-TABLE blob=163f284316141a83 matched
+    PINS checked=6 matched=5 mismatched=1
+    PREDICATE R90-C2 fail
+    -> exactly one missing-entry line: OBSERVED.
+
+5. Tampered pin: counter pin 611226af23d5831c -> 011226af23d5831c (one hex digit), bytes unchanged
+    rc=1
+    PIN-MISMATCH bytes plans/round90_c1_replay.py got=611226af23d5831c want=011226af23d5831c
+    RECORD-TABLE blob=163f284316141a83 matched
+    PINS checked=7 matched=6 mismatched=1
+    PREDICATE R90-C2 fail
+    -> PIN-MISMATCH bytes for that path, rc1: OBSERVED.
+
+6. Separation
+6a. Receipt corpus/evidence/round90/merge-diff-probe.txt: verified ABSENT at B (cat-file rc=128). Nothing to delete.
+6b. Grader-population ledger flip target: verified UNFLIPPED at B (merge-diff-arc-agi-task status=unexecuted).
+    Scratch fixture = archive of B with grader ledger row status flipped to "executed", no receipt created,
+    receipt path confirmed absent in fixture.
+    rc=0
+    RECORD-TABLE blob=163f284316141a83 matched
+    PINS checked=7 matched=7 mismatched=0
+    PREDICATE R90-C2 pass
+    Reference B unmodified: rc=0  PINS 7/7/0  PREDICATE R90-C2 pass
+    -> C2 verdict UNCHANGED by the C1 ledger/receipt surface: OBSERVED.
+    Note: the receipt was never present, so "delete the receipt" is a no-op at B; the separation
+    control is therefore a flip-without-receipt, not a delete. The C1 counter file itself IS pinned
+    (plans/round90_c1_replay.py) and was not modified in 6b.
+
+7. --selftest at B
+$ python3 plans/round90_counter_pin.py --lane $S/lane --selftest --work $S/selftest-work
+SELFTEST modified-counter red want=red ok=True
+SELFTEST modified-record-table red want=red ok=True
+SELFTEST absent-path red want=red ok=True
+SELFTEST clean-green green want=green ok=True
+SELFTEST incomplete-pin-set red want=red ok=True
+SELFTEST cases=5 red-green-ok=5
+rc=0   -> 5/5 red-green ok: OBSERVED.
+
+== Summary of observed rc
+positive B ................ rc0 (pass)
+2a counter byte ........... rc1 (PIN-MISMATCH bytes)
+2b record-table byte ...... rc1 (RECORD-TABLE != pinned)
+3a absent path only ....... rc1 (PIN-MISMATCH absent)
+3b absent path in full set  rc1 (PIN-MISMATCH absent)
+3c BASE ................... rc2 (could-not-evaluate, fail-closed)
+4a incomplete 1 of 6 ...... rc1 (5 missing-entry)
+4b incomplete 5 of 6 ...... rc1 (1 missing-entry)
+5 tampered pin ............ rc1 (PIN-MISMATCH bytes)
+6b separation ............. rc0 (verdict unchanged)
+7 selftest ................ rc0 (5/5)
+
+== Defect and finding lines (checker and frozen text)
+F1 frozen-text mispredict: BASE predicted rc1 with PIN-MISMATCH absent + PIN-OK lines; observed rc2 SETUP unreadable (pin ledger absent). Recorded, not repaired.
+F2 the checker never prints PIN-OK; the claim's "printed PIN-OK" prediction has no producing code path.
+F3 "PINS checked" counts the record-table entry as a pin (checked = len(pins)+1); the fixture numbers reflect that. Cosmetic.
+F4 Calibration residual (disclosed in checker header, restated here): the pin values AND the EXPECTED_PINS path set both live in the tree; a single-commit rewrite of plans/counter-pins-r90.json plus the checker's constant would pass. Only the record-table blob has an out-of-tree-stable anchor. The claim's word "external" overstates what is out of tree.
+F5 selftest T4 (clean-green) uses synthetic stub contents, not real bytes; the real-bytes proof is items 1, 2a, 2b above.
+No control that could fail stayed green. No edit was made to any lane file. No install was performed.
