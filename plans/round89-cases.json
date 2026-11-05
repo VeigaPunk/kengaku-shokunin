@@ -1,0 +1,106 @@
+{
+    "member": "polyglot-rust-c",
+    "class": [
+        "shell-exec",
+        "stdout-inspection",
+        "subprocess-exec"
+    ],
+    "subject_capture": "corpus/evidence/round52/graders/polyglot-rust-c/tests/test_outputs.py",
+    "subject_sha": "baed5e4d0cc0e5809ff41a7df1815d18c65c708a3a3f264428e1cda11ce692f9",
+    "source_row": "S278",
+    "legs": [
+        "test_fibonacci_polyglot"
+    ],
+    "prediction_note": "Predicted vectors are derived by reading the captured grader source (test_outputs.py lines 14-46) before the first execution and are frozen with this table. One leg (test_fibonacci_polyglot). P=returned without raising; F=AssertionError or FileNotFoundError (graded refusal); E=anything else (uncaught error surfacing instead of a verdict, e.g. CalledProcessError).",
+    "cases": [
+        {
+            "id": "exact",
+            "predicted": "P",
+            "why": "control: single main.rs, rustc and g++ both build it, both print the frozen Fibonacci values for n=0,1,2,10,42",
+            "result": {
+                "kind": "files",
+                "files": {
+                    "polyglot/main.rs": "/* /*\n*/\n#include <cstdio>\n#include <cstdlib>\nstatic int f(int n){int a=0,b=1;while(n--){int t=a+b;a=b;b=t;}return b;}\nint main(int argc,char**argv){\n  if(argc<2)return 1;  printf(\"%d\\n\",f(atoi(argv[1])));\n  R\"(*/\nfn f(n:u64)->u64{let(mut a,mut b)=(0u64,1u64);for _ in 0..n{let t=a+b;a=b;b=t;}b}\nfn main(){let a:Vec<String>=std::env::args().collect();let n:u64=a[1].parse().unwrap();println!(\"{}\",f(n));}\n// )\";}\n"
+                }
+            }
+        },
+        {
+            "id": "padded-output",
+            "predicted": "P",
+            "why": "both programs pad stdout with spaces; the grader calls .strip() before comparing, so the vector is P",
+            "result": {
+                "kind": "files",
+                "files": {
+                    "polyglot/main.rs": "/* /*\n*/\n#include <cstdio>\n#include <cstdlib>\nstatic int f(int n){int a=0,b=1;while(n--){int t=a+b;a=b;b=t;}return b;}\nint main(int argc,char**argv){\n  if(argc<2)return 1;  printf(\"  %d  \\n\",f(atoi(argv[1])));\n  R\"(*/\nfn f(n:u64)->u64{let(mut a,mut b)=(0u64,1u64);for _ in 0..n{let t=a+b;a=b;b=t;}b}\nfn main(){let a:Vec<String>=std::env::args().collect();let n:u64=a[1].parse().unwrap();println!(\"  {}  \",f(n));}\n// )\";}\n"
+                }
+            }
+        },
+        {
+            "id": "extra-file",
+            "predicted": "F",
+            "why": "main.rs plus notes.txt: the listdir assertion (line 19) fails before any compile, AssertionError",
+            "result": {
+                "kind": "files",
+                "files": {
+                    "polyglot/main.rs": "/* /*\n*/\n#include <cstdio>\n#include <cstdlib>\nstatic int f(int n){int a=0,b=1;while(n--){int t=a+b;a=b;b=t;}return b;}\nint main(int argc,char**argv){\n  if(argc<2)return 1;  printf(\"%d\\n\",f(atoi(argv[1])));\n  R\"(*/\nfn f(n:u64)->u64{let(mut a,mut b)=(0u64,1u64);for _ in 0..n{let t=a+b;a=b;b=t;}b}\nfn main(){let a:Vec<String>=std::env::args().collect();let n:u64=a[1].parse().unwrap();println!(\"{}\",f(n));}\n// )\";}\n",
+                    "polyglot/notes.txt": "scratch\n"
+                }
+            }
+        },
+        {
+            "id": "off-by-one-rust",
+            "predicted": "F",
+            "why": "the Rust block returns fib(n-1)-shaped values; the Rust subprocess output differs at n=0, AssertionError",
+            "result": {
+                "kind": "files",
+                "files": {
+                    "polyglot/main.rs": "/* /*\n*/\n#include <cstdio>\n#include <cstdlib>\nstatic int f(int n){int a=0,b=1;while(n--){int t=a+b;a=b;b=t;}return b;}\nint main(int argc,char**argv){\n  if(argc<2)return 1;  printf(\"%d\\n\",f(atoi(argv[1])));\n  R\"(*/\nfn f(n:u64)->u64{let(mut a,mut b)=(0u64,1u64);for _ in 0..n{let t=a+b;a=b;b=t;}a}\nfn main(){let a:Vec<String>=std::env::args().collect();let n:u64=a[1].parse().unwrap();println!(\"{}\",f(n));}\n// )\";}\n"
+                }
+            }
+        },
+        {
+            "id": "cpp-exits-nonzero",
+            "predicted": "E",
+            "why": "the C++ block prints the right value then exits 1; subprocess.run(check=True) raises CalledProcessError, which is neither AssertionError nor FileNotFoundError, so the leg is E",
+            "result": {
+                "kind": "files",
+                "files": {
+                    "polyglot/main.rs": "/* /*\n*/\n#include <cstdio>\n#include <cstdlib>\nstatic int f(int n){int a=0,b=1;while(n--){int t=a+b;a=b;b=t;}return b;}\nint main(int argc,char**argv){\n  if(argc<2)return 1;  printf(\"%d\\n\",f(atoi(argv[1])));\n  return 1;\n  R\"(*/\nfn f(n:u64)->u64{let(mut a,mut b)=(0u64,1u64);for _ in 0..n{let t=a+b;a=b;b=t;}b}\nfn main(){let a:Vec<String>=std::env::args().collect();let n:u64=a[1].parse().unwrap();println!(\"{}\",f(n));}\n// )\";}\n"
+                }
+            }
+        },
+        {
+            "id": "rust-only",
+            "predicted": "F",
+            "why": "Rust-only source: g++ fails silently under os.popen, cmain is absent, subprocess.run on /app/polyglot/cmain raises FileNotFoundError",
+            "result": {
+                "kind": "files",
+                "files": {
+                    "polyglot/main.rs": "fn f(n:u64)->u64{let(mut a,mut b)=(0u64,1u64);for _ in 0..n{let t=a+b;a=b;b=t;}b}\nfn main(){let a:Vec<String>=std::env::args().collect();let n:u64=a[1].parse().unwrap();println!(\"{}\",f(n));}\n"
+                }
+            }
+        },
+        {
+            "id": "cpp-only",
+            "predicted": "F",
+            "why": "C++-only source: rustc fails silently, main is absent, subprocess.run on /app/polyglot/main raises FileNotFoundError",
+            "result": {
+                "kind": "files",
+                "files": {
+                    "polyglot/main.rs": "/* /*\n*/\n#include <cstdio>\n#include <cstdlib>\nstatic int f(int n){int a=0,b=1;while(n--){int t=a+b;a=b;b=t;}return b;}\nint main(int argc,char**argv){\n  if(argc<2)return 1;  printf(\"%d\\n\",f(atoi(argv[1])));\n}\n"
+                }
+            }
+        },
+        {
+            "id": "neither-compiles",
+            "predicted": "F",
+            "why": "junk main.rs: neither compiler produces a binary, the first subprocess.run raises FileNotFoundError",
+            "result": {
+                "kind": "files",
+                "files": {
+                    "polyglot/main.rs": "this is not a program at all\n"
+                }
+            }
+        }
+    ]
+}
