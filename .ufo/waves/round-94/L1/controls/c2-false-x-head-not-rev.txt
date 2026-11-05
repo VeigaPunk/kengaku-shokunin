@@ -1,0 +1,35 @@
+# cmd: python3 plans/round94_c2_counter.py --lane . --rev 997a6fe5fbb4a4af9f38e436bccd8f604da1d746 --work /fast/scratch/hyaku/kengaku-r94/L1/p2/w-c2-x-head-not-rev --tool-file .ufo/waves/round-93/w1/ExecC2Rerun/forgeries/x-head-not-rev.py
+# counter bytes: P1 997a6fe5fbb4a4af9f38e436bccd8f604da1d746; host 2026-11-05T18:58:14-03:00
+TOOL from-file .ufo/waves/round-93/w1/ExecC2Rerun/forgeries/x-head-not-rev.py sha256=b9f92e4c9111da3157116c09f9637abdc1134e483cd51c380838707ce9f69231
+W1a r92 ok rc=1 summary=(4, 1, 3) intact=['plans/round92_c1_replay.py']
+W1b r93 ok rc=0 summary=(9, 9, 0)
+W1 pass
+W2 w2-intact ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 w2-edited ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-edit-revert ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-lying-table ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-unrelated ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 w2-rev-below-head RED rc=1 want_rc=0 summary=(1, 0, 1) want=(1, 1, 0)
+W2 w2-edit-revert-unrelated ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-lie-repaired ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-treesame-merge RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-second-block RED rc=0 want_rc=2 summary=(1, 1, 0) want=None
+W2 w2-duplicate-row RED rc=0 want_rc=2 summary=(2, 2, 0) want=None
+W2 w2-not-ancestor ok rc=2 want_rc=2 summary=None want=None
+W2 fail fixtures=12 ok=8
+W3 echo SELFTEST cases=10 ok=10
+W3 echo SELFTEST cases=10 ok=10
+W3 fail
+W4 fail claims-add-commits=0 plans/round-94-claims.md at 997a6fe5fbb4
+W5 null RED anchor-missing (evaluate/parse_table/main structure)
+W5 K1-head-not-rev RED anchor-missing
+W5 K2-rev-minus-1 RED anchor-missing
+W5 K3-table-at-rev RED anchor-missing
+W5 K4-cne-exit0-pass RED anchor-missing
+W5 K5-no-full-history RED anchor-missing
+W5 K6-second-block-ignored RED anchor-missing
+W5 K7-duplicate-row-accepted RED anchor-missing
+W5 fail mutants=7 killed=0
+TARGET legs_passed=1 of 5
+PREDICATE R94-C2 fail
+rc=1

@@ -1,0 +1,35 @@
+# cmd: python3 plans/round94_c2_counter.py --lane . --rev 997a6fe5fbb4a4af9f38e436bccd8f604da1d746 --work /fast/scratch/hyaku/kengaku-r94/L1/p2/w-c2r93 --tool-file plans/round93_freeze_integrity.py
+# counter bytes: P1 997a6fe5fbb4a4af9f38e436bccd8f604da1d746; host 2026-11-05T18:58:14-03:00
+TOOL from-file plans/round93_freeze_integrity.py sha256=18b01b42fb54ce658dbb98ff3afd12d06600960fae46700fec9218e73bcefcb6
+W1a r92 ok rc=1 summary=(4, 1, 3) intact=['plans/round92_c1_replay.py']
+W1b r93 ok rc=0 summary=(9, 9, 0)
+W1 pass
+W2 w2-intact ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 w2-edited ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-edit-revert ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-lying-table ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-unrelated ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 w2-rev-below-head ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 w2-edit-revert-unrelated ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-lie-repaired ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-treesame-merge RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-second-block RED rc=0 want_rc=2 summary=(1, 1, 0) want=None
+W2 w2-duplicate-row RED rc=0 want_rc=2 summary=(2, 2, 0) want=None
+W2 w2-not-ancestor ok rc=2 want_rc=2 summary=None want=None
+W2 fail fixtures=12 ok=9
+W3 echo SELFTEST cases=10 ok=10
+W3 echo SELFTEST cases=10 ok=10
+W3 fail
+W4 fail claims-add-commits=0 plans/round-94-claims.md at 997a6fe5fbb4
+W5 null RED fixtures_ok=9 of 12
+W5 K1-head-not-rev killed designated=w2-rev-below-head red=w2-duplicate-row,w2-rev-below-head,w2-second-block,w2-treesame-merge
+W5 K2-rev-minus-1 killed designated=w2-edit-revert-unrelated red=w2-duplicate-row,w2-edit-revert-unrelated,w2-second-block,w2-treesame-merge
+W5 K3-table-at-rev killed designated=w2-lie-repaired red=w2-duplicate-row,w2-lie-repaired,w2-second-block,w2-treesame-merge
+W5 K4-cne-exit0-pass killed designated=w2-not-ancestor red=w2-duplicate-row,w2-not-ancestor,w2-second-block,w2-treesame-merge
+W5 K5-no-full-history RED anchor-missing
+W5 K6-second-block-ignored RED anchor-missing
+W5 K7-duplicate-row-accepted RED anchor-missing
+W5 fail mutants=7 killed=4
+TARGET legs_passed=1 of 5
+PREDICATE R94-C2 fail
+rc=1
