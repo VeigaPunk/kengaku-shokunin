@@ -1,0 +1,157 @@
+{
+  "member": "modernize-scientific-stack",
+  "class": [
+    "file-artifact",
+    "filesystem-metadata",
+    "numeric-band",
+    "stdout-inspection",
+    "subprocess-exec"
+  ],
+  "subject_capture": "corpus/evidence/round52/graders/modernize-scientific-stack/tests/test_outputs.py",
+  "subject_sha": "0c24195ff46527764c7f8ceda9c608a189ab4a01619282942fcd27a2ea02a977",
+  "source_row": "S281",
+  "legs": [
+    "test_modernized_code_runs",
+    "test_dependency_file_exists"
+  ],
+  "prediction_note": "Predicted vectors are derived by reading the captured grader source (test_outputs.py lines 1-48) before the first execution and are frozen with this table. Vector order is the grader's function-definition order: test_modernized_code_runs, test_dependency_file_exists. Per position: P=returned without raising; F=AssertionError (graded refusal); E=anything else raised (an uncaught error surfacing instead of a verdict - here subprocess.TimeoutExpired from the grader's own timeout=30 in the script-hangs case). Fixtures are declarative: each case declares the /app tree the probe stages (files keyed by path; a path listed in `absent` is not staged). The staged climate_data.csv is station,temp_c rows for stations 101 (-15.4, -15.6) and 102 (30.2, 30.4), so the means are -15.50 and 30.30. The staged scripts are lane-authored and deterministic; DELTA_101/DELTA_102 offsets are literal in each variant. The grader asserts abs(mean - target) < 0.1 strictly, so -15.41 (delta 0.09) passes and 30.41 (delta 0.11) fails; boundary-adjacent values were chosen away from the float-equality edge (0.1 is not representable exactly). legs formula: 10 cases x 2 functions = 20 observed legs in the receipt (round-90 M3: counts with host-defined units are predicted with their formula).",
+  "cases": [
+    {
+      "id": "full-pass",
+      "predicted": "PP",
+      "why": "control: correct script, CSV staged, requirements.txt staged; both means inside tolerance, dependency file present",
+      "result": {
+        "kind": "app",
+        "files": {
+          "analyze_climate_modern.py": "import csv\nrows = list(csv.DictReader(open('/app/climate_analyzer/sample_data/climate_data.csv')))\nsums, counts = {}, {}\nfor r in rows:\n    s, v = r['station'], float(r['temp_c'])\n    sums[s] = sums.get(s, 0.0) + v\n    counts[s] = counts.get(s, 0) + 1\nfor s in ('101', '102'):\n    mean = sums[s] / counts[s]\n    if s == '101': mean += 0.0\n    if s == '102': mean += 0.0\n    print(f\"Station {s} mean temperature: {mean:.2f} C\")\n",
+          "climate_analyzer/sample_data/climate_data.csv": "station,temp_c\n101,-15.4\n101,-15.6\n102,30.2\n102,30.4\n",
+          "requirements.txt": "pytest>=8\n"
+        },
+        "absent": []
+      }
+    },
+    {
+      "id": "missing-script",
+      "predicted": "FP",
+      "why": "script absent: test_modernized_code_runs fails at the script_path.exists assert (AssertionError); dependency file present so test_dependency_file_exists passes",
+      "result": {
+        "kind": "app",
+        "files": {
+          "climate_analyzer/sample_data/climate_data.csv": "station,temp_c\n101,-15.4\n101,-15.6\n102,30.2\n102,30.4\n",
+          "requirements.txt": "pytest>=8\n"
+        },
+        "absent": ["analyze_climate_modern.py"]
+      }
+    },
+    {
+      "id": "missing-csv",
+      "predicted": "FP",
+      "why": "CSV absent: fails at the csv_file.exists assert; script and dependency file staged",
+      "result": {
+        "kind": "app",
+        "files": {
+          "analyze_climate_modern.py": "import csv\nrows = list(csv.DictReader(open('/app/climate_analyzer/sample_data/climate_data.csv')))\nsums, counts = {}, {}\nfor r in rows:\n    s, v = r['station'], float(r['temp_c'])\n    sums[s] = sums.get(s, 0.0) + v\n    counts[s] = counts.get(s, 0) + 1\nfor s in ('101', '102'):\n    mean = sums[s] / counts[s]\n    print(f\"Station {s} mean temperature: {mean:.2f} C\")\n",
+          "requirements.txt": "pytest>=8\n"
+        },
+        "absent": ["climate_analyzer/sample_data/climate_data.csv"]
+      }
+    },
+    {
+      "id": "script-fails",
+      "predicted": "FP",
+      "why": "script exits 2 before printing: the grader's returncode assert fires (AssertionError); dependency file staged",
+      "result": {
+        "kind": "app",
+        "files": {
+          "analyze_climate_modern.py": "import sys\nsys.exit(2)\n",
+          "climate_analyzer/sample_data/climate_data.csv": "station,temp_c\n101,-15.4\n101,-15.6\n102,30.2\n102,30.4\n",
+          "requirements.txt": "pytest>=8\n"
+        },
+        "absent": []
+      }
+    },
+    {
+      "id": "station-101-off-by-1",
+      "predicted": "FP",
+      "why": "station 101 mean printed as -14.50 (delta +1.0): |−14.5 − (−15.5)| = 1.0 > 0.1 tolerance, assert fires; station 102 and dependency file fine",
+      "result": {
+        "kind": "app",
+        "files": {
+          "analyze_climate_modern.py": "import csv\nrows = list(csv.DictReader(open('/app/climate_analyzer/sample_data/climate_data.csv')))\nsums, counts = {}, {}\nfor r in rows:\n    s, v = r['station'], float(r['temp_c'])\n    sums[s] = sums.get(s, 0.0) + v\n    counts[s] = counts.get(s, 0) + 1\nfor s in ('101', '102'):\n    mean = sums[s] / counts[s]\n    if s == '101': mean += 1.0\n    print(f\"Station {s} mean temperature: {mean:.2f} C\")\n",
+          "climate_analyzer/sample_data/climate_data.csv": "station,temp_c\n101,-15.4\n101,-15.6\n102,30.2\n102,30.4\n",
+          "requirements.txt": "pytest>=8\n"
+        },
+        "absent": []
+      }
+    },
+    {
+      "id": "station-101-inside-tolerance",
+      "predicted": "PP",
+      "why": "station 101 mean printed as -15.41 (delta +0.09): 0.09 < 0.1 strictly, inside tolerance; both tests pass (numeric-band boundary from the inside)",
+      "result": {
+        "kind": "app",
+        "files": {
+          "analyze_climate_modern.py": "import csv\nrows = list(csv.DictReader(open('/app/climate_analyzer/sample_data/climate_data.csv')))\nsums, counts = {}, {}\nfor r in rows:\n    s, v = r['station'], float(r['temp_c'])\n    sums[s] = sums.get(s, 0.0) + v\n    counts[s] = counts.get(s, 0) + 1\nfor s in ('101', '102'):\n    mean = sums[s] / counts[s]\n    if s == '101': mean += 0.09\n    print(f\"Station {s} mean temperature: {mean:.2f} C\")\n",
+          "climate_analyzer/sample_data/climate_data.csv": "station,temp_c\n101,-15.4\n101,-15.6\n102,30.2\n102,30.4\n",
+          "requirements.txt": "pytest>=8\n"
+        },
+        "absent": []
+      }
+    },
+    {
+      "id": "station-102-outside-tolerance",
+      "predicted": "FP",
+      "why": "station 102 mean printed as 30.41 (delta +0.11): 30.41 - 30.3 = 0.11000...32 > 0.1, assert fires; station 101 inside tolerance; numeric-band boundary from the outside",
+      "result": {
+        "kind": "app",
+        "files": {
+          "analyze_climate_modern.py": "import csv\nrows = list(csv.DictReader(open('/app/climate_analyzer/sample_data/climate_data.csv')))\nsums, counts = {}, {}\nfor r in rows:\n    s, v = r['station'], float(r['temp_c'])\n    sums[s] = sums.get(s, 0.0) + v\n    counts[s] = counts.get(s, 0) + 1\nfor s in ('101', '102'):\n    mean = sums[s] / counts[s]\n    if s == '102': mean += 0.11\n    print(f\"Station {s} mean temperature: {mean:.2f} C\")\n",
+          "climate_analyzer/sample_data/climate_data.csv": "station,temp_c\n101,-15.4\n101,-15.6\n102,30.2\n102,30.4\n",
+          "requirements.txt": "pytest>=8\n"
+        },
+        "absent": []
+      }
+    },
+    {
+      "id": "script-hangs",
+      "predicted": "EP",
+      "why": "script sleeps 40 s: the grader's subprocess.run(timeout=30) raises subprocess.TimeoutExpired uncaught - the E class (an uncaught error surfacing instead of a verdict); dependency file staged so the second test passes",
+      "result": {
+        "kind": "app",
+        "files": {
+          "analyze_climate_modern.py": "import time\ntime.sleep(40)\n",
+          "climate_analyzer/sample_data/climate_data.csv": "station,temp_c\n101,-15.4\n101,-15.6\n102,30.2\n102,30.4\n",
+          "requirements.txt": "pytest>=8\n"
+        },
+        "absent": []
+      }
+    },
+    {
+      "id": "no-dependency-file",
+      "predicted": "PF",
+      "why": "correct script and CSV but neither requirements.txt nor pyproject.toml staged: first test passes, test_dependency_file_exists fails at its any() assert",
+      "result": {
+        "kind": "app",
+        "files": {
+          "analyze_climate_modern.py": "import csv\nrows = list(csv.DictReader(open('/app/climate_analyzer/sample_data/climate_data.csv')))\nsums, counts = {}, {}\nfor r in rows:\n    s, v = r['station'], float(r['temp_c'])\n    sums[s] = sums.get(s, 0.0) + v\n    counts[s] = counts.get(s, 0) + 1\nfor s in ('101', '102'):\n    mean = sums[s] / counts[s]\n    print(f\"Station {s} mean temperature: {mean:.2f} C\")\n",
+          "climate_analyzer/sample_data/climate_data.csv": "station,temp_c\n101,-15.4\n101,-15.6\n102,30.2\n102,30.4\n"
+        },
+        "absent": ["requirements.txt"]
+      }
+    },
+    {
+      "id": "mean-temperature-missing",
+      "predicted": "FP",
+      "why": "script prints 'Station 101 avg temp: -15.50 C' (no 'mean temperature' phrase): the phrase assert fires after the two station-name asserts pass",
+      "result": {
+        "kind": "app",
+        "files": {
+          "analyze_climate_modern.py": "import csv\nrows = list(csv.DictReader(open('/app/climate_analyzer/sample_data/climate_data.csv')))\nsums, counts = {}, {}\nfor r in rows:\n    s, v = r['station'], float(r['temp_c'])\n    sums[s] = sums.get(s, 0.0) + v\n    counts[s] = counts.get(s, 0) + 1\nfor s in ('101', '102'):\n    mean = sums[s] / counts[s]\n    print(f\"Station {s} avg temp: {mean:.2f} C\")\n",
+          "climate_analyzer/sample_data/climate_data.csv": "station,temp_c\n101,-15.4\n101,-15.6\n102,30.2\n102,30.4\n",
+          "requirements.txt": "pytest>=8\n"
+        },
+        "absent": []
+      }
+    }
+  ]
+}
