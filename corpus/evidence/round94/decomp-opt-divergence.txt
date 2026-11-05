@@ -1,0 +1,5 @@
+# host observation (not a claim leg), 2026-11-05T19:00:32-03:00: the task image builds /app/decomp with gcc -O3 (environment/Dockerfile:8); the grader rebuilds decomp2 with plain gcc (tests/test_outputs.py:15); decomp.c:60/:75 printf("%s") an uninitialised stack buffer, so trailing bytes depend on codegen
+# reference data.comp sha256 3a905a56e8f2937983412e6d3077cf2cec3eeb945c05b62502bb138d195b9131 (2264 B), from captured main.rs
+d_o3 output_bytes=4870 sha256=8169d274e58df62f vs data.txt(4868 B): differs
+d_o0 output_bytes=4868 sha256=0fc483d0fb31128d vs data.txt(4868 B): identical
+gcc: gcc (GCC) 16.2.1 20260810
