@@ -1,0 +1,67 @@
+{
+ "member": "write-compressor",
+ "leg_order": [
+  "exists",
+  "roundtrip",
+  "size",
+  "bytes"
+ ],
+ "cases": [
+  {
+   "id": "C01",
+   "comp": "reference",
+   "tamper": "none",
+   "predicted": "P,P,P,2264",
+   "why": "positive control: the reference artifact solve.sh builds from the captured main.rs passes all three functions"
+  },
+  {
+   "id": "C02",
+   "comp": "absent",
+   "tamper": "none",
+   "predicted": "F,F,F,-",
+   "why": "no data.comp: every function asserts on existence"
+  },
+  {
+   "id": "C03",
+   "comp": "raw-data",
+   "tamper": "none",
+   "predicted": "P,F,F,4868",
+   "why": "the uncompressed text as data.comp: exists, does not round-trip, too large"
+  },
+  {
+   "id": "C04",
+   "comp": "reference",
+   "tamper": "data-and-decomp",
+   "predicted": "P,P,P,2264",
+   "why": "tamper: /app/data.txt and /app/decomp.c replaced before grading; setup() restores both from /tests, so tampering cannot help or hurt"
+  },
+  {
+   "id": "C05",
+   "comp": "truncate-2000",
+   "tamper": "none",
+   "predicted": "P,F,P,2000",
+   "why": "the reference cut to 2000 bytes: under the size wall but the stream ends early"
+  },
+  {
+   "id": "C06",
+   "comp": "pad-300-zero",
+   "tamper": "none",
+   "predicted": "P,P,F,2564",
+   "why": "the reference plus 300 zero bytes: the decoder stops before the padding, so it round-trips but breaks the 2500-byte wall"
+  },
+  {
+   "id": "C07",
+   "comp": "empty",
+   "tamper": "none",
+   "predicted": "P,F,P,0",
+   "why": "an empty data.comp exists and is small but decodes to nothing useful"
+  },
+  {
+   "id": "C08",
+   "comp": "flip-byte-1000",
+   "tamper": "none",
+   "predicted": "P,E:UnicodeDecodeError,P,2264",
+   "why": "one byte of the reference inverted: same size, corrupted stream. Mechanism predicted F (mismatch); dry runs 1-3 observed the grader's own subprocess.run(text=True) raising UnicodeDecodeError on the corrupted output, so the round-trip function errors instead of failing its assertion"
+  }
+ ]
+}
