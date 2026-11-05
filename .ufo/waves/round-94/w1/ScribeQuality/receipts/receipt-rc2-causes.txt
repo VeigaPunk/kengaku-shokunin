@@ -1,0 +1,49 @@
+### every rc-2 path of plans/round94_freeze_integrity.py, reproduced
+--- (a) argparse usage error: missing --work
+                                   [--paths PATHS [PATHS ...]] --work WORK
+round94_freeze_integrity.py: error: the following arguments are required: --work
+rc=2
+--- (b) exactly one of --claims/--paths (both given)
+DEFECT SETUP exactly one of --claims/--paths is required
+PREDICATE freeze-integrity could-not-evaluate
+rc=2
+--- (c) exactly one of --claims/--paths (neither given)
+DEFECT SETUP exactly one of --claims/--paths is required
+PREDICATE freeze-integrity could-not-evaluate
+rc=2
+--- (d) malformed table row
+DEFECT SETUP malformed table row 'not-a-sha  c.py'
+PREDICATE freeze-integrity could-not-evaluate
+rc=2
+--- (e) duplicate --paths
+DEFECT SETUP duplicate --paths
+PREDICATE freeze-integrity could-not-evaluate
+rc=2
+--- (f) unresolved revision
+DEFECT SETUP unresolved-revision deadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+PREDICATE freeze-integrity could-not-evaluate
+rc=2
+--- (g) freeze not an ancestor of rev
+DEFECT SETUP freeze 242b36691768 is not an ancestor of 0cbb927914e0
+PREDICATE freeze-integrity could-not-evaluate
+rc=2
+--- (h) path absent at the freeze
+DEFECT SETUP path plans/nonexistent-xyz.py absent at freeze 242b36691768
+PREDICATE freeze-integrity could-not-evaluate
+rc=2
+--- (i) claims file absent at the freeze
+DEFECT SETUP claims file plans/round-94-claims.md absent at freeze 0cbb927914e0
+PREDICATE freeze-integrity could-not-evaluate
+rc=2
+--- (j) second frozen-instruments block
+DEFECT SETUP frozen-instruments blocks=2, exactly one allowed
+PREDICATE freeze-integrity could-not-evaluate
+rc=2
+--- (k) duplicate table path
+DEFECT SETUP duplicate table paths c.py
+PREDICATE freeze-integrity could-not-evaluate
+rc=2
+--- (l) table absent
+DEFECT SETUP frozen-instruments table absent or empty
+PREDICATE freeze-integrity could-not-evaluate
+rc=2

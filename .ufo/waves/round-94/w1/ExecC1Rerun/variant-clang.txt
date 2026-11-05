@@ -1,0 +1,27 @@
+VARIANT clang
+# tb2 write-compressor grader probe (round 94)
+MEMBER write-compressor
+SUBJECT_SHA 809f486053e3ffbce852111dee1f63d80ab31297bd33172389e50278bed384e2
+SOLVE_SHA 01550b7de7ab1320b1898eae055226bb7c73bee259c75102d2240c974a730409
+REFERENCE_COMP_SHA 3a905a56e8f2937983412e6d3077cf2cec3eeb945c05b62502bb138d195b9131
+REFERENCE_COMP_BYTES 2264
+TOOL_SHA 3e1e17641ff6737fda8b72d05819106aecd3861b2a8d711ee765c513c90995cb
+CASE_TABLE_SHA e3c0c0eaef0f1d04319683970a2e9ef10df8be656f79368d797399ff4691d394
+LANE_TIP 90c7677f0ba95d0930d93bda6a14aa50605ebe2e
+HOST_PYTHON Python 3.14.8
+HOST_GCC gcc (GCC) 16.2.1 20260810
+HOST_RUSTC rustc 1.99.1 (58cf8f9c3 2026-10-13) (Arch Linux rust 1:1.99.1-1)
+HOST_USERNS 122865
+LEG_ORDER exists,roundtrip,size,bytes
+OBSERVATIONS_BEGIN
+CASE C01 predicted=P,P,P,2264 observed=P,P,P,2264 ok=True
+CASE C02 predicted=F,F,F,- observed=F,F,F,- ok=True
+CASE C03 predicted=P,F,F,4868 observed=P,F,F,4868 ok=True
+CASE C04 predicted=P,P,P,2264 observed=P,P,P,2264 ok=True
+CASE C05 predicted=P,F,P,2000 observed=P,F,P,2000 ok=True
+CASE C06 predicted=P,P,F,2564 observed=P,P,F,2564 ok=True
+CASE C07 predicted=P,F,P,0 observed=P,E:UnicodeDecodeError,P,0 ok=False
+CASE C08 predicted=P,E:UnicodeDecodeError,P,2264 observed=P,E:UnicodeDecodeError,P,2264 ok=True
+OBSERVATIONS_END
+mismatches 1
+rc=1

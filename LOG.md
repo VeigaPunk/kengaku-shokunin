@@ -3561,3 +3561,45 @@ changed after F (C2 W4: `summary=(9, 9, 0)`).
   (report-only): broken rows in 85/86/89/91, intact 87/88/90. QUALITY Q73 (freeze-integrity
   precondition for "met as frozen") and Q74 (mechanism predictions are hypotheses until a scratch
   run) landed.
+
+## Round 94 — twelfth executed member (`write-compressor`), freeze-integrity gate v2 and its mutant-carrying counter (KengakuR94)
+
+Order: P0 mechanism predictions + capture `bdcb1ec0` → instruments P1 `997a6fe5` → controls
+executed against P1 and committed at P2 `74b3d2a1` → frozen claims F `844c504e` (11-row
+`frozen-instruments` table) → official receipt, ledger flip and SOURCES at C `90c7677f` (= T for
+both counters) → L1 receipts `242b3669` → wave spec `d04e6664`. No tabled file changed after F.
+
+- **R94-C1 (coverage, held at L0 cap 7): met on its frozen predicate.** `write-compressor` @
+  `2fd12b88` replayed offline through `plans/round94_compressor_probe.py`: the reference
+  `data.comp` is rebuilt every run from the captured `solve.sh` heredoc with host rustc inside
+  bwrap (2264 B, sha256 `3a905a56…9131`), then 8 cases × 4 legs of the grader's own three test
+  functions. Receipt `corpus/evidence/round94/compressor-probe.txt`: 8/8 `ok=True`, mismatches 0.
+  At T the counter prints `LEGS L1..L9=pass`, `TARGET executed_rows=38 member=write-compressor
+  located=1 executed=1 cases=8 legs=32 mismatches=0 defects=0`, `PREDICATE R94-C1 pass`, rc 0
+  (`.ufo/waves/round-94/L1/c1-tip.txt`). Grader findings the cases fix: C04 — tampering with
+  /app/data.txt and /app/decomp.c cannot change the verdict (`setup()` restores both from /tests);
+  C06 — round-trip and the 2500-byte wall are independent; C08 — one inverted byte makes the
+  round-trip function raise `UnicodeDecodeError` (its `text=True` pipe) instead of failing its
+  assertion (mechanism prediction refuted, lesson M3). Host observation
+  (`corpus/evidence/round94/decomp-opt-divergence.txt`): the task image's `-O3` `/app/decomp`
+  emits 4870 B for the reference stream, the grader's plain build 4868 B — the decoder prints an
+  unterminated stack buffer.
+- **R94-C2 (calibration, held at 10): met on its frozen predicate.** Before: the frozen round-93
+  counter passes 5 known false gates at BASE (rc 0 each). After: gate v2
+  `plans/round94_freeze_integrity.py` (`--full-history`, one table block, duplicate rows refused,
+  15-case battery) and `plans/round94_c2_counter.py` at T → W1–W5 pass, `W5 pass mutants=7
+  killed=7`, `PREDICATE R94-C2 pass`, rc 0 (`c2-tip.txt`); the 5 false gates rc 1 each at their
+  designated fixtures (`controls/c2-false-*.txt`).
+- **Conformance (no claim slot).** Round-93 closure items 1, 2, 6: `SKILL.md` registry row
+  `freeze-integrity`; `SCORECARD.md` `## Capabilities` row; W3 echoes the SELFTEST line.
+- **Sources & frontier.** S297–S300 admitted (tier A), S301–S302 rejected with flips; registry
+  288 → 294 rows; census exit 0 at start and end. S299 word count corrected after T (M1).
+  Assimilation: none. considerthese: none taken.
+- **Mistakes mined.** M1 hand-typed word count (captured by `plans/anchor_line_check.py`, now
+  Q76); M2 author-chosen fixtures bound discrimination (round-93 M4, recurring; Q75 scoped);
+  M3 C08 mechanism refuted (Q74 held); M4 measurement run from the wrong cwd (rc 2 caught it).
+- **Wave w1.** 12 seats, one v1 wave: 3 executor, scout, connector, scribe, 2 reviewer, critic,
+  2 mutation-tester, sentinel; attack share (reviewer, critic, mutation-tester) 5/12 = 42 %.
+  9 reported, 3 dead (ScoutSources, ReviewerC1, ReviewerC2 — empty output). Critic: C1 verifies
+  (narrowed); C2 does not verify as calibration (5 → 0 confounded). Nine new false gates pass the
+  C2 counter; routed to round 95 with every other finding (lesson W-1…W-13).

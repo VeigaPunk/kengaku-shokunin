@@ -1,0 +1,33 @@
+### d3-octopus
+--- round94_freeze_integrity.py rc=1
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=2 verdict=broken:touched-after-freeze=2
+FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+PREDICATE freeze-integrity fail
+
+### d3-octopus
+--- F3b-octopus-anchor-kept.py rc=0
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass
+
+### d4-readd
+--- round94_freeze_integrity.py rc=1
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=2 verdict=broken:touched-after-freeze=2
+FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+PREDICATE freeze-integrity fail
+
+### d4-readd
+--- F4b-touched-M-only-anchor-kept.py rc=0
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass
+
+### d6-cne
+--- round94_freeze_integrity.py rc=2
+DEFECT SETUP path nope.py absent at freeze 57845817c903
+PREDICATE freeze-integrity could-not-evaluate
+
+### d6-cne
+--- F6b-entry-rc-remap.py rc=1
+DEFECT SETUP path nope.py absent at freeze 57845817c903
+PREDICATE freeze-integrity could-not-evaluate

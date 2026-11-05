@@ -1,0 +1,29 @@
+13,14c13,14
+<                --rev below HEAD (W-1 x-head-not-rev), edit then unrelated commit at --rev
+<                (W-1 x-diff-rev-minus-1), lying table repaired after the freeze (W-1
+---
+>                --rev below HEAD (W-1 x-head-not-rev), edit, revert, then an unrelated commit
+>                at --rev (W-1 x-diff-rev-minus-1), lying table repaired after the freeze (W-1
+16c16
+<                block (W-3), duplicate row (W-6), freeze not an ancestor (W-4 m06: rc 2 leg)
+---
+>                block naming another path (W-3), duplicate row (W-6), freeze not an ancestor (W-4 m06: rc 2 leg)
+61c61
+<     ("K2-rev-minus-1", "    f = resolve(root, freeze)\n", "    f = resolve(root, rev + \"~1\")\n", "cli", "w2-edit-then-unrelated"),
+---
+>     ("K2-rev-minus-1", "    f = resolve(root, freeze)\n", "    f = resolve(root, rev + \"~1\")\n", "cli", "w2-edit-revert-unrelated"),
+121c121
+<         extra = "\n```frozen-instruments\n" + "e" * 64 + "  probe.py\n```\n"
+---
+>         extra = "\n```frozen-instruments\n" + hashlib.sha256(b"notes\n").hexdigest() + "  notes.md\n```\n"
+139c139
+<     elif name == "w2-edit-then-unrelated":
+---
+>     elif name == "w2-edit-revert-unrelated":
+141a142,143
+>         (d / "probe.py").write_bytes(BODY)
+>         fx_commit(d, "revert")
+166c168
+<     ("w2-edit-then-unrelated", 1, (1, 0, 1)),
+---
+>     ("w2-edit-revert-unrelated", 1, (1, 0, 1)),

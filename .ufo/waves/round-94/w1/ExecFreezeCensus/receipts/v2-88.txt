@@ -1,0 +1,26 @@
+$ python3 plans/round94_freeze_integrity.py --lane /fast/scratch/hyaku/kengaku-r94/ExecFreezeCensus/lane --freeze 1f267d4b6f60f1137ebf8b905d318bd2d9894e99 --rev 7fcc680b86599eedd63e862a061848298428b3cc --paths plans/round88_c1_replay.py plans/round88_claim_figures.py plans/round88_fixgit_probe.py plans/round88-cases.json --work /fast/scratch/hyaku/kengaku-r94/ExecFreezeCensus/w-v2-88
+BATTERY B01 ok got=['intact']
+BATTERY B02 ok got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B03 ok got=['broken:touched-after-freeze=2']
+BATTERY B04 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+BATTERY B05 ok got=['broken:absent-at-rev+touched-after-freeze=1']
+BATTERY B06 ok got=['intact']
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 ok got=['broken:rev-bytes-differ+touched-after-freeze=1', 'intact']
+BATTERY B10 ok got=could-not-evaluate
+BATTERY B11 ok got=['broken:touched-after-freeze=2']
+BATTERY B12 ok got=could-not-evaluate
+BATTERY B13 ok got=could-not-evaluate
+BATTERY B14 ok got=['intact']
+BATTERY B15 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+SELFTEST cases=15 ok=15
+FREEZE 1f267d4b6f60f1137ebf8b905d318bd2d9894e99 REV 7fcc680b86599eedd63e862a061848298428b3cc
+INSTRUMENT plans/round88_c1_replay.py table=0c47f5ec272a freeze=0c47f5ec272a rev=0c47f5ec272a touched=0 verdict=intact
+INSTRUMENT plans/round88_claim_figures.py table=229a0eddb1c6 freeze=229a0eddb1c6 rev=229a0eddb1c6 touched=0 verdict=intact
+INSTRUMENT plans/round88_fixgit_probe.py table=50ae36d631c9 freeze=50ae36d631c9 rev=50ae36d631c9 touched=0 verdict=intact
+INSTRUMENT plans/round88-cases.json table=72f8ea0cae49 freeze=72f8ea0cae49 rev=72f8ea0cae49 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=4 intact=4 broken=0
+PREDICATE freeze-integrity pass
+
+EXIT 0

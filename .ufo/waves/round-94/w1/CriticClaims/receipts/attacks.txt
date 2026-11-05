@@ -1,0 +1,40 @@
+## A. edit then revert, plus refs/replace graft of the edit commit
+A0 honest history (no replace refs):
+INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=2 verdict=broken:touched-after-freeze=2
+FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+PREDICATE freeze-integrity fail
+rc=1
+A1 replace refs present: 1
+A1 gate, default (replace honored):
+INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass
+rc=0
+A2 control, GIT_NO_REPLACE_OBJECTS=1:
+INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=2 verdict=broken:touched-after-freeze=2
+FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+PREDICATE freeze-integrity fail
+rc=1
+## B. spelled duplicate row (./probe.py next to probe.py), after an edit
+INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+INSTRUMENT ./probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+FREEZE-INTEGRITY instruments=2 intact=0 broken=2
+PREDICATE freeze-integrity fail
+rc=1
+## C. second table block with four-backtick and tilde fences naming notes.md (edited after freeze)
+C1 four-backtick second block:
+INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass
+rc=0
+C2 tilde second block:
+INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass
+rc=0
+C3 control, notes.md in the one honored block (committed at freeze), same edit:
+INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+INSTRUMENT notes.md table=444e0fffbd82 freeze=444e0fffbd82 rev=474cad6efec9 touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+PREDICATE freeze-integrity fail
+rc=1

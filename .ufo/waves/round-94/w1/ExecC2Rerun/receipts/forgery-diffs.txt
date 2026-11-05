@@ -1,0 +1,43 @@
+=== diff base -> F1-paths-dup-accepted.py
+125,126d124
+<         if len({p for _, p in table}) != len(table):
+<             raise CouldNotEvaluate("duplicate --paths")
+=== diff base -> F2-paths-absent-dropped.py
+121c121
+<                 raise CouldNotEvaluate(f"path {p} absent at freeze {f[:12]}")
+---
+>                 continue
+=== diff base -> F3-octopus-default-history.py
+131c131,133
+<         log = git(root, "rev-list", "--full-history", f"{f}..{t}", "--", p)
+---
+>         octopus = git(root, "rev-list", "--merges", "--min-parents=3", f"{f}..{t}").stdout.strip()
+>         flags = [] if octopus else ["--full-history"]
+>         log = git(root, "rev-list", *flags, f"{f}..{t}", "--", p)
+=== diff base -> F4-touched-M-only.py
+131c131
+<         log = git(root, "rev-list", "--full-history", f"{f}..{t}", "--", p)
+---
+>         log = git(root, "log", "--full-history", "--diff-filter=M", "--format=%H", f"{f}..{t}", "--", p)
+=== diff base -> F5-rename-intact.py
+134a135,143
+>         renamed = None
+>         if at_t is None:
+>             for line in git(root, "diff", "--name-status", "-M", f, t).stdout.decode().splitlines():
+>                 cols = line.split("\t")
+>                 if len(cols) == 3 and cols[0].startswith("R") and cols[1] == p:
+>                     renamed = cols[2]
+>         if renamed is not None:
+>             at_t = blob(root, t, renamed)
+>             touched = 0
+=== diff base -> F6-paths-cne-rc1.py
+333c333
+<         return 2
+---
+>         return 1 if a.paths else 2
+=== diff base -> F7-spaced-row-dropped.py
+115c115,116
+<         table = parse_table(text.decode(errors="replace"))
+---
+>         kept = [ln for ln in text.decode(errors="replace").splitlines() if len(ln.split()) <= 2]
+>         table = parse_table("\n".join(kept))

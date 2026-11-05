@@ -1,0 +1,42 @@
+### x-head-not-rev
+W2 w2-rev-below-head RED rc=1 want_rc=0 summary=(1, 0, 1) want=(1, 1, 0)
+W2 w2-treesame-merge RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-second-block RED rc=0 want_rc=2 summary=(1, 1, 0) want=None
+W2 w2-duplicate-row RED rc=0 want_rc=2 summary=(2, 2, 0) want=None
+TARGET legs_passed=2 of 5
+PREDICATE R94-C2 fail
+### x-diff-rev-minus-1
+W2 w2-edit-revert-unrelated RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-treesame-merge RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-second-block RED rc=0 want_rc=2 summary=(1, 1, 0) want=None
+W2 w2-duplicate-row RED rc=0 want_rc=2 summary=(2, 2, 0) want=None
+TARGET legs_passed=2 of 5
+PREDICATE R94-C2 fail
+### x-table-at-rev
+W2 w2-lie-repaired RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-treesame-merge RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-second-block RED rc=0 want_rc=2 summary=(1, 1, 0) want=None
+W2 w2-duplicate-row RED rc=0 want_rc=2 summary=(2, 2, 0) want=None
+W2 w2-not-ancestor RED rc=1 want_rc=2 summary=(1, 0, 1) want=None
+TARGET legs_passed=2 of 5
+PREDICATE R94-C2 fail
+### m06-cne-exit0-pass
+W2 w2-treesame-merge RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-second-block RED rc=0 want_rc=2 summary=(1, 1, 0) want=None
+W2 w2-duplicate-row RED rc=0 want_rc=2 summary=(2, 2, 0) want=None
+W2 w2-not-ancestor RED rc=0 want_rc=2 summary=None want=None
+W5 K1-head-not-rev killed designated=w2-rev-below-head red=w2-duplicate-row,w2-not-ancestor,w2-rev-below-head,w2-second-block,w2-treesame-merge
+W5 K2-rev-minus-1 killed designated=w2-edit-revert-unrelated red=w2-duplicate-row,w2-edit-revert-unrelated,w2-not-ancestor,w2-second-block,w2-treesame-merge
+W5 K3-table-at-rev killed designated=w2-lie-repaired red=w2-duplicate-row,w2-lie-repaired,w2-not-ancestor,w2-second-block,w2-treesame-merge
+TARGET legs_passed=2 of 5
+PREDICATE R94-C2 fail
+### m13-table-read-at-rev
+W2 w2-lie-repaired RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-treesame-merge RED rc=0 want_rc=1 summary=(1, 1, 0) want=(1, 0, 1)
+W2 w2-second-block RED rc=0 want_rc=2 summary=(1, 1, 0) want=None
+W2 w2-duplicate-row RED rc=0 want_rc=2 summary=(2, 2, 0) want=None
+W5 K1-head-not-rev killed designated=w2-rev-below-head red=w2-duplicate-row,w2-lie-repaired,w2-rev-below-head,w2-second-block,w2-treesame-merge
+W5 K2-rev-minus-1 killed designated=w2-edit-revert-unrelated red=w2-duplicate-row,w2-edit-revert-unrelated,w2-lie-repaired,w2-second-block,w2-treesame-merge
+W5 K4-cne-exit0-pass killed designated=w2-not-ancestor red=w2-duplicate-row,w2-lie-repaired,w2-not-ancestor,w2-second-block,w2-treesame-merge
+TARGET legs_passed=2 of 5
+PREDICATE R94-C2 fail

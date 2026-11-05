@@ -1,0 +1,33 @@
+# history census: which history shapes do the counter's legs exercise?
+# command (per window, in the --shared clone at T 90c7677f):
+#   git rev-list --merges --min-parents=3 --count FREEZE..TIP
+#   git rev-list --merges --count FREEZE..TIP
+#   git log --diff-filter=R --name-status --format= FREEZE..TIP | wc -l   (renames)
+#   git log --diff-filter=D --name-status --format= FREEZE..TIP | wc -l   (deletes)
+#   git log --diff-filter=A --name-status --format= FREEZE..TIP | wc -l   (adds)
+
+== W1a r92 f0018773f507f363854123856990f8ff8a87eb8c..1df7653633bd4c5a5f373d139f9f1ed02e0f9c07
+octopus(>=3 parents): 0
+merges: 0
+renames(R): 0
+deletes(D): 0
+adds(A): 186
+
+== W1b r93 d8d0a4b849f3d031a6ad5525e18611a097e08bfe..7b8719f3eefb3f560add5dd3367b67b7a50a45da
+octopus(>=3 parents): 0
+merges: 0
+renames(R): 0
+deletes(D): 0
+adds(A): 223
+
+== W4 round-94 844c504e5147ce767a146af98e4d9b2cacb4258d..90c7677f0ba95d0930d93bda6a14aa50605ebe2e
+octopus(>=3 parents): 0
+merges: 0
+renames(R): 0
+deletes(D): 0
+adds(A): 2
+commits in W4 range: 44
+
+# Reading: none of the three windows that feed W1/W4 contains an octopus merge, a rename,
+# or a delete. W2 has one 2-parent treesame merge (w2-treesame-merge) and no octopus,
+# rename, delete/re-add, paths-mode, or spaced-row fixture.

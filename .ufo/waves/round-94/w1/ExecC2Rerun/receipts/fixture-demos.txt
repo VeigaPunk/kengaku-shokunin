@@ -1,0 +1,59 @@
+--- d1 paths c.py c.py honest rc=2
+DEFECT SETUP duplicate --paths
+PREDICATE freeze-integrity could-not-evaluate
+
+--- d1 paths c.py c.py F1-paths-dup-accepted rc=0
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=0 verdict=intact
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=2 intact=2 broken=0
+PREDICATE freeze-integrity pass
+
+--- d2 paths c.py later.py honest rc=2
+DEFECT SETUP path later.py absent at freeze 3fe1fbc99a7c
+PREDICATE freeze-integrity could-not-evaluate
+
+--- d2 paths c.py later.py F2-paths-absent-dropped rc=0
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass
+
+--- d3 claims octopus honest rc=2
+DEFECT SETUP claims file claims.md absent at freeze d84f769d0eb3
+PREDICATE freeze-integrity could-not-evaluate
+
+--- d3 claims octopus F3-octopus-default-history rc=2
+DEFECT SETUP claims file claims.md absent at freeze d84f769d0eb3
+PREDICATE freeze-integrity could-not-evaluate
+
+--- d4 claims readd honest rc=2
+DEFECT SETUP claims file claims.md absent at freeze d84f769d0eb3
+PREDICATE freeze-integrity could-not-evaluate
+
+--- d4 claims readd F4-touched-M-only rc=2
+DEFECT SETUP claims file claims.md absent at freeze d84f769d0eb3
+PREDICATE freeze-integrity could-not-evaluate
+
+--- d5 claims rename honest rc=2
+DEFECT SETUP claims file claims.md absent at freeze 7de5d91b0c8f
+PREDICATE freeze-integrity could-not-evaluate
+
+--- d5 claims rename F5-rename-intact rc=2
+DEFECT SETUP claims file claims.md absent at freeze 7de5d91b0c8f
+PREDICATE freeze-integrity could-not-evaluate
+
+--- d6 paths nope.py honest rc=2
+DEFECT SETUP path nope.py absent at freeze 57845817c903
+PREDICATE freeze-integrity could-not-evaluate
+
+--- d6 paths nope.py F6-paths-cne-rc1 rc=1
+DEFECT SETUP path nope.py absent at freeze 57845817c903
+PREDICATE freeze-integrity could-not-evaluate
+
+--- d7 claims spaced honest rc=2
+DEFECT SETUP malformed table row '2d27fbdf4e8ca207afbfa388ca9172fbcc6c70e534af2476b3b704f87deb'
+PREDICATE freeze-integrity could-not-evaluate
+
+--- d7 claims spaced F7-spaced-row-dropped rc=0
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass

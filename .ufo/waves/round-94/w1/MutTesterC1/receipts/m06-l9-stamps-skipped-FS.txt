@@ -1,0 +1,14 @@
+# cmd: python3 mutants/m06-l9-stamps-skipped.py --lane /fast/scratch/hyaku/kengaku-r94/MutTesterC1/fix-member-swap --rev HEAD --work w/m06-l9-stamps-skipped-FS
+# counter bytes: b2c01cbf8e6dcf350ea36164b5c8fb4fe57881556c9e8456fc3864e319eca0f9; host 2026-11-05T19:18:45-03:00
+LEGS L1=fail L2=fail L3=fail L4=fail L5=fail L6=fail L7=fail L8=fail L9=pass
+TARGET executed_rows=38 member=write-compressor located=1 executed=0 cases=8 legs=0 mismatches=0 defects=8
+DEFECT L1 receipt absent at revision: corpus/evidence/round94/compressor-probe.txt
+DEFECT L2 capture/receipt sha mismatch (cap=809f486053e3 receipt=absent)
+DEFECT L3 LANE_TIP absent not an ancestor of 3916879010c1
+DEFECT L4 case table e3c0c0eaef0f vs frozen absent
+DEFECT L5 case coverage 0 of 8
+DEFECT L6 rerun rc=0 obs=8 want=0 equal=False
+DEFECT L7 ledger member=executed round=94 executed_total=38 cells={'file-artifact': 29, 'stdout-inspection': 13, 'subprocess-exec': 15} set_added=['path-tracing', 'write-compressor'] set_removed=['circuit-fibsqrt']
+DEFECT L8 probe 3e1e17641ff6 vs frozen absent
+PREDICATE R94-C1 fail
+rc=1

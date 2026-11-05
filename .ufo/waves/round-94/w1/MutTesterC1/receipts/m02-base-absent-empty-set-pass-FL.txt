@@ -1,0 +1,14 @@
+# cmd: python3 mutants/m02-base-absent-empty-set-pass.py --lane /fast/scratch/hyaku/kengaku-r94/MutTesterC1/fix-ledger-only --rev HEAD --work w/m02-base-absent-empty-set-pass-FL
+# counter bytes: 45e2c0833298d53c117c3ce26cd9f59a3ed28722fd16b6b2ca6901bba86a6454; host 2026-11-05T19:17:28-03:00
+LEGS L1=fail L2=fail L3=fail L4=fail L5=fail L6=fail L7=pass L8=fail L9=fail
+TARGET executed_rows=38 member=write-compressor located=1 executed=0 cases=8 legs=0 mismatches=0 defects=8
+DEFECT L1 receipt absent at revision: corpus/evidence/round94/compressor-probe.txt
+DEFECT L2 capture/receipt sha mismatch (cap=809f486053e3 receipt=absent)
+DEFECT L3 LANE_TIP absent not an ancestor of 4679b77e6530
+DEFECT L4 case table e3c0c0eaef0f vs frozen absent
+DEFECT L5 case coverage 0 of 8
+DEFECT L6 rerun rc=0 obs=8 want=0 equal=False
+DEFECT L8 probe 3e1e17641ff6 vs frozen absent
+DEFECT L9 stamps tool=absent table=absent python=None
+PREDICATE R94-C1 fail
+rc=1

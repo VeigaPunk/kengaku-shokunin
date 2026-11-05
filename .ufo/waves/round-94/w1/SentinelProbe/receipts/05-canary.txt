@@ -1,0 +1,32 @@
+WROTE /canary
+DENIED /home/canary
+DENIED /root/canary
+DENIED /fast/canary
+DENIED /var/canary
+DENIED /usr/.canary
+DENIED /etc/.canary
+DENIED /tests/.canary
+WROTE /tmp/.canary
+WROTE /work/.canary
+WROTE /app/.canary
+NET-DENIED AF_INET OSError [Errno 101] Network is unreachable
+NET-DENIED AF_INET6 gaierror [Errno -9] Address family for hostname not supported
+HOME=/tmp
+.canary
+app bin canary dev etc lib lib64 proc sbin tests tmp usr work 
+
+stderr tail: ctory
+/usr/bin/sh: line 3: /fast/canary: No such file or directory
+/usr/bin/sh: line 3: /var/canary: No such file or directory
+/usr/bin/sh: line 3: /usr/.canary: Read-only file system
+/usr/bin/sh: line 3: /etc/.canary: Read-only file system
+/usr/bin/sh: line 3: /tests/.canary: Read-only file system
+
+HOST canary residue: workref=['.canary'] app=['.canary'] tests=[]
+host-leak-check /canary False
+host-leak-check /home/canary False
+host-leak-check /root/canary False
+host-leak-check /fast/canary False
+host-leak-check /var/canary False
+host-leak-check /usr/.canary False
+host-leak-check /etc/.canary False

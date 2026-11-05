@@ -572,6 +572,7 @@ documents why stream:false was chosen and what stream:true changes).
 | offline-db-state-grader-probe | Run a TB2 grader whose graded state is a gcov-instrumented `sqlite3` the lane compiles in place and PATH-stages inside bwrap against the host binary; not task certification | `python3 plans/round65_c1_sqlite_probe.py --check-receipt corpus/evidence/round65/sqlite-gcov-probe.txt` → `PREDICATE R65-C1 pass`, exit 0 | 65 |
 | offline-torch-tensor-parallel-grader-probe | Run the TB2 `torch-tensor-parallelism` grader's own pytest module offline in per-case bwrap against five frozen cases, gloo on a checked-free port under a flock; not task certification | `python3 plans/round66_c1_tensor_probe.py --check-receipt corpus/evidence/round66/tensor/receipt.txt` → `PREDICATE R66-C1 pass`, exit 0 | 66 |
 | offline-torch-pipeline-parallel-grader-probe | Run the TB2 `torch-pipeline-parallelism` grader offline in per-case bwrap against six frozen cases over four legs, gloo under a flock; not task certification | `python3 plans/round67_c1_pipeline_probe.py --check-receipt corpus/evidence/round67/pipe/receipt.txt` → `PREDICATE R67-C1 pass`, exit 0 | 67 |
+| freeze-integrity gate | Count, per instrument a claims file froze, whether its bytes at the freeze and at the measured revision equal the table and whether any commit in between touched it (v2: `--full-history`, so a TREESAME-merge side edit counts; one table block; duplicate rows refused); claims and paths modes; 15-case battery in-process on every run | `python3 plans/round93_c2_counter.py --lane . --rev 22972a31… --work DIR` → `PREDICATE R93-C2 pass` (admitted, round-93 closure, MANIFEST 1388); v2 `python3 plans/round94_c2_counter.py --lane . --rev 90c7677f… --work DIR` → `PREDICATE R94-C2 pass` (self, pending closure); round-92 history → `FREEZE-INTEGRITY instruments=4 intact=1 broken=3` | 93 (v2: 94) |
 Rows enter this table only through a round that demonstrates the capability running (`AXES.md` §Capabilities). The catalog receipt verifier entered in round 33 by passing its offline counter.
 The original round-24 capabilities — offline-replay-gate, frozen-table-pin-check, and sources-registry — entered through demonstration that round (commands re-run; output in `corpus/evidence/round24-census/after.txt`). The placeholder row was the scaffold, not a claim.
 
@@ -4339,3 +4340,60 @@ table block ignored). Lesson `corpus/lessons/round-93.md` W-1…W-9 and M4; all 
 **Self-verdicts unchanged and stated with that scope:** R93-C1 met; R93-C2 met on its frozen
 predicate, the capability row scoped to linear history with a single table block (the latent
 defects above are its stated limits). The non-author closure rules.
+
+
+## Round 94 (hyaku run 15, attempt 1, 2026-11-05): a twelfth executed member, `write-compressor` (C1), and the freeze-integrity gate v2 with a counter that kills the round-93 false gates (C2)
+
+Base `0cbb9279`; P0 mechanism predictions + capture `bdcb1ec0`; instruments P1 `997a6fe5`;
+pre-freeze controls P2 `74b3d2a1`; frozen claims F `844c504e` (`plans/round-94-claims.md`,
+`frozen-instruments` table of 11 rows); receipt, ledger flip and SOURCES C `90c7677f` = measured
+tip T; L1 receipts at T `242b3669`. Lesson: `corpus/lessons/round-94.md`. No tabled file changed
+after F (C2 W4 below: `summary=(11, 11, 0)`).
+
+| claim / axis | before → after at the measured tip | counting command | verdict / score |
+|---|---|---|---|
+| R94-C1 / **coverage** (lowest non-retired axis; held at its L0 cap 7): twelfth located offline replay, `write-compressor` | BASE `0cbb9279`: `LEGS L1..L9=fail`, `TARGET executed_rows=37 … executed=0 …`, `PREDICATE R94-C1 fail`, rc 1 (`.ufo/waves/round-94/L1/controls/c1-base.txt`). T `90c7677f`: `LEGS L1..L9=pass`, `TARGET executed_rows=38 member=write-compressor located=1 executed=1 cases=8 legs=32 mismatches=0 defects=0`, `PREDICATE R94-C1 pass`, rc 0 (`.ufo/waves/round-94/L1/c1-tip.txt`). Ledger executed 37 → 38 of 88; `file-artifact` 28 → 29 of 76; `stdout-inspection` 12 → 13 of 29; `subprocess-exec` 14 → 15 of 45; executed member set = BASE ∪ {write-compressor}. Controls: ledger-only flip rc 1 (only L7 passes); class-matched member swap rc 1 (L7 fails on the set); sandbox outage rc 2. | `python3 plans/round94_c1_replay.py --lane . --rev 90c7677f0ba95d0930d93bda6a14aa50605ebe2e --work DIR` | **met on its frozen predicate** (self, pending the non-author closure); score held at the L0 cap 7 |
+| R94-C2 / **calibration** (held at ceiling 10): known false gates that pass the lane's freeze-integrity counter | BASE: the frozen round-93 counter passes **5** known false gates (x-head-not-rev, x-diff-rev-minus-1, x-table-at-rev, m06, m13; `PREDICATE R93-C2 pass` rc 0 each, `controls/before-r93-counter-*.txt`). T: gate v2 + round-94 counter: `W1 pass` (r92 broken=3 intact=1; r93 9/9 intact), `W2 pass fixtures=12 ok=12`, `W3 pass` (`SELFTEST cases=15 ok=15` echoed twice), `W4 pass freeze=844c504e5147 rc=0 summary=(11, 11, 0)`, `W5 pass mutants=7 killed=7` (null 12/12), `TARGET legs_passed=5 of 5`, `PREDICATE R94-C2 pass`, rc 0 (`c2-tip.txt`). The same 5 false gates through the round-94 counter: rc 1 each, each with its designated fixture RED (`controls/c2-false-*.txt`) → **5 → 0**. | `python3 plans/round94_c2_counter.py --lane . --rev 90c7677f0ba95d0930d93bda6a14aa50605ebe2e --work DIR` | **met on its frozen predicate** (self, pending the non-author closure); score held at ceiling 10 |
+
+**Other axis scores.** novelty 8, depth 10, operability 10, freshness 10, adjacency 9 — all held;
+no claim on them. **Sources.** S297–S300 admitted (tier A, member replay only), S301–S302 rejected
+with flips; registry 288 → 294 rows.
+
+**Capabilities.** The round-93 `freeze-integrity gate` row (admitted with the round-93 closure)
+moves into `## Capabilities` this round (closure routed defect 2), with v2 named and pending this
+round's closure; the gate's registry row is now in `SKILL.md` `## Gate/probe registry` (routed
+defect 1).
+
+**Legacy gate note (not a claim).** `plans/round79_c1_population_ledger.py --rev` fails at BASE
+already (13 defects, mostly frozen round-79 class cells); at T it adds one `RECEIPT-UNTRACKED
+write-compressor`, the same kind round 93 added for its member, because that gate reads the
+receipt from a `receipt` key the round-93/94 ledger rows keep inside `evidence`. Routed to
+round 95, not repaired after T.
+
+### Round 94 — wave w1 outcome (appended after WAVE-DONE; the rows above stay as filed)
+
+12 seats, 9 reported, 3 dead (ScoutSources, ReviewerC1, ReviewerC2: empty output, no file).
+CriticClaims reproduced both predicates at T (rc 0) and rules **R94-C1 verifies, narrowed** and
+**R94-C2 does not verify as calibration** (the 5 → 0 count is confounded — each of the five is
+also red on v2-only fixtures and on W3 — and in-sample). Non-author seats built nine new false
+gates that pass the frozen C2 counter 5/5 (ExecC2Rerun F1–F7, CriticClaims C2-F1 stubbed battery,
+MutTesterGate M20 concealed red battery) and two latent gate limits (replace refs; non-exact
+fences); MutTesterC1 found receipt-side C1 legs never exercised positively by any committed
+control (m03+m04, m11 false-pass forged receipts). ExecC1Rerun: C01 is compile-dependent
+(`-O3` fails it); the pinned compile held in four runs. No tabled file changed after F (three
+seats). Lesson `corpus/lessons/round-94.md` W-1…W-13, M1–M4; all routed to round 95.
+**Self-verdicts unchanged and stated with that scope:** R94-C1 met at the grader's pinned
+compile on this host; R94-C2 met on its frozen predicate — known false gates recorded by round 93
+passing the counter 5 → 0 — while the counter's discrimination against forgeries it has not
+seen is shown narrower (≥ 9 new). The non-author closure rules. **SOURCES correction after T:**
+S299's word count 9 → 10 (lesson M1; `plans/anchor_line_check.py` red at T, green at the landing
+tip).
+
+### Planned (round 95; not a claim until frozen)
+
+1. Coverage: a thirteenth offline member from the ledger (stdlib-runnable candidates surveyed
+   this round: `fix-code-vulnerability`, `path-tracing`, `crack-7z-hash`).
+2. The round-94 wave's false gates as committed controls under a new frozen predicate: W2
+   shape coverage (paths mode, rename, octopus, delete/re-add, spaced row), a battery-running W3,
+   receipt-side C1 controls (forged receipt, probe swap, foreign LANE_TIP).
+3. The legacy `round79_c1_population_ledger.py` receipt-key mismatch; the round-92 carried defects.

@@ -1,0 +1,33 @@
+$ python3 plans/round94_freeze_integrity.py --lane /fast/scratch/hyaku/kengaku-r94/ExecFreezeCensus/lane --freeze 844c504e5147ce767a146af98e4d9b2cacb4258d --rev 90c7677f0ba95d0930d93bda6a14aa50605ebe2e --claims plans/round-94-claims.md --work /fast/scratch/hyaku/kengaku-r94/ExecFreezeCensus/w-v2-claims-94
+BATTERY B01 ok got=['intact']
+BATTERY B02 ok got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B03 ok got=['broken:touched-after-freeze=2']
+BATTERY B04 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+BATTERY B05 ok got=['broken:absent-at-rev+touched-after-freeze=1']
+BATTERY B06 ok got=['intact']
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 ok got=['broken:rev-bytes-differ+touched-after-freeze=1', 'intact']
+BATTERY B10 ok got=could-not-evaluate
+BATTERY B11 ok got=['broken:touched-after-freeze=2']
+BATTERY B12 ok got=could-not-evaluate
+BATTERY B13 ok got=could-not-evaluate
+BATTERY B14 ok got=['intact']
+BATTERY B15 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+SELFTEST cases=15 ok=15
+FREEZE 844c504e5147ce767a146af98e4d9b2cacb4258d REV 90c7677f0ba95d0930d93bda6a14aa50605ebe2e
+INSTRUMENT plans/round94_compressor_probe.py table=3e1e17641ff6 freeze=3e1e17641ff6 rev=3e1e17641ff6 touched=0 verdict=intact
+INSTRUMENT plans/round94-cases.json table=e3c0c0eaef0f freeze=e3c0c0eaef0f rev=e3c0c0eaef0f touched=0 verdict=intact
+INSTRUMENT plans/round94_c1_replay.py table=ff6a6e4622c5 freeze=ff6a6e4622c5 rev=ff6a6e4622c5 touched=0 verdict=intact
+INSTRUMENT plans/round94_freeze_integrity.py table=8574b4d5dca7 freeze=8574b4d5dca7 rev=8574b4d5dca7 touched=0 verdict=intact
+INSTRUMENT plans/round94_c2_counter.py table=17d2a7d52fbd freeze=17d2a7d52fbd rev=17d2a7d52fbd touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round94/graders/write-compressor/tests/test_outputs.py table=809f486053e3 freeze=809f486053e3 rev=809f486053e3 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round94/graders/write-compressor/tests/original-decomp.c table=7f8d9ef66943 freeze=7f8d9ef66943 rev=7f8d9ef66943 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round94/graders/write-compressor/tests/original-data.txt table=0fc483d0fb31 freeze=0fc483d0fb31 rev=0fc483d0fb31 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round94/graders/write-compressor/solution/solve.sh table=01550b7de7ab freeze=01550b7de7ab rev=01550b7de7ab touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round94/graders/write-compressor/environment/decomp.c table=7f8d9ef66943 freeze=7f8d9ef66943 rev=7f8d9ef66943 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round94/graders/write-compressor/environment/data.txt table=0fc483d0fb31 freeze=0fc483d0fb31 rev=0fc483d0fb31 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=11 intact=11 broken=0
+PREDICATE freeze-integrity pass
+
+EXIT 0

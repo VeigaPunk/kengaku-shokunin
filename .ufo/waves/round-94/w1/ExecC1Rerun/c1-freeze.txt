@@ -1,0 +1,12 @@
+# cmd: python3 plans/round94_c1_replay.py --lane "$S/lane" --rev 844c504e5147ce767a146af98e4d9b2cacb4258d --work "$S/wf"  (2026-11-05T19:06:06-03:00)
+LEGS L1=fail L2=fail L3=fail L4=pass L5=fail L6=fail L7=fail L8=pass L9=fail
+TARGET executed_rows=37 member=write-compressor located=1 executed=0 cases=8 legs=0 mismatches=0 defects=7
+DEFECT L1 receipt absent at revision: corpus/evidence/round94/compressor-probe.txt
+DEFECT L2 capture/receipt sha mismatch (cap=809f486053e3 receipt=absent)
+DEFECT L3 LANE_TIP absent not an ancestor of 844c504e5147
+DEFECT L5 case coverage 0 of 8
+DEFECT L6 rerun rc=0 obs=8 want=0 equal=False
+DEFECT L7 ledger member=unexecuted round=None executed_total=37 cells={'file-artifact': 28, 'stdout-inspection': 12, 'subprocess-exec': 14} set_added=[] set_removed=[]
+DEFECT L9 stamps tool=absent table=absent python=None
+PREDICATE R94-C1 fail
+rc=1

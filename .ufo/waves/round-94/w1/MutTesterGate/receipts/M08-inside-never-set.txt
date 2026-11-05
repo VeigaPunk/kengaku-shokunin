@@ -1,0 +1,33 @@
+TOOL from-file /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-94/w1/MutTesterGate/mutants/M08-inside-never-set.py sha256=8bf2549f5a44abea62ed6aa508745ff4133ed600d295a0d1d1c70d8337069b17
+W1a r92 ok rc=1 summary=(4, 1, 3) intact=['plans/round92_c1_replay.py']
+W1b r93 RED rc=2 summary=None
+W1 fail
+W2 w2-intact RED rc=2 want_rc=0 summary=None want=(1, 1, 0)
+W2 w2-edited RED rc=2 want_rc=1 summary=None want=(1, 0, 1)
+W2 w2-edit-revert RED rc=2 want_rc=1 summary=None want=(1, 0, 1)
+W2 w2-lying-table RED rc=2 want_rc=1 summary=None want=(1, 0, 1)
+W2 w2-unrelated RED rc=2 want_rc=0 summary=None want=(1, 1, 0)
+W2 w2-rev-below-head RED rc=2 want_rc=0 summary=None want=(1, 1, 0)
+W2 w2-edit-revert-unrelated RED rc=2 want_rc=1 summary=None want=(1, 0, 1)
+W2 w2-lie-repaired RED rc=2 want_rc=1 summary=None want=(1, 0, 1)
+W2 w2-treesame-merge RED rc=2 want_rc=1 summary=None want=(1, 0, 1)
+W2 w2-second-block ok rc=2 want_rc=2 summary=None want=None
+W2 w2-duplicate-row ok rc=2 want_rc=2 summary=None want=None
+W2 w2-not-ancestor ok rc=2 want_rc=2 summary=None want=None
+W2 fail fixtures=12 ok=3
+W3 echo SELFTEST cases=15 ok=6
+W3 echo SELFTEST cases=15 ok=6
+W3 fail
+W4 fail freeze=844c504e5147 rc=2 summary=None
+W5 null RED fixtures_ok=3 of 12
+W5 K1-head-not-rev killed designated=w2-rev-below-head red=w2-edit-revert,w2-edit-revert-unrelated,w2-edited,w2-intact,w2-lie-repaired,w2-lying-table,w2-rev-below-head,w2-treesame-merge,w2-unrelated
+W5 K2-rev-minus-1 killed designated=w2-edit-revert-unrelated red=w2-edit-revert,w2-edit-revert-unrelated,w2-edited,w2-intact,w2-lie-repaired,w2-lying-table,w2-rev-below-head,w2-treesame-merge,w2-unrelated
+W5 K3-table-at-rev killed designated=w2-lie-repaired red=w2-edit-revert,w2-edit-revert-unrelated,w2-edited,w2-intact,w2-lie-repaired,w2-lying-table,w2-rev-below-head,w2-treesame-merge,w2-unrelated
+W5 K4-cne-exit0-pass killed designated=w2-not-ancestor red=w2-duplicate-row,w2-edit-revert,w2-edit-revert-unrelated,w2-edited,w2-intact,w2-lie-repaired,w2-lying-table,w2-not-ancestor,w2-rev-below-head,w2-second-block,w2-treesame-merge,w2-unrelated
+W5 K5-no-full-history killed designated=w2-treesame-merge red=w2-edit-revert,w2-edit-revert-unrelated,w2-edited,w2-intact,w2-lie-repaired,w2-lying-table,w2-rev-below-head,w2-treesame-merge,w2-unrelated
+W5 K6-second-block-ignored SURVIVED designated=w2-second-block red=w2-edit-revert,w2-edit-revert-unrelated,w2-edited,w2-intact,w2-lie-repaired,w2-lying-table,w2-rev-below-head,w2-treesame-merge,w2-unrelated
+W5 K7-duplicate-row-accepted SURVIVED designated=w2-duplicate-row red=w2-edit-revert,w2-edit-revert-unrelated,w2-edited,w2-intact,w2-lie-repaired,w2-lying-table,w2-rev-below-head,w2-treesame-merge,w2-unrelated
+W5 fail mutants=7 killed=5
+TARGET legs_passed=0 of 5
+PREDICATE R94-C2 fail
+EXIT rc=1

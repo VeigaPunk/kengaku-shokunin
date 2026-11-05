@@ -1,0 +1,106 @@
+{
+ "pristine_sha256": "8574b4d5dca7f3817f1beb42c024c80791a0b958b04da94361e9e2a6cc4964de",
+ "mutants": {
+  "N00-null-copy": "8574b4d5dca7f3817f1beb42c024c80791a0b958b04da94361e9e2a6cc4964de",
+  "M01-paths-dup-guard-dropped": {
+   "sha256": "64e61594fd2d7ab26c7230a396e6ec7e94e78ac1b48009611c05ed58e917d75a",
+   "anchor": "        if len({p for _, p in table}) != len(table):\n",
+   "replacement": "        if False and len({p for _, p in table}) != len(table):\n"
+  },
+  "M02-unterminated-block-accepted": {
+   "sha256": "a0b48be368db113f827f190fbf8bb54eaef1c430dfe8edd6a0a961d1eadd4c1f",
+   "anchor": "    if inside:\n        raise CouldNotEvaluate(\"frozen-instruments block not terminated\")\n",
+   "replacement": "    if False and inside:\n        raise CouldNotEvaluate(\"frozen-instruments block not terminated\")\n"
+  },
+  "M03-revlist-merges-only": {
+   "sha256": "d9d458f953ee08b9627bf942aae9cef472072d4d9d5aad186aaf491172073bb2",
+   "anchor": "        log = git(root, \"rev-list\", \"--full-history\", f\"{f}..{t}\", \"--\", p)\n",
+   "replacement": "        log = git(root, \"rev-list\", \"--full-history\", \"--merges\", f\"{f}..{t}\", \"--\", p)\n"
+  },
+  "M04-rev-vs-freeze-bytes": {
+   "sha256": "01a3a0405fbb963c2d01f32e86dcd2839470df1d5dc07959b8c20fa228ec37d1",
+   "anchor": "        elif sha(at_t) != want:\n            reasons.append(\"rev-bytes-differ\")\n",
+   "replacement": "        elif sha(at_t) != sha(at_f):\n            reasons.append(\"rev-bytes-differ\")\n"
+  },
+  "M05-summary-counts-swapped": {
+   "sha256": "8587424c9deb3c7725c580ff98b9e03bb1791850d26742d2ab148361a285b786",
+   "anchor": "    print(f\"FREEZE-INTEGRITY instruments={len(rows)} intact={len(rows) - len(broken)} broken={len(broken)}\")\n",
+   "replacement": "    print(f\"FREEZE-INTEGRITY instruments={len(rows)} intact={len(broken)} broken={len(rows) - len(broken)}\")\n"
+  },
+  "M06-battery-truncated-14": {
+   "sha256": "9c609170d39831684e64df4d884925e797f139a57de75b1033cd571a5ac22a97",
+   "anchor": "    case(\"B15 table-repaired-after-freeze\", lambda: verdicts(d, f, t),\n         lambda v: len(v) == 1 and \"freeze-bytes-differ-from-table\" in v[0])\n    return results\n",
+   "replacement": "    return results\n"
+  },
+  "M07-battery-nonfatal": {
+   "sha256": "85eac59030f20b3622a6d63309d1142e79d377f908be76c3ca6cb2145c8448ca",
+   "anchor": "    passed = not broken and bat_ok == len(bat)\n",
+   "replacement": "    passed = not broken\n"
+  },
+  "M08-inside-never-set": {
+   "sha256": "8bf2549f5a44abea62ed6aa508745ff4133ed600d295a0d1d1c70d8337069b17",
+   "anchor": "            blocks += 1\n            inside = True\n            continue\n",
+   "replacement": "            blocks += 1\n            inside = False\n            continue\n"
+  },
+  "M09-ancestry-check-dropped": {
+   "sha256": "4035e6ea257600752841c811f1ef767091efdf6c9c7d72a150da4e7401c24891",
+   "anchor": "    if git(root, \"merge-base\", \"--is-ancestor\", f, t).returncode != 0:\n",
+   "replacement": "    if False and git(root, \"merge-base\", \"--is-ancestor\", f, t).returncode != 0:\n"
+  },
+  "M10-revlist-rc-ignored": {
+   "sha256": "412267818da1e6a52c79581c3c9785aa93286f138a30a5e52b0e03a691f1e153",
+   "anchor": "        if log.returncode != 0:\n            raise CouldNotEvaluate(f\"rev-list failed for {p}\")\n",
+   "replacement": "        if False and log.returncode != 0:\n            raise CouldNotEvaluate(f\"rev-list failed for {p}\")\n"
+  },
+  "M11-freeze-bytes-check-weakened": {
+   "sha256": "f22873a469ecde0fbb91a6a4636fd4e154d22a3c134abdddbcc4fc49c267cd0d",
+   "anchor": "        if at_f is None or sha(at_f) != want:\n",
+   "replacement": "        if at_f is None:\n"
+  },
+  "M12-rev-bytes-check-dropped": {
+   "sha256": "074e130873e2d156051ed332c03c16f441aad439c2f65ca428c9a992780089ba",
+   "anchor": "        elif sha(at_t) != want:\n",
+   "replacement": "        elif False:\n"
+  },
+  "M13-touched-threshold-2": {
+   "sha256": "f4ef335743df3d6deb55a1df54e132227d0bc952d06d241e994a2bf50c01134b",
+   "anchor": "        if touched:\n            reasons.append(f\"touched-after-freeze={touched}\")\n",
+   "replacement": "        if touched > 1:\n            reasons.append(f\"touched-after-freeze={touched}\")\n"
+  },
+  "M14-exit-polarity-flipped": {
+   "sha256": "1c3c68b237ba178b2d9fb2f1ad0902ac771336c07379dfc08d6807782dd282fc",
+   "anchor": "    return 0 if passed else 1\n",
+   "replacement": "    return 1 if passed else 0\n"
+  },
+  "M15-predicate-always-pass": {
+   "sha256": "40ae33052b890eb218a102cc8889a5a88ed5fc08d9345d70bba29ffba21f17ed",
+   "anchor": "    print(f\"PREDICATE freeze-integrity {'pass' if passed else 'fail'}\")\n",
+   "replacement": "    print(f\"PREDICATE freeze-integrity pass\")\n"
+  },
+  "M16-blob-ignores-rc": {
+   "sha256": "4ab05d1cecfa9f2fab756764810b5fb3b21ebacc09d887abdeb7d48e781ca2f6",
+   "anchor": "    return proc.stdout if proc.returncode == 0 else None\n",
+   "replacement": "    return proc.stdout\n"
+  },
+  "M17-empty-table-accepted": {
+   "sha256": "0c1fe3460995af9b15d297b84d9f805d033a69b7401ddefd1b37bfcdba65eae4",
+   "anchor": "    if not rows:\n        raise CouldNotEvaluate(\"frozen-instruments table absent or empty\")\n",
+   "replacement": "    if False and not rows:\n        raise CouldNotEvaluate(\"frozen-instruments table absent or empty\")\n"
+  },
+  "M18-resolve-no-peel": {
+   "sha256": "7e1b5da2b6a146951438705de463fa6bda66ed58bc7b080460e1056a8e3c3759",
+   "anchor": "    proc = git(root, \"rev-parse\", \"--verify\", \"--quiet\", f\"{rev}^{{commit}}\")\n",
+   "replacement": "    proc = git(root, \"rev-parse\", \"--verify\", \"--quiet\", rev)\n"
+  },
+  "M19-battery-red-concealed": {
+   "sha256": "3332631209911bb8659ae2976638043454072a8f041f0aaeb4085977c41e1a28",
+   "anchor": "    passed = not broken and bat_ok == len(bat)\n    print(f\"SELFTEST cases={len(bat)} ok={bat_ok}\")\n",
+   "replacement": "    passed = not broken\n    print(f\"SELFTEST cases={len(bat)} ok={len(bat)}\")\n"
+  },
+  "M20-battery-broken-and-concealed": {
+   "sha256": "23061c2fca725160778a96fe9ee43570f785c95dc7a46a8ce878ecf224f04b54",
+   "anchor": "         lambda v: len(v) == 1 and \"rev-bytes-differ\" in v[0] and \"touched-after-freeze=1\" in v[0])\n    passed = not broken and bat_ok == len(bat)\n    print(f\"SELFTEST cases={len(bat)} ok={bat_ok}\")\n",
+   "replacement": "         lambda v: False)\n    passed = not broken\n    print(f\"SELFTEST cases={len(bat)} ok={len(bat)}\")\n"
+  }
+ }
+}

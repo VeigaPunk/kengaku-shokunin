@@ -1,0 +1,29 @@
+--- d3 claims octopus honest rc=1
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=2 verdict=broken:touched-after-freeze=2
+FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+PREDICATE freeze-integrity fail
+
+--- d3 claims octopus F3-octopus-default-history rc=0
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass
+
+--- d4 claims readd honest rc=1
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=2 verdict=broken:touched-after-freeze=2
+FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+PREDICATE freeze-integrity fail
+
+--- d4 claims readd F4-touched-M-only rc=0
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass
+
+--- d5 claims rename honest rc=1
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=absent touched=1 verdict=broken:absent-at-rev+touched-after-freeze=1
+FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+PREDICATE freeze-integrity fail
+
+--- d5 claims rename F5-rename-intact rc=0
+INSTRUMENT c.py table=96257f257362 freeze=96257f257362 rev=96257f257362 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+PREDICATE freeze-integrity pass

@@ -1,0 +1,37 @@
+# decoder mechanism receipt (ExecC1Rerun) 2026-11-05T19:10:09-03:00; host gcc/clang directly, not in sandbox; scratch experiment, never a claim leg
+# data.comp = rustc main.rs (heredoc of solve.sh, == environment/main.rs) then cat data.txt | ./main
+3a905a56e8f2937983412e6d3077cf2cec3eeb945c05b62502bb138d195b9131  data.comp
+fa53d6572fca95903e30d2d953f1e428bb8b63513ff218ebee9bc60a425ab389  heredoc.rs
+fa53d6572fca95903e30d2d953f1e428bb8b63513ff218ebee9bc60a425ab389  corpus/evidence/round94/graders/write-compressor/environment/main.rs
+## d_gcc-O0 (one run)
+rc=0 bytes=4868 vs-data.txt=EQUAL tail-after-4868=[]
+## d_gcc-O0 x200 ASLR-on: exact_equal / not_equal / longer_than_4868
+200 / 0 / 0
+## d_gcc-O1 (one run)
+rc=0 bytes=4868 vs-data.txt=EQUAL tail-after-4868=[]
+## d_gcc-O1 x200 ASLR-on: exact_equal / not_equal / longer_than_4868
+200 / 0 / 0
+## d_gcc-O2 (one run)
+rc=0 bytes=4868 vs-data.txt=EQUAL tail-after-4868=[]
+## d_gcc-O2 x200 ASLR-on: exact_equal / not_equal / longer_than_4868
+200 / 0 / 0
+## d_gcc-O3 (one run)
+rc=0 bytes=4870 vs-data.txt=DIFF tail-after-4868=[a0 7f]
+## d_gcc-O3 x200 ASLR-on: exact_equal / not_equal / longer_than_4868
+0 / 200 / 200
+## d_clang-O0 (one run)
+rc=0 bytes=4868 vs-data.txt=EQUAL tail-after-4868=[]
+## d_clang-O0 x200 ASLR-on: exact_equal / not_equal / longer_than_4868
+200 / 0 / 0
+## d_clang-O2 (one run)
+rc=0 bytes=4868 vs-data.txt=EQUAL tail-after-4868=[]
+## d_clang-O2 x200 ASLR-on: exact_equal / not_equal / longer_than_4868
+200 / 0 / 0
+## d_gcc-O0 empty stdin x20 byte-count histogram
+     20 0
+## d_clang-O0 empty stdin x20 byte-count histogram
+      2 0
+     18 6
+## versions
+gcc (GCC) 16.2.1 20260810
+clang version 23.1.3

@@ -1,0 +1,21 @@
+$ python3 plans/round93_freeze_integrity.py --lane /fast/scratch/hyaku/kengaku-r94/ExecFreezeCensus/lane --freeze f0018773f507f363854123856990f8ff8a87eb8c --rev 1df7653633bd4c5a5f373d139f9f1ed02e0f9c07 --paths plans/round92_c1_replay.py plans/round92_c2_conformance.py plans/round92_burndown.py plans/round91_counter_pin.py --work /fast/scratch/hyaku/kengaku-r94/ExecFreezeCensus/w-v1-92
+BATTERY B01 ok got=['intact']
+BATTERY B02 ok got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B03 ok got=['broken:touched-after-freeze=2']
+BATTERY B04 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+BATTERY B05 ok got=['broken:absent-at-rev+touched-after-freeze=1']
+BATTERY B06 ok got=['intact']
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 ok got=['broken:rev-bytes-differ+touched-after-freeze=1', 'intact']
+BATTERY B10 ok got=could-not-evaluate
+SELFTEST cases=10 ok=10
+FREEZE f0018773f507f363854123856990f8ff8a87eb8c REV 1df7653633bd4c5a5f373d139f9f1ed02e0f9c07
+INSTRUMENT plans/round92_c1_replay.py table=ebce593eb2ec freeze=ebce593eb2ec rev=ebce593eb2ec touched=0 verdict=intact
+INSTRUMENT plans/round92_c2_conformance.py table=4aa6e31a1d4a freeze=4aa6e31a1d4a rev=e5bf35f1fd73 touched=4 verdict=broken:rev-bytes-differ+touched-after-freeze=4
+INSTRUMENT plans/round92_burndown.py table=c8a2c5420464 freeze=c8a2c5420464 rev=c99f0ff4a648 touched=3 verdict=broken:rev-bytes-differ+touched-after-freeze=3
+INSTRUMENT plans/round91_counter_pin.py table=4c8d4aa4c69f freeze=4c8d4aa4c69f rev=1e6274f0816e touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+FREEZE-INTEGRITY instruments=4 intact=1 broken=3
+PREDICATE freeze-integrity fail
+
+EXIT 1
