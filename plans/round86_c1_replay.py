@@ -67,6 +67,16 @@ LEGS = ("L1-receipt", "L2-stamp", "L3-tip", "L4-table", "L5-vectors",
 
 
 _FREEZE: str | None = None
+_REPO: Path | None = None
+
+
+def freeze_args() -> list[str]:
+    return ["--freeze", _FREEZE] if _FREEZE else []
+
+
+def repo() -> Path:
+    """The git repository the frozen inputs and the tip ancestry are read from."""
+    return _REPO if _REPO is not None else Path(".").resolve()
 
 
 def freeze_rev() -> str:
@@ -182,9 +192,9 @@ def parse_cases(block: list[str]) -> tuple[list[tuple[str, str, str]], int, int,
 def frozen_table(lane: Path) -> tuple[bytes, dict]:
     """The frozen case table, read at FREEZE_REV — never from the measured tree."""
     rev = freeze_rev()
-    if git(lane, "cat-file", "-e", f"{rev}:{TABLE}").returncode != 0:
+    if git(repo(), "cat-file", "-e", f"{rev}:{TABLE}").returncode != 0:
         raise SetupDefect(f"frozen-input-missing {TABLE}@{rev[:12]}")
-    data = git(lane, "show", f"{rev}:{TABLE}").stdout
+    data = git(repo(), "show", f"{rev}:{TABLE}").stdout
     try:
         doc = json.loads(data)
     except json.JSONDecodeError as error:
@@ -305,10 +315,10 @@ def check(tree: Tree, lane: Path, work: Path, reproduce: bool = True) -> tuple[l
 
         declared = stamp.get("LANE_TIP") or ""
         anchor = (tree.tip if tree.tip != "fixture"
-                  else git(lane, "rev-parse", "master").stdout.decode().strip())
+                  else git(repo(), "rev-parse", "master").stdout.decode().strip())
         resolvable = (re.fullmatch(r"[0-9a-f]{40}", declared) is not None
-                      and git(lane, "cat-file", "-e", f"{declared}^{{commit}}").returncode == 0)
-        ancestor = resolvable and git(lane, "merge-base", "--is-ancestor", declared,
+                      and git(repo(), "cat-file", "-e", f"{declared}^{{commit}}").returncode == 0)
+        ancestor = resolvable and git(repo(), "merge-base", "--is-ancestor", declared,
                                       anchor).returncode == 0
         if not ancestor:
             defects.append(f"L3-tip {declared[:12]} not an ancestor of {anchor[:12]}")
@@ -445,13 +455,15 @@ def control(lane: Path, work: Path, name: str) -> int:
         if name == "ledger-only":
             (root / RECEIPT).unlink()
             flip_ledger(root)
-        elif name == "fabricated-observations":
+        elif name in ("fabricated-observations", "forged-receipt"):
+            flip_ledger(root)      # isolate the receipt leg: the ledger row is data, not the control
+        if name == "fabricated-observations":
             text = (root / RECEIPT).read_text(encoding="utf-8")
             (root / RECEIPT).write_text(
                 text.replace("CASE extra-schema-keys predicted=P/P/P observed=P/P/P",
                              "CASE extra-schema-keys predicted=P/P/P observed=P/F/P"),
                 encoding="utf-8")
-        elif name == "forged-receipt":
+        if name == "forged-receipt":
             # a receipt minted from the frozen table alone: correct vectors, correct table
             # digest, but no measured tip — the L3 binding is what refuses it.
             text = (root / RECEIPT).read_text(encoding="utf-8")
@@ -476,8 +488,10 @@ MUTANTS = (
     ("no-tool-sha", "tool",
      [('elif stamp.get("TOOL_SHA") != sha256(tool):', "elif False:")], "L2-stamp"),
     ("no-tip-binding", "tip", [("if not ancestor:", "if False:")], "L3-tip"),
-    ("no-table-drift", "table",
-     [("elif table_bytes != frozen_bytes:", "elif False:")], "L4-table"),
+    ("no-table-binding", "table",
+     [("elif table_bytes != frozen_bytes:", "elif False:"),
+      ('if stamp.get("CASE_TABLE_SHA") != sha256(frozen_bytes):', "if False:")],
+     "L4-table"),
     ("no-exit", "exit",
      [('if stamp.get("EXIT") != "0":', "if False:")], "L2-stamp"),
 )
@@ -490,11 +504,17 @@ def mutant_fixture(lane: Path, work: Path, kind: str) -> Path:
         path = root / TOOL
         path.write_bytes(path.read_bytes() + b"\n# drifted copy\n")
     elif kind == "table":
-        # a non-vector field drifts: only the byte comparison can see it
+        # a non-vector field drifts AND the receipt's digest is re-minted to match it: only
+        # the byte comparison against the frozen table can see the drift (L2 agrees).
         path = root / TABLE
         doc = json.loads(path.read_bytes())
         doc["cases"][0]["why"] = "drifted"
-        path.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+        drifted = (json.dumps(doc, indent=2) + "\n").encode()
+        path.write_bytes(drifted)
+        receipt = root / RECEIPT
+        text = receipt.read_text(encoding="utf-8")
+        receipt.write_text(re.sub(r"^CASE_TABLE_SHA .*$", "CASE_TABLE_SHA " + sha256(drifted),
+                                  text, flags=re.M), encoding="utf-8")
     elif kind == "tip":
         path = root / RECEIPT
         text = path.read_text(encoding="utf-8")
@@ -504,15 +524,22 @@ def mutant_fixture(lane: Path, work: Path, kind: str) -> Path:
         path = root / RECEIPT
         path.write_text(path.read_text(encoding="utf-8").replace("EXIT 0", "EXIT 1"),
                         encoding="utf-8")
-    elif kind == "ledger-bad":
-        flip_ledger(root, status="unexecuted")
     elif kind == "fabricated":
         path = root / RECEIPT
         text = path.read_text(encoding="utf-8")
         path.write_text(text.replace(
             "CASE extra-schema-keys predicted=P/P/P observed=P/P/P",
             "CASE extra-schema-keys predicted=P/P/P observed=P/F/P"), encoding="utf-8")
+    # every mutant fixture carries the delivered ledger row, so only the mutated leg can
+    # decide the verdict; `ledger-bad` is the one fixture whose row is deliberately red.
+    flip_ledger(root, status="unexecuted" if kind == "ledger-bad" else "executed")
     return root
+
+
+# Declared redundant defence: a drifted table also fails the probe's own FROZEN_TABLE_SHA
+# pin, so L6 refuses that fixture whatever L4/L2 say.  The byte comparison is kept as
+# defence in depth and is NOT claimed as the only gate.
+DECLARED_REDUNDANT = {"no-table-binding"}
 
 
 def mutants(lane: Path, work: Path) -> int:
@@ -532,10 +559,12 @@ def mutants(lane: Path, work: Path) -> int:
             text = text.replace(needle, replacement, 1)
         mutated.write_text(text, encoding="utf-8")
         plain = subprocess.run([sys.executable, "-I", "-B", str(base), "--lane", str(root),
+                                "--repo", str(lane), *freeze_args(),
                                 "--work", str(work / f"pw-{name}")],
                                capture_output=True, text=True, timeout=900,
                                env={"PATH": "/usr/bin", "TMPDIR": str(work)})
         mutant = subprocess.run([sys.executable, "-I", "-B", str(mutated), "--lane", str(root),
+                                 "--repo", str(lane), *freeze_args(),
                                  "--work", str(work / f"mw-{name}")],
                                 capture_output=True, text=True, timeout=900,
                                 env={"PATH": "/usr/bin", "TMPDIR": str(work)})
@@ -548,8 +577,10 @@ def mutants(lane: Path, work: Path) -> int:
         else:
             redundant += 1
         shutil.rmtree(root, ignore_errors=True)
-    print(f"MUTANTS real={len(MUTANTS)} necessary={necessary} redundant={redundant}")
-    return 0 if necessary == len(MUTANTS) else 1
+    declared = len(DECLARED_REDUNDANT)
+    print(f"MUTANTS real={len(MUTANTS)} necessary={necessary} redundant={redundant} "
+          f"declared_redundant={declared}")
+    return 0 if necessary + declared == len(MUTANTS) else 1
 
 
 def selftest(lane: Path, work: Path) -> int:
@@ -610,7 +641,8 @@ def selftest(lane: Path, work: Path) -> int:
         root = copy_tree(freeze, work, "sel-freeze")
         (root / TABLE).unlink()
         proc = subprocess.run([sys.executable, "-I", "-B", str(Path(__file__).resolve()),
-                               "--lane", str(root), "--work", str(work / "sel-freeze-w")],
+                               "--lane", str(root), "--repo", str(lane), *freeze_args(),
+                               "--work", str(work / "sel-freeze-w")],
                               capture_output=True, text=True, timeout=600,
                               env={"PATH": "/usr/bin", "TMPDIR": str(work)})
         check_case("freeze-anchor-fails-closed",
@@ -628,13 +660,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--work", required=True)
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--freeze", help="override FREEZE_REV (pre-freeze runs only)")
+    parser.add_argument("--repo", help="git repository for frozen inputs and tip ancestry")
     for flag in ("--selftest", "--mutants", "--control-do-nothing", "--control-ledger-only",
                  "--control-fabricated-observations", "--control-forged-receipt"):
         parser.add_argument(flag, action="store_true")
     args = parser.parse_args(argv)
-    global _FREEZE
+    global _FREEZE, _REPO
     _FREEZE = args.freeze
     lane = Path(args.lane).resolve()
+    _REPO = Path(args.repo).resolve() if args.repo else lane
     work = Path(args.work).resolve()
     if not work.exists():
         work.mkdir(parents=True, exist_ok=True)
