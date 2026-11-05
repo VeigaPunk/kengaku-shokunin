@@ -1,0 +1,149 @@
+{
+  "member": "merge-diff-arc-agi-task",
+  "class": [
+    "file-artifact",
+    "git-plumbing",
+    "serialization-schema",
+    "stdout-inspection",
+    "subprocess-exec"
+  ],
+  "subject_capture": "corpus/evidence/round52/graders/merge-diff-arc-agi-task/tests/test_outputs.py",
+  "subject_sha": "2754ba6c5c5f75c9db5ed2c5729d9f5d7e21cb7fdb18aa0c65abdc3e7e85c149",
+  "source_row": "S279",
+  "legs": [
+    "test_git_repo_init",
+    "test_both_bundles_fetched",
+    "test_algo_py_exists",
+    "test_algo_py_has_map_function",
+    "test_algo_map_function_with_test_input"
+  ],
+  "prediction_note": "Predicted vectors are derived by reading the captured grader source (test_outputs.py lines 1-91) before the first execution and are frozen with this table. Vector order is the grader's function-definition order: test_git_repo_init, test_both_bundles_fetched, test_algo_py_exists, test_algo_py_has_map_function, test_algo_map_function_with_test_input. Per position: P=returned without raising; F=AssertionError (graded refusal); E=anything else raised (uncaught error surfacing instead of a verdict, e.g. FileNotFoundError from a missing module file, SyntaxError from a broken module, or json.JSONDecodeError from corrupt input). Fixtures are declarative: repo.git true means git init + initial commit + the named branches at HEAD, built by the probe outside the sandbox; /tests/test.json is bound read-only; the grader runs in bubblewrap with scratch HOME/TMPDIR and no network.",
+  "cases": [
+    {
+      "id": "full-solution",
+      "predicted": "PPPPP",
+      "why": "control: git repo with branch1 and branch2, algo.py defines map = row-reversed copy, test.json examples match exactly",
+      "result": {
+        "kind": "tree",
+        "repo": {
+          "git": true,
+          "branches": ["branch1", "branch2"],
+          "files": {
+            "algo.py": "def map(grid):\n    return [list(row) for row in reversed(grid)]\n"
+          }
+        },
+        "test_json": "[{\"input\": [[1, 2], [3, 4], [5, 6]], \"output\": [[5, 6], [3, 4], [1, 2]]}]"
+      }
+    },
+    {
+      "id": "no-git-dir",
+      "predicted": "FFPPP",
+      "why": "/app/repo is a plain directory: test_git_repo_init asserts .git exists (F); git branch -a exits 128 so the returncode assert fires (F); algo legs unaffected",
+      "result": {
+        "kind": "tree",
+        "repo": {
+          "git": false,
+          "branches": [],
+          "files": {
+            "algo.py": "def map(grid):\n    return [list(row) for row in reversed(grid)]\n"
+          }
+        },
+        "test_json": "[{\"input\": [[1, 2], [3, 4], [5, 6]], \"output\": [[5, 6], [3, 4], [1, 2]]}]"
+      }
+    },
+    {
+      "id": "one-branch",
+      "predicted": "PFPPP",
+      "why": "repo initialized with branch1 only: branch2 assert fires (F at position 2)",
+      "result": {
+        "kind": "tree",
+        "repo": {
+          "git": true,
+          "branches": ["branch1"],
+          "files": {
+            "algo.py": "def map(grid):\n    return [list(row) for row in reversed(grid)]\n"
+          }
+        },
+        "test_json": "[{\"input\": [[1, 2], [3, 4], [5, 6]], \"output\": [[5, 6], [3, 4], [1, 2]]}]"
+      }
+    },
+    {
+      "id": "algo-missing",
+      "predicted": "PPFEE",
+      "why": "repo and branches fine, algo.py absent: exists assert fires (F); import raises (E at 4 and 5)",
+      "result": {
+        "kind": "tree",
+        "repo": {
+          "git": true,
+          "branches": ["branch1", "branch2"],
+          "files": {}
+        },
+        "test_json": "[{\"input\": [[1, 2], [3, 4], [5, 6]], \"output\": [[5, 6], [3, 4], [1, 2]]}]"
+      }
+    },
+    {
+      "id": "algo-syntax-error",
+      "predicted": "PPPEE",
+      "why": "algo.py exists but is a syntax error: exec_module raises SyntaxError (E at 4 and 5)",
+      "result": {
+        "kind": "tree",
+        "repo": {
+          "git": true,
+          "branches": ["branch1", "branch2"],
+          "files": {
+            "algo.py": "def map(grid):\n    return = broken\n"
+          }
+        },
+        "test_json": "[{\"input\": [[1, 2], [3, 4], [5, 6]], \"output\": [[5, 6], [3, 4], [1, 2]]}]"
+      }
+    },
+    {
+      "id": "map-wrong-values",
+      "predicted": "PPPPF",
+      "why": "map callable but returns the grid unchanged: elementwise compare fires (F at 5)",
+      "result": {
+        "kind": "tree",
+        "repo": {
+          "git": true,
+          "branches": ["branch1", "branch2"],
+          "files": {
+            "algo.py": "def map(grid):\n    return [list(row) for row in grid]\n"
+          }
+        },
+        "test_json": "[{\"input\": [[1, 2], [3, 4], [5, 6]], \"output\": [[5, 6], [3, 4], [1, 2]]}]"
+      }
+    },
+    {
+      "id": "test-json-corrupt",
+      "predicted": "PPPPE",
+      "why": "everything else perfect, /tests/test.json is not valid JSON: json.load raises JSONDecodeError (E at 5)",
+      "result": {
+        "kind": "tree",
+        "repo": {
+          "git": true,
+          "branches": ["branch1", "branch2"],
+          "files": {
+            "algo.py": "def map(grid):\n    return [list(row) for row in reversed(grid)]\n"
+          }
+        },
+        "test_json": "{\"invalid"
+      }
+    },
+    {
+      "id": "map-shape-short",
+      "predicted": "PPPPF",
+      "why": "map returns one row: len(actual) != len(expected) assert fires (F at 5); same vector as map-wrong-values, disclosed",
+      "result": {
+        "kind": "tree",
+        "repo": {
+          "git": true,
+          "branches": ["branch1", "branch2"],
+          "files": {
+            "algo.py": "def map(grid):\n    return [list(grid[0])]\n"
+          }
+        },
+        "test_json": "[{\"input\": [[1, 2], [3, 4], [5, 6]], \"output\": [[5, 6], [3, 4], [1, 2]]}]"
+      }
+    }
+  ]
+}
