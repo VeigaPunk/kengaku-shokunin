@@ -519,7 +519,7 @@ def run_check(lane: Path, rev: str, work: Path, overrides: dict[str, str] | None
     for row in sorted(KNOWN - set(mismatches)):
         defects.append(f"F5-missing-known {row[0]} {row[1]} {row[2]} measured {row[3]}")
 
-    # (c) the selftest battery is part of the predicate
+    work.mkdir(parents=True, exist_ok=True)
     st = selftest_fn(lane, rev, work) if selftest_fn else selftest_defects(lane, rev, work)
     for tid in st:
         defects.append(f"F8-selftest {tid}")
@@ -554,7 +554,7 @@ def _drop_before(text: str) -> str:
     for line in text.splitlines(keepends=True):
         if line.startswith("## "):
             section = line
-        if (not dropped and section.startswith("## R85-C1") and "**Before" in line
+        if (not dropped and section.startswith("## R85-C1") and "Before (BASE" in line
                 and "TARGET" in line):
             dropped = True
             continue
@@ -564,7 +564,13 @@ def _drop_before(text: str) -> str:
 
 def controls(lane: Path, rev: str, work: Path) -> int:
     results: list[str] = []
+    vacuous = False
     for name, spec in control_overrides(lane, rev).items():
+        for rel, text in (spec.get("overrides") or {}).items():
+            original = git(lane, "show", f"{rev}:{rel}").stdout
+            if text == original:
+                vacuous = True
+                print(f"CONTROL {name} vacuous fixture equals {rel} at {rev[:12]}")
         rc, defects = run_check(lane, rev, work / name, quiet=True, **spec)
         verdict = "red" if rc != 0 else "green"
         results.append(verdict)
@@ -573,7 +579,7 @@ def controls(lane: Path, rev: str, work: Path) -> int:
     rc, defects = run_check(lane, rev, work / "tip", quiet=True)
     tip_verdict = "green" if rc == 0 else "red"
     print(f"CONTROL tip {tip_verdict} rc={rc} defects={len(defects)}")
-    ok = all(v == "red" for v in results) and tip_verdict == "green"
+    ok = all(v == "red" for v in results) and tip_verdict == "green" and not vacuous
     print(f"PREDICATE R89-C2-CONTROLS {'pass' if ok else 'fail'} red={results.count('red')} "
           f"of {len(results)} tip={tip_verdict}")
     return 0 if ok else 1
