@@ -1,0 +1,90 @@
+{
+ "member": "fix-git",
+ "class": ["crypto-credential", "file-artifact"],
+ "subject_capture": "corpus/evidence/round52/graders/fix-git/tests/test_outputs.py",
+ "subject_sha": "a8a6f51eb0d7c4ebdf0813c8f0b645edf29c995f1f9faf2aca3886a6713043f3",
+ "source_row": "S277",
+ "legs": ["test_about_file", "test_layout_file"],
+ "prediction_note": "Predicted vectors are derived by reading the captured grader source (test_outputs.py lines 14-39) before the first execution; they are frozen with this table and never re-derived after observation. P=returned without raising; F=AssertionError or FileNotFoundError (graded refusal); E=anything else (uncaught error surfacing instead of a verdict).",
+ "cases": [
+  {
+   "id": "exact",
+   "predicted": "P/P",
+   "why": "control: all four files present, each new file byte-equal (after strip) to its old counterpart",
+   "result": {"kind": "files", "files": {
+    "resources/patch_files/about.md": "about-old-v1\n",
+    "personal-site/_includes/about.md": "about-old-v1\n",
+    "resources/patch_files/default.html": "layout-old-v1\n",
+    "personal-site/_layouts/default.html": "layout-old-v1\n"}}
+  },
+  {
+   "id": "about-content-mismatch",
+   "predicted": "F/P",
+   "why": "about.md new bytes differ from old: compare_file_hashes raises AssertionError on the about leg; layout leg still passes",
+   "result": {"kind": "files", "files": {
+    "resources/patch_files/about.md": "about-old-v1\n",
+    "personal-site/_includes/about.md": "about-new-DIFFERENT\n",
+    "resources/patch_files/default.html": "layout-old-v1\n",
+    "personal-site/_layouts/default.html": "layout-old-v1\n"}}
+  },
+  {
+   "id": "layout-content-mismatch",
+   "predicted": "P/F",
+   "why": "default.html new bytes differ: layout leg raises AssertionError; about leg still passes",
+   "result": {"kind": "files", "files": {
+    "resources/patch_files/about.md": "about-old-v1\n",
+    "personal-site/_includes/about.md": "about-old-v1\n",
+    "resources/patch_files/default.html": "layout-old-v1\n",
+    "personal-site/_layouts/default.html": "layout-new-DIFFERENT\n"}}
+  },
+  {
+   "id": "both-content-mismatch",
+   "predicted": "F/F",
+   "why": "both new files differ: both compare_file_hashes asserts raise AssertionError",
+   "result": {"kind": "files", "files": {
+    "resources/patch_files/about.md": "about-old-v1\n",
+    "personal-site/_includes/about.md": "about-new-DIFFERENT\n",
+    "resources/patch_files/default.html": "layout-old-v1\n",
+    "personal-site/_layouts/default.html": "layout-new-DIFFERENT\n"}}
+  },
+  {
+   "id": "about-new-absent",
+   "predicted": "F/P",
+   "why": "personal-site/_includes/about.md missing: open() raises FileNotFoundError (graded refusal) on the about leg; layout leg still passes",
+   "result": {"kind": "files", "files": {
+    "resources/patch_files/about.md": "about-old-v1\n",
+    "resources/patch_files/default.html": "layout-old-v1\n",
+    "personal-site/_layouts/default.html": "layout-old-v1\n"}}
+  },
+  {
+   "id": "trailing-whitespace-tolerance",
+   "predicted": "P/P",
+   "why": "control: hash_file strips before hashing, so trailing whitespace on the new files does not change the digest",
+   "result": {"kind": "files", "files": {
+    "resources/patch_files/about.md": "about-old-v1\n",
+    "personal-site/_includes/about.md": "about-old-v1\n   \t\n",
+    "resources/patch_files/default.html": "layout-old-v1\n",
+    "personal-site/_layouts/default.html": "layout-old-v1\n  \n"}}
+  },
+  {
+   "id": "about-new-is-dir",
+   "predicted": "E/P",
+   "why": "about.md new path is a directory: open() raises IsADirectoryError, an uncaught error class (E) distinct from the graded refusals",
+   "result": {"kind": "files", "files": {
+    "resources/patch_files/about.md": "about-old-v1\n",
+    "personal-site/_includes/about.md": {"dir": true},
+    "resources/patch_files/default.html": "layout-old-v1\n",
+    "personal-site/_layouts/default.html": "layout-old-v1\n"}}
+  },
+  {
+   "id": "layout-old-is-dir",
+   "predicted": "P/E",
+   "why": "default.html OLD path is a directory: open() raises IsADirectoryError on the layout leg only",
+   "result": {"kind": "files", "files": {
+    "resources/patch_files/about.md": "about-old-v1\n",
+    "personal-site/_includes/about.md": "about-old-v1\n",
+    "resources/patch_files/default.html": {"dir": true},
+    "personal-site/_layouts/default.html": "layout-new-v1\n"}}
+  }
+ ]
+}
