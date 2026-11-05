@@ -20,14 +20,17 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 import json
 import subprocess
 import sys
 from pathlib import Path
 
 PINS = "plans/counter-pins-r91.json"
+EXPECT = "plans/round92-selftest-expectations.json"
 SELF_PATH = "plans/round91_counter_pin.py"
 SELF_ENTRY_FLAG = "--self-entry-path"
+CHILD_ENV = "R91_C2_CHILD_MODE"
 
 
 class CouldNotEvaluate(Exception):
@@ -112,7 +115,7 @@ def check_pins(lane: Path, rev: str, self_entry: str, pins_obj: dict) -> tuple[l
     return defects, matched, checked
 
 
-def run_checker(lane: Path, rev: str, work: Path, self_entry: str, skip_selftest: bool) -> int:
+def run_checker(lane: Path, rev: str, work: Path, self_entry: str) -> int:
     pins_bytes = blob(lane, PINS, rev)
     if pins_bytes is None:
         print("DEFECT SETUP unreadable %s" % PINS)
@@ -125,10 +128,32 @@ def run_checker(lane: Path, rev: str, work: Path, self_entry: str, skip_selftest
         print("PREDICATE R91-C2 could-not-evaluate")
         return 2
     defects, matched, checked = check_pins(lane, rev, self_entry, pins_obj)
-    selftest_ok, selftest_cases = True, 0
-    if not skip_selftest:
-        selftest_cases = 8
-        rc = selftest(work / "selftest", self_entry)
+    # the selftest's expected-rc table is an external, ledger-pinned input
+    # (round-92 M9): a weakened expectation must edit the pinned table too.
+    expect_bytes = blob(lane, EXPECT, rev)
+    expect_pin = None
+    for entry in pins_obj.get("entries", []):
+        if entry.get("path") == EXPECT and entry.get("kind") == "sha":
+            expect_pin = entry.get("sha256")
+    if expect_bytes is None or expect_pin is None or sha(expect_bytes) != expect_pin:
+        print("DEFECT SETUP expectations-pin mismatch %s" % EXPECT)
+        for d in defects:
+            print("DEFECT %s" % d)
+        print("PINS checked=%d matched=%d mismatched=%d" % (checked, matched, checked - matched))
+        print("PREDICATE R91-C2 could-not-evaluate")
+        return 2
+    try:
+        expect_obj = json.loads(expect_bytes.decode()).get("expectations", [])
+    except json.JSONDecodeError:
+        print("DEFECT SETUP unparsable %s" % EXPECT)
+        print("PREDICATE R91-C2 could-not-evaluate")
+        return 2
+    if os.environ.get(CHILD_ENV) == "1":
+        # selftest child: the parent already runs the battery in its predicate path
+        selftest_ok, selftest_cases = True, 0
+    else:
+        selftest_cases = len(expect_obj)
+        rc = selftest(work / "selftest", self_entry, expect_obj)
         selftest_ok = rc == 0
         print("SELFTEST cases=%d red-green-ok=%d" % (selftest_cases, selftest_cases if selftest_ok else 0))
     for d in defects:
@@ -181,7 +206,7 @@ def fixture_repo(work: Path, commits: list[dict[str, str | None]]) -> Path:
     return work
 
 
-def selftest(work: Path, self_entry: str) -> int:
+def selftest(work: Path, self_entry: str, expect_obj: list) -> int:
     """Eight fixture repos. Each red case must exit its named code and print its named defect; the
     clean case must be green. Children run the production entry point with --skip-selftest so the
     selftest does not recurse. The self-pin case plants a stale checker at the self path."""
@@ -250,12 +275,67 @@ def selftest(work: Path, self_entry: str) -> int:
     ])
     checks.append(("blob-anchor-missing", repo, "", 1, "RECORD-TABLE anchor plans91/b.json"))
 
+    # 9 expectations-tampered: the expectations table bytes differ from their pin -> setup,
+    #   fail closed; the table is a pinned input, not a free edit (round-92 M9)
+    real_table = Path(__file__).with_name("round92-selftest-expectations.json")
+    real_bytes = real_table.read_bytes() if real_table.exists() else json.dumps(
+        {"expectations": [{"name": "clean-green", "rc": 0, "defect": "PREDICATE R91-C2 pass"}]}).encode()
+    real_sha = hashlib.sha256(real_bytes).hexdigest()
+    tampered = json.dumps({"expectations": [
+        {"name": "clean-green", "rc": 0, "defect": "PREDICATE R91-C2 pass"},
+        {"name": "counter-byte-mutated", "rc": 0, "defect": ""}]})
+    repo = fixture_repo(work / "expectations-tampered", [
+        {EXPECT: tampered, PINS: json.dumps({"entries": [
+            {"kind": "sha", "path": EXPECT, "sha256": real_sha}]})},
+        {**FIXTURE_FILES},
+    ])
+    checks.append(("expectations-tampered", repo, "", 2, "DEFECT SETUP expectations-pin mismatch"))
+
+    # every other fixture also carries the real table plus its pin, so the child's
+    # default path reaches its named defect instead of a table mismatch
+    for name, repo, _u, _rc, _txt in checks:
+        head = (work / name)
+        if name in ("expectations-tampered",):
+            continue
+        pins_path = head / PINS
+        if pins_path.exists():
+            obj = json.loads(pins_path.read_text())
+            if isinstance(obj, dict) and "entries" in obj:
+                obj["entries"].append({"kind": "sha", "path": EXPECT, "sha256": real_sha})
+                # the extra table commit shifts history by one; keep the anchor case
+                # pointing at the commit that does NOT hold the fixture file
+                if name == "blob-anchor-missing":
+                    for entry in obj["entries"]:
+                        if entry.get("kind") == "blob" and entry.get("anchor_commit") == "HEAD~1":
+                            entry["anchor_commit"] = "HEAD~2"
+                pins_path.write_text(json.dumps(obj))
+            else:
+                continue
+        else:
+            head.joinpath(EXPECT).parent.mkdir(parents=True, exist_ok=True)
+            head.joinpath(EXPECT).write_bytes(real_bytes)
+            continue
+        if not (head / EXPECT).exists():
+            head.joinpath(EXPECT).parent.mkdir(parents=True, exist_ok=True)
+            head.joinpath(EXPECT).write_bytes(real_bytes)
+        # re-commit the amended tree so HEAD holds the table and its pin
+        import subprocess as _sp
+        env = {"PATH": "/usr/bin:/bin", "HOME": str(head), "LC_ALL": "C",
+               "GIT_AUTHOR_NAME": "fixture", "GIT_AUTHOR_EMAIL": "fixture@invalid",
+               "GIT_COMMITTER_NAME": "fixture", "GIT_COMMITTER_EMAIL": "fixture@invalid"}
+        _sp.run(["git", "-C", str(head), "add", "-A"], capture_output=True, env=env)
+        _sp.run(["git", "-C", str(head), "commit", "-q", "--allow-empty", "-m", "expectations"],
+                capture_output=True, env=env)
+
+    want_by_name = {row["name"]: (int(row["rc"]), row["defect"]) for row in expect_obj}
     ok = 0
-    for name, repo, _unused, want_rc, want_text in checks:
+    for name, repo, _unused, _want_rc, _want_text in checks:
+        want_rc, want_text = want_by_name[name]
         cmd = [sys.executable, "-I", "-B", str(here), "--lane", str(repo), "--rev", "HEAD",
-               "--work", str(repo.parent / (name + "-run")), "--skip-selftest"]
-        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=180,
-                              env={"PATH": "/usr/bin:/bin", "HOME": str(work), "LC_ALL": "C"})
+               "--work", str(repo.parent / (name + "-run"))]
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=300,
+                              env={"PATH": "/usr/bin:/bin", "HOME": str(work), "LC_ALL": "C",
+                                   CHILD_ENV: "1"})
         got_rc = proc.returncode
         text_ok = want_text in proc.stdout
         passed = got_rc == want_rc and text_ok
@@ -273,7 +353,6 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--rev", default="HEAD")
     parser.add_argument("--work", required=True)
     parser.add_argument("--selftest", action="store_true")
-    parser.add_argument("--skip-selftest", action="store_true")
     parser.add_argument("--self-entry-path", default=SELF_PATH)
     args = parser.parse_args(argv)
     lane = Path(args.lane).resolve()
@@ -281,8 +360,10 @@ def main(argv: list[str]) -> int:
     work.mkdir(parents=True, exist_ok=True)
     try:
         if args.selftest:
-            return selftest(work, args.self_entry_path)
-        return run_checker(lane, resolve(lane, args.rev), work, args.self_entry_path, args.skip_selftest)
+            _table = Path(__file__).with_name("round92-selftest-expectations.json")
+            _expect = json.loads(_table.read_text(encoding="utf-8")).get("expectations", [])
+            return selftest(work, args.self_entry_path, _expect)
+        return run_checker(lane, resolve(lane, args.rev), work, args.self_entry_path)
     except CouldNotEvaluate as error:
         print("DEFECT SETUP %s" % error)
         print("PREDICATE R91-C2 could-not-evaluate")

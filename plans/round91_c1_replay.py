@@ -78,12 +78,14 @@ def parse_receipt(text: str) -> dict:
             in_obs = False
             continue
         if in_obs and line.startswith("CASE "):
+            tokens = line.split()[1:]
+            cid = tokens[0] if tokens else "?"
             parts = {}
-            for token in line.split()[1:]:
+            for token in tokens[1:]:
                 if "=" in token:
                     key, _, value = token.partition("=")
                     parts[key] = value
-            cases.append((parts.get("id", "?"), parts.get("predicted", "?"), parts.get("observed", "?")))
+            cases.append((cid, parts.get("predicted", "?"), parts.get("observed", "?")))
         elif " " in line and not line.startswith("#"):
             key, _, value = line.partition(" ")
             if key.isupper() or key in ("mismatches",):
@@ -234,18 +236,30 @@ def main(argv: list[str]) -> int:
         defects.append("L8 probe pin %s vs bytes %s"
                        % (tool_pin or "unreadable", sha(tool_bytes) if tool_bytes else "absent"))
 
-    # L9: the receipt stamp fields verify against the measured tree and the live host
-    def host(*args: str) -> str:
-        return subprocess.run(args, capture_output=True, text=True, timeout=60).stdout.strip().splitlines()[0] \
-            if subprocess.run(args, capture_output=True, text=True, timeout=60).stdout.strip() else "absent"
-    py_now = subprocess.run([sys.executable, "-V"], capture_output=True, text=True)
-    py_now_line = (py_now.stderr or py_now.stdout).strip().splitlines()[0]
-    oss = subprocess.run(["openssl", "version"], capture_output=True, text=True)
-    oss_line = (oss.stdout or "").strip().splitlines()[0] if (oss.stdout or "").strip() else "absent"
+    # L9: the receipt stamp fields verify against the measured tree and the live host.
+    # Every host probe is guarded (round-92 M12): an absent tool or a failing probe
+    # degrades the stamp to "absent" instead of crashing the counter unguarded.
+    def guarded_run(args: list[str], timeout: int = 60) -> str:
+        try:
+            proc = subprocess.run(args, capture_output=True, text=True, timeout=timeout)
+        except (OSError, subprocess.SubprocessError):
+            return "absent"
+        text = (proc.stdout or proc.stderr).strip()
+        return text.splitlines()[0] if text else "absent"
+
+    _py = subprocess.run([sys.executable, "-V"], capture_output=True, text=True)
+    py_now_line = ((_py.stderr or _py.stdout).strip().splitlines()[0]
+                   if (_py.stderr or _py.stdout).strip() else "absent")
+    oss_line = guarded_run(["openssl", "version"])
     try:
         userns_now = Path("/proc/sys/user/max_user_namespaces").read_text().strip()
     except OSError:
         userns_now = "absent"
+    if "absent" in (py_now_line, oss_line, userns_now):
+        # fail-closed (round-92 M12): a host probe we cannot run must become DEFECT
+        # SETUP at rc 2, never a silent stamp mismatch and never a crash
+        raise CouldNotEvaluate("host probe absent (python=%s openssl=%s userns=%s)"
+                               % (py_now_line, oss_line, userns_now))
     stamp_ok = (receipt["fields"].get("TOOL_SHA") == (sha(lane.blob(TOOL, rev)) if lane.blob(TOOL, rev) else None)
                 and receipt["fields"].get("CASE_TABLE_SHA") == (sha(table_bytes) if table_bytes else None)
                 and receipt["fields"].get("HOST_PYTHON") == py_now_line

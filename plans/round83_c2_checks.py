@@ -164,8 +164,11 @@ def v7(p):
     return bool(declared) and len(selected)==10 and missing==sorted(EXCEPTIONS) and all(n in p for n in EXCEPTIONS) and len(declared_rows)==7 and all('python3 ' in v for v in declared_rows)
 
 def v8(p):
+    # round-92 M6: the fleet repo resolves from SHOKUNIN_ROOT (or R83_FLEET_REPO) first;
+    # origin.parent stays only as the last fallback so the check is not clone-path dependent.
+    explicit=os.environ.get('R83_FLEET_REPO') or os.environ.get('SHOKUNIN_ROOT')
     origin=Path(os.environ.get('R83_ORIGIN_REPO',str(ROOT))).resolve()
-    fleet=Path(os.environ.get('R83_FLEET_REPO',str(origin.parent))).resolve()
+    fleet=Path(explicit if explicit else str(origin.parent)).resolve()
     old=subprocess.run(['git','-C',str(fleet),'show','c839b658102dbcc401c78bbb7ea3bb47f11a333d:'+REPORT],capture_output=True)
     current=fleet/REPORT
     preserved=old.returncode==0 and current.is_file() and current.read_bytes()==old.stdout
