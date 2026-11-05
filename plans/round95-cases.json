@@ -1,0 +1,119 @@
+{
+ "member": "fix-code-vulnerability",
+ "leg_order": [
+  "exists",
+  "vul_file",
+  "cwe_id",
+  "hkey_basic",
+  "hkey_error",
+  "hkey_real",
+  "imported"
+ ],
+ "cases": [
+  {
+   "id": "C01",
+   "bottle": "solve",
+   "report": "solve",
+   "predicted": "P,P,P,P,P,P,/app/bottle.py",
+   "why": "positive control: the captured solve.sh run unmodified on the staged /app writes the report and patches _hkey and _hval"
+  },
+  {
+   "id": "C02",
+   "bottle": "vulnerable",
+   "report": "absent",
+   "predicted": "F,E:FileNotFoundError,E:FileNotFoundError,P,F,P,/app/bottle.py",
+   "why": "do-nothing: the report tests assert or open a missing file; normalization is untouched by the Dockerfile's deletion, so only the error-case test fails (its own assert False is caught by its except Exception and re-asserted)"
+  },
+  {
+   "id": "C03",
+   "bottle": "vulnerable",
+   "report": "solve",
+   "predicted": "P,P,P,P,F,P,/app/bottle.py",
+   "why": "report only: the three report tests pass, the unpatched _hkey does not raise on control characters"
+  },
+  {
+   "id": "C04",
+   "bottle": "solve",
+   "report": "absent",
+   "predicted": "F,E:FileNotFoundError,E:FileNotFoundError,P,P,P,/app/bottle.py",
+   "why": "patch only: solve.sh run, then its report removed; report and code are independent walls"
+  },
+  {
+   "id": "C05",
+   "bottle": "oracle",
+   "report": "solve",
+   "predicted": "P,P,P,P,P,P,/app/bottle.py",
+   "why": "the upstream bottle.py at 0207a34f before the Dockerfile's two sed deletions: the deleted lines are the oracle"
+  },
+  {
+   "id": "C06",
+   "bottle": "solve",
+   "report": "upper-cwe",
+   "predicted": "P,P,P,P,P,P,/app/bottle.py",
+   "why": "test_cwe_id lowercases every id before membership, so CWE-93 counts"
+  },
+  {
+   "id": "C07",
+   "bottle": "solve",
+   "report": "relative-path",
+   "predicted": "P,F,E:KeyError,P,P,P,/app/bottle.py",
+   "why": "file_path bottle.py is not /app/bottle.py; test_cwe_id then indexes report['/app/bottle.py'] and raises KeyError instead of asserting"
+  },
+  {
+   "id": "C08",
+   "bottle": "solve",
+   "report": "string-cwe",
+   "predicted": "P,P,F,P,P,P,/app/bottle.py",
+   "why": "cwe_id as a bare string is iterated character by character, so 'cwe-93' is not a member"
+  },
+  {
+   "id": "C09",
+   "bottle": "solve",
+   "report": "split-lines",
+   "predicted": "P,P,P,P,P,P,/app/bottle.py",
+   "why": "two lines for /app/bottle.py (cwe-79, then cwe-93) are concatenated per file_path before the membership test"
+  },
+  {
+   "id": "C10",
+   "bottle": "solve",
+   "report": "trailing-blank-line",
+   "predicted": "P,E:JSONDecodeError,E:JSONDecodeError,P,P,P,/app/bottle.py",
+   "why": "every line, blank included, goes to json.loads; a trailing empty line raises JSONDecodeError in both parsing tests"
+  },
+  {
+   "id": "C11",
+   "bottle": "hkey-only",
+   "report": "solve",
+   "predicted": "P,P,P,P,P,P,/app/bottle.py",
+   "why": "only _hkey patched, _hval left vulnerable: no function of test_outputs.py calls _hval, so the half fix passes this file"
+  },
+  {
+   "id": "C12",
+   "bottle": "strip",
+   "report": "solve",
+   "predicted": "P,P,P,P,F,P,/app/bottle.py",
+   "why": "a fix that strips control characters instead of raising: normalization holds, the error-case test wants ValueError"
+  },
+  {
+   "id": "C13",
+   "bottle": "over-strict",
+   "report": "solve",
+   "predicted": "P,P,P,E:ValueError,P,E:ValueError,/app/bottle.py",
+   "why": "a fix that also rejects '_': the ValueError escapes the basic and real-world tests (no try there), so they error, not fail"
+  },
+  {
+   "id": "C14",
+   "bottle": "solve",
+   "report": "int-cwe",
+   "predicted": "P,P,F,P,P,P,/app/bottle.py",
+   "why": "cwe_id [93] stringifies to '93', not 'cwe-93'"
+  },
+  {
+   "id": "C15",
+   "bottle": "package-shadow",
+   "report": "solve",
+   "predicted": "P,P,P,P,P,P,/app/bottle/__init__.py",
+   "why": "vulnerable /app/bottle.py left in place plus a package /app/bottle/__init__.py with a raising _hkey: on the same sys.path entry a package wins over a module, so the grader imports the shadow and passes while /app/bottle.py stays vulnerable"
+  }
+ ]
+}
