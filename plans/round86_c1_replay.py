@@ -88,8 +88,12 @@ class SetupDefect(Exception):
     """The frozen replay could not be evaluated (exit 2, never a fail)."""
 
 
+GIT_ENV = {"PATH": "/usr/bin"}   # F4: a foreign GIT_DIR/TAR_OPTIONS cannot steer the read
+
+
 def git(lane: Path, *args: str) -> subprocess.CompletedProcess:
-    return subprocess.run(["git", "-C", str(lane), *args], capture_output=True)
+    return subprocess.run(["git", "-C", str(lane), *args], capture_output=True,
+                          env=GIT_ENV)
 
 
 def sha256(data: bytes) -> str:
@@ -129,7 +133,7 @@ def extract_paths(lane: Path, tip: str, root: Path, paths: tuple[str, ...]) -> i
                              capture_output=True)
         if arc.returncode != 0:
             continue
-        subprocess.run(["tar", "-x", "-C", str(root)], input=arc.stdout, capture_output=True)
+        subprocess.run(["tar", "-x", "-C", str(root)], input=arc.stdout, capture_output=True, env=GIT_ENV)
         extracted += 1
     return extracted
 

@@ -50,8 +50,12 @@ class SetupDefect(Exception):
     """The measurement could not be taken (exit 2, never a fail)."""
 
 
+GIT_ENV = {"PATH": "/usr/bin"}   # F4: a foreign GIT_DIR/TAR_OPTIONS cannot steer the read
+
+
 def git(lane: Path, *args: str) -> subprocess.CompletedProcess:
-    return subprocess.run(["git", "-C", str(lane), *args], capture_output=True)
+    return subprocess.run(["git", "-C", str(lane), *args], capture_output=True,
+                          env=GIT_ENV)
 
 
 def extract(lane: Path, rev: str, work: Path) -> Path:
@@ -65,7 +69,7 @@ def extract(lane: Path, rev: str, work: Path) -> Path:
                          capture_output=True)
     if arc.returncode != 0:
         raise SetupDefect(f"archive-failed {tip[:12]}")
-    tar = subprocess.run(["tar", "-x", "-C", str(root)], input=arc.stdout, capture_output=True)
+    tar = subprocess.run(["tar", "-x", "-C", str(root)], input=arc.stdout, capture_output=True, env=GIT_ENV)
     if tar.returncode != 0:
         raise SetupDefect("extract-failed")
     return root
@@ -112,7 +116,8 @@ def pin_line(root: Path) -> tuple[int | None, bool]:
 
 
 def state_summary(root: Path, lane: Path) -> tuple[int, bool, str]:
-    script = (lane / STATE) if (lane / STATE).is_file() else (root / STATE)
+    # F1: P4 reads the instrument of the MEASURED tree, never the lane worktree.
+    script = (root / STATE) if (root / STATE).is_file() else (lane / STATE)
     proc = subprocess.run([sys.executable, "-I", "-B", str(script), "--summary",
                            "--root", str(root)], capture_output=True, text=True, timeout=600,
                           env={"PATH": "/usr/bin", "PYTHONDONTWRITEBYTECODE": "1"})
@@ -122,7 +127,7 @@ def state_summary(root: Path, lane: Path) -> tuple[int, bool, str]:
 
 
 def state_selftest(root: Path, lane: Path) -> bool:
-    script = (lane / STATE) if (lane / STATE).is_file() else (root / STATE)
+    script = (root / STATE) if (root / STATE).is_file() else (lane / STATE)
     proc = subprocess.run([sys.executable, "-I", "-B", str(script), "--selftest"],
                           capture_output=True, text=True, timeout=900,
                           env={"PATH": "/usr/bin", "PYTHONDONTWRITEBYTECODE": "1"})
