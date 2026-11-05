@@ -1,0 +1,28 @@
+# tb2 modernize-scientific-stack grader probe
+MEMBER modernize-scientific-stack
+SUBJECT_CAPTURE corpus/evidence/round52/graders/modernize-scientific-stack/tests/test_outputs.py
+SUBJECT_SHA 0c24195ff46527764c7f8ceda9c608a189ab4a01619282942fcd27a2ea02a977
+CASE_TABLE_SHA 89fab14b457364826065b77435626e0a16669abeebe67afe93ce6d2fe198ddf8
+TOOL plans/round91_modernize_probe.py
+TOOL_SHA d70210cbf7f326d1b33f13fa4169c6f28340a044660ce5451bf75ca06ef40e3c
+HOST_PYTHON Python 3.14.8
+HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+HOST_USERNS 122865
+LANE_TIP b836a862f5b9ba9cecbcff457003f1eabee70fba
+WORKTREE dirty:1
+COMMAND python3 plans/round91_modernize_probe.py --lane /home/vgpnk/Projects/shokunin/kengaku-shokunin --work /fast/scratch/hyaku/kengaku-r91/L1/receipt
+CASES 10 LEGS 20 (cases x 2 functions)
+OBSERVATIONS_BEGIN
+CASE full-pass predicted=PP observed=PP ok=True test_modernized_code_runs=ok,test_dependency_file_exists=ok
+CASE missing-script predicted=FP observed=FP ok=True test_modernized_code_runs=AssertionError,test_dependency_file_exists=ok
+CASE missing-csv predicted=FP observed=FP ok=True test_modernized_code_runs=AssertionError,test_dependency_file_exists=ok
+CASE script-fails predicted=FP observed=FP ok=True test_modernized_code_runs=AssertionError,test_dependency_file_exists=ok
+CASE station-101-off-by-1 predicted=FP observed=FP ok=True test_modernized_code_runs=AssertionError,test_dependency_file_exists=ok
+CASE station-101-inside-tolerance predicted=PP observed=PP ok=True test_modernized_code_runs=ok,test_dependency_file_exists=ok
+CASE station-102-outside-tolerance predicted=FP observed=FP ok=True test_modernized_code_runs=AssertionError,test_dependency_file_exists=ok
+CASE script-hangs predicted=EP observed=EP ok=True test_modernized_code_runs=TimeoutExpired,test_dependency_file_exists=ok
+CASE no-dependency-file predicted=PF observed=PF ok=True test_modernized_code_runs=ok,test_dependency_file_exists=AssertionError
+CASE mean-temperature-missing predicted=FP observed=FP ok=True test_modernized_code_runs=AssertionError,test_dependency_file_exists=ok
+OBSERVATIONS_END
+mismatches=0
+PREDICATE R91-PROBE pass
