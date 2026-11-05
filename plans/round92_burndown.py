@@ -562,7 +562,9 @@ def in_child_mode(work: Path) -> bool:
         if hash_s != _parent_argv_hash():
             return False
         raw = Path(f"/proc/{os.getppid()}/cmdline").read_bytes().decode(errors="replace")
-        return "round92_burndown.py" in raw and "--selftest" in raw
+        # the parent must be an instance of this very gate; the battery runs in every
+        # default-path invocation, so a child of a default-path parent is a battery child
+        return "round92_burndown.py" in raw
     except (OSError, ValueError):
         return False
 
