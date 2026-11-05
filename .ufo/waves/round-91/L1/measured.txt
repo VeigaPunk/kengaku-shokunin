@@ -1,0 +1,61 @@
+Round 91 — L1 measured transcript (KengakuR91). Revisions: BASE 59764383, A cd0c116e, B 386184a6, B2 b836a862, C a8de3e69, D cefabd44.
+Each block is the command and its verbatim final lines, rc in brackets.
+
+## C1 counter
+$ python3 plans/round91_c1_replay.py --lane . --rev a8de3e69 --work DIR          [rc 1]
+TARGET executed_rows=35 member=modernize-scientific-stack located=1 executed=0 cases=10 legs=20 mismatches=10 defects=10
+DEFECT L5 receipt names unknown case ?   (x10)
+PREDICATE R91-C1 fail
+$ python3 plans/round91_c1_replay.py --lane . --rev 59764383 --work DIR         [rc 1]
+TARGET executed_rows=34 member=modernize-scientific-stack located=1 executed=0 cases=0 legs=0 mismatches=0 defects=9
+PREDICATE R91-C1 fail
+# Child-run evidence for the parser defect (ExecC1Battery, scratch copy only): id = line.split()[1] -> TARGET executed_rows=35 ... executed=1 cases=10 legs=20 mismatches=0 defects=0, PREDICATE R91-C1 pass, rc 0.
+
+## C2 counter
+$ python3 plans/round91_counter_pin.py --lane . --rev b836a862 --work DIR       [rc 0]
+PINS checked=16 matched=16 mismatched=0
+SELFTEST cases=8 red-green-ok=8
+PREDICATE R91-C2 pass
+$ python3 plans/round91_counter_pin.py --lane . --rev a8de3e69 --work DIR       [rc 0]   (same lines)
+$ python3 plans/round91_counter_pin.py --lane . --rev 59764383 --work DIR       [rc 2]
+DEFECT SETUP unreadable plans/counter-pins-r91.json
+PREDICATE R91-C2 could-not-evaluate
+# Pre-correction selftest at B 386184a6 (disclosed, lesson M3): SELFTEST-DETAIL cases=8 red-green-ok=4, rc 1.
+
+## C3 gate
+$ python3 plans/round91_burndown.py --lane . --rev 59764383 --work DIR --freeze-round 92   [rc 1]
+DEFECT override-unjustified R42-R3-37
+freeze=refused oldest_pending_round=82 pending=30 parked=7 unowned_blocked=0 malformed_unresolved=0 seeds_83_91=46 resolutions=34 checks_run=114 overrides=3
+SEEDS window=83-91 count=46 min=6 ok=True
+PREDICATE R91-C3 fail
+$ python3 plans/round91_burndown.py --lane . --rev a8de3e69 --work DIR --freeze-round 92   [rc 1]  (same lines)
+$ python3 plans/round91_burndown.py --lane . --rev cefabd44 --work DIR --freeze-round 92   [rc 1]
+DEFECT override-unjustified R42-R2
+DEFECT override-unjustified R42-R3-33
+DEFECT override-unjustified R42-R3-37
+freeze=refused oldest_pending_round=82 pending=1 parked=26 unowned_blocked=0 malformed_unresolved=0 seeds_83_91=46 resolutions=74 checks_run=123 overrides=3
+SEEDS window=83-91 count=46 min=6 ok=True
+PREDICATE R91-C3 fail
+$ python3 plans/round91_burndown.py --lane . --rev cefabd44 --work DIR --selftest   [rc 0]
+SELFTEST cases=13 red-green-ok=13
+# Chain check (python3 over corpus/routed-findings.jsonl at D): supersede rows 74; supersede-of-supersede 8 (R82-F1-R91, R51-R1..R4-R91, R42-R2-R91, R42-R3-33-R91, R42-R3-37-R91); effective open one-level: R82-F1 via R82-F1-R90.
+
+## F1 companion
+$ python3 plans/round91_f1_counter.py --lane . --work DIR                        [rc 0]
+PARSED S260=1,S261=2,S265=1,S266=2
+ANCHORLINE rows=272 cited=84 captured=71 uncaptured=13 defective=10 repaired=10 live=0 cells=0 rc=0
+WRONG-LINE-CAUGHT True
+PREDICATE R91-F1 pass
+# BASE anchor_line_check (pre-repair): PARSE-ABSENT S260, S261, S265, S266; PREDICATE R91-F1 fail, rc 1.
+
+## Ledger and registry
+$ python3 ledger count (plans/grader-population-ledger.json at C): executed 35 of 88; file-artifact 26, filesystem-metadata 3, numeric-band 4, stdout-inspection 11, subprocess-exec 13.
+$ scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku   [rc 0] kengaku ok (before: 272 rows; after S281/S282: 274 rows)
+
+## Probe
+$ python3 plans/round91_modernize_probe.py --lane . --work DIR                   [rc 0]
+CASES 10 LEGS 20 (cases x 2 functions); mismatches=0; PREDICATE R91-PROBE pass
+(receipt: corpus/evidence/round91/modernize-probe.txt, LANE_TIP b836a862, WORKTREE dirty:1 because the receipt was untracked at stamping)
+
+## Host
+/proc/sys/user/max_user_namespaces = 122865 at every receipt and run; no sysctl or host setting changed by this lane.
