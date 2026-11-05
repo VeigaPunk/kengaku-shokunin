@@ -1355,6 +1355,9 @@ not rewritten.
 
 - **Q66 — a before-count written into a frozen claim is copied from its counter's own BASE output, measured before the freeze commit.** Grounding:
   `corpus/lessons/round-87.md` Mistakes 2. Round 87's claim text stated `defects=7` at BASE for a member whose
-  counter measures `defects=3` at that revision; the 7 was a figure carried from a sibling claim. Executable half: not
-  yet. Routed to round 88 as a counter-side check that re-runs the frozen counter at BASE and compares the figure
-  in the claim text. Until that check exists, a claim's before-figure is a prediction, not evidence.
+  counter measures `defects=3` at that revision; the 7 was a figure carried from a sibling claim. Executable half:
+  landed round 88 — `plans/round88_claim_figures.py` extracts every before-figure record from the eight frozen
+  claims files (rounds 80–87), re-runs each claim's own counter at its own BASE, and requires the mismatch set to
+  equal the frozen KNOWN set `{(R87-C1, kv:defects): claimed 7, measured 3}` exactly (`PREDICATE R88-C2 pass`,
+  `MISMATCH KNOWN` on the record, `--selftest` able-to-fail). The round-87 mispredict stays wrong on the record;
+  it is reported, not repaired. A claim's before-figure is now evidence only while this counter stays green.

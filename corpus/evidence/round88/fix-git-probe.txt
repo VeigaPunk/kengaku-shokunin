@@ -1,0 +1,25 @@
+# tb2 fix-git grader probe
+MEMBER fix-git
+SUBJECT_CAPTURE corpus/evidence/round52/graders/fix-git/tests/test_outputs.py
+SUBJECT_SHA a8a6f51eb0d7c4ebdf0813c8f0b645edf29c995f1f9faf2aca3886a6713043f3
+CASE_TABLE_SHA 72f8ea0cae49a37ec9372baf73d5e99a5464961f00eab0ca1f7b6b4bb4733067
+TOOL plans/round88_fixgit_probe.py
+TOOL_SHA 50ae36d631c93fb051f8db67765e1d78fa69c3b31b431bda36f6a537e33066f8
+HOST_PYTHON Python 3.14.8
+HOST_OPENSSL OpenSSL 3.6.5 29 Sep 2026 (Library: OpenSSL 3.6.5 29 Sep 2026)
+LANE_TIP da16ec39cf28d89b0a6a35ce8cacb630bad1de19
+WORKTREE clean
+COMMAND python3 plans/round88_fixgit_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r88/L1/probe-work2
+EXIT 0
+OBSERVATIONS_BEGIN
+CASE exact predicted=P/P observed=P/P
+CASE about-content-mismatch predicted=F/P observed=F/P
+CASE layout-content-mismatch predicted=P/F observed=P/F
+CASE both-content-mismatch predicted=F/F observed=F/F
+CASE about-new-absent predicted=F/P observed=F/P
+CASE trailing-whitespace-tolerance predicted=P/P observed=P/P
+CASE about-new-is-dir predicted=E/P observed=E/P
+CASE layout-old-is-dir predicted=P/E observed=P/E
+cases=8 legs=16 mismatches=0
+PREDICATE R88-PROBE pass
+OBSERVATIONS_END
