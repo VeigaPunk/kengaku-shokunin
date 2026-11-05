@@ -7,8 +7,8 @@ counter prints one `DEFECT <leg> <detail>` line per failed leg and nothing else:
   L1-receipt    the receipt named by the ledger row exists at the measured revision
   L2-stamp      its stamp carries every required field, and MEMBER/SUBJECT_CAPTURE/
                 SUBJECT_SHA/CASE_TABLE_SHA/TOOL/TOOL_SHA agree with the measured bytes
-  L3-tip        its LANE_TIP equals the measured revision (a receipt minted elsewhere
-                is not evidence about this tree)
+  L3-tip        its LANE_TIP is a resolvable commit in this repo that is an ancestor of
+                the measured revision (a receipt minted elsewhere names no such commit)
   L4-table      the case table at the measured revision is byte-identical to the frozen
                 table at FREEZE_REV (read from FREEZE_REV, never from the measured tree)
   L5-vectors    the receipt's eight CASE lines carry the frozen predicted vectors with
@@ -303,8 +303,15 @@ def check(tree: Tree, lane: Path, work: Path, reproduce: bool = True) -> tuple[l
             else:
                 legs["L2-stamp"] = True
 
-        if stamp.get("LANE_TIP") != tree.tip:
-            defects.append(f"L3-tip {str(stamp.get('LANE_TIP'))[:12]} != {tree.tip[:12]}")
+        declared = stamp.get("LANE_TIP") or ""
+        anchor = (tree.tip if tree.tip != "fixture"
+                  else git(lane, "rev-parse", "master").stdout.decode().strip())
+        resolvable = (re.fullmatch(r"[0-9a-f]{40}", declared) is not None
+                      and git(lane, "cat-file", "-e", f"{declared}^{{commit}}").returncode == 0)
+        ancestor = resolvable and git(lane, "merge-base", "--is-ancestor", declared,
+                                      anchor).returncode == 0
+        if not ancestor:
+            defects.append(f"L3-tip {declared[:12]} not an ancestor of {anchor[:12]}")
             legs["L3-tip"] = False
         else:
             legs["L3-tip"] = True
@@ -402,6 +409,18 @@ def copy_tree(source: Tree, work: Path, name: str) -> Path:
     return root
 
 
+def working_tree(lane: Path, work: Path) -> Tree:
+    """The tree the receipt lives in: the lane worktree when it carries one, else master.
+
+    Controls need a receipt to mutate before it is committed; the measured tip stays
+    `git rev-parse master` either way, so L3 keeps comparing against a real revision.
+    """
+    tip = git(lane, "rev-parse", "master").stdout.decode().strip()
+    if (lane / RECEIPT).is_file() and (lane / TOOL).is_file():
+        return fixture_tree(copy_tree(Tree(lane, tip, "worktree"), work, "src"))
+    return rev_tree(lane, "master", work)
+
+
 def flip_ledger(root: Path, status: str = "executed") -> None:
     path = root / LEDGER
     doc = json.loads(path.read_bytes())
@@ -418,7 +437,7 @@ def control(lane: Path, work: Path, name: str) -> int:
     if name == "do-nothing":
         tree = rev_tree(lane, BASE_REV, work)
     else:
-        root = copy_tree(rev_tree(lane, "master", work), work, name)
+        root = copy_tree(working_tree(lane, work), work, name)
         tree = fixture_tree(root)
         if name == "ledger-only":
             (root / RECEIPT).unlink()
@@ -453,8 +472,7 @@ MUTANTS = (
      [('if row.get("status") != "executed":', "if False:")], "L7-ledger"),
     ("no-tool-sha", "tool",
      [('elif stamp.get("TOOL_SHA") != sha256(tool):', "elif False:")], "L2-stamp"),
-    ("no-tip-binding", "tip",
-     [('if stamp.get("LANE_TIP") != tree.tip:', "if False:")], "L3-tip"),
+    ("no-tip-binding", "tip", [("if not ancestor:", "if False:")], "L3-tip"),
     ("no-table-drift", "table",
      [("elif table_bytes != frozen_bytes:", "elif False:")], "L4-table"),
     ("no-exit", "exit",
@@ -463,7 +481,7 @@ MUTANTS = (
 
 
 def mutant_fixture(lane: Path, work: Path, kind: str) -> Path:
-    root = copy_tree(rev_tree(lane, "master", work), work, f"mut-{kind}")
+    root = copy_tree(working_tree(lane, work), work, f"mut-{kind}")
     if kind == "tool":
         # bytes drift with identical output: only the TOOL_SHA leg can see it
         path = root / TOOL
