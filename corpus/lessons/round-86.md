@@ -54,6 +54,15 @@ ground lands as S274 + the executed population-ledger row + the receipt + this G
   They were re-verified from their own batteries, two legs were repaired (Mistakes 1–2), and the
   instrument bytes were frozen at `316811fa` *before* any tip run.
 
+- **Box-4 pin provenance (measured 2026-11-05).** The pin was not laundering. `### Adjacent` was
+  physically at `PROVINCE.md:129` in the commits that froze it (`8ea41f9e` round 25, `3a2aeb15`
+  round 26: `grep -n '^### Adjacent' PROVINCE.md` → `129`), and PROVINCE.md later grew so the token
+  slid to 151 by the round-85 tip (`88651a72`: line 129 is a table rule `|---|---|---|`; line 151 is
+  the token). The repair moved the pointer **to the token**, not the pin to wherever the pointer
+  already was, and `P1-derive` recomputes the line from bytes on every run. The repair itself landed
+  in the inherited attempt's commit `0481a6d3`; this round's own work is the counter, the derive leg,
+  the four controls and the mutant battery, all committed at `316811fa` before any tip run.
+
 ## Mistakes
 
 | class | evidence pointer | captured-by | fix |
