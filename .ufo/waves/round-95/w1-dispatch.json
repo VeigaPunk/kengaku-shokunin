@@ -1,0 +1,235 @@
+{
+  "schema": "ufo-swarm-wave-dispatch-v1",
+  "wave": "kengaku-r95-w1",
+  "policy": {
+    "source": "config",
+    "maxLanes": 16,
+    "minLanes": 8,
+    "waveMinLanes": 8,
+    "waveMaxLanes": 16,
+    "declaredMaxLanes": 16,
+    "hardCeiling": 256,
+    "rampBatchSize": 5,
+    "rampIntervalMs": 700,
+    "globalRunnerCeiling": 1056
+  },
+  "counts": {
+    "spawn": 12,
+    "resume": 0,
+    "total": 12
+  },
+  "registry": {
+    "schema": "ufo-swarm-registry-v1",
+    "path": ".ufo/waves/round-95/w1/swarm-registry.json",
+    "reportDir": ".ufo/waves/round-95/w1",
+    "members": {
+      "ExecC1Rerun": {
+        "kind": "spawn",
+        "agentId": null,
+        "role": "executor",
+        "item": null,
+        "axes": [
+          "coverage",
+          "calibration"
+        ],
+        "milestone": "R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap"
+      },
+      "ExecC2Rerun": {
+        "kind": "spawn",
+        "agentId": null,
+        "role": "executor",
+        "item": null,
+        "axes": [
+          "coverage",
+          "calibration"
+        ],
+        "milestone": "R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap"
+      },
+      "ExecLegacyHarm": {
+        "kind": "spawn",
+        "agentId": null,
+        "role": "executor",
+        "item": null,
+        "axes": [
+          "coverage",
+          "calibration"
+        ],
+        "milestone": "R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap"
+      },
+      "ScoutSources": {
+        "kind": "spawn",
+        "agentId": null,
+        "role": "scout",
+        "item": null,
+        "axes": [
+          "coverage",
+          "calibration"
+        ],
+        "milestone": "R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap"
+      },
+      "ConnectorOverlap": {
+        "kind": "spawn",
+        "agentId": null,
+        "role": "connector",
+        "item": null,
+        "axes": [
+          "coverage",
+          "calibration"
+        ],
+        "milestone": "R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap"
+      },
+      "ScribeLesson": {
+        "kind": "spawn",
+        "agentId": null,
+        "role": "scribe",
+        "item": null,
+        "axes": [
+          "coverage",
+          "calibration"
+        ],
+        "milestone": "R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap"
+      },
+      "ReviewerC1": {
+        "kind": "spawn",
+        "agentId": null,
+        "role": "reviewer",
+        "item": null,
+        "axes": [
+          "coverage",
+          "calibration"
+        ],
+        "milestone": "R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap"
+      },
+      "ReviewerC2": {
+        "kind": "spawn",
+        "agentId": null,
+        "role": "reviewer",
+        "item": null,
+        "axes": [
+          "coverage",
+          "calibration"
+        ],
+        "milestone": "R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap"
+      },
+      "CriticClaims": {
+        "kind": "spawn",
+        "agentId": null,
+        "role": "critic",
+        "item": null,
+        "axes": [
+          "coverage",
+          "calibration"
+        ],
+        "milestone": "R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap"
+      },
+      "MutTesterC2": {
+        "kind": "spawn",
+        "agentId": null,
+        "role": "mutation-tester",
+        "item": null,
+        "axes": [
+          "coverage",
+          "calibration"
+        ],
+        "milestone": "R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap"
+      },
+      "MutTesterC1": {
+        "kind": "spawn",
+        "agentId": null,
+        "role": "mutation-tester",
+        "item": null,
+        "axes": [
+          "coverage",
+          "calibration"
+        ],
+        "milestone": "R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap"
+      },
+      "SentinelProbe": {
+        "kind": "spawn",
+        "agentId": null,
+        "role": "sentinel",
+        "item": null,
+        "axes": [
+          "coverage",
+          "calibration"
+        ],
+        "milestone": "R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap"
+      }
+    }
+  },
+  "compaction": {
+    "applied": false,
+    "mechanism": null,
+    "reason": null,
+    "savedBytes": 0,
+    "payloadBytesBefore": 0,
+    "payloadBytesAfter": 0
+  },
+  "taskCall": {
+    "context": "# Goal and frozen contract\nKengaku round 95, ONE v1 wave, 12 seats. L1 KengakuR95 owns integration and holds the planner seat; you are a leaf seat: never spawn subagents (an executor may spawn one read-only labrat, nothing else), never call task, never commit, never push, never run a mutating git or jj command in the lane, never write the fleet root. Read-only git against the lane is fine (status, log, show, rev-parse, merge-base, archive, ls-tree, diff).\n\nLane: /home/vgpnk/Projects/shokunin/kengaku-shokunin (branch master). Revisions: BASE 4524072dfae9c5e8210592b7c1da26959aa29dae (round start; round 94 closed); P0 2457f0254efcef452591fc1ac691dc7670b1aded (mechanism predictions .ufo/waves/round-95/L1/predictions-mechanism.txt, capture corpus/evidence/round95/graders/fix-code-vulnerability/, false-gate population plans/round95-false-gates.tsv, BEFORE receipts .ufo/waves/round-95/L1/controls/before-r94-counter-*.txt); P1 16dcfed7ef4c9e2ac7d28568d855905a8457b20d (every instrument); P2 7783e9cbc83c207a3eb09224de68050c383f68f0 (pre-freeze controls, tabulated in .ufo/waves/round-95/L1/controls/README.md); F d9cd18a7519a58a1fa6d1cb9768e3873c31cd545 (plans/round-95-claims.md with the 11-row frozen-instruments sha256 table); C = measured tip T afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239 (official receipt corpus/evidence/round95/vuln-probe.txt, ledger flip + legacy-gate fields, SKILL.md class cells, SOURCES S303-S309); L1 receipts at T are under .ufo/waves/round-95/L1/ (c1-tip.txt, c2-tip.txt, c2-tip-do-nothing-r94-counter.txt, legacy-r79-gate.txt), committed in the lane after T.\nClaims (read plans/round-95-claims.md in full first): R95-C1 coverage — thirteenth located offline replay of Terminal-Bench 2.0 member fix-code-vulnerability @ 2fd12b88 (probe plans/round95_vuln_probe.py rebuilds /app/bottle.py from the captured upstream bottlepy bottle.py @ 0207a34f with the Dockerfile's two sed deletions, runs the captured solve.sh unmodified as positive control, 15 cases x 7 legs in bwrap; counter plans/round95_c1_replay.py legs L1-L9). R95-C2 calibration — 14 known false freeze-integrity gates (built by the round-94 wave on gate v2 plans/round94_freeze_integrity.py, which is unchanged) pass the frozen round-94 counter at BASE (14 of 14); after: plans/round95_c2_counter.py (W1 history, W2 20 CLI fixtures, W3 battery driven red by three probe mutations, W4 own table, W5 ten CLI mutants, PREDICATE-line/rc agreement) fails all 14 at designated legs while the honest gate passes; counting command plans/round95_false_gate_census.py (14 -> 0). The claim is declared IN-SAMPLE: building false gates it does not catch is exactly what the wave is for.\nFROZEN RULE: no tabled instrument changes after F. Your findings are routed to round 96 and judged honestly; the L1 never repairs an instrument in round. A defect you find that would flip a verdict must say so plainly with the exact command and output.\nEvery `Report:` trailer path is relative to /home/vgpnk/Projects/shokunin/kengaku-shokunin — write it at /home/vgpnk/Projects/shokunin/kengaku-shokunin/<that path>. Write only inside your own wave dir /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/<your seat name>/ plus that Report file.\n\n# Scratch discipline\nEvery clone, work tree and counter --work dir of yours lives under /fast/scratch/hyaku/kengaku-r95/<your seat name>/ (mkdir -p; NVMe). /tmp is for files under 50 MB only. One live clone per seat: never `git worktree add` in the lane — use `git clone --shared /home/vgpnk/Projects/shokunin/kengaku-shokunin \"$S/lane\"` then `git -C \"$S/lane\" checkout -q --detach <rev>`. Run every script by ABSOLUTE path from inside the clone (this round's L1 mistake M1: a backgrounded `( ... ) &` group lost its cwd and ran from the fleet root). Remove your scratch dir before you yield (`trap 'rm -rf -- \"$S\"' EXIT`) after copying receipts into your wave dir. A /tmp or scratch path is never citable evidence. Never pass a --work inside the lane.\n\n# Bounds\nSeats never mutate the fleet repo /home/vgpnk/Projects/shokunin, sibling lanes, lane jj state or the lane git index. Fixture repos: `D=$(mktemp -d -p \"$S\") && git -C \"$D\" init -q`, explicit -C everywhere, throwaway identity (-c user.name=fixture -c user.email=fixture@invalid), and `git -C \"$D\" rev-parse --show-toplevel` must equal \"$D\" before the first commit. Never run git add/commit/stash/checkout/switch/reset/pull/push in the lane itself. Do not mutate host sysctls (2026-11-05 incident: user.max_user_namespaces set to 0 broke bwrap fleet-wide); name the need in your report instead. bwrap is /usr/bin/bwrap. Timings: one probe run ~3 s; the C1 counter ~10 s; one C2 counter run ~80 s; the census runs 15 counters 8-wide (~4 min).\n\n# Tooling authorization (operator, 2026-10-19)\nYou may install or upgrade tools that help the task — read /home/vgpnk/.omp/agent/RULES.md first (official channels, update-safety gate; record tool/version/channel/reason). pacman is PAUSED host-wide (mado r15 libinput incident; the sync DB is ~413 packages ahead): never pacman -S/-Sy/-Syu/-U/-R; install via uv tool, npx, or an official binary in ~/.local/bin, or file the need in your report. Record every tool install or update in your report.\n\n# Open L0 questions (route around, never answer them yourself)\n/home/vgpnk/Projects/shokunin/.ufo/l0-questions.md carries open kengaku round-54 and round-90/91/92 questions. This round claims none of them.\n\n# Output\nEnd your final message with a short plain-text summary: verdict lines `FINDING <id> <severity: blocker|major|minor|info> <one line>` (or `FINDING none`), then the paths you wrote.",
+    "tasks": [
+      {
+        "name": "ExecC1Rerun",
+        "agent": "executor",
+        "task": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Item ExecC1Rerun\nIndependent re-measurement of R95-C1. In a --shared clone detached at T afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239: run `python3 \"$S/lane/plans/round95_c1_replay.py\" --lane \"$S/lane\" --rev afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239 --work \"$S/w\"` and save stdout+rc as c1-rerun.txt; run the counter at BASE 4524072dfae9c5e8210592b7c1da26959aa29dae and at F d9cd18a7519a58a1fa6d1cb9768e3873c31cd545 (expect rc 1) and save. Run the probe itself twice more and diff the OBSERVATIONS block and VULNERABLE_BOTTLE_SHA across runs (determinism). Report-only portability probes (never claim legs): (a) re-run the 15 cases under Python 3.11 (the task image is python:3.11-slim; `/home/vgpnk/.local/bin/python3.11` exists via uv — bind it into the sandbox or run the harness outside bwrap in a scratch copy, say which) and report any vector that differs; (b) run the cloned bottle repository's own test suite at 0207a34f (the first half of tests/test.sh, which the replay does not stage) against the vulnerable, solve and hkey-only (C11) variants if you can fetch it offline-cheaply from GitHub (raw files or a shallow clone into scratch; pytest via uv), and report whether that suite would catch the C11 half fix or the C15 package shadow. That decides whether C11/C15 are whole-harness findings or only test_outputs.py findings.\nWrite your files under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/ExecC1Rerun/ (report.md plus raw receipts). S=/fast/scratch/hyaku/kengaku-r95/ExecC1Rerun.\n\nLane bounds: leaf member — no subagent dispatch except your single labrat.\nJudged on: coverage, calibration\nMilestone: R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap\n\nReport: write your scoped findings to .ufo/waves/round-95/w1/ExecC1Rerun.md"
+      },
+      {
+        "name": "ExecC2Rerun",
+        "agent": "executor",
+        "task": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Item ExecC2Rerun\nIndependent re-measurement and HELD-OUT forgery extension of R95-C2. In a --shared clone detached at T afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239: (1) run `python3 \"$S/lane/plans/round95_false_gate_census.py\" --lane \"$S/lane\" --rev afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239 --work \"$S/w\"` and save as census-rerun.txt (expect FALSEGATES total=14 passing=0 designated_red=14 honest=pass, rc 0); (2) design and write at least FIVE NEW false gates built on plans/round94_freeze_integrity.py (gate v2) that the round-95 counter has not seen: each must produce a WRONG verdict (false intact, dropped instrument, wrong rc) on some input you demonstrate with a fixture, and you run each through `python3 \"$S/lane/plans/round95_c2_counter.py\" --lane \"$S/lane\" --rev afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239 --work <dir> --tool-file <gate>`. Ideas the counter may not cover: refs/replace objects; a tag object passed as --rev; a path with a leading ./ or trailing slash; symlinked instrument; mode-only change (chmod) after freeze; submodule; a claims file whose table sits inside an HTML comment or indented code; CRLF line endings in the table; a forged battery that runs only when the anchors the counter's W3 probes are present elsewhere. Report how many pass 5/5 (that is the held-out discrimination the claim does NOT claim) and give each gate's diff against v2.\nWrite your files under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/ExecC2Rerun/ (report.md plus raw receipts). S=/fast/scratch/hyaku/kengaku-r95/ExecC2Rerun.\n\nLane bounds: leaf member — no subagent dispatch except your single labrat.\nJudged on: coverage, calibration\nMilestone: R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap\n\nReport: write your scoped findings to .ufo/waves/round-95/w1/ExecC2Rerun.md"
+      },
+      {
+        "name": "ExecLegacyHarm",
+        "agent": "executor",
+        "task": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Item ExecLegacyHarm\nHarm and conformance check at T afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239 in a --shared clone. (1) Legacy gate: `python3 \"$S/lane/plans/round79_c1_population_ledger.py\" --lane \"$S/lane\" --rev <rev>` at BASE 4524072dfae9c5e8210592b7c1da26959aa29dae and at T: report DEFECTS n at each and every defect line (L1 measured 14 at BASE, expected 0 at T; compare with .ufo/waves/round-95/L1/legacy-r79-gate.txt). Verify the C commit's edits are the ones that moved it: the ledger rows (receipt/subject/verdict added to llm-inference-batching-scheduler, schemelike-metacircular-eval, write-compressor; mteb-retrieve subject tb2-result-file -> tb2-header) and the SKILL.md decision-table cells (`git diff d9cd18a7519a58a1fa6d1cb9768e3873c31cd545 afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239 -- SKILL.md plans/grader-population-ledger.json`). Say whether any edit is wrong (e.g. a subject or verdict the receipt does not support, or a cell the ledger does not back) — mteb-retrieve's old subject value: find where tb2-result-file came from (`git log -S tb2-result-file`) and whether another standing gate expects it. (2) Standing lane gates at BASE and at T, both: `python3 grader.py` (hermetic), `python3 plans/state_check.py --summary`, `python3 plans/round68_capability_table.py`, `python3 plans/round91_f1_counter.py`, `python3 plans/anchor_line_check.py --lane .`, and `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` (read-only; reads the lane). Read each tool's docstring for its exact invocation first. Any gate green at BASE and red at T is a harm finding; name it with the exact output.\nWrite your files under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/ExecLegacyHarm/ (report.md plus raw receipts). S=/fast/scratch/hyaku/kengaku-r95/ExecLegacyHarm.\n\nLane bounds: leaf member — no subagent dispatch except your single labrat.\nJudged on: coverage, calibration\nMilestone: R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap\n\nReport: write your scoped findings to .ufo/waves/round-95/w1/ExecLegacyHarm.md"
+      },
+      {
+        "name": "ScoutSources",
+        "agent": "scout",
+        "task": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Item ScoutSources\nRe-open every SOURCES row this round wrote (corpus/SOURCES.md rows S303-S309 at T afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239) live from its URL with `curl -sS -w '%{http_code} %{size_download}'`, compare sha256 with the row and the capture under corpus/evidence/round95/graders/fix-code-vulnerability/, and check each row's quote sits on the cited line and its `(N words)` equals len(quote.split()). Then read-only reconnaissance for the C11/C15 findings: open the bottlepy/bottle repository at commit 0207a34f0c5716cd292dd4480253ad35d3da49f3 (GitHub web/raw) and locate any test of _hval or of header injection (test/test_environ.py or similar), quoting file:line; and check whether the prebuilt image named in task.toml (alexgshaw/fix-code-vulnerability:20251031) has a public manifest you can read without pulling (Docker Hub API), reporting its digest. Record every URL, HTTP status, access time. No writes outside your wave dir.\nWrite your files under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/ScoutSources/ (report.md plus raw receipts). S=/fast/scratch/hyaku/kengaku-r95/ScoutSources.\n\nLane bounds: leaf member — no subagent dispatch.\nJudged on: coverage, calibration\nMilestone: R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap\n\nReport: write your scoped findings to .ufo/waves/round-95/w1/ScoutSources.md"
+      },
+      {
+        "name": "ConnectorOverlap",
+        "agent": "connector",
+        "task": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Item ConnectorOverlap\nSibling-overlap scan for this round's two surfaces. (a) TB2 grader replays: grep sibling lanes under /home/vgpnk/Projects/shokunin/*-shokunin/ (read-only) for fix-code-vulnerability, bottle.py, CWE-93, _hkey, report.jsonl, and for any other lane replaying Terminal-Bench 2.0 graders offline; (b) counters that judge a gate through mutants/forgeries (freeze-integrity, battery-driven selftests, `--tool-file` false-gate censuses) — kaidoku and mado had freeze-gate overlaps in round 94 (.ufo/waves/round-94/w1/ConnectorOverlap.md). For each overlap say complement / duplicate / conflict with file:line pointers, and whether this lane's PROVINCE.md still holds (no cross-domain bleed). One cross-axis pattern you see between the two claims (e.g. both are about a grader or gate passing on inputs it never exercised) with the evidence.\nWrite your files under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/ConnectorOverlap/ (report.md plus raw receipts). S=/fast/scratch/hyaku/kengaku-r95/ConnectorOverlap.\n\nLane bounds: leaf member — no subagent dispatch.\nJudged on: coverage, calibration\nMilestone: R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap\n\nReport: write your scoped findings to .ufo/waves/round-95/w1/ConnectorOverlap.md"
+      },
+      {
+        "name": "ScribeLesson",
+        "agent": "scribe",
+        "task": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Item ScribeLesson\nDraft two texts for the L1 to adopt or refuse (never edit lane files; write drafts in your wave dir): (1) a QUALITY.md criterion grounded in this round's mistake M1 (`.ufo/waves/round-95/L1/mistake-M1-c2-tip-wrong-cwd.txt`: a backgrounded `( ... ) &` group ran a counter from the fleet root, rc 2; the same class as round-94 M4, `corpus/lessons/round-94.md`), shaped like the newest criteria at the end of corpus/QUALITY.md (Q75, Q76): id Q77, the rule, the evidence, and a check that is shown able to fail (a command whose output differs on the bad and good receipt); (2) a SKILL.md `## Gate/probe registry` row for `plans/round95_false_gate_census.py` (+ `plans/round95_c2_counter.py`) in the exact column shape of the existing `freeze-integrity` row (grep it), and a decision-table note for the grader class `serialization-schema` naming this member's report-schema edges (C06-C10, C14 in plans/round95-cases.json). Also proof-read SOURCES rows S303-S309 against CORPUS.md's SOURCES contract (/home/vgpnk/Projects/shokunin/CORPUS.md, section 'SOURCES.md — where a shokunin learns'): list any column that violates it.\nWrite your files under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/ScribeLesson/ (report.md plus raw receipts). S=/fast/scratch/hyaku/kengaku-r95/ScribeLesson.\n\nLane bounds: leaf member — no subagent dispatch.\nJudged on: coverage, calibration\nMilestone: R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap\n\nReport: write your scoped findings to .ufo/waves/round-95/w1/ScribeLesson.md"
+      },
+      {
+        "name": "ReviewerC1",
+        "agent": "reviewer",
+        "task": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Item ReviewerC1\nSurgical review of the R95-C1 instruments at T afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239: plans/round95_vuln_probe.py, plans/round95-cases.json, plans/round95_c1_replay.py (diff it against plans/round94_c1_replay.py). Questions: does the harness's sys.path order (`sys.path[:0] = ['/tests', '/app']`) faithfully model `python -m pytest /tests/test_outputs.py` from cwd /app under pytest 8.4.1 rootdir/prepend import mode, or would real pytest import differently (conftest/rootdir, rootdir=/app?) and change C15 or any `imported` leg? Does `vulnerable()` reproduce the two sequential sed deletions exactly (check line numbers against the upstream file)? Is any counter leg vacuous at T (passes for a reason other than the one its docstring states)? Re-run the counter at T in a --shared clone to confirm rc 0. Verify the 11 frozen-instrument rows hash equal at F and T and that `git log --full-history d9cd18a7519a58a1fa6d1cb9768e3873c31cd545..afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239 -- <paths>` is empty.\nWrite your files under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/ReviewerC1/ (report.md plus raw receipts). S=/fast/scratch/hyaku/kengaku-r95/ReviewerC1.\n\nLane bounds: leaf member — no subagent dispatch.\nJudged on: coverage, calibration\nMilestone: R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap\n\nReport: write your scoped findings to .ufo/waves/round-95/w1/ReviewerC1.md"
+      },
+      {
+        "name": "ReviewerC2",
+        "agent": "reviewer",
+        "task": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Item ReviewerC2\nSurgical review of the R95-C2 instruments at T afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239: plans/round95_c2_counter.py (diff against plans/round94_c2_counter.py), plans/round95_false_gate_census.py, plans/round95-false-gates.tsv. Questions: is each of the 14 rows' designated leg the REASON it fails (read the counter output in .ufo/waves/round-95/L1/c2-tip.txt's work outputs or re-run one gate yourself), or does the row fail elsewhere first? Is W3's battery-probe design sound — can an honest gate be falsely red (e.g. a probe anchor that also changes the CLI verdict on w2-intact), or a forged battery pass by detecting the probe mutations? Does the census's pass detection (`^PREDICATE R\\d+-C2 pass$` and rc 0) let a counter that prints its own pass line for the wrong claim count? Is the exclusion of M04/M10/M18 (tsv header) justified by the MutTesterGate report (.ufo/waves/round-94/w1/MutTesterGate/report.md)? Re-run the honest counter at T (rc 0 expected).\nWrite your files under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/ReviewerC2/ (report.md plus raw receipts). S=/fast/scratch/hyaku/kengaku-r95/ReviewerC2.\n\nLane bounds: leaf member — no subagent dispatch.\nJudged on: coverage, calibration\nMilestone: R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap\n\nReport: write your scoped findings to .ufo/waves/round-95/w1/ReviewerC2.md"
+      },
+      {
+        "name": "CriticClaims",
+        "agent": "critic",
+        "task": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Item CriticClaims\nAdversarial verdict on both frozen claims at T afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239 (plans/round-95-claims.md). Reproduce each predicate yourself in a --shared clone (C1 counter; C2 census) and then attack: C1 — is the replay a measurement a do-nothing control cannot reach (look at controls/c1-base.txt), is 'located offline replay' honest given the harness runs a prebuilt image (task.toml) and the original repo suite is not staged (tests/test.sh line 12), are C11/C15 overclaimed as grader findings? C2 — is 14 -> 0 more than in-sample fixture-fitting (each new fixture was designed after seeing the false gate)? Does the do-nothing control (round-94 counter, 14 passing) make the target unreachable without work? Is the claim 'calibration' (a self-assessment vs repo-state mismatch count) or is it quality work on a counter? Give one verdict per claim: verifies / verifies-narrowed (say how) / does-not-verify, with reasons and exact commands.\nWrite your files under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/CriticClaims/ (report.md plus raw receipts). S=/fast/scratch/hyaku/kengaku-r95/CriticClaims.\n\nLane bounds: leaf member — no subagent dispatch.\nJudged on: coverage, calibration\nMilestone: R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap\n\nReport: write your scoped findings to .ufo/waves/round-95/w1/CriticClaims.md"
+      },
+      {
+        "name": "MutTesterC2",
+        "agent": "mutation-tester",
+        "task": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Item MutTesterC2\nMutation-test plans/round95_c2_counter.py and plans/round95_false_gate_census.py at T afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239. Generate >= 15 single-site mutants of the counter (each W2 spec weakened, a fixture builder step dropped, pred_ok relaxed, W3 probe acceptance relaxed — e.g. `int(st[0][1]) < 15` -> `<= 15`, rc check dropped —, W5 designated target ignored) and >= 5 of the census (designated check dropped, passes polarity, population count, sha check). For each mutant run the census at T with `--counter <mutant>` (or the mutated census) and record whether any committed control or the T measurement kills it (a counter mutant survives if the census still prints PREDICATE R95-C2 pass, rc 0). Report survivors with an equivalence argument or as findings. Budget: run counters 8-wide at most; each census run takes ~4 min — prioritise mutants by likely survival and sample if needed, saying so.\nWrite your files under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/MutTesterC2/ (report.md plus raw receipts). S=/fast/scratch/hyaku/kengaku-r95/MutTesterC2.\n\nLane bounds: leaf member — no subagent dispatch.\nJudged on: coverage, calibration\nMilestone: R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap\n\nReport: write your scoped findings to .ufo/waves/round-95/w1/MutTesterC2.md"
+      },
+      {
+        "name": "MutTesterC1",
+        "agent": "mutation-tester",
+        "task": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Item MutTesterC1\nMutation-test plans/round95_c1_replay.py at T afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239. Re-apply the round-94 survivors' analogues (.ufo/waves/round-94/w1/MutTesterC1/report.md: m03 L5 coverage clauses dropped, m04 L6 counts-not-lines, m10 L3 dropped, m11 L8 pin dropped) plus new ones on this round's additions (L6 stamps_equal dropped, L7 legacy_ok dropped, L2 UPSTREAM_SHA dropped, the --work-inside-lane guard dropped), and run each mutant against the committed controls this round added — the receipt-side scratch states are rebuilt by .ufo/waves/round-95/L1/controls/c1_controls.py (read it; run it with a mutated counter substituted into its clone, in your scratch, never in the lane) — and against T. Report which mutants the round-95 controls now kill that round 94's did not, and every survivor.\nWrite your files under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/MutTesterC1/ (report.md plus raw receipts). S=/fast/scratch/hyaku/kengaku-r95/MutTesterC1.\n\nLane bounds: leaf member — no subagent dispatch.\nJudged on: coverage, calibration\nMilestone: R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap\n\nReport: write your scoped findings to .ufo/waves/round-95/w1/MutTesterC1.md"
+      },
+      {
+        "name": "SentinelProbe",
+        "agent": "sentinel",
+        "task": "/skill:godspeed\nYou are a Godspeed-enabled subagent.\n\n1. **Name the axes.**\n2. **Iterate cheap, in parallel.**\n3. **Keep moves that improve any axis and harm none.**\n4. **Don't aim — let the frontier walk itself.**\n\n## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.\n\n# Item SentinelProbe\nSecurity/isolation probe of plans/round95_vuln_probe.py at T afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239: it runs a captured third-party shell script (solution/solve.sh) and imports third-party Python (bottle.py) inside bwrap. Verify with strace or equivalent (install via uv/official binary if needed, record it) that no case writes outside its scratch /app, opens no AF_INET/AF_INET6 socket, and that the namespace has no network; check environment leakage (bwrap --setenv only sets PATH/HOME/LANG — which host variables still reach the sandbox?), and whether the case /app bind could reach the lane tree. Also check the probe's handling of a hostile capture (it refuses on sha mismatch — confirm by a scratch copy with one byte changed). Report findings with exact commands; do not mutate host sysctls.\nWrite your files under /home/vgpnk/Projects/shokunin/kengaku-shokunin/.ufo/waves/round-95/w1/SentinelProbe/ (report.md plus raw receipts). S=/fast/scratch/hyaku/kengaku-r95/SentinelProbe.\n\nLane bounds: leaf member — no subagent dispatch.\nJudged on: coverage, calibration\nMilestone: R95 fix-code-vulnerability replay re-measured and attacked; 14-false-gate census re-measured, held-out forgeries, counter mutants; legacy/harm gates; sources; overlap\n\nReport: write your scoped findings to .ufo/waves/round-95/w1/SentinelProbe.md"
+      }
+    ]
+  },
+  "resumeSends": [],
+  "note": "Issue exactly one batched task call with taskCall ({context, tasks}); never split a wave into multiple task calls (one-swarm-per-wave). Then one hub send per resumeSends entry: hub send --to <entry.resume> --message <entry.message> (entry.name is bookkeeping, not a hub field)."
+}
