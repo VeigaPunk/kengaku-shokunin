@@ -1,0 +1,161 @@
+"""Render the round-88 v1 wave spec (12 seats) — wave evidence, not a production gate."""
+import json
+from collections import Counter
+
+L = "/home/vgpnk/Projects/shokunin/kengaku-shokunin"
+W = f"{L}/.ufo/waves/round-88/w1"
+SCR = "/fast/scratch/hyaku/kengaku-r88"
+WAVE = f"{L}/.ufo/waves/round-88"
+BASE = "801b903af6412cb424209a60b3a52e56c3532866"
+INSTR = "1f267d4b6f60f1137ebf8b905d318bd2d9894e99"
+TIP = "7fcc680b86599eedd63e862a061848298428b3cc"
+FREEZE = "0220c2f9f356bf032bd58b4ed39e32f6e26fa440"
+FRONTIER = "da16ec39cf28d89b0a6a35ce8cacb630bad1de19"
+
+CONTEXT = f"""# Goal and frozen contract
+Kengaku round 88, ONE v1 wave, 12 seats. L1 KengakuR88 owns integration and holds the planner seat; you are a leaf seat: never spawn subagents, never call task.
+Read {L}/plans/round-88-claims.md IN FULL first. Frozen at commit {FREEZE} (claims and case table); instruments frozen at {INSTR}; frontier files at {FRONTIER}; measured tip {TIP}; base {BASE}. Never change a predicate, target, case table, control set, kill rule, leg list or the frozen KNOWN set. If a frozen element looks wrong, say so in your output; do not edit it.
+Claims: R88-C1 coverage — a sixth located offline replay of the captured `fix-git` grader over eight frozen cases; counter `plans/round88_c1_replay.py` (`--rev`), probe `plans/round88_fixgit_probe.py`, receipt `corpus/evidence/round88/fix-git-probe.txt`, ledger row executed; BASE `defects=3`, tip `defects=0`, `executed_rows` 31 -> 32, `crypto-credential` 2 of 12 -> 3 of 12, `file-artifact` 23 of 76 -> 24 of 76. R88-C2 capability acquisition — the Q66 counter-side check `plans/round88_claim_figures.py` (`--rev`, `--selftest`): every before-figure record extracted from the eight frozen claims files (rounds 80-87) re-derived by its own counter at its own BASE; tip `records=56 checked=56 matched=55 mismatches=1` with exactly one `MISMATCH KNOWN R87-C1 kv:defects claimed==7 measured 3`, `PREDICATE R88-C2 pass`.
+Source row: S277 (admitted, mined) in `corpus/SOURCES.md`; Gate and Mistakes in `corpus/lessons/round-88.md`. The round-87 non-author spot-check is `corpus/lessons/round-87-verifier-spotcheck.md` (its V2/V3/V4 defects are what R88-C2 and the lesson pointer discharge).
+Lane tip for the tip measurement is {TIP}; all instrument bytes are unchanged between {INSTR} and {TIP} (verify with git diff).
+
+# Hard bounds
+- Write scope: ONLY your own directory {W}/<YourSeatName>/ inside the lane repo, plus scratch under {SCR}/<YourSeatName>/. Production files ({L}/plans, {L}/corpus, {L}/SKILL.md, {L}/SCORECARD.md, {L}/LOG.md, {L}/SHONEN.md, {L}/PROVINCE.md, {L}/.ufo/waves/round-88/L1) are READ-ONLY to you. Never edit, add or delete a production file.
+- Never commit, push, stage, stash, checkout, reset or run any mutating git/jj command, in any repo. Read-only git (log, show, cat-file, status, diff, ls-files, rev-parse, archive, merge-base) is fine. Never touch the fleet repo /home/vgpnk/Projects/shokunin, sibling lanes, lane jj state, lane Git index, .ufo/state, .ufo/watchdog.log or .scratch.
+- Git fixtures: `D=$(mktemp -d -p {SCR}/<YourSeatName>) && git -C "$D" init -q`; every later git call names `-C "$D"`; verify `git -C "$D" rev-parse --show-toplevel` equals `$D` before any commit. A clone of the lane is allowed only under {SCR}/<YourSeatName>/ with `git clone --no-hardlinks`; never commit into the lane.
+- Scratch: everything under {SCR}/<YourSeatName>/ with `mkdir -p`; pass `--work` explicitly; never rely on an inherited TMPDIR; delete the scratch tree before you yield (`trap 'rm -rf -- "$S"' EXIT`); copy receipts into your wave dir first. /tmp is for files under 50 MB only; never cite a /tmp path as evidence.
+- Network: at most the pinned raw.githubusercontent.com fetches your item names. No credentials, cookies, tokens or auth state are read or used.
+- Every `Report:` trailer path is relative to {L} — write it at {L}/<that path>.
+- Tooling authorization (operator, 2026-10-19): you may install or upgrade tools that help the task — read /home/vgpnk/.omp/agent/RULES.md first (official channels, update-safety gate; record tool, version, channel and reason in your output). pacman guard (orchestrator ruling 2026-10-20): ALL pacman transactions are PAUSED host-wide; install via `uv tool`, `npx` or an official binary in ~/.local/bin, or file an L0 question; never -Sy/-Syu/-U/-R/downgrade/restart a host service.
+- Do not file the round report; the L1 does. Do not message other seats or agent://all. Do not edit the instruments; report defects instead.
+- Your final message ends with exactly one line: `SEAT <YourSeatName> VERDICT <PASS|FINDINGS|BLOCKED> findings=<n>` where findings is the count of defects you actually found (0 for PASS)."""
+
+
+def item(name, role, task):
+    return {"name": name, "role": role, "prompt": "/skill:godspeed\n\n" + task}
+
+
+def build():
+    items = [
+        item("ScoutR88", "scout", f"""# Item ScoutR88 — member recon and class arithmetic (read-only)
+Read {L}/plans/round-88-claims.md section R88-C1 and {L}/corpus/evidence/round52/graders/fix-git/tests/test_outputs.py.
+# Target
+Write {W}/ScoutR88/scout-map.md with:
+1. Every `def test_*` in the captured grader, its line range, and the acceptance predicate, quoted literally with line numbers. Name every import and say whether it is stdlib (`python3 -c 'import sys; print(sys.stdlib_module_names)'` or the stdlib list). Note that `hash_file` strips bytes before md5 — say which frozen case exercises that.
+2. The member's ledger row at {BASE} and at {TIP} (`git -C {L} show <rev>:plans/grader-population-ledger.json`), and the per-class executed/total for `crypto-credential` and `file-artifact` at both revisions, computed by you with a stated command.
+3. Verify the frozen claim sentences "executed 31 -> 32", "crypto-credential 2 of 12 -> 3 of 12" and "file-artifact 23 of 76 -> 24 of 76" by your own count. State the command.
+4. List every UNEXECUTED member whose captured grader is single-file and stdlib-only, with its test count and assert count (command shown). Confirm or refute that fix-git was the cheapest such candidate carrying an unmoved class. Name the disqualifying line for each alternative you reject.
+Every claim carries path:line or command output. Do not edit production files."""),
+        item("ScribeR88", "scribe", f"""# Item ScribeR88 — source re-open and gate-record check (frontier step, read-only)
+Read {L}/corpus/SOURCES.md row S277, and {L}/corpus/lessons/round-88.md section Gate.
+# Target
+1. Re-open the pinned source yourself (one fetch, `curl -sSL -o <scratch file> -w '%{{http_code}} %{{size_download}}'`): https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/fix-git/tests/test_outputs.py. Record HTTP status, bytes, sha256, and `cmp` against the round-52 capture under {L}/corpus/evidence/round52/graders/.
+2. For the quote in S277, check it appears verbatim at the cited line, counts <= 25 whitespace-split words, and carries no `|` character.
+3. Check the registry row: exactly 11 cells between the outer pipes, legal enum values (tier A, kind code, status mined), recheck format, used-by path existence (`corpus/lessons/round-88.md` exists). Check that the lesson Gate table agrees with the row (id, URL, access date, quote, decision).
+4. Check the lesson carries the dated pointer to `corpus/lessons/round-87-verifier-spotcheck.md` that the round-87 spot-check's routed defect V3 required, and that the census figures in the lesson (268 -> 269 rows, A 238 -> 239, mined 243 -> 244) match a recount you run yourself (state the command).
+5. Run `sh /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` and record rc (must be 0).
+Write {W}/ScribeR88/source-check.md with a row per check and a PASS/FAIL. Delete your scratch files before yielding."""),
+        item("ExecBaseR88", "executor", f"""# Item ExecBaseR88 — independently re-run both counters at BASE and at the tip, and the probe re-run
+Read-only on {L}. Scratch under {SCR}/ExecBaseR88/.
+# Target
+Run from {L}, copy each command's full stdout+stderr and exit code to {W}/ExecBaseR88/replay.txt as `$ command` / output / `rc=<n>` blocks:
+1. `python3 plans/round88_c1_replay.py --lane . --rev {BASE} --work <scratch>/c1base`
+2. `python3 plans/round88_c1_replay.py --lane . --rev {TIP} --work <scratch>/c1tip`
+3. `python3 plans/round88_claim_figures.py --lane . --rev {BASE} --work <scratch>/c2base` — NOTE: the instrument is absent at BASE; instead run `git -C {L} cat-file -e {BASE}:plans/round88_claim_figures.py` and record rc.
+4. `python3 plans/round88_claim_figures.py --lane . --rev {TIP} --work <scratch>/c2tip` (takes ~25 s; it re-runs 16 historical counters)
+5. `python3 plans/round88_claim_figures.py --lane . --rev {TIP} --work <scratch>/c2self --selftest`
+6. Independent probe re-run: `git -C {L} archive {TIP} | tar -x -C <scratch>/tree`, then `python3 <scratch>/tree/plans/round88_fixgit_probe.py --lane <scratch>/tree --work <scratch>/probe`. Diff its OBSERVATIONS block against the block in {L}/corpus/evidence/round88/fix-git-probe.txt (`diff`, rc shown).
+7. Verify the receipt's pins with plain commands: `git -C {L} show {TIP}:plans/round88_fixgit_probe.py | sha256sum` equals TOOL_SHA; `git -C {L} show {FREEZE}:plans/round88-cases.json | sha256sum` equals CASE_TABLE_SHA; `git -C {L} show {TIP}:corpus/evidence/round52/graders/fix-git/tests/test_outputs.py | sha256sum` equals SUBJECT_SHA; `git -C {L} merge-base --is-ancestor <LANE_TIP> {TIP}` exits 0.
+8. Verify the frozen claims file and case table are unchanged between the freeze and the tip, and the instruments are unchanged between {INSTR} and {TIP}: `git -C {L} diff --stat {FREEZE} {TIP} -- plans/round-88-claims.md plans/round88-cases.json` and `git -C {L} diff --stat {INSTR} {TIP} -- plans/round88_fixgit_probe.py plans/round88_c1_replay.py plans/round88_claim_figures.py`. Record the output.
+Verdict per check (match / mismatch) in {W}/ExecBaseR88/summary.md. Delete scratch before yielding."""),
+        item("ExecCtrlR88", "executor", f"""# Item ExecCtrlR88 — rebuild the control fixtures independently and add two controls of your own
+Read-only on {L}. Scratch under {SCR}/ExecCtrlR88/.
+# Target
+Rebuild each control from a fresh `git clone --no-hardlinks {L} <scratch>/<name>` checked out at {TIP} (verify the clone toplevel with `git -C "$D" rev-parse --show-toplevel`). Commit fixture edits only inside those clones with `-c user.name=fixture -c user.email=fixture@scratch.local`. Run the counters with `--rev HEAD`. Record `$ command`, output and rc in {W}/ExecCtrlR88/controls.txt.
+1. ledger-only: remove the receipt in the clone; expect a defect at L1-receipt and no other leg.
+2. forged LANE_TIP: replace the LANE_TIP line of the receipt with the hash of a parentless orphan commit created by `git commit-tree`; expect L3-tip.
+3. Your own control A (C1): in a clone, change ONE CASE observed value in the receipt's OBSERVATIONS block so that observed != predicted, leaving the summary line `mismatches=0`. Predict which leg fires (L5 by name or L6 via re-run) BEFORE running; then run and report.
+4. Your own control B (C2): in a clone, commit a doctored `plans/round-87-claims.md` with the R87-C1 before-figure changed from `defects=7` to `defects=9`, then run `python3 plans/round88_claim_figures.py --lane <clone> --rev HEAD --work <scratch>/c2doc`. Predict the output line (`MISMATCH UNEXPECTED` + which DEFECT) BEFORE running; run and report. NOTE the instrument reads claims bytes via `git show`, so the doctored file MUST be committed in the clone.
+5. Your own control C (C2): in another clone, doctor `plans/round-88-claims.md` is NOT in the instrument's corpus (it covers rounds 80-87 only) — instead doctor `plans/round-85-claims.md`'s R85-C1 `defects>=1` bound to `defects=0`-style text removal: delete the whole R85-C1 Before figure sentence so no record extracts, commit, and predict whether F6-norecords or F5 fires. Run and report.
+Each row: PREDICTED leg/line, OBSERVED DEFECT lines, rc. Delete scratch before yielding."""),
+        item("ExecCensusR88", "executor", f"""# Item ExecCensusR88 — registry census before and after, and the ledger arithmetic
+Read-only on {L}. Scratch under {SCR}/ExecCensusR88/.
+# Target
+1. Census BEFORE: `git -C {L} archive {BASE} corpus | tar -x -C <scratch>/base`; run `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --file <scratch>/base/corpus/SOURCES.md`, record its rc and the W04 line count. Census AFTER: the same with `git -C {L} archive {TIP} corpus` and `--file`. Also run the round-end form `/home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku` and record rc (must be 0).
+2. Row count, tier histogram, status histogram, duplicate ids, malformed rows (NF != 13), enum violations and tier inflation, for both revisions, using the frozen awk commands in {L}/CORPUS.md section "Census — run from the lane root" (copy them exactly; run against the extracted files). Record each output and the expected value (BEFORE 268 rows; AFTER 269 rows; status mined 243 -> 244; rejected 17; queued 8; A 238 -> 239).
+3. Ledger arithmetic by plain Python: executed count and per-class executed/total for `crypto-credential` and `file-artifact` at BASE and TIP (`json.load` of plans/grader-population-ledger.json at each revision). Expected: executed 31 -> 32; crypto-credential 2/12 -> 3/12; file-artifact 23/76 -> 24/76.
+Write {W}/ExecCensusR88/census.md with every command, output and rc. Delete scratch before yielding."""),
+        item("ReviewerR88a", "reviewer", f"""# Item ReviewerR88a — correctness attack on the R88-C1 counter and probe (read-only)
+Read {L}/plans/round88_c1_replay.py and {L}/plans/round88_fixgit_probe.py in full, and {L}/plans/round-88-claims.md section R88-C1.
+# Target
+1. For each leg L1-L8, state the exact code path that produces its DEFECT line and quote it (path:line). Say whether each leg can be satisfied by a receipt that the probe did not produce at the measured tree.
+2. L6 compares the whole observation block (line equality). Confirm by quoting the comparison, and state what a receipt with an extra or reordered CASE line would do.
+3. L5 requires the frozen tuple in the frozen order. Confirm, and state whether a receipt with a duplicate case id can pass.
+4. Find any way to make the counter exit 0 at a measured revision that does not carry a real execution of the captured grader. Name the attempt, the command and the output. If none found, say which leg is the sole reason and why.
+5. Check the probe's sandbox: does the bwrap argv bind anything writable outside the case directory? The case table stages `{{"dir": true}}` directories — confirm `stage()` cannot escape `/app` (path validation) and that `IsADirectoryError` cases really produce E not F.
+Each finding: path:line, severity (BLOCKER/MAJOR/MINOR/NONE), and the command that would show it. Write {W}/ReviewerR88a/report.md."""),
+        item("ReviewerR88b", "reviewer", f"""# Item ReviewerR88b — claim/predicate consistency and the Q66 extraction engine attack (read-only)
+Read {L}/plans/round-88-claims.md, {L}/plans/round88_claim_figures.py in full, {L}/plans/round88_c1_replay.py, and the eight frozen claims files {L}/plans/round-8?-claims.md.
+# Target
+1. The claim file's before numbers: check each against the counter's own BASE output in {L}/.ufo/waves/round-88/L1/base-runs.txt and tip-runs.txt. Name every number that disagrees and quote it.
+2. Attack the extraction engine (`claim_spans`, `extract_records`, `check_record`, `run_check`): construct at least THREE synthetic claims texts (in scratch, never production) that should yield a before-figure record but evade it (e.g. a figure phrased outside the marker/vocabulary net), and at least TWO that yield a FALSE record (an after-figure or prose number extracted as before). Run `extract_records`/`claim_spans` on them via `python3 -c` import and report spans/records. For each escape, say whether F6-norecords or the KNOWN-set check catches it downstream, or whether it is a real blind spot.
+3. The frozen KNOWN set is `{{(R87-C1, kv:defects): claimed 7, measured 3}}`. Verify by re-running `python3 {L}/plans/round87_c1_replay.py --lane {L} --rev b9be687774e6b559470f5b0d9b936315b51ff311 --work <scratch>` that the measured value is 3, and check the claims file's quote of the round-87 figure.
+4. Compare the R88-C2 predicate sentence in the claims file, the counter's `PREDICATE R88-C2` line semantics, and what the report must say — quote each.
+5. Confirm with git that the frozen claim file and case table are unchanged between {FREEZE} and {TIP}, and that the instruments are unchanged between {INSTR} and {TIP} (use `git diff --stat`; quote output).
+Each finding: path:line, severity and the command. Write {W}/ReviewerR88b/report.md."""),
+        item("ReviewerR88c", "reviewer", f"""# Item ReviewerR88c — non-author discernment spot-check of this round's gate decisions (LEARNING.md)
+Read {L}/corpus/lessons/round-88.md sections Gate and Mistakes, {L}/corpus/SOURCES.md row S277, {L}/corpus/QUALITY.md criterion Q66, and {L}/corpus/lessons/round-87-verifier-spotcheck.md.
+# Target
+1. Admit decision (S277, fix-git as the member replay). Re-open the source yourself (one fetch: https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/fix-git/tests/test_outputs.py) and decide agree / disagree with the admit, with a reason tied to the QUALITY bar and to the scope "member replay only". Note the member carries TWO classes (`crypto-credential`, `file-artifact`) — say whether the row's scope cell covers both.
+2. Reject/accept check on the mistake mined: the lesson claims class `figure-not-measured` for the round-87 `defects=7` figure. Verify against `git -C {L} show b9be687774e6b559470f5b0d9b936315b51ff311:plans/round-87-claims.md` (the frozen claim text) and the spot-check file that the figure was indeed asserted and indeed mispredicted.
+3. Check Q66's updated text in {L}/corpus/QUALITY.md: does it now claim an executable half that exists (`plans/round88_claim_figures.py`)? Quote the sentence and the instrument's PREDICATE line.
+4. Check the V3 discharge: the lesson Gate carries a dated pointer to the round-87 spot-check. Quote it and confirm the spot-check's V3 defect asked for exactly that.
+5. Name any candidate that the lesson omits but should have considered, with the reason.
+Write {W}/ReviewerR88c/spotcheck.md as a table: decision | source re-opened | agree/disagree | reason. End with one line `SPOTCHECK admit=<agree|disagree> q66=<agree|disagree>`."""),
+        item("CriticR88", "critic", f"""# Item CriticR88 — adversarial review of both frozen claims (read-only)
+Read {L}/plans/round-88-claims.md in full, the counters {L}/plans/round88_c1_replay.py and {L}/plans/round88_claim_figures.py, the lesson {L}/corpus/lessons/round-88.md, and {L}/corpus/QUALITY.md Q66.
+# Target
+Attack each claim against: (a) the do-nothing control (can a change that does no real work pass the predicate?), (b) the section 9 sizing rules (no universal clauses, one count per claim, no narrowing after landing), (c) the admission bar (a measured improvement on a distinct axis, no axis harmed).
+1. R88-C2: the instrument passes with `mismatches=1` — the KNOWN mispredict. Can the instrument be made to pass while MISSING a real new mispredict? Examine the F5 set-equality logic, the extraction net (CONVO_RE, markers, dedupe) and the F6-norecords leg; name the weakest point and construct the evasion if one exists (scratch fixture, committed doctored claims file in a clone).
+2. R88-C1: is a sixth member replay a real coverage move? Check the class arithmetic — `crypto-credential` moves 2/12 -> 3/12 for the first time since round 41/80; verify that claim against the ledger history (`git -C {L} log -p --follow plans/grader-population-ledger.json | grep -n crypto-credential` or equivalent) and say whether the frontier moves or only a count does.
+3. Separability: does R88-C2 depend on R88-C1 landing, or the reverse? Show the command that proves it or refutes it.
+4. Any frozen-text imprecision besides the known R87-C1 figure (predicate vs counter, control vs counter behaviour, the '56 records' count vs what extraction actually yields). Quote.
+Give every finding a severity (BLOCKER/MAJOR/MINOR/FINDING) and say what would falsify your own reading. Write {W}/CriticR88/critique.md."""),
+        item("MutTesterR88", "mutation-tester", f"""# Item MutTesterR88 — mutation battery on both counters (read-only on production)
+Build mutants under {SCR}/MutTesterR88/ (copy the counter files from {L}/plans/ into scratch; never edit production). Write results to {W}/MutTesterR88/mutants.md.
+# Target
+1. Invent at least SIX mutants of {L}/plans/round88_c1_replay.py that each disable one guard (e.g. skip the L3 ancestor check; accept any LANE_TIP; compare only the summary line in L6; skip the L7 receipt field check; count executed rows as a constant; read the table from the measured tree instead of FREEZE_REV). Run the unmutated and mutated counter against the fixture each mutant should let through (reuse the fixture method: clone at {TIP} under scratch, commit with fixture identity). Report: the unmutated counter's rc and DEFECT line, the mutant's rc.
+2. At least FOUR mutants of {L}/plans/round88_claim_figures.py (e.g. drop the KNOWN-set check so the R87-C1 mispredict becomes UNEXPECTED; empty the KNOWN set; skip F6-norecords; widen CONVO_RE; disable dedupe). For each, predict whether the tip run still passes or fails, run it, and report.
+3. For each mutant: killed (mutant rc differs from the unmutated rc on the fixture) or survived. Declare each mutant necessary (the removed check is the only catcher) or redundant (another leg catches the same fixture), and name the catching leg for redundant ones.
+Never edit the committed counters. Delete scratch before yielding."""),
+        item("SentinelR88", "sentinel", f"""# Item SentinelR88 — isolation and confidentiality review of this round's evidence path (read-only)
+Threat-model {L}/plans/round88_fixgit_probe.py, {L}/plans/round88_c1_replay.py, {L}/plans/round88_claim_figures.py and the receipt {L}/corpus/evidence/round88/fix-git-probe.txt.
+# Target
+1. Isolation: list every bwrap flag the probe uses and state what the case harness can and cannot reach (host /app, network, the lane tree, environment, /etc). The case table stages directories (`{{"dir": true}}`) — confirm `stage()` cannot write outside the case dir (path validation rejects `..` and absolute paths; quote it). Prove the host /app is not written by a probe run (`ls -ld /app` before and after, if it exists; otherwise state absence).
+2. Confidentiality: does any new file read credentials, env vars, cookies, tokens, network, or $HOME? Does the receipt leak anything beyond the work path and hashes? Grep the three scripts and the receipt for `HOME`, `token`, `secret`, `key`, `cookie`, `http`, and quote the hits. NOTE `round88_claim_figures.py` shells out to `git` and to the historical counters — check whether any counter it invokes reads network or credentials.
+3. Integrity: can a case's staged file content influence anything beyond the eight frozen cases? Can the graded module import from the staged tree? Quote the bind list and the harness.
+4. Fabrication surface: state exactly what an adversary who can write the lane tree could forge and which leg would still refuse — including for the C2 instrument (it reads claims and counters from git objects at --rev; what stops a forged claims file at the measured rev?).
+Severities per finding; the command or output for every claim; route findings you cannot remediate in-lane. Write {W}/SentinelR88/report.md."""),
+        item("ConnectorR88", "connector", f"""# Item ConnectorR88 — sibling-overlap scan (read-only across sibling lanes; never write there)
+# Target
+1. Search the sibling lane repos under /home/vgpnk/Projects/shokunin/*-shokunin (read-only: grep and git show only) for: (a) another replay of the same grader (`fix-git`); (b) a receipt that pins a LANE_TIP ancestor and re-runs its probe (the same mechanism as R88-C1 L3/L6); (c) a counter that re-derives frozen claim figures by re-running historical counters at their BASE revisions (the R88-C2 mechanism — closest known relative is this lane's own Q66 design). Cite file:line.
+2. For each hit, classify DUPLICATE (the mechanism already exists there) or NEW-MECHANISM, with a two-sentence description. Do not absorb anything.
+3. State which instrument is the fleet-first, if either, and which owning lane would hold a shared standard.
+Write {W}/ConnectorR88/overlap.md. Report only; no edits anywhere."""),
+    ]
+    return {
+        "wave": "kengaku-r88-w1",
+        "milestone": "R88 sixth executed TB2 member (fix-git, located offline replay, first crypto-credential movement since round 41) and the Q66 counter-side check made executable",
+        "maxLanes": 12,
+        "axes": ["coverage", "calibration"],
+        "context": CONTEXT,
+        "items": items,
+    }
+
+
+if __name__ == "__main__":
+    spec = build()
+    out = f"{WAVE}/w1-spec.json"
+    with open(out, "w", encoding="utf-8") as handle:
+        json.dump(spec, handle, indent=1)
+    print(out, len(spec["items"]), dict(Counter(i["role"] for i in spec["items"])))
