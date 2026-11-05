@@ -1,0 +1,57 @@
+BASE battery at BASE 4ba56182307ccda1ec436bfe3d61cb3d92e56608 (do-nothing controls, measured 2026-11-05T13:43:49Z)
+== round91_c1_replay (M7 red-before witness)
+TARGET executed_rows=35 member=modernize-scientific-stack located=1 executed=0 cases=10 legs=20 mismatches=10 defects=10
+DEFECT L5 receipt names unknown case ?
+DEFECT L5 receipt names unknown case ?
+DEFECT L5 receipt names unknown case ?
+DEFECT L5 receipt names unknown case ?
+DEFECT L5 receipt names unknown case ?
+DEFECT L5 receipt names unknown case ?
+DEFECT L5 receipt names unknown case ?
+DEFECT L5 receipt names unknown case ?
+DEFECT L5 receipt names unknown case ?
+DEFECT L5 receipt names unknown case ?
+PREDICATE R91-C1 fail
+rc=1
+== round91_counter_pin (r91 predicate alone: do-nothing-REACHABLE green)
+PIN-OK plans/round88_claim_figures.py
+PIN-OK plans/round89_c1_replay.py
+PIN-OK plans/round89_claim_figures.py
+PIN-OK plans/round90_c1_replay.py
+PIN-OK plans/round90_polydiff_probe.py
+PIN-OK plans/round90_burndown.py
+PIN-OK plans/round91_modernize_probe.py
+PIN-OK plans/round91_c1_replay.py
+PIN-OK plans/round91_counter_pin.py
+PIN-OK plans/round91_burndown.py
+PIN-OK plans/round91_f1_counter.py
+PIN-OK plans/anchor_line_check.py
+PIN-OK plans/round83_c2_checks.py
+PIN-OK plans/round89-q66-records.json
+PIN-OK plans/round90-cases.json
+PIN-OK plans/round91-cases.json
+SELFTEST clean-green rc=0 want=0 defect-ok=True ok=True
+SELFTEST counter-byte-mutated rc=1 want=1 defect-ok=True ok=True
+SELFTEST path-absent rc=1 want=1 defect-ok=True ok=True
+SELFTEST tampered-pin rc=1 want=1 defect-ok=True ok=True
+SELFTEST blob-mutated rc=1 want=1 defect-ok=True ok=True
+SELFTEST absent-pin-ledger rc=2 want=2 defect-ok=True ok=True
+SELFTEST self-pin-mismatch rc=1 want=1 defect-ok=True ok=True
+SELFTEST blob-anchor-missing rc=1 want=1 defect-ok=True ok=True
+SELFTEST-DETAIL cases=8 red-green-ok=8
+SELFTEST cases=8 red-green-ok=8
+PINS checked=16 matched=16 mismatched=0
+PREDICATE R91-C2 pass
+rc=0
+== round91_burndown (C3 red-before: v2 gate at BASE)
+CHECK R42-R2 base-rc=1 base='cd "$LANE" && python3 plans/routed_open.py --lane . --list | grep -qE \'^ROW R42-R2\\.[12] status=closed\' && test -f plans/scratch_guard.py' override-rc=0 override='cd "$LANE" && test -f plans/scratch_guard.py && python3 plans/scratch_guard.py --selftest >/dev/null 2>&1 && grep -qs \'scratch-root-guard\' SKILL.md' reason=None base_out=''
+CHECK R42-R3-33 base-rc=0 base='grep -qF \'9 witnessed of 20\' "$LANE/plans/round-43-claims.md"' override-rc=0 override='cd "$LANE" && grep -qF \'9 witnessed of 20\' plans/round-43-claims.md' reason=None base_out=''
+CHECK R42-R3-37 base-rc=0 base='cd "${LANE:?}" && grep -q \'host="libc-rand"\' plans/feal_probe.py && grep -q "libc.srand" plans/feal_probe.py && grep -q "host=libc-rand" corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md' override-rc=0 override='cd "$LANE" && grep -q \'host="libc-rand"\' plans/feal_probe.py && grep -q "libc.srand" plans/feal_probe.py && grep -q "host=libc-rand" corpus/knowledge/tb2-feal-differential-cryptanalysis-grader.md' reason=None base_out=''
+ROWS total=253 valid=252 invalid=1 superseded=74
+DEFECT override-unjustified R42-R2
+DEFECT override-unjustified R42-R3-33
+DEFECT override-unjustified R42-R3-37
+freeze=refused oldest_pending_round=82 pending=1 parked=26 unowned_blocked=0 malformed_unresolved=0 seeds_83_91=46 resolutions=74 checks_run=123 overrides=3
+SEEDS window=83-91 count=46 min=6 ok=True
+PREDICATE R91-C3 fail
+rc=1
