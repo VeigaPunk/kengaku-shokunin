@@ -1,0 +1,58 @@
+=== test_outputs.py (live fetch) lines 44-62 ===
+    44	            cwe_ids = item.get("cwe_id", [])
+    45	            cwe_ids = [str(cwe_id).lower() for cwe_id in cwe_ids]
+    46	
+    47	            if file_path in report.keys():
+    48	                report[file_path] = report[file_path] + cwe_ids
+    49	            else:
+    50	                report[file_path] = cwe_ids
+    51	
+    52	    assert "cwe-93" in report["/app/bottle.py"], "'cwe-93' not found in /app/bottle.py"
+    53	
+    54	
+    55	def test_hkey_basic_cases():
+    56	    """Test _hkey basic normalization and error handling."""
+    57	
+    58	    bottle_path = os.path.join(os.path.dirname(__file__), "bottle")
+    59	    sys.path.insert(0, bottle_path)
+    60	
+    61	    from bottle import _hkey
+    62	
+
+=== test_environ.py @0207a34f: header-related test defs ===
+129:    def test_header_access(self):
+140:    def test_header_access_special(self):
+364:    def test_json_noheader(self):
+394:    def test_json_forged_header_issue616(self):
+403:    def test_json_header_empty_body(self):
+493:    def test_constructor_headerlist(self):
+499:    def test_wsgi_header_values(self):
+691:    def test_set_header(self):
+705:    def test_append_header(self):
+719:    def test_delete_header(self):
+726:    def test_non_string_header(self):
+735:    def test_prevent_control_characters_in_headers(self):
+757:    def test_expires_header(self):
+(exit 0)
+
+=== test_environ.py first 6 "header" hits with line numbers ===
+129:    def test_header_access(self):
+130:        """ Environ: Request objects decode headers """
+133:        e['HTTP_SOME_HEADER'] = 'some value'
+135:        request['HTTP_SOME_OTHER_HEADER'] = 'some other value'
+136:        self.assertTrue('Some-Header' in request.headers)
+137:        self.assertTrue(request.headers['Some-Header'] == 'some value')
+
+=== upstream bottle.py 1560-1571 verbatim ===
+def _hkey(key):$
+    key = touni(key)$
+    if '\n' in key or '\r' in key or '\0' in key:$
+        raise ValueError("Header names must not contain control characters: %r" % key)$
+    return key.title().replace('_', '-')$
+$
+$
+def _hval(value):$
+    value = touni(value)$
+    if '\n' in value or '\r' in value or '\0' in value:$
+        raise ValueError("Header value must not contain control characters: %r" % value)$
+    return value$

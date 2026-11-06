@@ -1,0 +1,43 @@
+TOOL from-file /fast/scratch/hyaku/kengaku-r95/CriticClaims/census-r94/gate-F5-rename-intact.py sha256=9e822f9ef257b129e3fd1b0f0067586f50f42e39f6fecd77a7efc8ee664bb17a
+W1a r92 ok rc=1 summary=(4, 1, 3) intact=['plans/round92_c1_replay.py']
+W1b r93 ok rc=0 summary=(9, 9, 0)
+W1 pass
+W2 w2-intact ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 w2-edited ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-edit-revert ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-lying-table ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-unrelated ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 w2-rev-below-head ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0)
+W2 w2-edit-revert-unrelated ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-lie-repaired ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-treesame-merge ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1)
+W2 w2-second-block ok rc=2 want_rc=2 summary=None want=None
+W2 w2-duplicate-row ok rc=2 want_rc=2 summary=None want=None
+W2 w2-not-ancestor ok rc=2 want_rc=2 summary=None want=None
+W2 pass fixtures=12 ok=12
+W3 echo SELFTEST cases=15 ok=15
+W3 echo SELFTEST cases=15 ok=15
+W3 pass
+W4 pass freeze=844c504e5147 rc=0 summary=(11, 11, 0)
+W4 INSTRUMENT plans/round94_compressor_probe.py table=3e1e17641ff6 freeze=3e1e17641ff6 rev=3e1e17641ff6 touched=0 verdict=intact
+W4 INSTRUMENT plans/round94-cases.json table=e3c0c0eaef0f freeze=e3c0c0eaef0f rev=e3c0c0eaef0f touched=0 verdict=intact
+W4 INSTRUMENT plans/round94_c1_replay.py table=ff6a6e4622c5 freeze=ff6a6e4622c5 rev=ff6a6e4622c5 touched=0 verdict=intact
+W4 INSTRUMENT plans/round94_freeze_integrity.py table=8574b4d5dca7 freeze=8574b4d5dca7 rev=8574b4d5dca7 touched=0 verdict=intact
+W4 INSTRUMENT plans/round94_c2_counter.py table=17d2a7d52fbd freeze=17d2a7d52fbd rev=17d2a7d52fbd touched=0 verdict=intact
+W4 INSTRUMENT corpus/evidence/round94/graders/write-compressor/tests/test_outputs.py table=809f486053e3 freeze=809f486053e3 rev=809f486053e3 touched=0 verdict=intact
+W4 INSTRUMENT corpus/evidence/round94/graders/write-compressor/tests/original-decomp.c table=7f8d9ef66943 freeze=7f8d9ef66943 rev=7f8d9ef66943 touched=0 verdict=intact
+W4 INSTRUMENT corpus/evidence/round94/graders/write-compressor/tests/original-data.txt table=0fc483d0fb31 freeze=0fc483d0fb31 rev=0fc483d0fb31 touched=0 verdict=intact
+W4 INSTRUMENT corpus/evidence/round94/graders/write-compressor/solution/solve.sh table=01550b7de7ab freeze=01550b7de7ab rev=01550b7de7ab touched=0 verdict=intact
+W4 INSTRUMENT corpus/evidence/round94/graders/write-compressor/environment/decomp.c table=7f8d9ef66943 freeze=7f8d9ef66943 rev=7f8d9ef66943 touched=0 verdict=intact
+W4 INSTRUMENT corpus/evidence/round94/graders/write-compressor/environment/data.txt table=0fc483d0fb31 freeze=0fc483d0fb31 rev=0fc483d0fb31 touched=0 verdict=intact
+W5 null ok fixtures_ok=12 of 12
+W5 K1-head-not-rev killed designated=w2-rev-below-head red=w2-rev-below-head
+W5 K2-rev-minus-1 killed designated=w2-edit-revert-unrelated red=w2-edit-revert-unrelated
+W5 K3-table-at-rev killed designated=w2-lie-repaired red=w2-lie-repaired
+W5 K4-cne-exit0-pass killed designated=w2-not-ancestor red=w2-duplicate-row,w2-not-ancestor,w2-second-block
+W5 K5-no-full-history killed designated=w2-treesame-merge red=w2-treesame-merge
+W5 K6-second-block-ignored killed designated=w2-second-block red=w2-second-block
+W5 K7-duplicate-row-accepted killed designated=w2-duplicate-row red=w2-duplicate-row
+W5 pass mutants=7 killed=7
+TARGET legs_passed=5 of 5
+PREDICATE R94-C2 pass

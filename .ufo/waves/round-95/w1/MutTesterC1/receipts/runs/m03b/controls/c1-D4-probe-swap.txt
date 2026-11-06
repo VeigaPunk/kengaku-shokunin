@@ -1,0 +1,11 @@
+# control D4-probe-swap at scratch rev 7ed1f06e9c01e46f8f1af26e5321718cebffb3f9 (draft claims f8a1ea38f96d, base 16dcfed7ef4c)
+# want rc=1 failing legs include ['L8']
+LEGS L1=pass L2=fail L3=fail L4=pass L5=pass L6=fail L7=pass L8=fail L9=fail
+TARGET executed_rows=39 member=fix-code-vulnerability located=1 executed=0 cases=15 legs=105 mismatches=0 defects=5
+DEFECT L2 capture/receipt sha mismatch (cap=c006a5de95b6 receipt=absent)
+DEFECT L3 LANE_TIP absent not an ancestor of 7ed1f06e9c01
+DEFECT L6 rerun rc=0 obs=15 want=15 equal=True stamps_equal=False
+DEFECT L8 probe 2b85b1a63883 vs frozen 932e66b1e476
+DEFECT L9 stamps tool=absent table=absent python=None
+PREDICATE R95-C1 fail
+rc=1

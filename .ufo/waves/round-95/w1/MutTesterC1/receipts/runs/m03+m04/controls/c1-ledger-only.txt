@@ -1,0 +1,11 @@
+# control ledger-only at scratch rev afeb335f3244742801cc6a2f6942a9733f33fd5f (draft claims ba0be269c90f, base 16dcfed7ef4c)
+# want rc=1 failing legs include ['L1']
+LEGS L1=fail L2=fail L3=fail L4=pass L5=pass L6=fail L7=pass L8=pass L9=fail
+TARGET executed_rows=39 member=fix-code-vulnerability located=1 executed=0 cases=15 legs=0 mismatches=0 defects=5
+DEFECT L1 receipt absent at revision: corpus/evidence/round95/vuln-probe.txt
+DEFECT L2 capture/receipt sha mismatch (cap=c006a5de95b6 receipt=absent)
+DEFECT L3 LANE_TIP absent not an ancestor of afeb335f3244
+DEFECT L6 rerun rc=0 obs=15 want=0 equal=False stamps_equal=False
+DEFECT L9 stamps tool=absent table=absent python=None
+PREDICATE R95-C1 fail
+rc=1

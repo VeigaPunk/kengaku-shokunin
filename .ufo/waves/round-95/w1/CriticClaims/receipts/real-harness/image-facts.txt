@@ -1,0 +1,6 @@
+docker pull alexgshaw/fix-code-vulnerability:20251031  (digest sha256:cac325252991f823713b2d0441502972901dd782bd67f66c03d9b1e410dac5c0, Docker 29.9.2, overlayfs, created 2025-10-28T22:08:34Z)
+/app/bottle.py sha256 761756ce31753e526c48d28ccbca13a5d2493b16fe37aff3e1e4d2efaf3a2bba  == VULNERABLE_BOTTLE_SHA in receipt
+git -C /app HEAD 0207a34f0c5716cd292dd4480253ad35d3da49f3 ; git show HEAD:bottle.py sha256 abf643683b4870e07500f8a035d1a076d4bf0bbf98eb2fb5180fbc3ef8fad802 (== upstream capture); git status: " M bottle.py" (4 deletions); reflog present; objects not pruned
+/usr/local/lib/python3.11/site-packages/bottle.py sha256 abf6... (installed by pip install . BEFORE the sed deletions: full oracle; version 0.14.dev0)
+/app/test/ present (367 original-repo tests); python 3.11.14 in image; host probe python 3.14.8
+host /usr/bin/python3 -I -c 'import bottle' -> ModuleNotFoundError (replay sandbox has no site-packages bottle)

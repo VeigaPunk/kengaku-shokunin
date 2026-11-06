@@ -1,0 +1,9 @@
+sed-model check (upstream capture, afe9c229)
+bytes 175847 newlines 4580 CR 0 FF 0 VT 0 FS/GS/RS 0 0 0 NEL 0 LS/PS 0 0
+splitlines count 4580 == newline-split count 4580
+upstream 1560 def _hkey(key): | 1562 if '\n' in key ... | 1563 raise ValueError("Header names must not contain ...")
+upstream 1567 def _hval(value): | 1569 if '\n' in value ... | 1570 raise ValueError("Header value must not contain ...")
+sed 1562,1563d then sed 1567,1568d (second on post-first numbering) == original lines 1562-1563 and 1569-1570
+probe vulnerable() == sed-sequential model: True (len 175565)
+difflib (upstream -> vulnerable): -1562,2 _hkey check ; -1569,2 _hval check
+upstream sha256 of GitHub raw bottlepy/bottle@0207a34f bottle.py: abf643683b4870e07500f8a035d1a076d4bf0bbf98eb2fb5180fbc3ef8fad802 (matches pin)

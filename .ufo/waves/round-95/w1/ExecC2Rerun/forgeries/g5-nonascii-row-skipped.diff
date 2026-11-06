@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r95/ExecC2Rerun/lane/plans/round94_freeze_integrity.py	2026-11-05 20:13:52.182933768 -0300
++++ g5-nonascii-row-skipped.py	2026-11-05 20:20:57.189213469 -0300
+@@ -126,6 +126,8 @@
+             raise CouldNotEvaluate("duplicate --paths")
+     rows = []
+     for want, p in table:
++        if not p.isascii():
++            continue
+         at_f = blob(root, f, p)
+         at_t = blob(root, t, p)
+         log = git(root, "rev-list", "--full-history", f"{f}..{t}", "--", p)

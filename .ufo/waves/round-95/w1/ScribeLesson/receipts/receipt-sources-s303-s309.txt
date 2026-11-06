@@ -1,0 +1,79 @@
+# receipt: SOURCES rows S303-S309 re-verified against the lane captures, independently
+# of plans/anchor_line_check.py (seat ScribeLesson, round 95 w1)
+# checks per row: (1) the row's sha256 token names a tracked capture under corpus/evidence/
+#                   (2) the quoted line is the line the row cites
+#                   (3) the declared word count == len(quote.split())
+#                   (4) the row's `opened` date matches the round's fetch receipt
+
+S303  (corpus/SOURCES.md:319)
+  sha256 in row      : c006a5de95b69bd78055aa26cc055734dbd50718ede25d331f767bfee4ef7f26
+  capture found      : ['corpus/evidence/round95/graders/fix-code-vulnerability/tests/test_outputs.py', 'corpus/evidence/round52/graders/fix-code-vulnerability/tests/test_outputs.py']
+  cited line         : 45   quote on that line: True
+  words declared/act : 7 / 7   match: True
+  opened / recheck   : 2026-11-05 / on-release
+  status / used-by   : mined / plans/round95-cases.json
+  kind / tier        : A / the six test functions this round's thirteenth offline replay grades, as the captured bytes define them
+
+S304  (corpus/SOURCES.md:320)
+  sha256 in row      : 7a0131b369d83ae8546ecc3f9b4e23d38240f1bd1f0941e4430fa85b5182ee03
+  capture found      : ['corpus/evidence/round95/graders/fix-code-vulnerability/solution/solve.sh']
+  cited line         : 20   quote on that line: True
+  words declared/act : 4 / 4   match: True
+  opened / recheck   : 2026-11-05 / on-release
+  status / used-by   : mined / plans/round95-cases.json
+  kind / tier        : A / the task author's report and fix: the replay's positive control
+
+S305  (corpus/SOURCES.md:321)
+  sha256 in row      : 0917470986224df4daf4854a71302ae81c73ba5dd6e25be1232d29b758a5b3ab
+  capture found      : ['corpus/evidence/round95/graders/fix-code-vulnerability/environment/Dockerfile']
+  cited line         : 22   quote on that line: True
+  words declared/act : 6 / 6   match: True
+  opened / recheck   : 2026-11-05 / on-release
+  status / used-by   : mined / plans/round95-cases.json
+  kind / tier        : A / which lines of the pinned upstream bottle.py the task image deletes to make /app/bottle.py vulnerable
+
+S306  (corpus/SOURCES.md:322)
+  sha256 in row      : abf643683b4870e07500f8a035d1a076d4bf0bbf98eb2fb5180fbc3ef8fad802
+  capture found      : ['corpus/evidence/round95/graders/fix-code-vulnerability/upstream-bottle/bottle.py']
+  cited line         : 1562   quote on that line: True
+  words declared/act : 12 / 12   match: True
+  opened / recheck   : 2026-11-05 / on-release
+  status / used-by   : mined / plans/round95-cases.json
+  kind / tier        : A / the upstream _hkey/_hval bytes before the task image's deletions
+
+S307  (corpus/SOURCES.md:323)
+  sha256 in row      : 89b1abdf0af19399f720233b5cdf6b2e8e0ff7b6e3fe3e2a3af0d4d298a8641a
+  capture found      : ['corpus/evidence/round95/graders/fix-code-vulnerability/instruction.md']
+  cited line         : 18   quote on that line: True
+  words declared/act : 14 / 14   match: True
+  opened / recheck   : 2026-11-05 / on-release
+  status / used-by   : mined / plans/round95-cases.json
+  kind / tier        : A / what the agent is told the report must contain
+
+S308  (corpus/SOURCES.md:324)
+  sha256 in row      : f1611da693cb4cfc5e8482698c6a1858a5c67220ae9db89b50aed66584e9b17f
+  capture found      : ['corpus/evidence/round95/graders/fix-code-vulnerability/tests/test.sh', 'corpus/evidence/round52/graders/fix-code-vulnerability/tests/test.sh']
+  cited line         : 9   quote on that line: True
+  words declared/act : 4 / 4   match: True
+  opened / recheck   : 2026-11-05 / on-release
+  status / used-by   : rejected / —
+  kind / tier        : A / the harness wrapper this member's replay refuses
+
+S309  (corpus/SOURCES.md:325)
+  sha256 in row      : 9aa2bd14ce9408289d199d0608bc3fa65b8b5e23374c9641020de62197dbf1e2
+  capture found      : ['corpus/evidence/round95/graders/fix-code-vulnerability/task.toml']
+  cited line         : 29   quote on that line: True
+  words declared/act : 3 / 3   match: True
+  opened / recheck   : 2026-11-05 / on-release
+  status / used-by   : rejected / —
+  kind / tier        : A / which image the harness actually runs
+
+## the round's own fetch receipt (all seven HTTP 200 on 2026-11-05)
+  # capture fetch, 2026-11-05T19:43:32-03:00, curl 8.23.0
+  FETCH https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/fix-code-vulnerability/tests/test_outputs.py http=200 bytes=4010
+  FETCH https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/fix-code-vulnerability/tests/test.sh http=200 bytes=653
+  FETCH https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/fix-code-vulnerability/solution/solve.sh http=200 bytes=913
+  FETCH https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/fix-code-vulnerability/environment/Dockerfile http=200 bytes=814
+  FETCH https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/fix-code-vulnerability/instruction.md http=200 bytes=3873
+  FETCH https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/fix-code-vulnerability/task.toml http=200 bytes=967
+  FETCH https://raw.githubusercontent.com/bottlepy/bottle/0207a34f0c5716cd292dd4480253ad35d3da49f3/bottle.py http=200 bytes=175847

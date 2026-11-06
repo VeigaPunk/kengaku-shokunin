@@ -1,0 +1,36 @@
+# receipt: SOURCES census at the tip, and the lane's own anchor gate at F and T
+# seat ScribeLesson, round 95 w1, 2026-11-05T20:52:27-03:00
+
+## CORPUS.md SOURCES census commands (contract v1), run at T
+$ grep -cE '^\|[[:space:]]*S[0-9]{3,}[[:space:]]*\|' corpus/SOURCES.md
+301
+$ awk -F'|' '...' corpus/SOURCES.md   # malformed rows (NF!=13), must print 0
+0
+$ awk ... tier histogram
+A=271 B=24 C=6 
+$ awk ... status histogram
+mined=266 queued=8 rejected=27 
+$ awk ... duplicate ids, must print nothing
+$ awk ... enum violations and tier inflation, must print nothing
+$ awk ... mined rows whose used-by path does not exist, must print nothing
+
+## the lane's own maintained census CLI
+$ bash /home/vgpnk/Projects/shokunin/scripts/sources-census.sh | grep kengaku
+kengaku	rows	301
+kengaku	tier.A	271
+kengaku	tier.B	24
+kengaku	tier.C	6
+kengaku	status.mined	266
+kengaku	status.queued	8
+kengaku	status.rejected	27
+
+## plans/anchor_line_check.py at F and at T (clean clone, --detach each rev)
+at F d9cd18a7519a58a1fa6d1cb9768e3873c31cd545:
+  ANCHORLINE rows=294 cited=104 captured=91 uncaptured=13 defective=10 repaired=10 live=0 cells=0  rc 0
+at T afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239:
+  ANCHORLINE rows=301 cited=111 captured=98 uncaptured=13 defective=10 repaired=10 live=0 cells=0  rc 0
+  -> +7 rows, +7 cited, +7 captured; live and cells unchanged at 0/0.
+
+## the C commit changed corpus/SOURCES.md by exactly the 7 new rows and nothing else
+ corpus/SOURCES.md | 7 +++++++
+ 1 file changed, 7 insertions(+)

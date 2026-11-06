@@ -1,0 +1,14 @@
+--- /fast/scratch/hyaku/kengaku-r95/ExecC2Rerun/lane/plans/round94_freeze_integrity.py	2026-11-05 20:13:52.182933768 -0300
++++ e5-crlf-equivalent.py	2026-11-05 20:20:57.189283219 -0300
+@@ -86,7 +86,10 @@
+             inside = False
+             continue
+         if inside and line.strip():
+-            m = ROW.match(line.strip())
++            m = ROW.match(line)
++            if not m and line.endswith("\r"):
++                continue
++            m = m or ROW.match(line.strip())
+             if not m:
+                 raise CouldNotEvaluate(f"malformed table row {line.strip()[:60]!r}")
+             rows.append((m.group(1), m.group(2)))

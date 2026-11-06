@@ -1,0 +1,43 @@
+VARIANT oracle rc=0
+  | PASSED test/test_wsgi.py::TestAppShortcuts::test_module_shortcuts_with_different_name
+  | ============================= 357 passed in 0.79s ==============================
+VARIANT vulnerable rc=1
+  FAILED test/test_environ.py::TestResponse::test_prevent_control_characters_in_headers - AssertionError: ValueError not raised by append
+  | FAILED test/test_environ.py::TestResponse::test_prevent_control_characters_in_headers - AssertionError: ValueError not raised by append
+  | ======================== 1 failed, 356 passed in 0.96s =========================
+VARIANT solve rc=0
+  | PASSED test/test_wsgi.py::TestAppShortcuts::test_module_shortcuts_with_different_name
+  | ============================= 357 passed in 1.11s ==============================
+VARIANT hkey-only rc=1
+  FAILED test/test_environ.py::TestResponse::test_prevent_control_characters_in_headers - AssertionError: ValueError not raised by append
+  | FAILED test/test_environ.py::TestResponse::test_prevent_control_characters_in_headers - AssertionError: ValueError not raised by append
+  | ======================== 1 failed, 356 passed in 0.89s =========================
+VARIANT package-shadow rc=2
+  ERROR test/test_app.py
+  ERROR test/test_auth.py
+  ERROR test/test_config.py
+  ERROR test/test_contextlocals.py
+  ERROR test/test_environ.py
+  ERROR test/test_exc.py
+  ERROR test/test_fileupload.py
+  ERROR test/test_formsdict.py
+  ERROR test/test_html_helper.py
+  ERROR test/test_importhook.py
+  ERROR test/test_jinja2.py
+  ERROR test/test_mako.py
+  ERROR test/test_mdict.py
+  ERROR test/test_mount.py
+  ERROR test/test_multipart.py
+  ERROR test/test_oorouting.py
+  ERROR test/test_outputfilter.py
+  ERROR test/test_plugins.py
+  ERROR test/test_resources.py
+  ERROR test/test_route.py
+  ERROR test/test_router.py
+  ERROR test/test_securecookies.py
+  ERROR test/test_sendfile.py
+  ERROR test/test_stpl.py
+  ERROR test/test_wsgi.py
+  | !!!!!!!!!!!!!!!!!!! Interrupted: 25 errors during collection !!!!!!!!!!!!!!!!!!!
+  | ============================== 25 errors in 0.31s ==============================
+rc=0

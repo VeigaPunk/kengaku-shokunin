@@ -1,0 +1,11 @@
+--- /fast/scratch/hyaku/kengaku-r95/ExecC2Rerun/lane/plans/round94_freeze_integrity.py	2026-11-05 20:13:52.182933768 -0300
++++ g3-ancestry-path.py	2026-11-05 20:20:57.188097169 -0300
+@@ -128,7 +128,7 @@
+     for want, p in table:
+         at_f = blob(root, f, p)
+         at_t = blob(root, t, p)
+-        log = git(root, "rev-list", "--full-history", f"{f}..{t}", "--", p)
++        log = git(root, "rev-list", "--full-history", "--ancestry-path", f"{f}..{t}", "--", p)
+         if log.returncode != 0:
+             raise CouldNotEvaluate(f"rev-list failed for {p}")
+         touched = len([x for x in log.stdout.decode().split() if x])

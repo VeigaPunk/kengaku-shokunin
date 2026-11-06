@@ -1,0 +1,202 @@
+{
+ "counter_pristine_sha256": "2fc2e7f0a1c26599c60f2f142c7d73a581974cb6949b65a90e9e3cbf08a13a7c",
+ "census_pristine_sha256": "38fed2c23d46792ebf90295bac5d07072be71d8e35244ab1a4c48226d74334ba",
+ "mutants": [
+  {
+   "id": "CM01-w5-target-ignored",
+   "target": "counter",
+   "anchor": "        w5 = w5 and hit\n",
+   "replacement": "        w5 = w5 and True\n",
+   "sha256": "db17a82195d1ff808a8137329ccec71ba1a5476d87bcd2c508721e4a47d86a90"
+  },
+  {
+   "id": "CM02-w1-leg-dropped",
+   "target": "counter",
+   "anchor": "    legs[\"W1\"] = w1a and w1b\n",
+   "replacement": "    legs[\"W1\"] = True\n",
+   "sha256": "14d45cbe40b6d7351bb3b77f084bf9dc3d1d5fdc4da32cbcff41170263319089"
+  },
+  {
+   "id": "CM03-w4-leg-dropped",
+   "target": "counter",
+   "anchor": "        legs[\"W4\"] = rc == 0 and s is not None and s[0] >= MIN_SELF_INSTRUMENTS and s[2] == 0 and pred_ok(rc, out)\n",
+   "replacement": "        legs[\"W4\"] = True\n",
+   "sha256": "825024c4aa89ec163b341efe3a3edeabeadd3ce6ccd0b72170a4219a874108c3"
+  },
+  {
+   "id": "CM04-w3-ok-le-15",
+   "target": "counter",
+   "anchor": "        red_line = len(st) == 1 and st[0][0] == \"15\" and int(st[0][1]) < 15\n",
+   "replacement": "        red_line = len(st) == 1 and st[0][0] == \"15\" and int(st[0][1]) <= 15\n",
+   "sha256": "221e18309911c0e0ab7cb48ffa1cce729a87e6c272c2beedeb866f07a507586d"
+  },
+  {
+   "id": "CM05-predok-multiplicity",
+   "target": "counter",
+   "anchor": "    return len(lines) == 1 and PRED_FOR_RC.get(rc) == lines[0]\n",
+   "replacement": "    return len(lines) >= 1 and PRED_FOR_RC.get(rc) == lines[0]\n",
+   "sha256": "23b1fc743c1b3f9ba5f50e03c34fd91879db14993efd32837daa5d2cd6460064"
+  },
+  {
+   "id": "CM06-drop-w2-unrelated",
+   "target": "counter",
+   "anchor": "    (\"w2-unrelated\", CLAIMS_ARGS, 0, (1, 1, 0)),\n",
+   "replacement": "",
+   "sha256": "295979dc693d309bba32e0d20e67cd925aad35862c819fa1a5b8f0c00c1d3eb2"
+  },
+  {
+   "id": "CM07-cne-summary-ignored",
+   "target": "counter",
+   "anchor": "            ok = rc == 2 and s is None\n",
+   "replacement": "            ok = rc == 2\n",
+   "sha256": "e6d0b026846b611bb23976e3aa05701335185d442b2c608a62c221fb12c76054"
+  },
+  {
+   "id": "CM08-predok-always-true",
+   "target": "counter",
+   "anchor": "    return len(lines) == 1 and PRED_FOR_RC.get(rc) == lines[0]\n",
+   "replacement": "    return True\n",
+   "sha256": "14a5bb13dbd834c4253ed6b781888f7bf41717362b4743c5226d0bdac143cc0a"
+  },
+  {
+   "id": "CM09-w2-always-ok",
+   "target": "counter",
+   "anchor": "        results[name] = (ok, f\"rc={rc} want_rc={want_rc} summary={s} want={want_s} predicate_line_ok={p_ok}\")",
+   "replacement": "        results[name] = (True, f\"rc={rc} want_rc={want_rc} summary={s} want={want_s} predicate_line_ok={p_ok}\")",
+   "sha256": "e02c0e83d863afa8a01b000b29fcdd791641e183f9c6b2cc50c9cec8a3b769f0"
+  },
+  {
+   "id": "CM10-w2-edited-want-rc0",
+   "target": "counter",
+   "anchor": "    (\"w2-edited\", CLAIMS_ARGS, 1, (1, 0, 1)),\n",
+   "replacement": "    (\"w2-edited\", CLAIMS_ARGS, 0, (1, 0, 1)),\n",
+   "sha256": "015cefe2e86f7e923ce4a502f86947001ae38d3793e709fc3b2e1dc01ac8beb3"
+  },
+  {
+   "id": "CM11-minself-8-to-99",
+   "target": "counter",
+   "anchor": "MIN_SELF_INSTRUMENTS = 8",
+   "replacement": "MIN_SELF_INSTRUMENTS = 99",
+   "sha256": "a31eb522db25f081521aecc75314fa99b5f515433813500014c9fb82c2ea9c63"
+  },
+  {
+   "id": "CM12-w2-intact-want-rc1",
+   "target": "counter",
+   "anchor": "    (\"w2-intact\", CLAIMS_ARGS, 0, (1, 1, 0)),\n",
+   "replacement": "    (\"w2-intact\", CLAIMS_ARGS, 1, (1, 1, 0)),\n",
+   "sha256": "52d1fa78ccf1c9fee995ed9ed7e223f6fda1e6cb1747fae429c3fc7f62e69d3b"
+  },
+  {
+   "id": "CM13-w3-rc-dropped",
+   "target": "counter",
+   "anchor": "        ok = red_line and rc == 1 and PRED_LINE.findall(out) == [\"fail\"]\n",
+   "replacement": "        ok = red_line and PRED_LINE.findall(out) == [\"fail\"]\n",
+   "sha256": "c74d8628ceb6e005d15f727215ad83a7eda539c40267a7388f3e6937cce5bb40"
+  },
+  {
+   "id": "CM14-w3-pred-any",
+   "target": "counter",
+   "anchor": "        ok = red_line and rc == 1 and PRED_LINE.findall(out) == [\"fail\"]\n",
+   "replacement": "        ok = red_line and rc == 1 and len(PRED_LINE.findall(out)) >= 1\n",
+   "sha256": "83894e46a97bc6edbf192c6fdf4312cfe42bd03ef96b6090812d42e940b15aed"
+  },
+  {
+   "id": "CM15-w3-pred-dropped",
+   "target": "counter",
+   "anchor": "        ok = red_line and rc == 1 and PRED_LINE.findall(out) == [\"fail\"]\n",
+   "replacement": "        ok = red_line and rc == 1\n",
+   "sha256": "9ad1142589f027a504dd4902c934edcf9362bf2753a8470fa78b8fbf4765c73f"
+  },
+  {
+   "id": "CM16-fx-refresh-dropped",
+   "target": "counter",
+   "anchor": "    if d.exists():\n        shutil.rmtree(d)",
+   "replacement": "    if False:\n        shutil.rmtree(d)",
+   "sha256": "0e2554368c1ddcf189b308ae40430619008b9e8700d475841d6c6f3ffa58bd92"
+  },
+  {
+   "id": "CM17-w1b-intact-only",
+   "target": "counter",
+   "anchor": "    w1b = rc_b == 0 and s_b == (9, 9, 0) and pred_ok(rc_b, out_b)\n",
+   "replacement": "    w1b = rc_b == 0 and s_b[1] == 9 and pred_ok(rc_b, out_b)\n",
+   "sha256": "64cb829027baa378078ee57b640b82eea7aa8af84d01cee3699d1ba1e95aa47c"
+  },
+  {
+   "id": "CM18-w2-summary-optional",
+   "target": "counter",
+   "anchor": "            ok = rc == want_rc and s == want_s\n",
+   "replacement": "            ok = rc == want_rc and (s is None or s == want_s)\n",
+   "sha256": "bc87a76704bb9885b541b99a0aebbca3c63630acfb6518033f23e52c9d7ec8e4"
+  },
+  {
+   "id": "CM19-w4-broken-ignored",
+   "target": "counter",
+   "anchor": "s[2] == 0 and pred_ok(rc, out)",
+   "replacement": "True and pred_ok(rc, out)",
+   "sha256": "b7afb3a8d6d19fe32050201b61306c301647eaa885136b6b89339e3d09cc35ac"
+  },
+  {
+   "id": "CM20-drop-w2-second-block",
+   "target": "counter",
+   "anchor": "    (\"w2-second-block\", CLAIMS_ARGS, 2, None),\n",
+   "replacement": "",
+   "sha256": "5ef1c35ab5b77ce9cdd18c1ca04e8f526f5061d91484bd77ddd3674089380e68"
+  },
+  {
+   "id": "XM1-designated-forced",
+   "target": "census",
+   "anchor": "        dred = int(designated_red(DESIGNATED[gid], out))\n",
+   "replacement": "        dred = 1\n",
+   "extra": "donothing",
+   "sha256": "2c034cfa368bea01e5cd3b32ad2a982e246ee3511d1f798c8900e14b18b94931"
+  },
+  {
+   "id": "XM2-passes-polarity",
+   "target": "census",
+   "anchor": "        passes = int(rc == 0 and PASS_LINE.search(out) is not None)\n",
+   "replacement": "        passes = int(rc != 0 or PASS_LINE.search(out) is not None)\n",
+   "extra": null,
+   "sha256": "26c516ebc5b3db5118c88e84e2114f3a24dc5f2008626bdd8da6c06c649edaf6"
+  },
+  {
+   "id": "XM3-honest-dropped",
+   "target": "census",
+   "anchor": "    ok = passing == 0 and red == TOTAL and honest == \"pass\"\n",
+   "replacement": "    ok = passing == 0 and red == TOTAL\n",
+   "extra": "atP1",
+   "sha256": "5d4e35b46120435335de403f7a1f68329a40d84b4f581ccce743c74e9f6413a1"
+  },
+  {
+   "id": "XM4-sha-dropped",
+   "target": "census",
+   "anchor": "        if data.returncode != 0 or hashlib.sha256(data.stdout).hexdigest() != want or gid not in DESIGNATED:\n",
+   "replacement": "        if data.returncode != 0 or False or gid not in DESIGNATED:\n",
+   "extra": null,
+   "sha256": "33dea0cfe9e625878edcacb1076f22c6946700f372a4e57798a79545ce32f63d"
+  },
+  {
+   "id": "XM5-total-weakened",
+   "target": "census",
+   "anchor": "    if len(rows) != TOTAL or {g for g, _, _ in rows} != set(DESIGNATED):\n",
+   "replacement": "    if len(rows) > TOTAL or {g for g, _, _ in rows} != set(DESIGNATED):\n",
+   "extra": null,
+   "sha256": "8d893216893fd58e150407e9728cd2d55c6a8a093669809d1c5365c996c59726"
+  },
+  {
+   "id": "XM6-echo-dropped",
+   "target": "census",
+   "anchor": "        if re.match(r\"^(TOOL|W[1-5] (pass|fail)|TARGET)\", line):\n",
+   "replacement": "        if re.match(r\"^ZZZNOMATCH\", line):\n",
+   "extra": null,
+   "sha256": "d5642657984be49b2a83dbf1cfb41deecf7daa2e8cba3707def03b819b8115f0"
+  },
+  {
+   "id": "XM7-passline-any",
+   "target": "census",
+   "anchor": "PASS_LINE = re.compile(r\"^PREDICATE R\\d+-C2 pass$\", re.M)",
+   "replacement": "PASS_LINE = re.compile(r\"^PREDICATE R\\d+-C2\", re.M)",
+   "extra": null,
+   "sha256": "d41909f560cc8f2df54a98b4332fff2b660de040876b4cdff0f3eaed8ef59967"
+  }
+ ]
+}

@@ -1,0 +1,95 @@
+=== F1-paths-dup-accepted  (tsv path .ufo/waves/round-94/w1/ExecC2Rerun/forgeries/F1-paths-dup-accepted.py)
+125,126d124
+<         if len({p for _, p in table}) != len(table):
+<             raise CouldNotEvaluate("duplicate --paths")
+=== F2-paths-absent-dropped  (tsv path .ufo/waves/round-94/w1/ExecC2Rerun/forgeries/F2-paths-absent-dropped.py)
+121c121
+<                 raise CouldNotEvaluate(f"path {p} absent at freeze {f[:12]}")
+---
+>                 continue
+=== F3b-octopus-anchor-kept  (tsv path .ufo/waves/round-94/w1/ExecC2Rerun/forgeries/F3b-octopus-anchor-kept.py)
+131c131,135
+<         log = git(root, "rev-list", "--full-history", f"{f}..{t}", "--", p)
+---
+>         octopus = git(root, "rev-list", "--merges", "--min-parents=3", f"{f}..{t}").stdout.strip()
+>         if octopus:
+>             log = git(root, "rev-list", f"{f}..{t}", "--", p)
+>         else:
+>             log = git(root, "rev-list", "--full-history", f"{f}..{t}", "--", p)
+=== F4b-touched-M-only-anchor-kept  (tsv path .ufo/waves/round-94/w1/ExecC2Rerun/forgeries/F4b-touched-M-only-anchor-kept.py)
+131a132
+>         mods = set(git(root, "log", "--full-history", "--diff-filter=M", "--format=%H", f"{f}..{t}", "--", p).stdout.decode().split())
+134c135
+<         touched = len([x for x in log.stdout.decode().split() if x])
+---
+>         touched = len([x for x in log.stdout.decode().split() if x and x in mods])
+=== F5-rename-intact  (tsv path .ufo/waves/round-94/w1/ExecC2Rerun/forgeries/F5-rename-intact.py)
+134a135,143
+>         renamed = None
+>         if at_t is None:
+>             for line in git(root, "diff", "--name-status", "-M", f, t).stdout.decode().splitlines():
+>                 cols = line.split("\t")
+>                 if len(cols) == 3 and cols[0].startswith("R") and cols[1] == p:
+>                     renamed = cols[2]
+>         if renamed is not None:
+>             at_t = blob(root, t, renamed)
+>             touched = 0
+=== F6b-entry-rc-remap  (tsv path .ufo/waves/round-94/w1/ExecC2Rerun/forgeries/F6b-entry-rc-remap.py)
+346c346,347
+<     sys.exit(main(sys.argv[1:]))
+---
+>     rc = main(sys.argv[1:])
+>     sys.exit(1 if rc == 2 and "--paths" in sys.argv else rc)
+=== F7-spaced-row-dropped  (tsv path .ufo/waves/round-94/w1/ExecC2Rerun/forgeries/F7-spaced-row-dropped.py)
+115c115,116
+<         table = parse_table(text.decode(errors="replace"))
+---
+>         kept = [ln for ln in text.decode(errors="replace").splitlines() if len(ln.split()) <= 2]
+>         table = parse_table("\n".join(kept))
+=== x1-stub-battery-gate  (tsv path .ufo/waves/round-94/w1/CriticClaims/receipts/x1-stub-battery-gate.py)
+321c321
+<         bat = battery(bat_dir)
+---
+>         bat = [("B%02d stub" % i, True, "stub") for i in range(1, 16)]  # battery never runs
+=== M01-paths-dup-guard-dropped  (tsv path .ufo/waves/round-94/w1/MutTesterGate/mutants/M01-paths-dup-guard-dropped.py)
+125c125
+<         if len({p for _, p in table}) != len(table):
+---
+>         if False and len({p for _, p in table}) != len(table):
+=== M02-unterminated-block-accepted  (tsv path .ufo/waves/round-94/w1/MutTesterGate/mutants/M02-unterminated-block-accepted.py)
+93c93
+<     if inside:
+---
+>     if False and inside:
+=== M07-battery-nonfatal  (tsv path .ufo/waves/round-94/w1/MutTesterGate/mutants/M07-battery-nonfatal.py)
+340c340
+<     passed = not broken and bat_ok == len(bat)
+---
+>     passed = not broken
+=== M15-predicate-always-pass  (tsv path .ufo/waves/round-94/w1/MutTesterGate/mutants/M15-predicate-always-pass.py)
+341c341
+<     print(f"PREDICATE freeze-integrity {'pass' if passed else 'fail'}")
+---
+>     print(f"PREDICATE freeze-integrity pass")
+=== M19-battery-red-concealed  (tsv path .ufo/waves/round-94/w1/MutTesterGate/mutants/M19-battery-red-concealed.py)
+327c327
+<     print(f"SELFTEST cases={len(bat)} ok={bat_ok}")
+---
+>     print(f"SELFTEST cases={len(bat)} ok={len(bat)}")
+340c340
+<     passed = not broken and bat_ok == len(bat)
+---
+>     passed = not broken
+=== M20-battery-broken-and-concealed  (tsv path .ufo/waves/round-94/w1/MutTesterGate/mutants/M20-battery-broken-and-concealed.py)
+214c214
+<          lambda v: len(v) == 1 and "rev-bytes-differ" in v[0] and "touched-after-freeze=1" in v[0])
+---
+>          lambda v: False)
+327c327
+<     print(f"SELFTEST cases={len(bat)} ok={bat_ok}")
+---
+>     print(f"SELFTEST cases={len(bat)} ok={len(bat)}")
+340c340
+<     passed = not broken and bat_ok == len(bat)
+---
+>     passed = not broken

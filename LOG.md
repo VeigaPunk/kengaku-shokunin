@@ -3603,3 +3603,46 @@ both counters) → L1 receipts `242b3669` → wave spec `d04e6664`. No tabled fi
   9 reported, 3 dead (ScoutSources, ReviewerC1, ReviewerC2 — empty output). Critic: C1 verifies
   (narrowed); C2 does not verify as calibration (5 → 0 confounded). Nine new false gates pass the
   C2 counter; routed to round 95 with every other finding (lesson W-1…W-13).
+
+## Round 95 — thirteenth executed member (`fix-code-vulnerability`), fourteen round-94 false gates turned red by a battery-driving counter (KengakuR95)
+
+Order: P0 mechanism predictions + capture + C2 population and BEFORE receipts `2457f025` →
+instruments P1 `16dcfed7` → controls executed against P1 and committed at P2 `7783e9cb` → frozen
+claims F `d9cd18a7` (11-row `frozen-instruments` table) → official receipt, ledger flip, SKILL class
+cells and SOURCES at C `afe9c229` (= T for both counters) → L1 receipts and wave spec `ea19299d`.
+No tabled file changed after F.
+
+- **R95-C1 (coverage, held at L0 cap 7): met on its frozen predicate.** `fix-code-vulnerability`
+  @ `2fd12b88` replayed offline through `plans/round95_vuln_probe.py`: `/app/bottle.py` rebuilt
+  from the captured bottlepy `bottle.py` @ `0207a34f` with the Dockerfile's two sequential sed
+  deletions (`VULNERABLE_BOTTLE_SHA 761756ce…2bba`, byte-identical to the prebuilt image's file per
+  the non-author critic), the captured `solve.sh` run unmodified as positive control, 15 cases × 7
+  legs of the grader's own six functions plus the import resolution. Receipt
+  `corpus/evidence/round95/vuln-probe.txt`: 15/15 `ok=True`; all 15 mechanism predictions filed at
+  P0 held. At T: `LEGS L1..L9=pass`, `TARGET executed_rows=39 member=fix-code-vulnerability
+  located=1 executed=1 cases=15 legs=105 mismatches=0 defects=0`, `PREDICATE R95-C1 pass`, rc 0
+  (`.ufo/waves/round-95/L1/c1-tip.txt`). Grader findings (six functions only): C11 a `_hkey`-only
+  half fix passes (no function calls `_hval`); C15 a package `/app/bottle/` shadows `/app/bottle.py`;
+  C13 an over-strict fix errors, not fails; C08/C10/C14 report-schema edges. Wave: the repository's
+  own suite (the un-staged half of `tests/test.sh`) scores C11 and C15 reward 0, and two reward-1
+  states need no fix in the real image (`rm /app/bottle.py` — site-packages oracle; `git checkout`
+  — `.git` oracle).
+- **R95-C2 (calibration, held at 10): met on its frozen predicate, in-sample.** Before: the frozen
+  round-94 counter passes 14 false gates (rc 0 each, BASE). After: `plans/round95_c2_counter.py`
+  (20 CLI fixtures, battery driven red by three probe mutations, PREDICATE/rc agreement, ten CLI
+  mutants) passes gate v2 unchanged and fails all 14 at their designated legs: census
+  `FALSEGATES total=14 passing=0 designated_red=14 honest=pass`, `PREDICATE R95-C2 pass`, rc 0
+  (`c2-tip.txt`); do-nothing (round-94 counter) `passing=14`, rc 1.
+- **Conformance (no claim slot).** Legacy round-79 ledger gate 14 → 0 defects at T → 1 at the
+  landing tip (`mteb-retrieve` subject reverted to keep the round-87 counter green; lesson M2).
+  Registry rows `round95-false-gate-census` and `round95-c2-counter` in `SKILL.md`.
+- **Sources & frontier.** S303–S307 admitted (tier A), S308–S309 rejected with flips; registry
+  294 → 301 rows; census exit 0 at start and end; anchor gate `live=0` before the rows were
+  committed. Assimilation: none. considerthese: none taken.
+- **Mistakes mined.** M1 measurement from the wrong cwd again (rc 2 caught it; Q77); M2 a ledger
+  conformance edit broke the round-87 counter (non-author H1; reverted; Q78); M3 in-sample fixture
+  fitting read as calibration (held-out false gates pass; routed).
+- **Wave w1.** 12 seats, one v1 wave: 3 executor, scout, connector, scribe, 2 reviewer, critic,
+  2 mutation-tester, sentinel; attack share (reviewer, critic, mutation-tester) 5/12 = 42 %.
+  Critic: C1 verifies-narrowed (six functions, not the reward); C2 verifies-narrowed (in-sample;
+  not discrimination of unseen gates). Findings routed to round 96 (lesson W-table).

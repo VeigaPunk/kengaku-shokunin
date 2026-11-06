@@ -1,0 +1,54 @@
+### M04 fixture /fast/scratch/hyaku/kengaku-r95/ReviewerC2/m04/fx freeze 26e2d1056e8e rev 48d15f63a767 (table lists later.py, absent at freeze)
+--- v2 honest gate=round94_freeze_integrity.py rc=1
+BATTERY B01 ok got=['intact']
+BATTERY B02 ok got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B03 ok got=['broken:touched-after-freeze=2']
+BATTERY B04 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+BATTERY B05 ok got=['broken:absent-at-rev+touched-after-freeze=1']
+BATTERY B06 ok got=['intact']
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 ok got=['broken:rev-bytes-differ+touched-after-freeze=1', 'intact']
+BATTERY B10 ok got=could-not-evaluate
+BATTERY B11 ok got=['broken:touched-after-freeze=2']
+BATTERY B12 ok got=could-not-evaluate
+BATTERY B13 ok got=could-not-evaluate
+BATTERY B14 ok got=['intact']
+BATTERY B15 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+SELFTEST cases=15 ok=15
+FREEZE 26e2d1056e8efeb9c6a2d01ab9e7361939c94552 REV 48d15f63a76702143a555eafcda75f6d19d100ea
+INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+INSTRUMENT later.py table=9054efbf95e3 freeze=absent rev=9054efbf95e3 touched=1 verdict=broken:freeze-bytes-differ-from-table+touched-after-freeze=1
+FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+PREDICATE freeze-integrity fail
+--- M04 mutant gate=H3-rev-vs-freeze-bytes.py rc=1
+BATTERY B01 ok got=['intact']
+BATTERY B02 ok got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B03 ok got=['broken:touched-after-freeze=2']
+BATTERY B04 ok got=['broken:freeze-bytes-differ-from-table']
+BATTERY B05 ok got=['broken:absent-at-rev+touched-after-freeze=1']
+BATTERY B06 ok got=['intact']
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 ok got=['broken:rev-bytes-differ+touched-after-freeze=1', 'intact']
+BATTERY B10 ok got=could-not-evaluate
+BATTERY B11 ok got=['broken:touched-after-freeze=2']
+BATTERY B12 ok got=could-not-evaluate
+BATTERY B13 ok got=could-not-evaluate
+BATTERY B14 ok got=['intact']
+BATTERY B15 ok got=['broken:freeze-bytes-differ-from-table']
+SELFTEST cases=15 ok=15
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r95/ReviewerC2/held/H3-rev-vs-freeze-bytes.py", line 346, in <module>
+    sys.exit(main(sys.argv[1:]))
+             ~~~~^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r95/ReviewerC2/held/H3-rev-vs-freeze-bytes.py", line 329, in main
+    f, t, rows = evaluate(Path(a.lane).resolve(), a.freeze, a.rev, a.claims, a.paths)
+                 ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r95/ReviewerC2/held/H3-rev-vs-freeze-bytes.py", line 140, in evaluate
+    elif sha(at_t) != sha(at_f):
+                      ~~~^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r95/ReviewerC2/held/H3-rev-vs-freeze-bytes.py", line 57, in sha
+    return hashlib.sha256(data).hexdigest()
+           ~~~~~~~~~~~~~~^^^^^^
+TypeError: object supporting the buffer API required

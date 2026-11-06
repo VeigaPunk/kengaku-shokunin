@@ -1,0 +1,47 @@
+# receipt: SKILL.md grader-class cells at F and at T, and the legacy round-79 gate at both
+# seat ScribeLesson, round 95 w1, 2026-11-05T20:53:33-03:00
+# clean clone of the lane, checked out --detach at each revision; read-only git
+
+## the class cells, F (d9cd18a7519a58a1fa6d1cb9768e3873c31cd545) -> T (afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239)
+$ diff <(git show F:SKILL.md | awk -F'|' '/^\| [a-z-]+ \| [0-9]+ \| executed/ {print $2" => "$4}') \
+      <(git show T:SKILL.md | awk -F'|' '/^\| [a-z-]+ \| [0-9]+ \| executed/ {print $2" => "$4}')
+
+changed cells (the count only; the parenthetical is elided):
+<  subprocess-exec  =>  executed 10 of 45 
+<  shell-exec  =>  executed 1 of 6 
+>  subprocess-exec  =>  executed 15 of 45 
+>  shell-exec  =>  executed 2 of 6 
+<  file-artifact  =>  executed 24 of 76
+<  stdout-inspection  =>  executed 8 of 29 
+<  numeric-band  =>  executed 3 of 10
+<  crypto-credential  =>  executed 3 of 12
+>  file-artifact  =>  executed 30 of 76
+>  stdout-inspection  =>  executed 13 of 29 
+>  numeric-band  =>  executed 4 of 10
+>  crypto-credential  =>  executed 4 of 12
+<  timing-wall  =>  executed 3 of 9 
+<  filesystem-metadata  =>  executed 2 of 10 
+>  timing-wall  =>  executed 4 of 9 
+>  filesystem-metadata  =>  executed 4 of 10 
+<  git-plumbing  =>  executed 1 of 3 
+>  git-plumbing  =>  executed 2 of 3 
+<  serialization-schema  =>  executed 3 of 10
+>  serialization-schema  =>  executed 6 of 10
+
+## plans/round79_c1_population_ledger.py (the legacy gate) at F and at T
+at F d9cd18a7519a…:
+  CLASS serialization-schema k=5 n=10 cell=executed 3 of 10
+  DEFECT CLASS-K-MISMATCH serialization-schema cell=3 of 10 ledger=5 of 10
+  DEFECT CLASS-K-MISMATCH file-artifact cell=24 of 76 ledger=29 of 76
+  (9 further CLASS-K-MISMATCH lines; 14 DEFECTS total; PREDICATE R79-C1 fail; rc 1)
+  -- matching the lane's own receipt .ufo/waves/round-95/L1/legacy-r79-gate.txt
+at T afe9c229e37a…:
+  CLASS serialization-schema k=6 n=10 cell=executed 6 of 10
+  DEFECTS n=0   PREDICATE R79-C1 pass   rc 0
+
+## serialization-schema executed members per round, from the ledger
+  F: 5 executed -> r40 db-wal-recovery, r85 sqlite-db-truncate, r86 raman-fitting, r90 merge-diff-arc-agi-task, r92 llm-inference-batching-scheduler
+  T: 6 executed -> r40 db-wal-recovery, r85 sqlite-db-truncate, r86 raman-fitting, r90 merge-diff-arc-agi-task, r92 llm-inference-batching-scheduler, r95 fix-code-vulnerability
+
+## the SKILL.md parenthetical names only some of them (partial provenance list, house convention)
+  cell:  executed 6 of 10 (round 86 adds `raman-fitting`; round 85 adds `sqlite-db-truncate` to round 40's `db-wal-recovery`) 

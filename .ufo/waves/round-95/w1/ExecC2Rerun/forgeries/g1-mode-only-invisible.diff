@@ -1,0 +1,15 @@
+--- /fast/scratch/hyaku/kengaku-r95/ExecC2Rerun/lane/plans/round94_freeze_integrity.py	2026-11-05 20:13:52.182933768 -0300
++++ g1-mode-only-invisible.py	2026-11-05 20:20:57.187558330 -0300
+@@ -131,7 +131,11 @@
+         log = git(root, "rev-list", "--full-history", f"{f}..{t}", "--", p)
+         if log.returncode != 0:
+             raise CouldNotEvaluate(f"rev-list failed for {p}")
+-        touched = len([x for x in log.stdout.decode().split() if x])
++        touched = 0
++        for c in log.stdout.decode().split():
++            ns = git(root, "show", "--numstat", "--format=", c, "--", p).stdout.decode().splitlines()
++            if any(line.split("\t")[:2] != ["0", "0"] for line in ns if line.strip()):
++                touched += 1
+         reasons = []
+         if at_f is None or sha(at_f) != want:
+             reasons.append("freeze-bytes-differ-from-table")

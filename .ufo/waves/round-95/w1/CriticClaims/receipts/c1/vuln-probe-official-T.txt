@@ -1,0 +1,32 @@
+# tb2 fix-code-vulnerability grader probe (round 95)
+MEMBER fix-code-vulnerability
+SUBJECT_SHA c006a5de95b69bd78055aa26cc055734dbd50718ede25d331f767bfee4ef7f26
+SOLVE_SHA 7a0131b369d83ae8546ecc3f9b4e23d38240f1bd1f0941e4430fa85b5182ee03
+UPSTREAM_BOTTLE_SHA abf643683b4870e07500f8a035d1a076d4bf0bbf98eb2fb5180fbc3ef8fad802
+VULNERABLE_BOTTLE_SHA 761756ce31753e526c48d28ccbca13a5d2493b16fe37aff3e1e4d2efaf3a2bba
+TOOL_SHA 932e66b1e47662b687a4fe9994b09ebda8453e8dc2e0b1728569adbd9bb1c775
+CASE_TABLE_SHA ff361d141561a9763b68e478e8ff0257beb6f407fc9f41eda1ff6b5b8c0266e8
+LANE_TIP d9cd18a7519a58a1fa6d1cb9768e3873c31cd545
+HOST_PYTHON Python 3.14.8
+HOST_BASH GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+HOST_SED /usr/bin/sed (GNU sed) 4.10
+HOST_USERNS 122865
+LEG_ORDER exists,vul_file,cwe_id,hkey_basic,hkey_error,hkey_real,imported
+OBSERVATIONS_BEGIN
+CASE C01 predicted=P,P,P,P,P,P,/app/bottle.py observed=P,P,P,P,P,P,/app/bottle.py ok=True
+CASE C02 predicted=F,E:FileNotFoundError,E:FileNotFoundError,P,F,P,/app/bottle.py observed=F,E:FileNotFoundError,E:FileNotFoundError,P,F,P,/app/bottle.py ok=True
+CASE C03 predicted=P,P,P,P,F,P,/app/bottle.py observed=P,P,P,P,F,P,/app/bottle.py ok=True
+CASE C04 predicted=F,E:FileNotFoundError,E:FileNotFoundError,P,P,P,/app/bottle.py observed=F,E:FileNotFoundError,E:FileNotFoundError,P,P,P,/app/bottle.py ok=True
+CASE C05 predicted=P,P,P,P,P,P,/app/bottle.py observed=P,P,P,P,P,P,/app/bottle.py ok=True
+CASE C06 predicted=P,P,P,P,P,P,/app/bottle.py observed=P,P,P,P,P,P,/app/bottle.py ok=True
+CASE C07 predicted=P,F,E:KeyError,P,P,P,/app/bottle.py observed=P,F,E:KeyError,P,P,P,/app/bottle.py ok=True
+CASE C08 predicted=P,P,F,P,P,P,/app/bottle.py observed=P,P,F,P,P,P,/app/bottle.py ok=True
+CASE C09 predicted=P,P,P,P,P,P,/app/bottle.py observed=P,P,P,P,P,P,/app/bottle.py ok=True
+CASE C10 predicted=P,E:JSONDecodeError,E:JSONDecodeError,P,P,P,/app/bottle.py observed=P,E:JSONDecodeError,E:JSONDecodeError,P,P,P,/app/bottle.py ok=True
+CASE C11 predicted=P,P,P,P,P,P,/app/bottle.py observed=P,P,P,P,P,P,/app/bottle.py ok=True
+CASE C12 predicted=P,P,P,P,F,P,/app/bottle.py observed=P,P,P,P,F,P,/app/bottle.py ok=True
+CASE C13 predicted=P,P,P,E:ValueError,P,E:ValueError,/app/bottle.py observed=P,P,P,E:ValueError,P,E:ValueError,/app/bottle.py ok=True
+CASE C14 predicted=P,P,F,P,P,P,/app/bottle.py observed=P,P,F,P,P,P,/app/bottle.py ok=True
+CASE C15 predicted=P,P,P,P,P,P,/app/bottle/__init__.py observed=P,P,P,P,P,P,/app/bottle/__init__.py ok=True
+OBSERVATIONS_END
+mismatches 0

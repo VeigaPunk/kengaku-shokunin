@@ -1,0 +1,70 @@
+# bottle test-tree scan @ 0207a34f0c5716cd292dd4480253ad35d3da49f3 (tarball 829931 B, HTTP 200)
+
+test files: 30
+
+## grep -rni "hval|injection|_hkey" test/  (expect no output)
+[rc=1 — 1 means zero matches]
+
+## grep -rni injection  (whole tree, expect no output)
+[rc=1 — 1 means zero matches]
+
+## _hkey/_hval references in bottle.py (call sites)
+1560:def _hkey(key):
+1567:def _hval(value):
+1703:        return _hkey(name) in self._headers
+1706:        del self._headers[_hkey(name)]
+1709:        return self._headers[_hkey(name)][-1]
+1712:        self._headers[_hkey(name)] = [_hval(value)]
+1717:        return self._headers.get(_hkey(name), [default])[-1]
+1722:        self._headers[_hkey(name)] = [_hval(value)]
+1726:        self._headers.setdefault(_hkey(name), []).append(_hval(value))
+1750:                out.append(('Set-Cookie', _hval(c.OutputString())))
+2181:        return _hkey(key) in self.dict
+2184:        del self.dict[_hkey(key)]
+2187:        return self.dict[_hkey(key)][-1]
+2190:        self.dict[_hkey(key)] = [_hval(value)]
+2193:        self.dict.setdefault(_hkey(key), []).append(_hval(value))
+2196:        self.dict[_hkey(key)] = [_hval(value)]
+2199:        return self.dict.get(_hkey(key)) or []
+2202:        return MultiDict.get(self, _hkey(key), default, index)
+2205:        for name in (_hkey(n) for n in names):
+2243:                yield _hkey(key[5:])
+2245:                yield _hkey(key)
+
+## test/test_environ.py:735-755 (behavioral control-char header test)
+   735	    def test_prevent_control_characters_in_headers(self):
+   736	        masks = '{}test', 'test{}', 'te{}st'
+   737	        tests = '\n', '\r', '\n\r', '\0'
+   738	
+   739	        # Test HeaderDict
+   740	        apis = 'append', 'replace', '__setitem__', 'setdefault'
+   741	        for api, mask, test in itertools.product(apis, masks, tests):
+   742	            hd = bottle.HeaderDict()
+   743	            func = getattr(hd, api)
+   744	            value = mask.replace("{}", test)
+   745	            self.assertRaises(ValueError, func, value, "test-value")
+   746	            self.assertRaises(ValueError, func, "test-name", value)
+   747	
+   748	        # Test functions on BaseResponse
+   749	        apis = 'add_header', 'set_header', '__setitem__'
+   750	        for api, mask, test in itertools.product(apis, masks, tests):
+   751	            rs = bottle.BaseResponse()
+   752	            func = getattr(rs, api)
+   753	            value = mask.replace("{}", test)
+   754	            self.assertRaises(ValueError, func, value, "test-value")
+   755	            self.assertRaises(ValueError, func, "test-name", value)
+
+## test/test_environ.py header-related test defs
+129:    def test_header_access(self):
+140:    def test_header_access_special(self):
+364:    def test_json_noheader(self):
+394:    def test_json_forged_header_issue616(self):
+403:    def test_json_header_empty_body(self):
+493:    def test_constructor_headerlist(self):
+499:    def test_wsgi_header_values(self):
+691:    def test_set_header(self):
+705:    def test_append_header(self):
+719:    def test_delete_header(self):
+726:    def test_non_string_header(self):
+735:    def test_prevent_control_characters_in_headers(self):
+757:    def test_expires_header(self):

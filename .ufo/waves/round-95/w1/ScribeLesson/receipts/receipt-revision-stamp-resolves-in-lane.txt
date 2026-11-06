@@ -1,0 +1,26 @@
+# receipt: receipt-revision-stamp-resolves-in-lane.txt
+# seat ScribeLesson, round 95 w1, 2026-11-05T20:44:19-03:00
+# command per receipt: git -C <lane> cat-file -e <HEAD stamped on line 1>^{commit}
+
+=== .ufo/waves/round-95/L1/c1-tip.txt
+  line1: # R95-C1 counter at T, cwd /fast/scratch/hyaku/kengaku-r95/L1/t HEAD afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239
+  stamped HEAD: afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239
+  cat-file -e: OK (commit resolves in the lane)  rc=0
+=== .ufo/waves/round-95/L1/c2-tip.txt
+  line1: # R95-C2 census at T, cwd /fast/scratch/hyaku/kengaku-r95/L1/t HEAD afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239
+  stamped HEAD: afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239
+  cat-file -e: OK (commit resolves in the lane)  rc=0
+=== .ufo/waves/round-95/L1/c2-tip-do-nothing-r94-counter.txt
+  line1: # do-nothing at T: census scoring the frozen round-94 counter, cwd /fast/scratch/hyaku/kengaku-r95/L1/t HEAD afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239
+  stamped HEAD: afe9c229e37aecc0b52b78b0e5c7dd80cf0cf239
+  cat-file -e: OK (commit resolves in the lane)  rc=0
+=== .ufo/waves/round-95/L1/mistake-M1-c2-tip-wrong-cwd.txt
+  line1: # R95-C2 census at T, cwd /home/vgpnk/Projects/shokunin HEAD 9b93fc8fbbdb53221694f1e24d6c1f6044d37d2c
+  stamped HEAD: 9b93fc8fbbdb53221694f1e24d6c1f6044d37d2c
+  cat-file -e: FAIL (not an object of this lane)  rc=128
+
+# the two stamped revisions are heads of two DIFFERENT repositories:
+  lane  /home/vgpnk/Projects/shokunin/kengaku-shokunin : ea19299d8dacb6d024c429c53982fb5a73d50035
+  fleet /home/vgpnk/Projects/shokunin                  : 9b93fc8fbbdb53221694f1e24d6c1f6044d37d2c
+  the M1 stamp resolves in the fleet root: commit
+  the good stamp resolves in the fleet root: fatal: git cat-file: could not get object info

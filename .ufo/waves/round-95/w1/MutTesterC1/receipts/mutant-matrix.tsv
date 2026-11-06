@@ -1,0 +1,33 @@
+id	description	committed_verdict_kill	committed_designated_kill	committed_leg_only_kill	T_verdict	held_out_flips(rc differs; m12 excluded)	r94_analogue_control_kill	status
+m01	L7 member-set check dropped (set_ok = True)	-	-	-	-	C-swap,D-squash	-	SURVIVES committed; verdict-flipped by held-out fixture
+m02	L7 BASE-ledger-absent fail-open (set_ok = not base_bytes or ...)	-	-	-	-	D-squash	-	SURVIVES committed; verdict-flipped by held-out fixture
+m03	L5 both coverage clauses dropped (seen-set and count)	-	D6-cases-dropped	D6-cases-dropped,ledger-only,at-P1	-	-	ledger-only	KILLED by committed control (verdict/designated)
+m03a	L5 seen-set clause dropped (count kept)	-	-	-	-	-	-	SURVIVES everything (equivalent/redundant on evidence)
+m03b	L5 count clause dropped (seen-set kept)	-	-	-	-	-	-	SURVIVES everything (equivalent/redundant on evidence)
+m04	L6 compares observation COUNTS not lines	-	-	-	-	-	-	SURVIVES everything (equivalent/redundant on evidence)
+m05	L4 frozen table read at --rev, not at the adding commit	-	-	-	-	B2-table-claims	-	SURVIVES committed; verdict-flipped by held-out fixture
+m06	L9 stamps skipped (l9 = True or ...)	-	-	D4-probe-swap,ledger-only,base,at-P1	-	I-host-python,J-host-bash,K-host-sed	ledger-only	KILLED by committed control (leg-level only)
+m07	L2 checks only the grader pin	-	-	-	-	-	-	SURVIVES everything (equivalent/redundant on evidence)
+m08	sandbox branch could-not-evaluate/rc2 -> fail/rc1	sandbox-red	sandbox-red	-	-	-	sandbox-red	KILLED by committed control (verdict/designated)
+m09	L1 receipt-absent accepted (l1 = True)	-	ledger-only	ledger-only,base,at-P1	-	-	ledger-only	KILLED by committed control (verdict/designated)
+m10	L3 ancestor check dropped	D5-foreign-lane-tip	D5-foreign-lane-tip	-	-	-	-	KILLED by committed control (verdict/designated)
+m11	L8 probe-sha pin dropped	-	D4-probe-swap	D4-probe-swap	-	-	-	KILLED by committed control (verdict/designated)
+m12	exit-code collapse (return 0 always)	D4-probe-swap,D5-foreign-lane-tip,D6-cases-dropped,D7-stamp-forged,D8-legacy-fields-omitted,ledger-only,member-swap,base,at-P1	D4-probe-swap,D5-foreign-lane-tip,D6-cases-dropped,D7-stamp-forged,D8-legacy-fields-omitted,ledger-only,member-swap	-	-	(all: exit-collapse)	ledger-only,member-swap	KILLED by committed control (verdict/designated)
+m13	__main__ could-not-evaluate handler -> fail/rc1	-	-	-	-	UNRESOLVED,WORK-INSIDE-LANE	-	SURVIVES committed; verdict-flipped by held-out fixture
+m03+m04	interaction: m03 and m04 together	-	D6-cases-dropped	D6-cases-dropped,ledger-only,at-P1	-	A-dup	ledger-only	KILLED by committed control (verdict/designated)
+n01	L6 stamps_equal dropped	D7-stamp-forged	D7-stamp-forged	D4-probe-swap	-	-	-	KILLED by committed control (verdict/designated)
+n02	L7 legacy_ok dropped (receipt/subject/verdict fields unchecked)	D8-legacy-fields-omitted	D8-legacy-fields-omitted	-	-	-	-	KILLED by committed control (verdict/designated)
+n03	L2 UPSTREAM_BOTTLE_SHA receipt pin dropped	-	-	-	-	E-upstream	-	SURVIVES committed; verdict-flipped by held-out fixture
+n04	--work-inside-lane guard dropped	-	-	-	-	WORK-INSIDE-LANE	-	SURVIVES committed; verdict-flipped by held-out fixture
+n05	L5 frozen-vector comparison dropped (obs != pred only)	-	-	-	-	-	-	SURVIVES everything (equivalent/redundant on evidence)
+n06	L7 member classes check dropped	-	-	-	-	G-member-classes	-	SURVIVES committed; verdict-flipped by held-out fixture
+n07	L7 executed total and class cells dropped	-	-	-	-	F-classes-other	-	SURVIVES committed; verdict-flipped by held-out fixture
+n08	L3 merge-base arguments reversed	pos	pos	D6-cases-dropped,D7-stamp-forged,D8-legacy-fields-omitted,member-swap	V	-	member-swap	KILLED by committed control (verdict/designated)
+n09	L4 table pin dropped (l4 = frozen row present only)	-	-	-	-	B1-table,B2-table-claims	-	SURVIVES committed; verdict-flipped by held-out fixture
+n10	L9 HOST_SED stamp dropped	-	-	-	-	K-host-sed	-	SURVIVES committed; verdict-flipped by held-out fixture
+n11	L9 HOST_BASH stamp dropped	-	-	-	-	J-host-bash	-	SURVIVES committed; verdict-flipped by held-out fixture
+n12	L9 HOST_PYTHON stamp dropped	-	-	-	-	I-host-python	-	SURVIVES committed; verdict-flipped by held-out fixture
+n13	rerun ignores injected sandbox (--bwrap not passed to probe rerun)	-	-	-	-	BROKEN-SANDBOX	-	SURVIVES committed; verdict-flipped by held-out fixture
+n14	parse_receipt drops CASE lines (cases always empty)	pos	pos	D4-probe-swap,D5-foreign-lane-tip,D7-stamp-forged,D8-legacy-fields-omitted,member-swap	V	-	member-swap	KILLED by committed control (verdict/designated)
+n15	L6 probe rerun return-code check dropped	-	-	-	-	-	-	SURVIVES everything (equivalent/redundant on evidence)
+n16	L6 receipt-stamp presence check dropped (equality only)	-	-	D4-probe-swap	-	-	-	KILLED by committed control (leg-level only)

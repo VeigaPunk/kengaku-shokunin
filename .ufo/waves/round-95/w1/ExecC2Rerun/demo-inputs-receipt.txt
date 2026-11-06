@@ -1,0 +1,200 @@
+INPUT I1 chmod-only-after-freeze
+  round94_freeze_integrity.py  rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=1 verdict=broken:touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+      PREDICATE freeze-integrity fail
+  g1-mode-only-invisible.py    rc=0
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+      PREDICATE freeze-integrity pass
+  g2-dot-row-dropped.py        rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=1 verdict=broken:touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+      PREDICATE freeze-integrity fail
+  g3-ancestry-path.py          rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=1 verdict=broken:touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+      PREDICATE freeze-integrity fail
+  g4-gitlink-row-skipped.py    rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=1 verdict=broken:touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+      PREDICATE freeze-integrity fail
+  g5-nonascii-row-skipped.py   rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=1 verdict=broken:touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+      PREDICATE freeze-integrity fail
+  e5-crlf-equivalent.py        rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=1 verdict=broken:touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+      PREDICATE freeze-integrity fail
+INPUT I2 dotfile-edited-after-freeze
+  round94_freeze_integrity.py  rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT .probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g1-mode-only-invisible.py    rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT .probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g2-dot-row-dropped.py        rc=0
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+      PREDICATE freeze-integrity pass
+  g3-ancestry-path.py          rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT .probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g4-gitlink-row-skipped.py    rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT .probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g5-nonascii-row-skipped.py   rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT .probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  e5-crlf-equivalent.py        rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT .probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+INPUT I3 pre-freeze-side-edit-treesame-merge
+  round94_freeze_integrity.py  rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=2 verdict=broken:touched-after-freeze=2
+      FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+      PREDICATE freeze-integrity fail
+  g1-mode-only-invisible.py    rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=1 verdict=broken:touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+      PREDICATE freeze-integrity fail
+  g2-dot-row-dropped.py        rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=2 verdict=broken:touched-after-freeze=2
+      FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+      PREDICATE freeze-integrity fail
+  g3-ancestry-path.py          rc=0
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+      PREDICATE freeze-integrity pass
+  g4-gitlink-row-skipped.py    rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=2 verdict=broken:touched-after-freeze=2
+      FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+      PREDICATE freeze-integrity fail
+  g5-nonascii-row-skipped.py   rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=2 verdict=broken:touched-after-freeze=2
+      FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+      PREDICATE freeze-integrity fail
+  e5-crlf-equivalent.py        rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=2 verdict=broken:touched-after-freeze=2
+      FREEZE-INTEGRITY instruments=1 intact=0 broken=1
+      PREDICATE freeze-integrity fail
+INPUT I4 gitlink-bumped-after-freeze
+  round94_freeze_integrity.py  rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT vendor/sub table=2d711642b726 freeze=absent rev=absent touched=1 verdict=broken:freeze-bytes-differ-from-table+absent-at-rev+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g1-mode-only-invisible.py    rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT vendor/sub table=2d711642b726 freeze=absent rev=absent touched=1 verdict=broken:freeze-bytes-differ-from-table+absent-at-rev+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g2-dot-row-dropped.py        rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT vendor/sub table=2d711642b726 freeze=absent rev=absent touched=1 verdict=broken:freeze-bytes-differ-from-table+absent-at-rev+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g3-ancestry-path.py          rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT vendor/sub table=2d711642b726 freeze=absent rev=absent touched=1 verdict=broken:freeze-bytes-differ-from-table+absent-at-rev+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g4-gitlink-row-skipped.py    rc=0
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+      PREDICATE freeze-integrity pass
+  g5-nonascii-row-skipped.py   rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT vendor/sub table=2d711642b726 freeze=absent rev=absent touched=1 verdict=broken:freeze-bytes-differ-from-table+absent-at-rev+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  e5-crlf-equivalent.py        rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT vendor/sub table=2d711642b726 freeze=absent rev=absent touched=1 verdict=broken:freeze-bytes-differ-from-table+absent-at-rev+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+INPUT I5 crlf-row-edited-after-freeze
+  round94_freeze_integrity.py  rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT other.py table=cb78bd8a17f7 freeze=cb78bd8a17f7 rev=1382c01db535 touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g1-mode-only-invisible.py    rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT other.py table=cb78bd8a17f7 freeze=cb78bd8a17f7 rev=1382c01db535 touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g2-dot-row-dropped.py        rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT other.py table=cb78bd8a17f7 freeze=cb78bd8a17f7 rev=1382c01db535 touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g3-ancestry-path.py          rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT other.py table=cb78bd8a17f7 freeze=cb78bd8a17f7 rev=1382c01db535 touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g4-gitlink-row-skipped.py    rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT other.py table=cb78bd8a17f7 freeze=cb78bd8a17f7 rev=1382c01db535 touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g5-nonascii-row-skipped.py   rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT other.py table=cb78bd8a17f7 freeze=cb78bd8a17f7 rev=1382c01db535 touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  e5-crlf-equivalent.py        rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT other.py table=cb78bd8a17f7 freeze=cb78bd8a17f7 rev=1382c01db535 touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+INPUT I6 nonascii-path-edited-after-freeze
+  round94_freeze_integrity.py  rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT probé.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g1-mode-only-invisible.py    rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT probé.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g2-dot-row-dropped.py        rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT probé.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g3-ancestry-path.py          rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT probé.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g4-gitlink-row-skipped.py    rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT probé.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+  g5-nonascii-row-skipped.py   rc=0
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+      PREDICATE freeze-integrity pass
+  e5-crlf-equivalent.py        rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT probé.py table=9054efbf95e3 freeze=9054efbf95e3 rev=be49febe219b touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+demo rc=0

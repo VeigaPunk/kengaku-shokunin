@@ -1,0 +1,9 @@
+A: notes.md (commented row) edited after freeze
+  [A] gate=round94_freeze_integrity rc=2 DEFECT SETUP malformed table row '# 444e0fffbd825e9610ff5b199485707a0c895339ae80c15cc8a8aee41b' PREDICATE freeze-integrity could-not-evaluate 
+  [A] gate=HO-A-comment-row-skipped rc=0 INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact PREDICATE freeze-integrity pass 
+B: paths mode probe.py edited then reverted (bytes at rev == freeze bytes)
+  [B] gate=round94_freeze_integrity rc=1 INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=2 verdict=broken:touched-after-freeze=2 PREDICATE freeze-integrity fail 
+  [B] gate=HO-B-paths-mode-no-history rc=0 INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact PREDICATE freeze-integrity pass 
+C: edit-then-revert, then 60 unrelated commits (claims mode)
+  [C] gate=round94_freeze_integrity rc=1 INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=2 verdict=broken:touched-after-freeze=2 PREDICATE freeze-integrity fail 
+  [C] gate=HO-C-history-window-50 rc=1 INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=2 verdict=broken:touched-after-freeze=2 PREDICATE freeze-integrity fail 

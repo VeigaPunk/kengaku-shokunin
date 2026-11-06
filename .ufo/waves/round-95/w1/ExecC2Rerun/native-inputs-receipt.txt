@@ -1,0 +1,19 @@
+N1 refs/replace  (edited probe.py, replaced to frozen bytes)
+  show bbc212d3b73b:probe.py -> 'def count():\n    return 3\n'
+  v2 rc=0
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+      PREDICATE freeze-integrity pass
+N2 symlink  (alias.py -> probe.py; followed content changed, link text unchanged)
+  ls-tree alias.py at rev: 120000 blob 648329c867f45d9573483c3af8e1bb4ea8bad748	alias.py
+  v2 rc=0
+      INSTRUMENT alias.py table=253202dc7674 freeze=253202dc7674 rev=253202dc7674 touched=0 verdict=intact
+      FREEZE-INTEGRITY instruments=1 intact=1 broken=0
+      PREDICATE freeze-integrity pass
+N3 gitlink  (submodule pin unchanged; nothing touched after freeze)
+  v2 rc=1
+      INSTRUMENT probe.py table=9054efbf95e3 freeze=9054efbf95e3 rev=9054efbf95e3 touched=0 verdict=intact
+      INSTRUMENT vendor/sub table=2d711642b726 freeze=absent rev=absent touched=0 verdict=broken:freeze-bytes-differ-from-table+absent-at-rev
+      FREEZE-INTEGRITY instruments=2 intact=1 broken=1
+      PREDICATE freeze-integrity fail
+native rc=0

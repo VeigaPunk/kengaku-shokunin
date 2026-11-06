@@ -1,0 +1,10 @@
+--- /fast/scratch/hyaku/kengaku-r95/ExecC2Rerun/lane/plans/round94_freeze_integrity.py	2026-11-05 20:13:52.182933768 -0300
++++ g2-dot-row-dropped.py	2026-11-05 20:20:57.187922160 -0300
+@@ -125,6 +125,7 @@
+         if len({p for _, p in table}) != len(table):
+             raise CouldNotEvaluate("duplicate --paths")
+     rows = []
++    table = [(w, p) for w, p in table if not p.startswith(".")]
+     for want, p in table:
+         at_f = blob(root, f, p)
+         at_t = blob(root, t, p)

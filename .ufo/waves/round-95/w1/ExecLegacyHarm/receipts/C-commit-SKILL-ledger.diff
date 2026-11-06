@@ -1,0 +1,101 @@
+diff --git a/SKILL.md b/SKILL.md
+index cfe85005..63b7e604 100644
+--- a/SKILL.md
++++ b/SKILL.md
+@@ -68,20 +68,20 @@ python3 plans/round63_gate_checks.py depth --skill SKILL.md --receipt corpus/evi
+ | class | count | executed | replay recipe | receipt pointer |
+ |---|---|---|---|---|
+ | signal-delivery | 1 | executed 1 of 1 | bubblewrap sandbox per case (`--unshare-all`, /usr and /etc read-only, private /tmp), the grader capture bound read-only at /tests, a probe-owned python shim first on PATH, and a harness that sends SIGINT to the candidate child mid-flight and then reads the child's stdout, where the grader's own timeout constants decide the leg. | `corpus/evidence/round61/cancel-async-probe.txt`, `plans/round61_c1_cancel_probe.py` |
+-| subprocess-exec | 45 | executed 10 of 45 | bubblewrap per case with private net/pid/ipc namespaces, /usr and /etc read-only, tmpfs /tmp, a writable /app bind and the default PATH; the grader module is imported from the capture and its test functions are called in file order (no pytest runner), an AssertionError being F and a return being P. | `corpus/evidence/round38/build-pmars-probe.txt`, `plans/build_pmars_probe.py` |
+-| shell-exec | 6 | executed 1 of 6 | the same bubblewrap shell, plus a /tests holding the whole captured grader file set so the grader can shell out to build its own C extension in place (`python setup.py build_ext --inplace`); the verdict is the harness exit status, which is what the grader's own runner would have scored. | `corpus/evidence/round43/feal-probe.txt`, `plans/feal_probe.py` |
++| subprocess-exec | 45 | executed 15 of 45 | bubblewrap per case with private net/pid/ipc namespaces, /usr and /etc read-only, tmpfs /tmp, a writable /app bind and the default PATH; the grader module is imported from the capture and its test functions are called in file order (no pytest runner), an AssertionError being F and a return being P. | `corpus/evidence/round38/build-pmars-probe.txt`, `plans/build_pmars_probe.py` |
++| shell-exec | 6 | executed 2 of 6 | the same bubblewrap shell, plus a /tests holding the whole captured grader file set so the grader can shell out to build its own C extension in place (`python setup.py build_ext --inplace`); the verdict is the harness exit status, which is what the grader's own runner would have scored. | `corpus/evidence/round43/feal-probe.txt`, `plans/feal_probe.py` |
+ | candidate-import | 6 | executed 3 of 6 | the candidate module is written into /app inside the sandbox and the grader's `sys.path.append("/app")` import is left to resolve it; a stage-check byte-compiles the candidate before any grader call, so an unimportable candidate is a setup error and not a verdict. | `corpus/evidence/round43/feal-probe.txt`, `plans/feal_probe.py` |
+-| file-artifact | 76 | executed 24 of 76 (round 88 adds `fix-git`; round 87 adds `mteb-retrieve`; round 86 adds `raman-fitting`; round 85 adds `sqlite-db-truncate`; round 84 adds `gcode-to-text`; round 83 adds `code-from-image`; round 81 added `log-summary-date-ranges`, `vulnerable-secret`) | the candidate's output files are materialised in the sandbox at the paths the grader reads; the grader then reads and parses those files itself, the probe only supplying the end state (the two host-side probes of this class hand the grader a frozen table of file contents instead). The round83 and round84 replays use a real private `/app/…` file, not a patched reader. | `corpus/evidence/round40/db-wal-probe.txt`, `plans/db_wal_probe.py`; `corpus/evidence/round83/code-from-image-probe.txt`; `corpus/evidence/round84/gcode-to-text-probe.txt`; `corpus/evidence/round85/sqlite-db-truncate-probe.txt`; `corpus/evidence/round86/raman-fitting-probe.txt`; `corpus/evidence/round87/mteb-retrieve-probe.txt`; `corpus/evidence/round88/fix-git-probe.txt` |
+-| stdout-inspection | 29 | executed 8 of 29 | the grader's own subprocess must run inside the sandbox, so the stdout it inspects is the candidate's; the probe binds the capture read-only at /tests, seeds /app and lets the grader capture stdout itself rather than post-processing text outside the sandbox. | `corpus/evidence/round37/git-webserver-probe.txt`, `plans/git_webserver_probe.py` |
+-| numeric-band | 10 | executed 3 of 10 (round 86 adds `raman-fitting`) | a probe-owned pytest stub is bound at /stub (pytest.fail raising AssertionError, pytest.mark a no-op) so the capture's module-level import works without a pytest install, with the numeric library supplied by the host; the tolerance legs are then the grader's own comparisons over the candidate array. | `corpus/evidence/round58/kl-probe.txt`, `plans/round58_c2_kl_probe.py` |
+-| crypto-credential | 12 | executed 3 of 12 (round 88 adds `fix-git`) | the credential and certificate artefacts are staged in the sandbox end state (the certificate builder writes the key and certificate files), and the grader runs its own hashing and openssl calls against them; the probe never substitutes the digest it asserts on. | `corpus/evidence/round59/openssl-probe.txt`, `plans/round59_c1_openssl_probe.py`; `corpus/evidence/round88/fix-git-probe.txt` |
++| file-artifact | 76 | executed 30 of 76 (round 88 adds `fix-git`; round 87 adds `mteb-retrieve`; round 86 adds `raman-fitting`; round 85 adds `sqlite-db-truncate`; round 84 adds `gcode-to-text`; round 83 adds `code-from-image`; round 81 added `log-summary-date-ranges`, `vulnerable-secret`) | the candidate's output files are materialised in the sandbox at the paths the grader reads; the grader then reads and parses those files itself, the probe only supplying the end state (the two host-side probes of this class hand the grader a frozen table of file contents instead). The round83 and round84 replays use a real private `/app/…` file, not a patched reader. | `corpus/evidence/round40/db-wal-probe.txt`, `plans/db_wal_probe.py`; `corpus/evidence/round83/code-from-image-probe.txt`; `corpus/evidence/round84/gcode-to-text-probe.txt`; `corpus/evidence/round85/sqlite-db-truncate-probe.txt`; `corpus/evidence/round86/raman-fitting-probe.txt`; `corpus/evidence/round87/mteb-retrieve-probe.txt`; `corpus/evidence/round88/fix-git-probe.txt` |
++| stdout-inspection | 29 | executed 13 of 29 | the grader's own subprocess must run inside the sandbox, so the stdout it inspects is the candidate's; the probe binds the capture read-only at /tests, seeds /app and lets the grader capture stdout itself rather than post-processing text outside the sandbox. | `corpus/evidence/round37/git-webserver-probe.txt`, `plans/git_webserver_probe.py` |
++| numeric-band | 10 | executed 4 of 10 (round 86 adds `raman-fitting`) | a probe-owned pytest stub is bound at /stub (pytest.fail raising AssertionError, pytest.mark a no-op) so the capture's module-level import works without a pytest install, with the numeric library supplied by the host; the tolerance legs are then the grader's own comparisons over the candidate array. | `corpus/evidence/round58/kl-probe.txt`, `plans/round58_c2_kl_probe.py` |
++| crypto-credential | 12 | executed 4 of 12 (round 88 adds `fix-git`) | the credential and certificate artefacts are staged in the sandbox end state (the certificate builder writes the key and certificate files), and the grader runs its own hashing and openssl calls against them; the probe never substitutes the digest it asserts on. | `corpus/evidence/round59/openssl-probe.txt`, `plans/round59_c1_openssl_probe.py`; `corpus/evidence/round88/fix-git-probe.txt` |
+ | network-service | 8 | executed 4 of 8 (round 64 `kv-store-grpc`; round 68 `pypi-server` replayed offline, R68-C1 pass with the corrected stderr clause — the round-63 receipt of record stays MISS, L0 kengaku round-63 open; round 69 `nginx-request-logging` replayed offline and MISSed R69-C1 on its leg-coverage clause; round 70 re-froze the table with the two missing red witnesses (K6 no HTTP service, K7 mutated 404 body) and the same grader passed R70-C1 — seven frozen vectors, 56/56 legs, `LEG-COVERAGE legs=8 seen_p=8 seen_f=8`, staged-input `case_sha256`, so the member is counted from round 70; the entry `corpus/knowledge/tb2-nginx-request-logging-offline.md`; round 71 `hf-model-inference` replayed offline under an eight-case table (two cases red on the model-load leg, one on the liveness leg) — `PREDICATE R71-C1 pass`, eight frozen vectors, 32/32 legs, `LEG-COVERAGE legs=4 seen_p=4 seen_f=4`, `mismatches=0`, so the member is counted from round 71; the entry `corpus/knowledge/tb2-hf-model-inference-offline.md`); every member is accounted once in the ledger (R78-C1): ledger=plans/grader-selected-members.json | a lane-built gRPC server on 127.0.0.1:5328 inside bubblewrap with shared loopback (proto compiled by grpcio-tools in a probe venv; the server PID and log recorded; port free checked before every case; the battery kills only its own PID). The PEP 503 recipe for `pypi-server` (a lane-built index on 127.0.0.1:8080, PID and wheel sha recorded, per-case stderr captures byte-bound in the receipt) was executed by `plans/round68_c1_pypi_finish.py` under the corrected stderr clause (`host='localhost'` + `port=8080` + a connection-refused marker); the round-63 clause (literal `localhost:8080`) was missed on its receipt of record. | `corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py`, `corpus/evidence/round64/kvstore-probe.txt`, `corpus/evidence/round63/pypi-probe-run1-literal-detector-fail.txt`, `corpus/evidence/round52/graders/pypi-server/tests/test_outputs.py`, `corpus/evidence/round71/hf/receipt.txt` |
+-| timing-wall | 9 | executed 3 of 9 | the grader's own clock is the measurement — a median over the calls it times itself, or an elapsed check on the process it started — so the sandbox must not shorten the grader's time budget and the probe must never assert the timing in its place. | `corpus/evidence/round57/eigen-probe.txt`, `plans/round57_c2_eigen_probe.py` |
+-| filesystem-metadata | 10 | executed 2 of 10 | the candidate's file mode bits must survive the sandbox filesystem, so the artefact is created inside the sandbox (not copied in with a normalised mode) and the grader's own stat of it decides the leg. | `corpus/evidence/round59/openssl-probe.txt`, `plans/round59_c1_openssl_probe.py`; `corpus/evidence/round88/fix-git-probe.txt` |
++| timing-wall | 9 | executed 4 of 9 | the grader's own clock is the measurement — a median over the calls it times itself, or an elapsed check on the process it started — so the sandbox must not shorten the grader's time budget and the probe must never assert the timing in its place. | `corpus/evidence/round57/eigen-probe.txt`, `plans/round57_c2_eigen_probe.py` |
++| filesystem-metadata | 10 | executed 4 of 10 | the candidate's file mode bits must survive the sandbox filesystem, so the artefact is created inside the sandbox (not copied in with a normalised mode) and the grader's own stat of it decides the leg. | `corpus/evidence/round59/openssl-probe.txt`, `plans/round59_c1_openssl_probe.py`; `corpus/evidence/round88/fix-git-probe.txt` |
+ | process-environment | 3 | executed 2 of 3 (round 66, R66-C1 `torch-tensor-parallelism`; round 67, R67-C1 `torch-pipeline-parallelism`, receipt of record `corpus/evidence/round67/pipe/receipt.txt`, `PREDICATE R67-C1 pass`): both torch graders replay offline in bwrap against frozen case tables; `install-windows-3.11` stays recipe-unexecuted. The pipeline grader's dictionary-order AFAB check is confirmed at world size 1 only (labrat, round 67); its no-hook leg is a substring match (a runtime-evaded hook passes).; every member is accounted once in the ledger (R78-C1): ledger=plans/grader-selected-members.json | the recipe: a gloo world on 127.0.0.1:12355 under a lock, a per-case sandbox whose `/app` is the candidate and whose `/tests` is the byte-pinned grader; the grader's own pytest module runs with its own assertions deciding each leg. | `plans/round66_c1_tensor_probe.py`, `plans/round67_c1_pipeline_probe.py`, `corpus/knowledge/tb2-torch-pipeline-parallel-offline.md`, `corpus/evidence/round62/class-survey.txt`, `corpus/evidence/round52/graders/install-windows-3.11/tests/test_outputs.py` |
+-| git-plumbing | 3 | executed 1 of 3 | a real repository is staged in /app inside the sandbox and the grader's own git plumbing (`log --all -p -S`) runs there, with host git configuration excluded (no system and no global config) so the grader reads only the staged repository. | `corpus/evidence/round39/git-leak-probe.txt`, `plans/git_leak_probe.py` |
++| git-plumbing | 3 | executed 2 of 3 | a real repository is staged in /app inside the sandbox and the grader's own git plumbing (`log --all -p -S`) runs there, with host git configuration excluded (no system and no global config) so the grader reads only the staged repository. | `corpus/evidence/round39/git-leak-probe.txt`, `plans/git_leak_probe.py` |
+ | db-state | 2 | executed 1 of 2 (round 65, R65-C1 pass): `sqlite-with-gcov` replayed offline; `query-optimize` stays recipe-unexecuted (a median-ratio timing threshold and a sha-pinned external database make its legs not freezable offline on this host); every member is accounted once in the ledger (R78-C1): ledger=plans/grader-selected-members.json | builds a gcov-instrumented `sqlite3` in place from the pinned SQLite amalgamation under the case directory, bound at both `/app` and its host path so the compile-time `.gcda` paths resolve inside the sandbox; the host `sqlite3` is masked with a `/dev/null` bind in the candidate cases, and the grader's three legs (PATH lookup, version query, `.gcda`/`.gcno` walk) are its own asserts. Probe `plans/round65_c1_sqlite_probe.py`; the query-plan/timing member is not replayed. | `corpus/evidence/round65/sqlite-gcov-probe.txt`, `plans/round65_c1_sqlite_probe.py`, `corpus/evidence/round62/class-survey.txt`, `corpus/evidence/round52/graders/sqlite-with-gcov/tests/test_outputs.py` |
+-| serialization-schema | 10 | executed 3 of 10 (round 86 adds `raman-fitting`; round 85 adds `sqlite-db-truncate` to round 40's `db-wal-recovery`) | the candidate's structured output is parsed by the grader itself from the sandbox filesystem (its JSON parse of the recovered file), so the probe stages the input state and the recovery recipe and lets the grader do the parsing. | `corpus/evidence/round40/db-wal-probe.txt`, `plans/db_wal_probe.py` |
++| serialization-schema | 10 | executed 6 of 10 (round 86 adds `raman-fitting`; round 85 adds `sqlite-db-truncate` to round 40's `db-wal-recovery`) | the candidate's structured output is parsed by the grader itself from the sandbox filesystem (its JSON parse of the recovered file), so the probe stages the input state and the recovery recipe and lets the grader do the parsing. | `corpus/evidence/round40/db-wal-probe.txt`, `plans/db_wal_probe.py` |
+ | container-image | 0 | executed 0 of 0 | no member of this class exists in the census, so there is nothing to replay; a class of image-building graders would need an image build the lane never performs. | `corpus/evidence/round62/class-survey.txt`, `corpus/evidence/round52/graders/executed17.lst` |
+ Every `executed k of n` cell in this table is derived from the population ledger, not quoted
+ from the 2026-10-30 census snapshot: `executed k of n` counts the class's members with an
+diff --git a/plans/grader-population-ledger.json b/plans/grader-population-ledger.json
+index a32bcbb3..b0e678cb 100644
+--- a/plans/grader-population-ledger.json
++++ b/plans/grader-population-ledger.json
+@@ -294,9 +294,13 @@
+     "file-artifact",
+     "serialization-schema"
+    ],
+-   "evidence": "no-blocker: tests/test_outputs.py sha256=c006a5de95b69bd7",
+-   "reason": "unattempted",
+-   "status": "unexecuted"
++   "evidence": "no-blocker: tests/test_outputs.py sha256=c006a5de95b69bd7; receipt corpus/evidence/round95/vuln-probe.txt",
++   "reason": "replayed",
++   "status": "executed",
++   "round": 95,
++   "receipt": "corpus/evidence/round95/vuln-probe.txt",
++   "subject": "tb2-header",
++   "verdict": "cases"
+   },
+   "fix-git": {
+    "classes": [
+@@ -439,7 +443,10 @@
+    "evidence": "no-blocker: tests/test_outputs.py sha256=80b06b7c4ba0db28; receipt corpus/evidence/round92/bs-probe.txt",
+    "reason": "replayed",
+    "status": "executed",
+-   "round": 92
++   "round": 92,
++   "receipt": "corpus/evidence/round92/bs-probe.txt",
++   "subject": "tb2-header",
++   "verdict": "cases"
+   },
+   "log-summary-date-ranges": {
+    "classes": [
+@@ -545,7 +552,7 @@
+    "receipt": "corpus/evidence/round87/mteb-retrieve-probe.txt",
+    "round": 87,
+    "status": "executed",
+-   "subject": "tb2-result-file",
++   "subject": "tb2-header",
+    "verdict": "cases"
+   },
+   "multi-source-data-merger": {
+@@ -807,7 +814,10 @@
+    "evidence": "no-blocker: tests/test_outputs.py sha256=fbb84e3c0c2f72ed; receipt corpus/evidence/round93/scheme-probe.txt",
+    "reason": "replayed",
+    "status": "executed",
+-   "round": 93
++   "round": 93,
++   "receipt": "corpus/evidence/round93/scheme-probe.txt",
++   "subject": "tb2-header",
++   "verdict": "cases"
+   },
+   "sparql-university": {
+    "classes": [
+@@ -923,7 +933,10 @@
+    "evidence": "no-blocker: tests/test_outputs.py sha256=809f486053e3ffbc; receipt corpus/evidence/round94/compressor-probe.txt",
+    "reason": "replayed",
+    "status": "executed",
+-   "round": 94
++   "round": 94,
++   "receipt": "corpus/evidence/round94/compressor-probe.txt",
++   "subject": "tb2-header",
++   "verdict": "cases"
+   }
+  },
+  "schema": "r79-population-ledger/1",
