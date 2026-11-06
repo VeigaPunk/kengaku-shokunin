@@ -1060,3 +1060,13 @@ Frontier member `regex-chess` moved to executed core (population ledger 41→42)
 | `lessons/round-99.md` | Gate decisions S334–S341, the stochastic-verdict prediction miss (dry run 1), the git-rm control-harness false pass, the typed word counts (Q76 recurrence) | frozen `plans/round-99-claims.md`; `.ufo/waves/round-99/L1/` |
 
 Frontier member `bn-fit-modify` moved to executed core (population ledger 42→43); other unexecuted members stay frontier. The 33 anchor-digest findings remaining at T (rows with no committed capture, wrong-capture digests, multi-token rows) remain open.
+
+## Round-100 coverage-map addition
+
+| entry | newly held ground | source and execution |
+|---|---|---|
+| `knowledge/tb2-financial-document-processor-grader.md` | grading document classification through sha512 SETS and a lookup-by-key CSV check: 11 copies of the total row, ten copies of one invoice row, a duplicate invoice copy and copies retained in a subdirectory all pass; the 0.01 band is strict; header order and BOM split the two CSV readers; first member of the `crypto-credential` class graded through content digests of agent-moved files, with an OCR positive control | S342–S347; `evidence/round100/fdp-probe.txt`; 15 cases × 8 legs at `dbe0cefa` |
+| `evidence/round<N>/PROVENANCE.md` (rounds 52, 58, 94) | path-matched three-cell provenance re-binding 9 TB2 rows the frozen gate had bound to a probe receipt (or to nothing) onto the committed copy of the very file their URL names, each re-fetched live and still equal; row-level census: all 333 BASE rows byte-equal | `plans/round100_c2_rowcensus_bind.py` at `dbe0cefa`: `pop=9 cleared=9 … base_rows_not_equal=0 live_rows=9` |
+| `lessons/round-100.md` | Gate decisions S342–S349; the pre-freeze standing-gate check (M1); census reference vs the round's own pre-freeze bytes (M2–M3); a quote the line gate cannot see (M4) | frozen `plans/round-100-claims.md`; `.ufo/waves/round-100/L1/` |
+
+Frontier member `financial-document-processor` moved to executed core (population ledger 43→44; `crypto-credential` 4→5 of 12). The 23 anchor-digest findings remaining at T (rows with no committed capture, paper/community digests, multi-token rows) remain open.
