@@ -25,7 +25,13 @@ GREEN at --rev, two forged ledger commits are made in the clone on top of --rev
 The counter must then print `PREDICATE R<n>-C1 fail` with rc 1 (bitten). A growth-tolerant L7
 that stops seeing removals is not a repair.
 
+Grow (an absolute re-pin to today's total is not a repair either): for the same counters, one
+forged commit promotes the lexicographically first `unexecuted` member to `executed` (a later
+round adding a member). The counter must still print `PREDICATE R<n>-C1 pass` with rc 0
+(tolerant).
+
     PREDICATE R96-C2 pass  iff  STANDING red=0 of 14  AND  BITES bitten=12 of 12
+                                AND  GROWS tolerant=6 of 6
 
 Usage:  python3 plans/round96_standing_battery.py --lane <repo> --rev <rev> --work <dir> [--jobs N]
 Exit:   0 predicate pass, 1 fail, 2 could-not-evaluate (cwd not the lane root, --work inside the
@@ -105,8 +111,9 @@ def verdict(rc: int, out: str, label: str) -> tuple[str, str]:
     return "red", (first or (out.strip().splitlines() or ["no-output"])[-1])[:200]
 
 
-def forge(clone: Path, rev: str, demote: str, tag: str) -> str:
-    """Commit, in the clone only, a ledger with `demote` set to unexecuted on top of rev."""
+def forge(clone: Path, rev: str, demote: str, tag: str, promote: bool = False) -> str:
+    """Commit, in the clone only, a ledger with `demote` set to unexecuted (or, with promote,
+    set to executed) on top of rev."""
     if git(clone, "rev-parse", "--show-toplevel").stdout.strip() != str(clone):
         raise CouldNotEvaluate(f"fixture clone toplevel mismatch {clone}")
     if git(clone, "checkout", "-q", "--detach", rev).returncode != 0:
@@ -114,8 +121,13 @@ def forge(clone: Path, rev: str, demote: str, tag: str) -> str:
     ledger_path = clone / LEDGER
     data = json.loads(ledger_path.read_text(encoding="utf-8"))
     row = data["members"][demote]
-    data["members"][demote] = {"classes": row["classes"], "evidence": "round96 bite fixture",
-                               "reason": "unattempted", "status": "unexecuted"}
+    if promote:
+        data["members"][demote] = {"classes": row["classes"], "receipt": "round96-grow-fixture",
+                                   "round": 999, "status": "executed", "subject": "tb2-header",
+                                   "verdict": "cases"}
+    else:
+        data["members"][demote] = {"classes": row["classes"], "evidence": "round96 bite fixture",
+                                   "reason": "unattempted", "status": "unexecuted"}
     ledger_path.write_text(json.dumps(data, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     if git(clone, "commit", "-q", "-m", f"round96 bite fixture {tag}", "--", LEDGER, ident=True).returncode != 0:
         raise CouldNotEvaluate(f"fixture commit {tag} failed")
@@ -172,17 +184,19 @@ def main(argv: list[str]) -> int:
     # bites: forged commits are serial (one clone), runs parallel
     base_ledger = json.loads((clone / LEDGER).read_text(encoding="utf-8"))["members"]
     forged = []
+    unexecuted = sorted(n for n, v in base_ledger.items() if v.get("status") == "unexecuted")
     for gid, (own, rnd) in sorted(BITE_SET.items()):
         if not green.get(gid):
-            print(f"BITE {gid} kind=own skipped=not-green")
-            print(f"BITE {gid} kind=other skipped=not-green")
+            for kind in ("own", "other", "grow"):
+                print(f"BITE {gid} kind={kind} skipped=not-green")
             continue
         others = sorted(n for n, v in base_ledger.items()
                         if v.get("status") == "executed" and isinstance(v.get("round"), int) and v["round"] < rnd)
-        if own not in base_ledger or not others:
+        if own not in base_ledger or not others or not unexecuted:
             raise CouldNotEvaluate(f"bite population for {gid} unresolved")
         forged.append((gid, "own", forge(clone, rev, own, f"{gid}-own")))
         forged.append((gid, "other", forge(clone, rev, others[0], f"{gid}-other-{others[0]}")))
+        forged.append((gid, "grow", forge(clone, rev, unexecuted[0], f"{gid}-grow-{unexecuted[0]}", promote=True)))
     labels = {gid: (path, label, extra) for gid, path, label, extra in POPULATION}
 
     def bite(item):
@@ -190,18 +204,24 @@ def main(argv: list[str]) -> int:
         path, label, extra = labels[gid]
         rc, out = run_counter(clone, sha, path, extra, work / "bites" / f"{gid}-{kind}")
         preds = PRED.findall(out)
-        return gid, kind, rc, preds == [(label, "fail")] and rc == 1
+        want_pred = "pass" if kind == "grow" else "fail"
+        return gid, kind, rc, preds == [(label, want_pred)] and rc == (0 if kind == "grow" else 1)
 
     with ThreadPoolExecutor(max_workers=max(1, a.jobs)) as pool:
         bites = list(pool.map(bite, forged))
-    bitten = 0
+    bitten = tolerant = 0
     for gid, kind, rc, ok in bites:
-        bitten += 1 if ok else 0
-        print(f"BITE {gid} kind={kind} rc={rc} bitten={1 if ok else 0}")
+        if kind == "grow":
+            tolerant += 1 if ok else 0
+            print(f"BITE {gid} kind=grow rc={rc} tolerant={1 if ok else 0}")
+        else:
+            bitten += 1 if ok else 0
+            print(f"BITE {gid} kind={kind} rc={rc} bitten={1 if ok else 0}")
     want = 2 * len(BITE_SET)
     print(f"BITES checked={want} bitten={bitten}")
+    print(f"GROWS checked={len(BITE_SET)} tolerant={tolerant}")
     shutil.rmtree(clone, ignore_errors=True)
-    ok = red == 0 and bitten == want
+    ok = red == 0 and bitten == want and tolerant == len(BITE_SET)
     print("PREDICATE R96-C2 " + ("pass" if ok else "fail"))
     return 0 if ok else 1
 
