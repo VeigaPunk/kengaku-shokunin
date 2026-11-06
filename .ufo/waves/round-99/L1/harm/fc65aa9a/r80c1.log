@@ -1,0 +1,20 @@
+LOCATED cancel-async-tasks receipt=corpus/evidence/round80/cancel-async-tasks-probe.txt subject=tb2-header verdict=predicate historical=same
+REPRODUCED cancel-async-tasks rejected
+LOCATED chess-best-move receipt=corpus/evidence/round80/chess-best-move-probe.txt subject=tb2-header verdict=predicate historical=same
+REPRODUCED chess-best-move lines=14
+LOCATED distribution-search receipt=corpus/evidence/round80/distribution-search-probe.txt subject=tb2-header verdict=predicate historical=same
+REPRODUCED distribution-search lines=14
+LOCATED largest-eigenval receipt=corpus/evidence/round80/largest-eigenval-probe.txt subject=tb2-header verdict=predicate historical=same
+REPRODUCED largest-eigenval lines=27
+LOCATED openssl-selfsigned-cert receipt=corpus/evidence/round80/openssl-selfsigned-cert-probe.txt subject=tb2-header verdict=predicate historical=differs
+REPRODUCED openssl-selfsigned-cert lines=14
+LOCATED protein-assembly receipt=corpus/evidence/round80/protein-assembly-probe.txt subject=tb2-header verdict=cases historical=differs
+REPRODUCED protein-assembly lines=21
+LEDGER-GATE rc=1 executed=43 unlocated=0 defects=1
+UNIVERSE ledger=plans/grader-population-ledger.json@dce7c275381c members=6 cancel-async-tasks, chess-best-move, distribution-search, largest-eigenval, openssl-selfsigned-cert, protein-assembly
+DEFECT REPRODUCTION-EXIT cancel-async-tasks rc=1
+DEFECT LEDGER-GATE-FAIL rc=1
+DEFECTS n=2
+TARGET members=6 located=6 reproduced=5 ledger_flipped=6 diverged=2 defects=2
+PREDICATE R80-C1 fail
+rc=1

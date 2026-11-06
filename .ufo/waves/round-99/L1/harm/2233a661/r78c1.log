@@ -1,0 +1,158 @@
+LANE_TIP fc65aa9a7e1c9661df846e956376898b6abf0e52
+WORKTREE clean
+UNIVERSE classes=16 members=88 pairs=230
+MEMBER filter-js-from-html unexecuted classes=subprocess-exec,file-artifact,network-service receipt=- verdict=reason:browser-required
+MEMBER git-multibranch unexecuted classes=shell-exec,file-artifact,network-service receipt=- verdict=reason:network-install-required
+MEMBER headless-terminal unexecuted classes=subprocess-exec,candidate-import,file-artifact,network-service receipt=- verdict=reason:candidate-library-required
+MEMBER hf-model-inference executed classes=network-service,filesystem-metadata receipt=corpus/evidence/round71/hf/receipt.txt verdict=R71-C1 token=predicate
+MEMBER install-windows-3.11 unexecuted classes=subprocess-exec,file-artifact,stdout-inspection,crypto-credential,network-service,process-environment receipt=- verdict=reason:vm-required
+MEMBER kv-store-grpc executed classes=file-artifact,network-service receipt=corpus/evidence/round64/kvstore-probe.txt verdict=R64-C1 token=predicate
+MEMBER nginx-request-logging executed classes=subprocess-exec,file-artifact,network-service,timing-wall receipt=corpus/evidence/round70/nginx/receipt.txt verdict=R70-C1 token=predicate
+MEMBER pypi-server executed classes=subprocess-exec,stdout-inspection,network-service receipt=corpus/evidence/round68/pypi/receipt.txt verdict=R68-C1 token=predicate
+MEMBER query-optimize unexecuted classes=file-artifact,crypto-credential,timing-wall,db-state receipt=- verdict=reason:external-db-required
+MEMBER sqlite-with-gcov executed classes=subprocess-exec,stdout-inspection,db-state receipt=corpus/evidence/round65/sqlite-gcov-probe.txt verdict=R65-C1 token=predicate
+MEMBER torch-pipeline-parallelism executed classes=candidate-import,file-artifact,process-environment receipt=corpus/evidence/round67/pipe/receipt.txt verdict=R67-C1 token=vectors
+MEMBER torch-tensor-parallelism executed classes=candidate-import,file-artifact,process-environment receipt=corpus/evidence/round66/tensor/receipt.txt verdict=R66-C1 token=predicate
+CLASS signal-delivery k=1 n=1 census=1 ledger_k=0
+CLASS subprocess-exec k=15 n=45 census=45 ledger_k=3
+CLASS shell-exec k=2 n=6 census=6 ledger_k=0
+CLASS candidate-import k=3 n=6 census=6 ledger_k=2
+CLASS file-artifact k=33 n=76 census=76 ledger_k=4
+CLASS stdout-inspection k=13 n=29 census=29 ledger_k=2
+CLASS numeric-band k=4 n=10 census=10 ledger_k=0
+CLASS crypto-credential k=4 n=12 census=12 ledger_k=0
+CLASS network-service k=4 n=8 census=8 ledger_k=4
+CLASS timing-wall k=4 n=9 census=9 ledger_k=1
+CLASS filesystem-metadata k=4 n=10 census=10 ledger_k=1
+CLASS process-environment k=2 n=3 census=3 ledger_k=2
+CLASS git-plumbing k=2 n=3 census=3 ledger_k=0
+CLASS db-state k=1 n=2 census=2 ledger_k=1
+CLASS serialization-schema k=8 n=10 census=10 ledger_k=0
+CLASS container-image k=0 n=0 census=0 ledger_k=0
+LEDGER rows=12 executed=7 unexecuted=5
+COVERAGE recomputed_covered=15 census_covered=12 promoted=network-service,process-environment,db-state recomputed_uncovered=container-image
+DEFECT CLASS-NOT-PARTIAL signal-delivery row claims executed 1 of 1
+DEFECT CLASS-ROW-UNLINKED signal-delivery executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED subprocess-exec executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED shell-exec executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED candidate-import executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED file-artifact executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED stdout-inspection executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED numeric-band executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED crypto-credential executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED timing-wall executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED filesystem-metadata executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED git-plumbing executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-ROW-UNLINKED serialization-schema executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT CLASS-NOT-PARTIAL container-image row claims executed 0 of 0
+DEFECT CLASS-ROW-UNLINKED container-image executed cell carries no `ledger=plans/grader-selected-members.json`
+DEFECT MEMBER-UNACCOUNTED adaptive-rejection-sampler in classes subprocess-exec,file-artifact,stdout-inspection,numeric-band
+DEFECT MEMBER-UNACCOUNTED bn-fit-modify in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED break-filter-js-from-html in classes subprocess-exec,file-artifact
+DEFECT MEMBER-UNACCOUNTED build-cython-ext in classes subprocess-exec,file-artifact,numeric-band,git-plumbing
+DEFECT MEMBER-UNACCOUNTED build-pmars in classes subprocess-exec,file-artifact
+DEFECT MEMBER-UNACCOUNTED build-pov-ray in classes subprocess-exec,file-artifact,stdout-inspection,crypto-credential
+DEFECT MEMBER-UNACCOUNTED caffe-cifar-10 in classes subprocess-exec,file-artifact,stdout-inspection,filesystem-metadata
+DEFECT MEMBER-UNACCOUNTED cancel-async-tasks in classes signal-delivery,subprocess-exec,file-artifact,stdout-inspection,timing-wall
+DEFECT MEMBER-UNACCOUNTED chess-best-move in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED circuit-fibsqrt in classes subprocess-exec,file-artifact,stdout-inspection
+DEFECT MEMBER-UNACCOUNTED cobol-modernization in classes subprocess-exec,file-artifact
+DEFECT MEMBER-UNACCOUNTED code-from-image in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED compile-compcert in classes subprocess-exec,file-artifact,stdout-inspection,filesystem-metadata
+DEFECT MEMBER-UNACCOUNTED configure-git-webserver in classes subprocess-exec,stdout-inspection
+DEFECT MEMBER-UNACCOUNTED constraints-scheduling in classes file-artifact,crypto-credential
+DEFECT MEMBER-UNACCOUNTED count-dataset-tokens in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED crack-7z-hash in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED custom-memory-heap-crash in classes subprocess-exec,file-artifact,stdout-inspection,crypto-credential
+DEFECT MEMBER-UNACCOUNTED db-wal-recovery in classes file-artifact,serialization-schema
+DEFECT MEMBER-UNACCOUNTED distribution-search in classes numeric-band
+DEFECT MEMBER-UNACCOUNTED dna-assembly in classes subprocess-exec,file-artifact,stdout-inspection,numeric-band
+DEFECT MEMBER-UNACCOUNTED dna-insert in classes subprocess-exec,file-artifact,stdout-inspection,numeric-band
+DEFECT MEMBER-UNACCOUNTED extract-elf in classes subprocess-exec,file-artifact,serialization-schema
+DEFECT MEMBER-UNACCOUNTED extract-moves-from-video in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED feal-differential-cryptanalysis in classes shell-exec,candidate-import
+DEFECT MEMBER-UNACCOUNTED feal-linear-cryptanalysis in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED financial-document-processor in classes file-artifact,crypto-credential
+DEFECT MEMBER-UNACCOUNTED fix-code-vulnerability in classes file-artifact,serialization-schema
+DEFECT MEMBER-UNACCOUNTED fix-git in classes file-artifact,crypto-credential
+DEFECT MEMBER-UNACCOUNTED fix-ocaml-gc in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED gcode-to-text in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED git-leak-recovery in classes subprocess-exec,file-artifact,stdout-inspection,git-plumbing
+DEFECT MEMBER-UNACCOUNTED gpt2-codegolf in classes subprocess-exec,file-artifact,stdout-inspection
+DEFECT MEMBER-UNACCOUNTED large-scale-text-editing in classes subprocess-exec,file-artifact,stdout-inspection,crypto-credential
+DEFECT MEMBER-UNACCOUNTED largest-eigenval in classes numeric-band,timing-wall
+DEFECT MEMBER-UNACCOUNTED llm-inference-batching-scheduler in classes file-artifact,crypto-credential,filesystem-metadata,serialization-schema
+DEFECT MEMBER-UNACCOUNTED log-summary-date-ranges in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED mailman in classes subprocess-exec
+DEFECT MEMBER-UNACCOUNTED make-doom-for-mips in classes subprocess-exec,file-artifact,timing-wall
+DEFECT MEMBER-UNACCOUNTED make-mips-interpreter in classes subprocess-exec,file-artifact,timing-wall
+DEFECT MEMBER-UNACCOUNTED mcmc-sampling-stan in classes subprocess-exec,file-artifact,stdout-inspection
+DEFECT MEMBER-UNACCOUNTED merge-diff-arc-agi-task in classes subprocess-exec,file-artifact,stdout-inspection,git-plumbing,serialization-schema
+DEFECT MEMBER-UNACCOUNTED model-extraction-relu-logits in classes shell-exec,candidate-import,file-artifact
+DEFECT MEMBER-UNACCOUNTED modernize-scientific-stack in classes subprocess-exec,file-artifact,stdout-inspection,numeric-band,filesystem-metadata
+DEFECT MEMBER-UNACCOUNTED mteb-leaderboard in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED mteb-retrieve in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED multi-source-data-merger in classes file-artifact,serialization-schema
+DEFECT MEMBER-UNACCOUNTED openssl-selfsigned-cert in classes subprocess-exec,file-artifact,stdout-inspection,crypto-credential,filesystem-metadata
+DEFECT MEMBER-UNACCOUNTED overfull-hbox in classes shell-exec,file-artifact
+DEFECT MEMBER-UNACCOUNTED password-recovery in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED path-tracing in classes subprocess-exec,file-artifact,stdout-inspection
+DEFECT MEMBER-UNACCOUNTED path-tracing-reverse in classes subprocess-exec,file-artifact
+DEFECT MEMBER-UNACCOUNTED polyglot-c-py in classes subprocess-exec,stdout-inspection
+DEFECT MEMBER-UNACCOUNTED polyglot-rust-c in classes subprocess-exec,shell-exec,stdout-inspection
+DEFECT MEMBER-UNACCOUNTED portfolio-optimization in classes candidate-import,numeric-band,timing-wall
+DEFECT MEMBER-UNACCOUNTED protein-assembly in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED prove-plus-comm in classes subprocess-exec,file-artifact
+DEFECT MEMBER-UNACCOUNTED pytorch-model-cli in classes subprocess-exec,file-artifact,stdout-inspection
+DEFECT MEMBER-UNACCOUNTED pytorch-model-recovery in classes file-artifact,filesystem-metadata
+DEFECT MEMBER-UNACCOUNTED qemu-alpine-ssh in classes subprocess-exec,stdout-inspection
+DEFECT MEMBER-UNACCOUNTED qemu-startup in classes shell-exec,file-artifact
+DEFECT MEMBER-UNACCOUNTED raman-fitting in classes file-artifact,numeric-band,serialization-schema
+DEFECT MEMBER-UNACCOUNTED regex-chess in classes file-artifact,serialization-schema
+DEFECT MEMBER-UNACCOUNTED regex-log in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED reshard-c4-data in classes subprocess-exec,file-artifact,stdout-inspection,crypto-credential,filesystem-metadata
+DEFECT MEMBER-UNACCOUNTED rstan-to-pystan in classes subprocess-exec,file-artifact
+DEFECT MEMBER-UNACCOUNTED sam-cell-seg in classes subprocess-exec,file-artifact,serialization-schema
+DEFECT MEMBER-UNACCOUNTED schemelike-metacircular-eval in classes subprocess-exec,file-artifact,stdout-inspection,timing-wall
+DEFECT MEMBER-UNACCOUNTED sparql-university in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED sqlite-db-truncate in classes file-artifact,serialization-schema
+DEFECT MEMBER-UNACCOUNTED train-fasttext in classes file-artifact,filesystem-metadata
+DEFECT MEMBER-UNACCOUNTED tune-mjcf in classes file-artifact,numeric-band,timing-wall,filesystem-metadata
+DEFECT MEMBER-UNACCOUNTED video-processing in classes subprocess-exec,file-artifact
+DEFECT MEMBER-UNACCOUNTED vulnerable-secret in classes file-artifact
+DEFECT MEMBER-UNACCOUNTED winning-avg-corewars in classes subprocess-exec,file-artifact,stdout-inspection,crypto-credential
+DEFECT MEMBER-UNACCOUNTED write-compressor in classes subprocess-exec,file-artifact,stdout-inspection
+DEFECT COUNT-DRIFT filter-js-from-html ledger classes ['network-service'] != universe ['subprocess-exec', 'file-artifact', 'network-service']
+DEFECT COUNT-DRIFT git-multibranch ledger classes ['network-service'] != universe ['shell-exec', 'file-artifact', 'network-service']
+DEFECT COUNT-DRIFT headless-terminal ledger classes ['network-service'] != universe ['subprocess-exec', 'candidate-import', 'file-artifact', 'network-service']
+DEFECT COUNT-DRIFT hf-model-inference ledger classes ['network-service'] != universe ['network-service', 'filesystem-metadata']
+DEFECT COUNT-DRIFT install-windows-3.11 ledger classes ['network-service', 'process-environment'] != universe ['subprocess-exec', 'file-artifact', 'stdout-inspection', 'crypto-credential', 'network-service', 'process-environment']
+DEFECT COUNT-DRIFT kv-store-grpc ledger classes ['network-service'] != universe ['file-artifact', 'network-service']
+DEFECT COUNT-DRIFT nginx-request-logging ledger classes ['network-service'] != universe ['subprocess-exec', 'file-artifact', 'network-service', 'timing-wall']
+DEFECT COUNT-DRIFT pypi-server ledger classes ['network-service'] != universe ['subprocess-exec', 'stdout-inspection', 'network-service']
+DEFECT COUNT-DRIFT query-optimize ledger classes ['db-state'] != universe ['file-artifact', 'crypto-credential', 'timing-wall', 'db-state']
+DEFECT COUNT-DRIFT sqlite-with-gcov ledger classes ['db-state'] != universe ['subprocess-exec', 'stdout-inspection', 'db-state']
+DEFECT COUNT-DRIFT torch-pipeline-parallelism ledger classes ['process-environment'] != universe ['candidate-import', 'file-artifact', 'process-environment']
+DEFECT COUNT-DRIFT torch-tensor-parallelism ledger classes ['process-environment'] != universe ['candidate-import', 'file-artifact', 'process-environment']
+DEFECT COUNT-DRIFT signal-delivery class row k=1 ledger executed=0
+DEFECT COUNT-DRIFT subprocess-exec class row k=15 ledger executed=3
+DEFECT COUNT-DRIFT shell-exec class row k=2 ledger executed=0
+DEFECT COUNT-DRIFT candidate-import class row k=3 ledger executed=2
+DEFECT COUNT-DRIFT file-artifact class row k=33 ledger executed=4
+DEFECT COUNT-DRIFT stdout-inspection class row k=13 ledger executed=2
+DEFECT COUNT-DRIFT numeric-band class row k=4 ledger executed=0
+DEFECT COUNT-DRIFT crypto-credential class row k=4 ledger executed=0
+DEFECT COUNT-DRIFT timing-wall class row k=4 ledger executed=1
+DEFECT COUNT-DRIFT filesystem-metadata class row k=4 ledger executed=1
+DEFECT COUNT-DRIFT git-plumbing class row k=2 ledger executed=0
+DEFECT COUNT-DRIFT serialization-schema class row k=8 ledger executed=0
+DEFECT COVERAGE-REGRESSION signal-delivery row claims k=1 > 0 but no ledger executed member backs it
+DEFECT COVERAGE-REGRESSION shell-exec row claims k=2 > 0 but no ledger executed member backs it
+DEFECT COVERAGE-REGRESSION numeric-band row claims k=4 > 0 but no ledger executed member backs it
+DEFECT COVERAGE-REGRESSION crypto-credential row claims k=4 > 0 but no ledger executed member backs it
+DEFECT COVERAGE-REGRESSION git-plumbing row claims k=2 > 0 but no ledger executed member backs it
+DEFECT COVERAGE-REGRESSION serialization-schema row claims k=8 > 0 but no ledger executed member backs it
+DEFECTS n=121
+TARGET classes=16 members=88 executed=7 unexecuted=5 unaccounted=76 unbacked=0
+PREDICATE R78-C1 fail
+rc=1
