@@ -230,9 +230,11 @@ def main(argv: list[str]) -> int:
     base_members = json.loads(base_bytes.decode()).get("members", {}) if base_bytes else {}
     base_set = {n for n, v in base_members.items() if v.get("status") == "executed"}
     rev_set = {n for n, v in members.items() if v.get("status") == "executed"}
-    set_ok = bool(base_set) and MEMBER not in base_set and rev_set == base_set | {MEMBER}
+    # round-96 re-key: the executed SET must CONTAIN BASE plus this member (was ==), and the
+    # class cells may only grow — never an absolute executed total
+    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
     l7 = (member.get("status") == "executed" and member.get("round") == 94
-          and member.get("classes") == MEMBER_CLASSES and exec_total == EXECUTED_AFTER and cells == AFTER_CELLS
+          and member.get("classes") == MEMBER_CLASSES and all(cells[cl] >= want for cl, want in AFTER_CELLS.items())
           and set_ok)
     if not l7:
         defects.append(f"L7 ledger member={member.get('status')} round={member.get('round')} executed_total={exec_total} cells={cells} "

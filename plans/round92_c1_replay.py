@@ -19,6 +19,14 @@ import tarfile
 from io import BytesIO
 from pathlib import Path
 
+
+def _r96_set_at(lane_root, rev: str, path: str) -> set:
+    """Round-96 L7 re-key: the executed member set of the ledger at a fixed commit."""
+    proc = subprocess.run(["git", "-C", str(lane_root), "show", f"{rev}:{path}"], capture_output=True, timeout=120)
+    if proc.returncode != 0:
+        return set()
+    return {n for n, v in json.loads(proc.stdout.decode()).get("members", {}).items() if v.get("status") == "executed"}
+
 CAP = "corpus/evidence/round92/graders/llm-inference-batching-scheduler/tests/test_outputs.py"
 TABLE = "plans/round92-cases.json"
 TOOL = "plans/round92_bs_probe.py"
@@ -35,6 +43,7 @@ TABLE_SHA_A = "2249d5c0ea90930a5c36300b47a4b991d41ae9c5ff400deba5adf9be28d5a693"
 AFTER_CELLS = {"crypto-credential": 4, "file-artifact": 27, "filesystem-metadata": 4,
                "serialization-schema": 5}
 EXECUTED_AFTER = 36
+SET_BASE = "4ba56182307ccda1ec436bfe3d61cb3d92e56608"  # round-92 BASE; L7 keyed to its executed set (round 96)
 BWRAP = "/usr/bin/bwrap"
 
 
@@ -230,14 +239,18 @@ def main(argv: list[str]) -> int:
     member = ledger.get("members", {}).get(MEMBER, {}) if ledger else {}
     exec_total = sum(1 for v in ledger.get("members", {}).values() if v.get("status") == "executed") if ledger else 0
     cells_ok = all(sum(1 for v in ledger.get("members", {}).values()
-                       if v.get("status") == "executed" and cl in v.get("classes", [])) == want
+                       if v.get("status") == "executed" and cl in v.get("classes", [])) >= want
                    for cl, want in AFTER_CELLS.items())
+    # round-96 re-key: the executed SET must contain the round-92 set (BASE plus this member)
+    rev_set = {n for n, v in ledger.get("members", {}).items() if v.get("status") == "executed"} if ledger else set()
+    base_set = _r96_set_at(Path(args.lane).resolve(), SET_BASE, LEDGER)
+    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
     l7 = (member.get("status") == "executed" and member.get("round") == 92
-          and member.get("classes") == MEMBER_CLASSES and exec_total == EXECUTED_AFTER
+          and member.get("classes") == MEMBER_CLASSES and set_ok
           and cells_ok)
     if not l7:
-        defects.append("L7 ledger member=%s round=%s executed_total=%s cells_ok=%s"
-                       % (member.get("status"), member.get("round"), exec_total, cells_ok))
+        defects.append("L7 ledger member=%s round=%s executed_total=%s cells_ok=%s set_ok=%s"
+                       % (member.get("status"), member.get("round"), exec_total, cells_ok, set_ok))
 
     # L8: the probe bytes at the measured revision hash to the ledger's pin for the tool
     pins_bytes = lane.blob(PINS, rev)

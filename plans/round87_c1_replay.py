@@ -45,7 +45,7 @@ RECEIPT = "corpus/evidence/round87/mteb-retrieve-probe.txt"
 LEDGER = "plans/grader-population-ledger.json"
 SUBJECT_SHA = "e4e6b21fed6662adb4a42aba23d35609450392839a2282f3ba77c70c8d907c0b"
 LEDGER_ROUND = 87
-LEDGER_SUBJECT = "tb2-result-file"
+LEDGER_SUBJECT = "tb2-header"  # round-96 re-pin: the round-79 gate's frozen shape for this receipt's `# tb2 mteb-retrieve grader probe` header (lesson round-95 M2, Q78)
 LEDGER_VERDICT = "cases"
 FROZEN = (("exact", "P/P"), ("absent-file", "F/F"), ("two-lines", "P/F"), ("sibling-value", "P/F"),
           ("trailing-space", "P/P"), ("empty-file", "P/F"), ("result-is-directory", "P/E"),
