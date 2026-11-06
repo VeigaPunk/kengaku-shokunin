@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r99/ExecHarm/lane-BASE/plans/round98_c1_replay.py", line 330, in <module>
+    sys.exit(main(sys.argv[1:]))
+             ~~~~^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r99/ExecHarm/lane-BASE/plans/round98_c1_replay.py", line 309, in main
+    added, flagged = new_row_defects(lane, rev, work)
+                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r99/ExecHarm/lane-BASE/plans/round98_c1_replay.py", line 159, in new_row_defects
+    shutil.rmtree(tree)
+    ~~~~~~~~~~~~~^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 721, in _rmtree_safe_fd
+    _rmtree_safe_fd_step(stack, onexc)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 802, in _rmtree_safe_fd_step
+    onexc(func, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 753, in _rmtree_safe_fd_step
+    os.rmdir(name, dir_fd=dirfd)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 39] Directory not empty: '/fast/scratch/hyaku/kengaku-r99/ExecHarm/w98/gate-tree/.git'
+rc=1

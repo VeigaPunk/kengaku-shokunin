@@ -3,7 +3,7 @@ Author: kengaku (L1 KengakuR99)
 # Round 99 — bn-fit-modify grader replay and row-scoped provenance bindings
 
 BASE `2233a661`; P0 `f9d29eb3`; P1 `e219e785`; P2 `b08a0192`; F `24a5a555`; C = T `f72a8bc7`;
-receipts `23d58036`; dated correction after T `b71b990a`.
+receipts `23d58036`; integration `fc65aa9a`; harm `182a40bc`; dated corrections after T `b71b990a` (word counts, M3) and `3fdecf31` (registry selftest cells, M5).
 Frozen predicates: `plans/round-99-claims.md`. Receipts: `.ufo/waves/round-99/L1/c1-tip.txt`, `c2-tip.txt`,
 `c1-base.txt`, `c2-base.txt`, `freeze-tip.txt`; controls `.ufo/waves/round-99/L1/controls/`.
 
@@ -58,8 +58,11 @@ validation of the candidate registry, on a `git archive` mirror of P1, was rc 0 
 **Anchor re-verification (R99-C2).** Twelve existing rows are now bound by eight new three-column
 `corpus/evidence/round<N>/PROVENANCE.md` files: S173–S177 (git v2.56.0 docs), S180 (TB2 README), S220,
 S225 (WHATWG windows-1252 index), S270 (a 404 body), S285, S293 and S306. Each row's sha256 already
-equalled committed bytes. Gate findings went 45 → 33 at T. The symmetric census shows that no row outside
-the 12 moved (`outside_removed=0 outside_added=0 outside_rebound=0`), and no new file carries a URL.
+equalled committed bytes. Gate findings went 45 → 33 at T. The symmetric census shows that no outside BASE row's gate
+findings or binding notes changed (`outside_removed=0 outside_added=0 outside_rebound=0`), and no new file
+carries a URL. The census is finding-level, not row-level: deleting or rewriting an outside row that has
+no gate note passes (CriticClaims F6, MutC2 M17), and 105 of the 313 outside rows carry no gate output at
+all (F7).
 
 **Assimilation:** none (inherited `merge/kengaku/` hold, L0 `kengaku | round-54`).
 
@@ -102,3 +105,28 @@ frozen `classes_source`, so the row is left unchanged and the discrepancy is rou
 | M2 | control harness / false pass | `.ufo/waves/round-99/L1/controls/c2-partial-run{1,2}.txt`: the `partial` forgery PASSED twice. `git rm` of an untracked copy failed (`fatal: pathspec … did not match`, in the runner's console output), so the fixture equalled the positive | none: the runner neither checked the step's exit status nor diffed the fixture against the positive. Caught by L1 reading the console | changed to `rm -f`. Re-run as `partial-fixed-run{1,2}`: fail, K4/K5, `still=1` (S306). QUALITY Q85 requires a tree-diff assertion. The invalid receipts stay committed and are labelled as invalid in the README |
 | M3 | hand-typed word counts (the Q76 class, third recurrence after r93 W-7 and r94 M1) | at T `plans/anchor_line_check.py --lane .`: `live=5 cells=5` rc 1 (S334, S336–S339 `words:1`). At BASE: `live=0`, rc 0 | Q76: "a word count … is computed, never typed". It was not applied: the L1 did not run the gate before C | cells recomputed after T (`b71b990a`), live 0, rc 0. These are curation cells and no counter reads them, so the frozen C1 predicate at T is unaffected (C1 L10 reads the anchor-digest gate, not word counts). The fix departs from the claims file's "never repaired in round" clause and is disclosed here and in the report. Round-94 precedent: S299 was corrected after T. Able to fail: the T receipt above is the committed red |
 | M4 | member selection against the lane's own evidence | `considerthese/2026-11-06.md` §1 proposal 2: the thinnest classes are `subprocess-exec` 15/45, `crypto-credential` 4/12, `shell-exec` 2/6 and `numeric-band` 4/10, yet round 99 picked a `file-artifact` member | none before this round | QUALITY Q86 (class arithmetic printed in the claims file). Round 100 planning input: ConnectorOverlap (c) |
+| M5 | registry-cell convention not checked before C | ExecHarm (`.ufo/waves/round-99/w1/ExecHarm.md:30`): at T `plans/round82_c1_plans_registry.py --tip T` prints 4 new `DEFECT ROW-SELFTEST-UNBACKED` lines (round99-bnfit-probe, -c1-replay, -c2-rowscoped-bind, -provenance-build). BASE has 13 DEFECT and T has 17 (`.ufo/waves/round-99/L1/harm/r82c1-tip-*.txt`). The L1 battery missed this because the gate defaults `--tip` to `master`, so the battery's BASE and tip logs read the same tree | round82-c1 itself, which the L1 battery ran without `--tip`, so the run was not revision-scoped | selftest cells now open with `none declared —` (dated correction `3fdecf31`, SKILL.md only, read by no round-99 counter). Re-run: 13 DEFECT, set equal to BASE. Able to fail: the T receipt shows 17. Battery fix for round 100: pass `--tip REV` to every gate that defaults to `master` |
+
+## Wave findings
+
+Wave w1: 12 seats (ExecC1, ExecC2, ExecHarm, ExecKS, ReviewC1, ReviewC2, CriticClaims, MutC1, MutC2,
+ScoutSources, ConnectorOverlap, ScribeLesson). Role mix: 4 executor, 2 reviewer, 1 critic, 2
+mutation-tester, 1 scout, 1 connector, 1 scribe, so 5/12 seats were attack roles. The planner seat is
+held by the L1, and ConnectorOverlap (c) supplied the bounded round-100 planning data-walk. The
+validator refused `labrat` as a swarm role (`unknown_role`), so the KS hypothesis probe ran as executor
+ExecKS. Reports are at `.ufo/waves/round-99/w1/<seat>.md`.
+
+| seat / finding | observed verdict or defect | disposition |
+|---|---|---|
+| ExecC1 | counter pass at T, fail at BASE. Two probe reruns from `git archive` T have OBSERVATIONS byte-equal to the receipt. C03/C07/C11/C12 were rebuilt with its own code and seed and run under real pytest: C03 p 0.636 passes; C11 D 0.018001, p 0.003028 passes; C12 D 0.019995, p 0.000664 fails | C1 met, independently reproduced |
+| ExecKS (hypothesis seat) | grid-shift edge 0.04869 ± 0.00004 sd. The marginal-only forgery passes 1998/2000 seeds (99.9 %, the KS α). The maintainer process passes 2000/2000. Both counters pass at T | knowledge entry figures confirmed. The edge is now stated as 0.0487 sd |
+| ReviewC1 | V1–V5 pass: the hook is observe-only, the builder matches every `why`, reward is pytest's exit, and L1–L11 match the frozen text. An offline R re-run reproduced `learned_dag.csv` and `intervened_dag.csv` byte-identically, with fitted D equal to the constants. INFO: no `pytest-json-ctrf`. RESIDUAL: bnlearn 4.9 never exercised | no defect. Residuals carried |
+| ExecC2 | its own 12/12 three-way equality check (capture = token = sha column) found one line per row and no URL. The per-row full gate diff BASE vs T, restricted to rows present at BASE, is exactly the 12 | C2 met, independently reproduced |
+| ReviewC2 | V1–V9 pass. Population re-derived independently. Bindings are semantically right (S270 binds the 404 body the row itself anchors). S180/S225 twin ties resolve to the row's own round dir. No collateral change | no defect. O2 (the tie-break is safe only by today's data) carried |
+| CriticClaims | F1: C1 L3 checks ancestry only, so a receipt whose `LANE_TIP` is rewritten to BASE still passes. F2: `located=1` is tautological. F3/F5/F9: SKILL cell, F..C file set and builder are unmeasured by any leg. F4: `SHA256SUMS` unpinned. **F6: C2's K7 is finding-level, not row-level** — deleting or rewriting an outside row with no gate note passes. F7: 105 of 313 outside rows carry no gate output. F8: a 4th column with a scheme-less URL passes K3. F10: "freshness" (drift against live surfaces) is a questionable axis name for a binding claim. F11: the runners still run `set -u` only | claim wording corrected to "finding-level" in README, SCORECARD and this lesson (not in the frozen claims file). All routed to round 100. F10 recorded as a disagreement for the operator and closure |
+| MutC1 | 40 mutants: 30 killed, 10 survived. M04b (LANE_TIP → BASE, = F1); M11 (another member loses a class); M13/M14 (a correctly bound SOURCES row added or one removed: L10 is flag-only); M26 (LEG_ORDER swap); M31 (an extra file); M32 (SKILL cell); M33 (claims candidate sha); M34 (`mismatches` field); M38 (rev gate edited — C2 K1 catches it) | routed: successor legs for receipt-run identity, the F..C file set, and the new-row count |
+| MutC2 | 24 mutants: 18 killed, 6 survived. M08 (fabricated id S999); M11/M12 (a 4th column); M16 (an outside row's unparsed token); M17 (deleting an invisible outside row, = F6); M21 (self-referential K1 neuter) | routed: a row-level census (SOURCES line equality for every BASE row), exactly three cells per line, and an id must exist in SOURCES |
+| ExecHarm | 22 checks BASE vs T. No green→red from candidate bytes except round82-c1's 4 new `ROW-SELFTEST-UNBACKED` lines. The round-98 C1 counter fails at later revisions by construction (L7 set equality) | the r82c1 lines are fixed by dated correction `3fdecf31`; the DEFECT set now equals BASE's (M5). The r98-C1 design note is routed |
+| ScoutSources | S334–S341 re-opened live: 8/8 agree (HTTP 200, sha, quote at the stated line). The dataset's unpinned `main` is still byte-equal to `62ce2364`. All 12 C2 rows were re-opened upstream and the live sha equals capture and provenance. Census rc 0. SS-18: the C1 predicate is blind to anchor line and word cells. SS-11: S225's "pointer 226" label slip predates this round | agree 19/19 on bytes. SS-18 is the M3 class (routed: a successor C1 leg runs `anchor_line_check` on new rows). SS-11 routed as a dated correction for a later round |
+| ConnectorOverlap | (a) no sibling replays bn-fit-modify or uses row-scoped provenance. (b) C1/C2 bytes are disjoint: removing C2's files leaves C1's rows with 0 findings, and gate 45 = 33 + 12. (c) `min_class` is a three-way tie at 0.333 (crypto-credential 4/12, shell-exec 2/6, subprocess-exec 15/45). The cheapest thin-class candidates are cobol-modernization, extract-elf, adaptive-rejection-sampler, dna-insert and dna-assembly. 9 more anchor findings (digest-wrong-capture) clear with one three-column line each (measured 33 → 24) | round-100 planning input (Q86) |
+| ScribeLesson | 23 items checked against receipts and recomputed. No correction changes a number, vector or verdict. Clarifications: C03/C04 are seeded draws (state flip rates, Q84); sd 14.09165 vs the grader's 14.0916; C05's row-names default vs the maintainer's explicit `row.names = FALSE`; C04's shift is +22.59 (1.48 sd); the lesson header must list both dated corrections | applied to the knowledge entry and the lesson header |

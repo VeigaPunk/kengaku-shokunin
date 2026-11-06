@@ -1,0 +1,129 @@
+id    rc verdict      failed legs            expected
+M01    1 KILLED       L5,L6                  L5/L6
+M01b   1 KILLED       L5,L6                  L5/L6
+M02    1 KILLED       L5,L6                  L5/L6
+M03    1 KILLED       L6                     L6
+M04a   1 KILLED       L3                     L3
+M04b   0 SURVIVED     -                      L3
+M05    1 KILLED       L4,L5,L6,L9            L4/L5
+M06    1 KILLED       L7                     L7
+M07    1 KILLED       L7                     L7
+M08    1 KILLED       L7                     L7
+M09    1 KILLED       L7                     L7
+M10    1 KILLED       L7                     L7
+M11    0 SURVIVED     -                      L7/cells
+M12    1 KILLED       L10                    L10
+M13    0 SURVIVED     -                      L10/new_rows
+M14    0 SURVIVED     -                      L10/new_rows
+M15    2 KILLED(rc2)  -                      L2
+M16    2 KILLED(rc2)  -                      L2
+M17    1 KILLED       L6,L8,L9               L6/L8/L9
+M18    1 KILLED       L11                    L11
+M19    1 KILLED       L6,L8,L9               L6/L8
+M20    1 KILLED       L6,L8,L9               L6(DETAIL)/L8
+M21    1 KILLED       L6,L8,L9               L6/L8
+M22    1 KILLED       L6,L8,L9               L6/L8
+M23    1 KILLED       L6,L8,L9               L6(DETAIL)/L8
+M24    1 KILLED       L6,L8,L9               L6/L8
+M25    1 KILLED       L6,L8,L9               L6/L8
+M26    0 SURVIVED     -                      none
+M27    1 KILLED       L9                     L9
+M28    1 KILLED       L2                     L2
+M29    1 KILLED       L2                     L2
+M30    1 KILLED       L7                     L7
+M31    0 SURVIVED     -                      none
+M32    0 SURVIVED     -                      none
+M33    0 SURVIVED     -                      none
+M34    0 SURVIVED     -                      none
+M35    1 KILLED       L6                     L6
+M37    1 KILLED       L10,L11                L11
+M38    0 SURVIVED     -                      none
+M39    1 KILLED       L1,L2,L3,L5,L6,L9      L1
+
+--- probe-direct observation diffs ---
+M19 probe_rc=1: - CASE C03 predicted=P,P,P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,P,P,1 ok=True
++ CASE C03 predicted=P,P,P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,P,F,0 ok=False | - DETAIL C03 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=a9ad7f5f874cd77f marginal-only
++ DETAIL C03 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=de8e735a67962525 marginal-only
+M20 probe_rc=0: - DETAIL C03 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=a9ad7f5f874cd77f marginal-only
++ DETAIL C03 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=daec10f59f910de6 marginal-only
+M21 probe_rc=1: - CASE C11 predicted=P,P,P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,P,P,1 ok=True
++ CASE C11 predicted=P,P,P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,P,F,0 ok=False | - DETAIL C11 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=8fc148c6643ee5f4 ks-shift-small
++ DETAIL C11 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=5b4f5c39db7950da ks-shift-small
+M22 probe_rc=1: - CASE C12 predicted=P,P,P,P,P,P,P,P,F,0 observed=P,P,P,P,P,P,P,P,F,0 ok=True
++ CASE C12 predicted=P,P,P,P,P,P,P,P,F,0 observed=P,P,P,P,P,P,P,P,P,1 ok=False | - DETAIL C12 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=311bbd9fcced265d ks-shift-large
++ DETAIL C12 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=ae678248484dc82f ks-shift-large
+M23 probe_rc=0: - DETAIL C13 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=390259ae5b321c23 quantile-grid
++ DETAIL C13 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=c1f7e334b8de9cd9 quantile-grid
+M24 probe_rc=0: obs identical to receipt
+M25 probe_rc=0: obs identical to receipt
+
+--- survivors / rc2 detail ---
+M04b SURVIVED receipt LANE_TIP -> ancestor BASE 2233a661
+   target: TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0
+M11 SURVIVED other executed member loses file-artifact class
+   target: TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:33 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0
+M13 SURVIVED SOURCES S342 added, correctly bound
+   target: TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=9 new_rows_flagged=0 defects=0
+M14 SURVIVED SOURCES S341 removed
+   target: TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=7 new_rows_flagged=0 defects=0
+M15 KILLED(rc2) capture test_outputs.py byte appended
+   target: 
+   setup: DEFECT SETUP probe-rerun DEFECT SETUP capture sha mismatch tb2-bn-fit-modify/test_outputs.py
+M16 KILLED(rc2) fixture final_bn_sample.csv byte appended
+   target: 
+   setup: DEFECT SETUP probe-rerun DEFECT SETUP capture sha mismatch bn-fit-modify-solution/final_bn_sample.csv
+M26 SURVIVED receipt LEG_ORDER first two legs swapped
+   target: TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0
+M31 SURVIVED extra file plans/round99_extra.txt added
+   target: TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0
+M32 SURVIVED SKILL file-artifact cell 34->35
+   target: TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0
+M33 SURVIVED claims candidate-bytes SOURCES sha edited
+   target: TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0
+M34 SURVIVED receipt mismatches 0->1
+   target: TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0
+M38 SURVIVED frozen gate anchor_digest_check.py edited at rev
+   target: TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0
+
+--- before/after hashes ---
+M01   corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> 03e135768f1f0118
+M01b  corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> f727233a3539ea0b
+M02   corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> 8c92c31ce2b1afda
+M03   corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> 591dc174741f2299
+M04a  corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> 3d3e2aed4002f6e2
+M04b  corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> 8dc24c18e1683489
+M05   plans/round99-cases.json ee76e2b5ae747784 -> 0f3766075a084ac1
+M06   plans/grader-population-ledger.json 5e9c4182efd9f33b -> 8a559cf2c5614000
+M07   plans/grader-population-ledger.json 5e9c4182efd9f33b -> 6f748bd8d1a43296
+M08   plans/grader-population-ledger.json 5e9c4182efd9f33b -> 2646f64c869e3798
+M09   plans/grader-population-ledger.json 5e9c4182efd9f33b -> 9568b284eb5139a7
+M10   plans/grader-population-ledger.json 5e9c4182efd9f33b -> e1b0886106d06df1
+M11   plans/grader-population-ledger.json 5e9c4182efd9f33b -> 444d62dc17a0ca0c
+M12   corpus/SOURCES.md 05116b87550f534b -> 48f26274fe78bfe5
+M13   corpus/SOURCES.md 05116b87550f534b -> ce9fc6892a8de88e
+M14   corpus/SOURCES.md 05116b87550f534b -> 2199596d1a50c75a
+M15   corpus/evidence/round99/tb2-bn-fit-modify/test_outputs.py 364069f893e336a0 -> 2b402780e5cd678e
+M16   corpus/evidence/round99/bn-fit-modify-solution/final_bn_sample.csv 982a7441d4469c4b -> 15ed1c13fdb9cfe9
+M17   plans/round99_bnfit_probe.py afacbf81fcc84fd9 -> 628f4ec0efdee507
+M18   plans/round99_c1_replay.py 3619199e709dfd54 -> 62da16ce070b83ba
+M19   plans/round99_bnfit_probe.py afacbf81fcc84fd9 -> 9e282c7b6d71b98a
+M20   plans/round99_bnfit_probe.py afacbf81fcc84fd9 -> 3a400d53dd3fc8d7
+M21   plans/round99_bnfit_probe.py afacbf81fcc84fd9 -> 7968cc82a8939112
+M22   plans/round99_bnfit_probe.py afacbf81fcc84fd9 -> ea2d41ff5532f08b
+M23   plans/round99_bnfit_probe.py afacbf81fcc84fd9 -> 6ff21591a1c85821
+M24   plans/round99_bnfit_probe.py afacbf81fcc84fd9 -> 4fb7ad6b766e5583
+M25   plans/round99_bnfit_probe.py afacbf81fcc84fd9 -> 19461b2dddfd8b6b
+M26   corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> 752017119b419eab
+M27   corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> 31d48c90792c455d
+M28   corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> e3e4653beb2e5c1f
+M29   corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> 12edf56a16cf156f
+M30   plans/grader-population-ledger.json 5e9c4182efd9f33b -> 7bdabdef85a578e2
+M31   plans/round99_extra.txt absent -> 2dcae667d1149c36
+M32   SKILL.md 0025b8e0b028ccd0 -> aaddc87e2c0c1d4e
+M33   plans/round-99-claims.md 280f029d4dc0dc4c -> e86fa1f5c7bd95c8
+M34   corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> 1541b0562cada568
+M35   corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> f161565963432264
+M37   corpus/SOURCES.md 05116b87550f534b -> 48f26274fe78bfe5
+M37   plans/round99_c1_replay.py 3619199e709dfd54 -> 81aea75baf3921e6
+M38   plans/anchor_digest_check.py 11bb2cad87be1c29 -> 2dafed245aad5cc3
+M39   corpus/evidence/round99/bnfit-probe.txt c3832a8abea0b1d3 -> absent

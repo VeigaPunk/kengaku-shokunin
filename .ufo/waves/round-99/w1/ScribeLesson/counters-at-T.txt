@@ -1,0 +1,41 @@
+# ScribeLesson — independent counter re-runs (round 99, seat ScribeLesson)
+# clone: /fast/scratch/hyaku/kengaku-r99/ScribeLesson/clone (git clone --shared, detached)
+# grader venv G: uv venv -p 3.13 + pytest==8.4.1 pandas==2.3.2 scipy==1.16.1 (numpy 2.5.4)
+
+### C1 at T = f72a8bc710b12473b5c768004e2581f980d924f4
+REV f72a8bc710b12473b5c768004e2581f980d924f4
+LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=pass L11=pass
+TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0
+PREDICATE R99-C1 pass
+rc=0
+
+### C1 at HEAD = 23d580366db2a3462c9bbfc3b0ff71bce5837374 (receipts commit)
+REV 23d580366db2a3462c9bbfc3b0ff71bce5837374
+LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=pass L11=pass
+TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0
+PREDICATE R99-C1 pass
+rc=0
+
+### C2 at T = f72a8bc710b12473b5c768004e2581f980d924f4
+REV f72a8bc710b12473b5c768004e2581f980d924f4
+GATE defects base=45 rev=33
+LEGS K1=pass K2=pass K3=pass K4=pass K5=pass K6=pass K7=pass
+TARGET pop=12 cleared=12 still=0 outside_rows=313 outside_removed=0 outside_added=0 outside_rebound=0 url_channel_files=0 rows_changed=0 captures_changed=0
+PREDICATE R99-C2 pass
+rc=0
+
+### C2 at HEAD = 23d580366db2a3462c9bbfc3b0ff71bce5837374
+REV 23d580366db2a3462c9bbfc3b0ff71bce5837374
+GATE defects base=45 rev=33
+LEGS K1=pass K2=pass K3=pass K4=pass K5=pass K6=pass K7=pass
+TARGET pop=12 cleared=12 still=0 outside_rows=313 outside_removed=0 outside_added=0 outside_rebound=0 url_channel_files=0 rows_changed=0 captures_changed=0
+PREDICATE R99-C2 pass
+rc=0
+
+### Probe re-run, standalone (plans/round99_bnfit_probe.py --lane . --work ... --grader-venv G)
+OBSERVATIONS_BEGIN..OBSERVATIONS_END byte-identical to corpus/evidence/round99/bnfit-probe.txt
+(all 13 CASE lines ok=True; all 13 DETAIL lines equal; mismatches 0)
+Header differs from the committed receipt in exactly one field:
+  committed receipt: LANE_TIP 24a5a5554130065917d55618ae10309403abf60d   (the freeze commit F)
+  my re-run at T:    LANE_TIP f72a8bc710b12473b5c768004e2581f980d924f4   (the candidate commit)
+  -> the receipt was written at F, before C; the OBSERVATIONS block itself is byte-identical.

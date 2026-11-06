@@ -1,0 +1,51 @@
+33 findings at T (f72a8bc7), grouped by row kind x defect class; cheap = the token equals a committed file sha256
+
+code      digest-wrong-capture   n= 8 rows=S210,S211,S219,S228,S232,S279,S281,S298
+    S210 tier=A token=02bca54db4849b7c cheap=1 corpus/evidence/round52/graders/distribution-search/tests/test_outputs.py
+    S211 tier=A token=19daaee18d534f36 cheap=1 corpus/evidence/round58/tb2-distribution-search/solution/solve.sh
+    S219 tier=A token=90970bb3c372e8e7 cheap=1 corpus/evidence/round52/graders/openssl-selfsigned-cert/tests/test_outputs.py
+    S228 tier=A token=82c6351722e9aa98 cheap=1 corpus/evidence/round52/graders/pypi-server/tests/test_outputs.py
+    S232 tier=A token=b165f8504bb93a90 cheap=1 corpus/evidence/round52/graders/sqlite-with-gcov/tests/test_outputs.py
+    S279 tier=A token=2754ba6c5c5f75c9 cheap=1 corpus/evidence/round52/graders/merge-diff-arc-agi-task/tests/test_outputs.py
+    S281 tier=A token=0c24195ff4652776 cheap=1 corpus/evidence/round52/graders/modernize-scientific-stack/tests/test_outputs.py
+    S298 tier=A token=7f8d9ef66943f912 cheap=1 corpus/evidence/round94/graders/write-compressor/environment/decomp.c
+docs      anchor-unbound         n= 7 rows=S178,S184,S185,S193,S202,S231,S242
+    S178 tier=A token=fb4ab6f2e4db180b cheap=0 
+    S184 tier=A token=fa7599959f299668 cheap=0 
+    S185 tier=A token=b6434e470200e2fb cheap=0 
+    S193 tier=C token=7ea938c578d4505b cheap=0 
+    S202 tier=A token=6ba25be4e291a4ad cheap=0 
+    S231 tier=A token=d68676105b4bbf7f cheap=0 
+    S242 tier=A token=26a7ac98aced6107 cheap=0 
+code      anchor-unbound         n= 5 rows=S233,S240,S300
+    S233 tier=A token=0a9c8e34352dad46 cheap=0 
+    S233 tier=A token=d0e3fb1a3d9a8135 cheap=0 
+    S240 tier=A token=668b37ab12835bdf cheap=0 
+    S300 tier=A token=01550b7de7ab1320 cheap=1 corpus/evidence/round94/graders/write-compressor/solution/solve.sh
+    S300 tier=A token=fa53d657         cheap=0 
+paper     anchor-unbound         n= 4 rows=S187,S188,S189,S190
+    S187 tier=A token=65cf8f9f5475061b cheap=0 
+    S188 tier=A token=7e63e2fc1652edab cheap=0 
+    S189 tier=A token=73faf8394fbbb05b cheap=0 
+    S190 tier=A token=40c7d18ba897316c cheap=0 
+code      token-outside-anchor   n= 2 rows=S213,S300
+    S213 tier=A token=be               cheap=0 
+    S300 tier=A token=3a905a56         cheap=0 
+community anchor-unbound         n= 2 rows=S191,S192
+    S191 tier=C token=fe3c9111af175648 cheap=0 
+    S192 tier=C token=c87a8650fd772a46 cheap=0 
+dataset   anchor-unbound         n= 2 rows=S179,S186
+    S179 tier=A token=22f26aa96c3c1e89 cheap=0 
+    S186 tier=B token=d87fff1e48428966 cheap=0 
+code      capture-unanchored     n= 1 rows=S295
+    S295 tier=A token=-                cheap=0 
+code      digest-unknown         n= 1 rows=S236
+    S236 tier=A token=0a9c8e34352dad46 cheap=0 
+spec      anchor-unbound         n= 1 rows=S229
+    S229 tier=A token=5b97cb7e14fc1a38 cheap=0 
+
+measured clearing (scratch clone, 3 commits):
+  T                                   defects=33
+  + 9 provenance lines (3 files)      defects=24  (S210 S211 S219 S228 S232 S279 S281 S298 S300-01550b7d cleared)
+  + S295 second anchor token          defects=23  (S295 capture-unanchored cleared)
+  T minus the 8 C2 PROVENANCE files   defects=45  (C1 bytes intact; 0 defects on S334-S341)

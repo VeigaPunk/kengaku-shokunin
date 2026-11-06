@@ -1,0 +1,456 @@
+[
+ {
+  "id": "M01",
+  "desc": "drop a line (S175, round50)",
+  "rev": "737197676aa3fb6a63a73a4bdcc37f95fac135d4",
+  "rc": "1",
+  "failed_legs": [
+   "K4",
+   "K5"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K4 S175:lines=0",
+   "K5 still_defective=S175 bind_or_resolve_wrong=S175"
+  ],
+  "before": {
+   "corpus/evidence/round50/PROVENANCE.md": "d52af96b1c35deaaa8498701e5a9a66a451f98da29a65f5e0baab65c97a0a23d"
+  },
+  "after": {
+   "corpus/evidence/round50/PROVENANCE.md": "8fc634429c6998e6ec62c86282edfcec04a17b9b90e0683117d8a96f641df30a"
+  }
+ },
+ {
+  "id": "M02",
+  "desc": "duplicate a line (S173, round50)",
+  "rev": "f5df4598ec063a94f3fa2668a23b3c755f5988e7",
+  "rc": "1",
+  "failed_legs": [
+   "K4",
+   "K5"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K4 S173:lines=2",
+   "K5 still_defective=- bind_or_resolve_wrong=S173"
+  ],
+  "before": {
+   "corpus/evidence/round50/PROVENANCE.md": "d52af96b1c35deaaa8498701e5a9a66a451f98da29a65f5e0baab65c97a0a23d"
+  },
+  "after": {
+   "corpus/evidence/round50/PROVENANCE.md": "827c0adf95a2d92997d4747aaab70767291da3b5cd31200eba134d59e32966a5"
+  }
+ },
+ {
+  "id": "M03",
+  "desc": "add a URL to a new provenance file (round50 header)",
+  "rev": "535f637a921756c6eadaf1fe007eda80db374c55",
+  "rc": "1",
+  "failed_legs": [
+   "K3"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K3 new_provenance_with_url=['corpus/evidence/round50/PROVENANCE.md'] old_provenance_changed=-"
+  ],
+  "before": {
+   "corpus/evidence/round50/PROVENANCE.md": "d52af96b1c35deaaa8498701e5a9a66a451f98da29a65f5e0baab65c97a0a23d"
+  },
+  "after": {
+   "corpus/evidence/round50/PROVENANCE.md": "601e7b375a5a59b32bf81473fd1d531525f148bb982cb192d9649d6fd6b076fb"
+  }
+ },
+ {
+  "id": "M04",
+  "desc": "swap two sha cells (S173/S174, round50)",
+  "rev": "905be80ecb5e2510713d16679d817ff67aabf548",
+  "rc": "1",
+  "failed_legs": [
+   "K4"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K4 S173:sha_col=['123096436d7d47b718483fdfbc1660446474a77b2a5b33212f5360af89ca2f95'] capture=39ce8d137a30 S174:sha_col=['39ce8d137a30e1fd80eeae146b1c424e56f688f4ddd001259eb98543d3209439'] capture=123096436d7d"
+  ],
+  "before": {
+   "corpus/evidence/round50/PROVENANCE.md": "d52af96b1c35deaaa8498701e5a9a66a451f98da29a65f5e0baab65c97a0a23d"
+  },
+  "after": {
+   "corpus/evidence/round50/PROVENANCE.md": "f6aafadb60ddc8009530b21a2e20eed0ceb12c8e7e7709c23151e6f8aa7a5e4e"
+  }
+ },
+ {
+  "id": "M05",
+  "desc": "point S270 at a byte-identical twin in the same dir",
+  "rev": "0209bbaedd9b07a215c758f0cf56d61cbc71357c",
+  "rc": "1",
+  "failed_legs": [
+   "K4",
+   "K5"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K4 S270:binds=corpus/evidence/round82/fetch/candidate_run-tests.sh",
+   "K5 still_defective=- bind_or_resolve_wrong=S270"
+  ],
+  "before": {
+   "corpus/evidence/round82/PROVENANCE.md": "88c1cb8c2549da97e47806795b7baafba732ada6e13dffea5c5f9c4fdebc2026"
+  },
+  "after": {
+   "corpus/evidence/round82/PROVENANCE.md": "75381303b59a5980167919a29297f0f5dc967a8c56204b848e4926ceb6a0a121"
+  }
+ },
+ {
+  "id": "M06",
+  "desc": "bind a real outside row (S179) that is defective",
+  "rev": "75758a5a57f2f6e7f421654322c9f7ce22c2ce53",
+  "rc": "1",
+  "failed_legs": [
+   "K7"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K7 outside rows moved=S179"
+  ],
+  "before": {
+   "corpus/evidence/round79/PROVENANCE.md": "ce364b507c5efea269360a37b2e1292de51a47e8a49916a1dba0e228849426dd"
+  },
+  "after": {
+   "corpus/evidence/round79/PROVENANCE.md": "7938090e4750799190c1f6b205815148b0de7bc749d4448cc52e4bf138bc92b6"
+  }
+ },
+ {
+  "id": "M07",
+  "desc": "bind a real outside row (S001) that is invisible",
+  "rev": "2b8624f65e72055bd28994215a2ffc2f129562e7",
+  "rc": "1",
+  "failed_legs": [
+   "K7"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K7 outside rows moved=S001"
+  ],
+  "before": {
+   "corpus/evidence/round50/PROVENANCE.md": "d52af96b1c35deaaa8498701e5a9a66a451f98da29a65f5e0baab65c97a0a23d"
+  },
+  "after": {
+   "corpus/evidence/round50/PROVENANCE.md": "1d06e2d623a5f5f331c0fb5ac067ca0006f0a12b34ce52ca40d0a982c6dd6ffd"
+  }
+ },
+ {
+  "id": "M08",
+  "desc": "bind a fabricated row id (S999)",
+  "rev": "8aab8b7bf91a035b955feb35801d4a7eb15589bd",
+  "rc": "0",
+  "failed_legs": [],
+  "predicate": "R99-C2 pass",
+  "defects": [],
+  "before": {
+   "corpus/evidence/round50/PROVENANCE.md": "d52af96b1c35deaaa8498701e5a9a66a451f98da29a65f5e0baab65c97a0a23d"
+  },
+  "after": {
+   "corpus/evidence/round50/PROVENANCE.md": "e1aa223c635ea3fa6fc94a789a6c18045afb3a86e7b7700a430e4b8629f8028e"
+  }
+ },
+ {
+  "id": "M09",
+  "desc": "move S225's line to round62 against a byte-identical twin",
+  "rev": "26bf187296c291c1321aec3c17f5a840d50f0c93",
+  "rc": "1",
+  "failed_legs": [
+   "K4",
+   "K5"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K4 S225:file=corpus/evidence/round62/PROVENANCE.md",
+   "K5 still_defective=- bind_or_resolve_wrong=S225"
+  ],
+  "before": {
+   "corpus/evidence/round61/PROVENANCE.md": "618916af90e754a08a3a3ad5a6a21816170a0146ecce67a541d4fd0adbbc18c6",
+   "corpus/evidence/round62/PROVENANCE.md": "absent"
+  },
+  "after": {
+   "corpus/evidence/round61/PROVENANCE.md": "db07c4f677e161ef3cc1cb731e141592f35693b5528f65341be2f163c814964b",
+   "corpus/evidence/round62/PROVENANCE.md": "c781889bcf4e8f898fb5fd43db5abdcabd915891165f696cbdf2ac120d0fca11"
+  }
+ },
+ {
+  "id": "M10",
+  "desc": "edit the existing round-98 corpus/evidence/PROVENANCE.md (whitespace)",
+  "rev": "662e405164f21df1aa90aa3e5e0729c08d0d52bb",
+  "rc": "1",
+  "failed_legs": [
+   "K3"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K3 new_provenance_with_url=- old_provenance_changed=['corpus/evidence/PROVENANCE.md']"
+  ],
+  "before": {
+   "corpus/evidence/PROVENANCE.md": "d3fc4b7c9c69614fd2656407c5161780f903f0e5d1c66acad467135ba0f530b9"
+  },
+  "after": {
+   "corpus/evidence/PROVENANCE.md": "5dbc805e8ae1dc812c06bc3fec2bf432f41d2f5993f4ac04909da8e9a03c9cd3"
+  }
+ },
+ {
+  "id": "M11",
+  "desc": "add a 4th plain-text column (S173)",
+  "rev": "5ecc5669b85917152ca7b0283db7283b84962da4",
+  "rc": "0",
+  "failed_legs": [],
+  "predicate": "R99-C2 pass",
+  "defects": [],
+  "before": {
+   "corpus/evidence/round50/PROVENANCE.md": "d52af96b1c35deaaa8498701e5a9a66a451f98da29a65f5e0baab65c97a0a23d"
+  },
+  "after": {
+   "corpus/evidence/round50/PROVENANCE.md": "d562106e900cda924e19b3a1fb3381950b94a0b57b9e36b05badadcb229043cf"
+  }
+ },
+ {
+  "id": "M12",
+  "desc": "add a 4th column naming another committed file (S173)",
+  "rev": "38d803677ecc46934e02264e7c56059328c23181",
+  "rc": "0",
+  "failed_legs": [],
+  "predicate": "R99-C2 pass",
+  "defects": [],
+  "before": {
+   "corpus/evidence/round50/PROVENANCE.md": "d52af96b1c35deaaa8498701e5a9a66a451f98da29a65f5e0baab65c97a0a23d"
+  },
+  "after": {
+   "corpus/evidence/round50/PROVENANCE.md": "ee15586eb113898d92a426dc16ca76051080daa59f5640c2d8f40541c2d0a37e"
+  }
+ },
+ {
+  "id": "M13",
+  "desc": "duplicate S173's line into another round dir's file (round93)",
+  "rev": "08164bffa4fca9263a50bb1501baa42d6d97e163",
+  "rc": "1",
+  "failed_legs": [
+   "K4"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K4 S173:lines=2"
+  ],
+  "before": {
+   "corpus/evidence/round93/PROVENANCE.md": "dc383775342b31fef4aa787adb7030ddddf61e228de7296f87e2eebcc25b56bb"
+  },
+  "after": {
+   "corpus/evidence/round93/PROVENANCE.md": "6940dbe9be4f69e214b8ab841f1de47abdf199138f6b2863dbec57358dba204e"
+  }
+ },
+ {
+  "id": "M14",
+  "desc": "delete a whole new provenance file (round95)",
+  "rev": "6d53bbafd665795fd0619790a012231145136115",
+  "rc": "1",
+  "failed_legs": [
+   "K4",
+   "K5"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K4 S306:lines=0",
+   "K5 still_defective=S306 bind_or_resolve_wrong=S306"
+  ],
+  "before": {
+   "corpus/evidence/round95/PROVENANCE.md": "5e1001a37f8b7a0b32dd11e6b406339ce2fcae7ad541ce1c00dd2ddedd350fb5"
+  },
+  "after": {
+   "corpus/evidence/round95/PROVENANCE.md": "absent"
+  }
+ },
+ {
+  "id": "M15",
+  "desc": "edit a POP SOURCES row (S173, trailing space)",
+  "rev": "7f0cbeaca2e502f39aa036407ca638157ca82687",
+  "rc": "1",
+  "failed_legs": [
+   "K6"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K6 rows_changed=['S173'] captures_changed=-"
+  ],
+  "before": {
+   "corpus/SOURCES.md": "05116b87550f534be71736ab600791bf7f3ab8a6ba3c649de2bd941b53586d1f"
+  },
+  "after": {
+   "corpus/SOURCES.md": "0480fe03cbe4571c6047b0d82240e023de8c453d151dc3b3bc8121bc704dc575"
+  }
+ },
+ {
+  "id": "M16",
+  "desc": "edit an outside row's unparsed 64-hex token (S060)",
+  "rev": "a88db24bd5b9ef7d43d49667cb668ec8b7e196f8",
+  "rc": "0",
+  "failed_legs": [],
+  "predicate": "R99-C2 pass",
+  "defects": [],
+  "before": {
+   "corpus/SOURCES.md": "05116b87550f534be71736ab600791bf7f3ab8a6ba3c649de2bd941b53586d1f"
+  },
+  "after": {
+   "corpus/SOURCES.md": "f44502719d05ed05535af8f9659cf8493f7667fc1f707f5f195182e0e373de16"
+  }
+ },
+ {
+  "id": "M17",
+  "desc": "delete an invisible outside SOURCES row (S001)",
+  "rev": "25f84abccc325135b7a94b562f4b9173ab80a1a5",
+  "rc": "0",
+  "failed_legs": [],
+  "predicate": "R99-C2 pass",
+  "defects": [],
+  "before": {
+   "corpus/SOURCES.md": "05116b87550f534be71736ab600791bf7f3ab8a6ba3c649de2bd941b53586d1f"
+  },
+  "after": {
+   "corpus/SOURCES.md": "42aa6440aa07d0bdf753a8bdfa2f97748f0fb62906aae89d608fa0d4f807b12a"
+  }
+ },
+ {
+  "id": "M18",
+  "desc": "edit a bound outside row's capture path (S025)",
+  "rev": "102413e6d1ed547b94d4d22df16807a70553e808",
+  "rc": "1",
+  "failed_legs": [
+   "K7"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K7 outside rows moved=S025"
+  ],
+  "before": {
+   "corpus/SOURCES.md": "05116b87550f534be71736ab600791bf7f3ab8a6ba3c649de2bd941b53586d1f"
+  },
+  "after": {
+   "corpus/SOURCES.md": "68adae6c53d9f914a4d70a2b081045138629377c363d96ce446e093bf047e23c"
+  }
+ },
+ {
+  "id": "M19",
+  "desc": "mutate a POP capture (round50/git-init.adoc)",
+  "rev": "17bd1f433feb005aed768f8ae19ee5d218dbe922",
+  "rc": "1",
+  "failed_legs": [
+   "K4",
+   "K5",
+   "K6"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K4 S174:sha_col=['123096436d7d47b718483fdfbc1660446474a77b2a5b33212f5360af89ca2f95'] capture=5d8ad7095460",
+   "K5 still_defective=S174 bind_or_resolve_wrong=S174",
+   "K6 rows_changed=- captures_changed=['S174']"
+  ],
+  "before": {
+   "corpus/evidence/round50/git-init.adoc": "123096436d7d47b718483fdfbc1660446474a77b2a5b33212f5360af89ca2f95"
+  },
+  "after": {
+   "corpus/evidence/round50/git-init.adoc": "5d8ad709546057b7f0b2785f5b38b9b05449797ccfd283db3cafd70be93e710c"
+  }
+ },
+ {
+  "id": "M20",
+  "desc": "edit the counter's POP token (S173)",
+  "rev": "5e1d4b87ac356a6200958d8f5aef814e84cd2700",
+  "rc": "1",
+  "failed_legs": [
+   "K1",
+   "K2",
+   "K4",
+   "K5"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K1 gate_equal=True self=d2b94bf1dbe1 vs frozen 8b470d7ac3c2",
+   "K2 derived=12 pop=12 only_derived=[] only_pop=[] differ=['S173']",
+   "K4 S173:sha_col=['39ce8d137a30e1fd80eeae146b1c424e56f688f4ddd001259eb98543d3209439'] capture=39ce8d137a30",
+   "K5 still_defective=- bind_or_resolve_wrong=S173"
+  ],
+  "before": {
+   "plans/round99_c2_rowscoped_bind.py": "8b470d7ac3c2ba7644079ed50f37f9db10d6bf97326c379517d7b747ad74d745"
+  },
+  "after": {
+   "plans/round99_c2_rowscoped_bind.py": "d2b94bf1dbe1f188e8de42cbf4286f1770724ebc98d55724018df0070fff6160"
+  }
+ },
+ {
+  "id": "M21",
+  "desc": "neuter the counter's K1 self check",
+  "rev": "d658cadbb3d943feedd2100908822bc59c375963",
+  "rc": "0",
+  "failed_legs": [],
+  "predicate": "R99-C2 pass",
+  "defects": [],
+  "before": {
+   "plans/round99_c2_rowscoped_bind.py": "8b470d7ac3c2ba7644079ed50f37f9db10d6bf97326c379517d7b747ad74d745"
+  },
+  "after": {
+   "plans/round99_c2_rowscoped_bind.py": "10b69aca09962b401b569a855ea0c6acf1e177ec8a77021ebd715d9f223440b8"
+  }
+ },
+ {
+  "id": "M22",
+  "desc": "edit the gate's ANCHOR_CELL at rev",
+  "rev": "db8a57e91fe105f55855c829ce60b5d02b08971a",
+  "rc": "1",
+  "failed_legs": [
+   "K1"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K1 gate_equal=False self=8b470d7ac3c2 vs frozen 8b470d7ac3c2"
+  ],
+  "before": {
+   "plans/anchor_digest_check.py": "11bb2cad87be1c29c2d5abe8313d487d73f71ba49a40d7d0dc80ec26c70fd4c2"
+  },
+  "after": {
+   "plans/anchor_digest_check.py": "b2aa7f98821a3268ebfe9286460a9406733de1401be078b581fd9a78582196ba"
+  }
+ },
+ {
+  "id": "M23",
+  "desc": "delete a bound outside SOURCES row (S025)",
+  "rev": "cacdd5a49108f2437b9fa2de6def244c0de39680",
+  "rc": "1",
+  "failed_legs": [
+   "K7"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K7 outside rows moved=S025"
+  ],
+  "before": {
+   "corpus/SOURCES.md": "05116b87550f534be71736ab600791bf7f3ab8a6ba3c649de2bd941b53586d1f"
+  },
+  "after": {
+   "corpus/SOURCES.md": "5627018d1238cafeb8c95f177aca2087b67f0e95411615d9bb47f0c8fcdba37a"
+  }
+ },
+ {
+  "id": "M24",
+  "desc": "delete a defective outside SOURCES row (S179)",
+  "rev": "687243bf3bc5d5f18b93ac68b00be5a05c06f6df",
+  "rc": "1",
+  "failed_legs": [
+   "K7"
+  ],
+  "predicate": "R99-C2 fail",
+  "defects": [
+   "K7 outside rows moved=S179"
+  ],
+  "before": {
+   "corpus/SOURCES.md": "05116b87550f534be71736ab600791bf7f3ab8a6ba3c649de2bd941b53586d1f"
+  },
+  "after": {
+   "corpus/SOURCES.md": "7057ae66b5a25c53cefdb354763f418e5175ccad8f804c9a3503f484463718c7"
+  }
+ }
+]

@@ -1,0 +1,139 @@
+# ScribeLesson — every number/vector in corpus/knowledge/tb2-bn-fit-modify-grader.md and
+# corpus/lessons/round-99.md recomputed independently (round 99, seat ScribeLesson).
+# Method: scipy 1.16.1 / numpy 2.5.4 / pandas 2.3.2 venv G; R 4.4.3 + r-bnlearn 5.2.1 at
+# /fast/scratch/kengaku-r99/renv/bin/Rscript; raw dataset + fixture bytes from the lane.
+
+## A. Knowledge-entry table, case by case (recomputed from plans/round99_bnfit_probe.py BUILDER)
+
+Case  C01 solution
+  fit (R, rerun of modify_bn.R against bn_sample_10k.csv):
+    D | U + Y : (Intercept) -12.2965135  U 0.5495886  Y 0.4485709   resid sd 14.09165
+  grader constants recomputed:
+    true_mean = -12.2965135 + 0.5495886*50.47989 = 15.4466585733
+    true_std  = sqrt(0.5495886^2*10.68515^2 + 14.0916^2) = 15.2662602665
+  dataset moments: meanU 50.47989365  sdU 10.68515184 (grader uses 50.47989 / 10.68515)
+  KS of the COMMITTED fixture final_bn_sample.csv against those constants: D=0.009795  p=0.290707  PASS
+  committed fixture D mean = 15.3187212291  (run.log says 15.3187212290519)  -> fixture consistent
+  receipt: observed P,P,P,P,P,P,P,P,P,1  (9 legs P + reward 1)   knowledge row: "P×9, 1"   MATCH
+
+Case  C02 absent
+  receipt: F,F,E:FileNotFoundError,E:FileNotFoundError,F,E,E,E,E,0
+  knowledge row: "F,F,E,E,F,E,E,E,E, 0 (E = FileNotFoundError)"   MATCH (9 legs + reward)
+
+Case  C03 marginal-only
+  builder: zeros for U,Y,R,M + D ~ N(TRUE_MEAN, TRUE_STD) with rng default_rng(3)
+  recomputed KS: D=0.007402  p=0.640865  PASS
+  receipt: P×9, 1        knowledge row: "P×9, 1"                    MATCH
+
+Case  C04 no-intervention
+  builder refits OLS D~U+Y on the committed dataset and samples the FITTED (un-intervened) BN
+  recomputed: D mean 38.107200 vs target 15.446659 -> shift +22.660541 = +1.4844 sd
+              KS D=0.516149  p=0  FAIL
+  b_Y * E[Y] = 0.4485709 * 50.354725 = 22.5877  (the +0.449*E[Y] term named in the knowledge row)
+  receipt: sample_data F, reward 0        knowledge row: "sample_data F, 0"   MATCH
+
+Case  C05 rownames-column
+  builder writes sol.to_csv(index=True) -> 6 columns (extra index col) + 10000 rows
+  receipt: P,P,P,P,P,P,P,P,F,0          knowledge row: "sample_data F, 0"    MATCH
+
+Case  C06 header-to-from
+  builder writes learned_dag.csv and intervened_dag.csv with columns swapped to (to,from)
+  receipt: P×9, 1                         knowledge row: "P×9, 1"           MATCH
+  NOTE: instruction.md:14-15 literally specifies the header `to,from` with rows `A,B` -> the
+  grader reads row["from"],row["to"], so the ambiguity is in the instruction, confirmed.
+
+Case  C07 dup-edges-extra
+  builder: every learned edge listed twice + a `weight` column
+  receipt: P×9, 1                         knowledge row: "P×9, 1"           MATCH
+
+Case  C08 reversed-edge  receipt: ldag_struct F, reward 0   knowledge: "ldag_struct F, 0"   MATCH
+Case  C09 idag-not-dropped receipt: idag_struct F, reward 0 knowledge: "idag_struct F, 0"  MATCH
+Case  C10 rows-9999        receipt: sample_data F, reward 0 knowledge: "sample_data F, 0"   MATCH
+
+Case  C11 ks-shift-small (deterministic grid, +0.045 sd)
+  recomputed KS: D=0.018001  p=0.00302811  PASS
+  knowledge row: "KS D = 0.0180, p = 0.0030 >= 0.001"    MATCH (4 dp)
+Case  C12 ks-shift-large (deterministic grid, +0.050 sd)
+  recomputed KS: D=0.019995  p=0.00066432  FAIL
+  knowledge row: "KS D = 0.0200, p = 0.00066"              MATCH (4 dp)
+
+Case  C13 quantile-grid (deterministic, no sampling)  receipt P×9,1  knowledge "P×9, 1"  MATCH
+
+## B. The "+/-0.048 sd" band claimed in the knowledge entry
+
+Knowledge entry: "the band is about +/-0.048 sd on the mean (C11/C12)"; "the pass/fail edge is
+a mean shift of about 0.048 sd".
+Independently bisected on the grader venv (grid = TRUE_MEAN + TRUE_STD*(norm.ppf((i+.5)/n) + k)):
+  k=+0.0450  D=0.018001  p=0.00302811  PASS
+  k=-0.0450  D=0.018001  p=0.00302811  PASS   (band is symmetric)
+  k=+0.0480  D=0.019197  p=0.00124218  PASS
+  k=-0.0480  D=0.019197  p=0.00124218  PASS
+  k=+0.0487  D=0.019477  p=0.00100071  PASS
+  edge  = +0.048702 sd  (D=0.019477, p=0.001)      edge  = -0.048702 sd
+So "about 0.048 sd" is correct to 3 dp and the band is symmetric.  No correction needed.
+
+## C. C2 population and gate arithmetic (recomputed)
+
+BASE gate (plans/anchor_digest_check.py at 2233a661): rows=325 tokens=209 defects=45
+T   gate (at f72a8bc7):                            rows=333 tokens=217 defects=33
+Per-row DEFECT-set diff BASE -> T:
+  cleared        : S173 S174 S175 S176 S177 S180 S220 S225 S270 S285 S293 S306   (exactly the 12 POP rows)
+  newly defective: (none)
+  changed        : (none)
+  -> gate findings 45 -> 33 is 12 findings, all of them the 12 population rows.  No side effect.
+POP tokens vs the sha256 of the capture each row names (c2-pop.txt):
+  all 12 verified equal to the capture file's actual sha256 (e.g. S270 -> round82/fetch/candidate_pyproject.toml
+  = d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed, whose content is literally "404: Not Found",
+  which is why the lesson calls it "a 404 body").
+Base-row census for the outside population:
+  BASE SOURCES rows 325; POP 12; outside 313
+  outside rows carrying NO gate note at BASE = 105   -> the lesson's "105 of the 313 outside rows carry no
+  gate output at all" is confirmed, and all 105 of those are also defect-free (so a rewrite of one is
+  undetectable by a finding-level census, as the lesson states).
+
+## D. Lesson claims re-derived from the ledger at BASE
+
+At BASE 2233a661 (plans/grader-population-ledger.json):
+  executed total 42;  file-artifact 33/76;  subprocess-exec 15/45;  crypto-credential 4/12;
+  shell-exec 2/6;  numeric-band 4/10;  filesystem-metadata 4/10
+At T f72a8bc7: executed 43; file-artifact 34/76; 88 members total
+Lesson's class arithmetic (M4) matches the BASE ledger exactly, including "executed went 42 -> 43"
+and "file-artifact went 33 -> 34 of 76".  The lesson prints 33/76 (BASE) for file-artifact in the
+considerthese block and 34/76 in the Frontier block; both are correct for their stated baselines.
+
+## E. Word-count cells (lesson M3 / Q76)
+
+At T the five typed counts were wrong; the corrected values are exactly len(quote.split()):
+  S334 4 -> 5      S336 4 -> 3      S337 11 -> 12     S338 5 -> 6     S339 5 -> 1
+  (extracted from commit b71b990a's diff of corpus/SOURCES.md; each now matches len(quote.split()) exactly)
+plans/anchor_line_check.py --lane . :
+  at T   (f72a8bc7) : live=5 cells=5  rc=1     rows S334,S336,S337,S338,S339 state=live
+  at BASE(2233a661) : live=0 cells=0  rc=0     rows=325
+  in the lane tree now (after b71b990a): live=0 cells=0 rc=0   rows=333
+The lesson's M3 numbers (live=5 cells=5 rc 1 at T; live=0 rc 0 at BASE) are confirmed.
+
+## F. Lesson M5 (the r82c1 selftest-cell defect)
+
+plans/round82_c1_plans_registry.py --tip X, run at three revisions by the L1 battery:
+  tip=2233a661 (BASE) : 13 DEFECT lines  (all ROW-SELFTEST-UNBACKED; 0 round99 rows)
+  tip=f72a8bc7 (T)    : 17 DEFECT lines  (16 ROW-SELFTEST-UNBACKED; the 4 extra are
+                                      round99-bnfit-probe / -c1-replay / -c2-rowscoped-bind / -provenance-build)
+  tip=3fdecf31 (post-M5-fix): 13 DEFECT lines, full-line set EQUAL to the BASE set
+  -> the lesson's "BASE has 13 DEFECT and T has 17" and "Re-run: 13 DEFECT, set equal to BASE" are confirmed.
+SKILL.md at HEAD: all four round99 registry rows now open with `none declared - no self-invocation mode; ...`
+  (commit 3fdecf31 touched SKILL.md only, 4 insertions / 4 deletions).
+  No round-99 counter reads SKILL.md (grep of SKILL in the four round99 scripts: no hits), so the
+  dated correction cannot move either frozen predicate; C1 and C2 both re-run pass at HEAD.
+
+## G. Probe receipt provenance
+
+corpus/evidence/round99/bnfit-probe.txt header records LANE_TIP 24a5a555 (the FREEZE commit F), while the
+committed OBSERVATIONS block is what C1's L6 re-derives at T: my standalone probe re-run produced a
+byte-identical OBSERVATIONS..OBSERVATIONS_END block (all 13 CASE lines ok=True, all 13 DETAIL lines equal,
+mismatches 0) and differs from the committed receipt only in that one header field.
+
+## H. Census
+
+scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku  -> rc=0, 31 W04 warnings,
+the newest being S334 (duplicate URL of S181's bn-fit-modify/tests/test_outputs.py across scopes).
+The lane's own census-start.txt / census-end.txt / controls/candidate/sources-validate.txt all agree on 31.

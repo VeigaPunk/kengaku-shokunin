@@ -1,0 +1,17 @@
+ReviewC1 positive-control re-run (2026-11-06, offline)
+R env: /fast/scratch/kengaku-r99/renv/bin/Rscript (conda-forge r-base 4.4.3, r-bnlearn 5.2.1)
+Input: corpus/evidence/round99/tb2-bn-fit-modify/bn_sample_10k.csv (sha 7d4c27ac...)
+Script: solve.sh heredoc (extracted) == corpus/evidence/round99/bn-fit-modify-solution/modify_bn.R (diff empty)
+Fixture SHA256SUMS -c: all 5 OK; first four equal probe FIX_PINS.
+learned_dag.csv:  IDENTICAL to fixture (diff empty)
+intervened_dag.csv: IDENTICAL to fixture (diff empty)
+fitted D (re-run == fixture run.log block, printed):
+  D | U + Y  coef: (Intercept) -12.2965135  U 0.5495886  Y 0.4485709  resid sd 14.09165
+grader constants (test_outputs.py:148-151): -12.2965135, 0.5495886, sd_U 10.68515, resid 14.0916, E[U] 50.47989
+U column: mean 50.4799, sd 10.685 (ddof=1) -> matches.
+Intervened Y: coef (Intercept)=0, sd 1e-9 -> E[Y]=0, so b_Y*E[Y]=0 and true_mean = intercept + b_U*E[U]. Consistent.
+KS band check (venv python 3.13.16 / numpy 2.5.4 / scipy 1.16.1):
+  grid k=0.000: D=0.0001 p=1.00000 pass  (C13 "KS p ~ 1")
+  grid k=0.045: D=0.0180 p=0.00303 pass  (C11 "D = 0.0180, p = 0.0030")
+  grid k=0.050: D=0.0200 p=0.00066 FAIL  (C12 "D = 0.0200, p = 0.00066")
+  rng(3) draw:  D=0.0074 p=0.64087 pass  (C03 builder draw)

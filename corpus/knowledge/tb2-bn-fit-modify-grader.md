@@ -22,18 +22,18 @@ idag_struct, sample_cols, sample_data, reward`.
 
 | intervention | observed | interpretation |
 |---|---|---|
-| C01 maintainer solution outputs (R/bnlearn, one offline run) | P×9, 1 | positive control. The fit printed by the solution equals the grader's constants: D = −12.2965135 + 0.5495886·U + 0.4485709·Y, sd 14.09165 (`corpus/evidence/round99/bn-fit-modify-solution/run.log`) |
+| C01 maintainer solution outputs (R/bnlearn, one offline run) | P×9, 1 | positive control. The fit printed by the solution equals the grader's constants: D = −12.2965135 + 0.5495886·U + 0.4485709·Y, sd 14.09165; the grader rounds the sd to 14.0916 (`corpus/evidence/round99/bn-fit-modify-solution/run.log`). ReviewC1 re-ran the script offline and got byte-identical DAG files and the same fit |
 | C02 no output files | F,F,E,E,F,E,E,E,E, 0 (E = FileNotFoundError) | no work is rejected |
-| C03 U,R,Y,M all 0.0; D drawn from the target normal | P×9, 1 | **gap**: no structure learning, no fit and no intervention, yet the sample passes, because only D is tested |
-| C04 sample from the fitted BN without the Y intervention | sample_data F, 0 | mechanism negative for C03: the KS test sees D's mean shift (+0.449·E[Y]) |
-| C05 solution sample written with R's default row-names column | sample_data F, 0 | the names test only checks inclusion (passes); the 5-column assert fails. This is a realistic R slip: `write.csv` defaults to `row.names = TRUE` |
+| C03 U,R,Y,M all 0.0; D drawn from the target normal (seeded draw, `default_rng(3)`) | P×9, 1 | **gap**: no structure learning, no fit and no intervention, yet the sample passes, because only D is tested. Flip rate: 1998/2000 seeds pass (99.9 %, the KS α; ExecKS) |
+| C04 sample from the fitted BN without the Y intervention (seeded draw, `default_rng(4)`, OLS refit on the dataset) | sample_data F, 0 | mechanism negative for C03: the KS test sees D's mean shift, +0.449·E[Y] = +22.59 (about 1.48 sd; KS D 0.516). Flip rate: 0/200 seeds pass (ScribeLesson) |
+| C05 solution sample written with R's default row-names column | sample_data F, 0 | the names test only checks inclusion (passes); the 5-column assert fails. This is a realistic R slip: `write.csv` defaults to `row.names = TRUE`, and the maintainer's script passes `row.names = FALSE` explicitly to avoid it |
 | C06 both DAG files with header `to,from` and swapped columns | P×9, 1 | the grader reads by column name. The instruction's literal header `to,from` over `A,B` example rows is ambiguous, and the grader tolerates either column order as long as the names match |
 | C07 learned DAG with every edge twice plus a `weight` column | P×9, 1 | **gap**: the grader compares a set, so duplicates and extra columns pass |
 | C08 R→M written M→R | ldag_struct F, 0 | set equality catches a reversed edge |
 | C09 intervened DAG keeps U→Y | idag_struct F, 0 | the intervention's graph surgery is checked |
 | C10 9 999 sample rows | sample_data F, 0 | exact row count |
 | C11 D = normal quantile grid shifted +0.045 sd | P×9, 1 | **gap (tolerance band)**: KS D = 0.0180, p = 0.0030 ≥ 0.001 |
-| C12 the same grid shifted +0.050 sd | sample_data F, 0 | KS D = 0.0200, p = 0.00066: the pass/fail edge is a mean shift of about 0.048 sd |
+| C12 the same grid shifted +0.050 sd | sample_data F, 0 | KS D = 0.0200, p = 0.00066: the pass/fail edge is a mean shift of 0.0487 sd (bisected: ExecKS 0.04869, ScribeLesson 0.048702) |
 | C13 D = deterministic normal quantile grid (no sampling) | P×9, 1 | **gap**: any array with the right marginal passes, so nothing requires a sample |
 
 ## What this teaches about grading
@@ -43,7 +43,7 @@ idag_struct, sample_cols, sample_data, reward`.
   only through D's mean and spread. Two different causal pipelines that produce the same D marginal score
   the same. Y is never required to be 0 after the intervention, and U, R and M are never read (C03).
 - **A distribution test with a fixed threshold sets a tolerance band, not a correctness check.** With
-  n = 10 000 and p ≥ 0.001 the band is about ±0.048 sd on the mean (C11/C12). Random draws near the edge
+  n = 10 000 and p ≥ 0.001 the band is about ±0.0487 sd on the mean (C11/C12). Random draws near the edge
   pass or fail by chance: a seeded random draw at +0.03 sd failed in dry run 1, and 49 of 200 seeds fail at
   that shift (`.ufo/waves/round-99/L1/predictions-amendment-1.txt`). A prediction about a stochastic
   verdict must state its seed noise, or the case must be deterministic.

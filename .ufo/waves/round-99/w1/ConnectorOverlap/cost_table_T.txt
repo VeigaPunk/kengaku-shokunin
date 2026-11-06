@@ -1,0 +1,38 @@
+cost rubric: T=toolchain F=fixture S=solution N=test-count, 0 cheap .. 3 infeasible-offline
+bytes are the pinned tree at 2fd12b88 (corpus/evidence/round53/pin-tree-2fd12b88.json); bn-fit-modify tree = 15420 B for scale
+task                             TFSN sum    total     env    sol  tests note
+cobol-modernization              0000   0    19266    6387   4555   3635 python only; test writes /app/data + /app/src itself; program.py ~80 lines
+extract-elf                      0000   0    26558     428   9479  13247 gcc+node present; test writes /app/new.c itself; solve.sh 9479 B at pin
+dna-insert                       1000   1    17443    7462   1358   4189 primer3/oligotm via conda-forge; sequences embedded in grader; analytic primers
+dna-assembly                     1000   1    31070    7936   3540  14721 primer3/oligotm via conda-forge; sequences embedded in grader; analytic primers
+prove-plus-comm                  2000   2     5900     656    414   1755 coqc (Coq ~1.2 GB) via conda-forge; 3-line proof; smallest tree 5900 B
+path-tracing                     0110   2    22391    9673   4017   4822 gcc present; reference ppm at pin; <2 KB compressed tracer is the hard part
+winning-avg-corewars             1100   2    23779    8332   7042   4129 pmars built from source; 5 warriors 8332 B; solve.sh 7042 B at pin
+adaptive-rejection-sampler       0011   2    37849    5812  15365   9898 Rscript staged at /fast/scratch/kengaku-r99/renv/bin; numpy/scipy pins; ars.R ~50 lines
+mailman                          1110   3    23502    6538   4485   8037 mailman3 + SMTP service; 6538 B env
+build-pov-ray                    1110   3   338369    5107   3293 326410 POV-Ray 2.2 source build; reference png 320607 B; ImageMagick convert
+financial-document-processor     0111   3  4031474 4004665  11635  10965 pandas in replay venv; 4004665 B documents (sha512-pinned); solve.sh 11635 B
+compile-compcert                 2110   4    11532     200   1529   6502 CompCert build (Coq+OCaml)
+build-cython-ext                 1111   4    12229     395   1088   6367 pyknotid clone + numpy==2.3.0 (conflicts with replay venv 2.5.4) + Cython build
+mcmc-sampling-stan               2011   4    17130     783   3954   7009 R + rstan (compiles Stan models)
+custom-memory-heap-crash         1111   4    31304   14328   4918   6839 valgrind + C sources 14328 B
+gpt2-codegolf                    2210   5     9301     416   3437   2159 gpt2-124M.ckpt fetched at build (~500 MB) though tree is 9301 B
+git-multibranch                  3110   5    10280    1200   1281   3274 nginx+sshd+git over localhost: network services
+large-scale-text-editing         2111   5    32425   14810    778  12497 vim absent (S296 rejected on this); 14810 B env + large input
+rstan-to-pystan                  2111   5    40197   20340   6980   6774 R + rstan + pystan
+reshard-c4-data                  2210   5  1049574    2508   6148 1036508 datasets + C4 shard download; files_hashes.json 1029394 B
+video-processing                 1211   5  1532941  552414   6288 970152 cv2+toml; 1532941 B tree incl. 551877+964534 B mp4
+qemu-startup                     3210   6     7207     726   1078   2405 QEMU + Alpine image + telnet + expect
+qemu-alpine-ssh                  3210   6     8589     725   3063   2006 QEMU + Alpine image + sshpass
+caffe-cifar-10                   2211   6    13574     286   2311   7249 caffe build + CIFAR download
+break-filter-js-from-html        3210   6    14401    5893    273   4892 selenium browser; ledger reason browser-required
+filter-js-from-html              3210   6    24720     506   1267  19396 selenium browser; ledger reason browser-required
+pytorch-model-cli                2211   6   584879  571502   5676   4001 torch+torchvision+cv2; 571502 B env
+headless-terminal                3220   7     9300     554   1010   4180 candidate library required; ledger reason candidate-library-required
+query-optimize                   3211   7    17478    1799   1654  10369 external DB; ledger reason external-db-required
+model-extraction-relu-logits     3220   7    20546    1223  12714   2954 candidate library required; ledger reason candidate-library-required
+overfull-hbox                    3211   7    38466   15713   3183  16096 fixture runs apt install texlive at test time; pdflatex absent
+install-windows-3.11             3220   7    45765   12780   6339  21989 VM image; ledger reason vm-required
+sam-cell-seg                     2221   7   439005  195394   9179 228570 cv2/shapely/pandas + 195394 B env + 228570 B tests
+make-doom-for-mips               3220   7   600244   72198 440365  84117 doom + MIPS toolchain; solve.sh 440365 B
+make-mips-interpreter            3220   7   601418  448440  64956  84117 MIPS interpreter + mips.patch 447482 B

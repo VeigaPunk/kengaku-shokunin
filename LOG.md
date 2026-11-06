@@ -3695,3 +3695,45 @@ revert of the R96-C2 repair bytes `3f300cbd` → integration. No tabled file cha
 - considerthese: `2026-11-05.md` §1 proposal 5 → L0 `kengaku | round-98` (coverage cap ruling). Assimilation: none (L0 `kengaku | round-54` hold).
 - Tooling: no host install or upgrade. uv 0.13.0 (preinstalled) staged CPython 3.13.16 with pytest 8.4.1 + chess 1.11.2 (and rdflib 7.1.4 for the r97 harm re-run) in `/fast/scratch/hyaku/kengaku-r98/` from PyPI (reason: pinned grader reproduction). pacman, sysctls and services untouched.
 - Misroot sweep: fleet `git status --porcelain` shows only orchestrator `.scratch/run15-kernel.py`, `.scratch/run15-state.json`, unattributed `w4lines.txt`, and this round's own `.ufo/l0-questions.md` append; nothing written by this round's seats at the fleet root.
+
+## Round 99 — bn-fit-modify grader replay; 12 SOURCES digests re-verified through row-scoped, URL-free provenance
+
+- Order and landed changes:
+  - P0 `f9d29eb3df9cfec26fd11feac8695a6d26a871c1`: flat capture of eight bn-fit-modify files plus the pinned dataset; maintainer R/bnlearn solution fixture (one offline run); mechanism predictions; census start.
+  - P1 `e219e785281703058f05bec9c29d81c943d35596`: probe, case table, C1 replay counter, C2 row-scoped bind counter, provenance builder; dry runs 1–3; prediction amendment 1; C2 BASE population.
+  - P2 `b08a01923361cdfc6ecd1366028630b0db7c9f6e`: 21 controls, two agreeing runs each (Q80); candidate copies.
+  - F `24a5a5554130065917d55618ae10309403abf60d`: frozen claims.
+  - C = T `f72a8bc710b12473b5c768004e2581f980d924f4`: candidate bytes and the official probe receipt.
+  - Receipts `23d580366db2a3462c9bbfc3b0ff71bce5837374`.
+  - Dated correction `b71b990ad1e9af0aacde23b1f5fc51bb86723531`: S334/S336–S339 word counts.
+  - Integration `fc65aa9a7e1c9661df846e956376898b6abf0e52`.
+  - Harm battery `182a40bcb3a38070c916ae9314754bf6db2fa2d2`.
+- R99-C1 coverage:
+  - Command: `python3 plans/round99_c1_replay.py --lane . --rev REV --work DIR --grader-venv G`.
+  - BASE: fail, rc 1. T: `LEGS L1..L11=pass`, `TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 … cases=13 legs=130 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0`, `PREDICATE R99-C1 pass`, rc 0 (`.ufo/waves/round-99/L1/c1-tip.txt`).
+  - Gaps located: only column D is tested, so a marginal-only sample (C03) and a deterministic grid (C13) pass. The KS band admits +0.045 sd and rejects +0.050 sd (C11/C12). Duplicate edges and an extra column pass (C07).
+- R99-C2 freshness:
+  - Command: `python3 plans/round99_c2_rowscoped_bind.py --lane . --rev REV --work DIR`.
+  - BASE: `still=12`, fail, rc 1. T: `pop=12 cleared=12 still=0 outside_rows=313 outside_removed=0 outside_added=0 outside_rebound=0 url_channel_files=0 rows_changed=0 captures_changed=0`, pass, rc 0 (`L1/c2-tip.txt`).
+  - Anchor-digest gate: 45 → 33 findings. The provenance files are three-column with no URL, so the round-98 side channel is closed (P2 `url-channel` forgery re-binds S256 and fails).
+- Sources/knowledge:
+  - S334–S339 mined (tier A); S340 and S341 rejected with flips. Registry 325 → 333; census rc 0 at start and end.
+  - New `corpus/knowledge/tb2-bn-fit-modify-grader.md` and coverage-map rows in `corpus/README.md`.
+  - QUALITY Q84 (stochastic-verdict predictions), Q85 (forgery fixtures must differ from the positive), Q86 (member selection from the thinnest class; considerthese 2026-11-06 proposal 2).
+  - Mistakes M1–M4 in `corpus/lessons/round-99.md`.
+- Harm (`.ufo/waves/round-99/L1/harm/`):
+  - L1 battery, 23 standing checks, BASE vs `fc65aa9a`: every rc unchanged. Only anchor moved (45 → 33), plus the r82c3 per-member delta (30 → 31, `STATUS-LINE-MISSING bn-fit-modify`).
+  - `anchor_line_check` was red at T (live=5) because of typed word counts. It is green after `b71b990a` (M3).
+  - The round-98 C2 counter passes at T. The round-98 C1 counter fails at later revisions by construction and passes at its recorded `8e37fc65`.
+- Tooling: micromamba 2.10.0 was installed as the official release binary in `~/.local/bin` (mamba-org/micromamba-releases). It was used to build a scratch conda-forge env `/fast/scratch/kengaku-r99/renv` (r-base 4.4.3, r-bnlearn 5.2.1) to run the maintainer R solution once. uv (preinstalled) staged CPython 3.13.16 with pytest 8.4.1, pandas 2.3.2, scipy 1.16.1 and numpy 2.5.4 from PyPI. pacman, sysctls and services were untouched.
+- Dated corrections after T (disclosed departures from the claims file's no-in-round-repair clause; curation/registry cells read by no round-99 counter; round-94 S299 precedent):
+  - `b71b990a`: S334/S336–S339 word counts; `anchor_line_check` live 5 → 0 (M3).
+  - `3fdecf31`: four `round99-*` registry selftest cells set to `none declared`; round82-c1 DEFECT set back to BASE's 13 (M5).
+- Wave: one v1 wave w1, 12 seats (4 executor, 2 reviewer, 1 critic, 2 mutation-tester, 1 scout, 1 connector, 1 scribe; 5/12 attack). All settled, no dead seats (`.ufo/waves/round-99/w1-results.json`).
+  - Both claims were independently reproduced at T.
+  - CriticClaims F6/F7: the C2 census is finding-level, not row-level. Wording was corrected outside the frozen file and the gap routed.
+  - MutC1 30/40 killed and MutC2 18/24 killed; survivors routed.
+  - ScoutSources: 19/19 agree on bytes.
+  - ConnectorOverlap planned round 100 (thinnest-class members, 9 more anchor rows clearable).
+- considerthese: `2026-11-06.md` §1 proposal 2 → QUALITY Q86. Assimilation: none (L0 `kengaku | round-54` hold).
+- Misroot sweep: fleet `git status --porcelain` shows only the orchestrator's `.scratch/run15-kernel.py` and `.scratch/run15-state.json`, plus the unattributed `w4lines.txt` that predates this round. Nothing at the fleet root was written by this round's seats.

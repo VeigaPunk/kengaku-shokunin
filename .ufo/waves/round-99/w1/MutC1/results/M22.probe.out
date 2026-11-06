@@ -1,0 +1,46 @@
+# tb2 bn-fit-modify grader probe (round 99)
+MEMBER bn-fit-modify
+SUBJECT_SHA 364069f893e336a021c907dd0ac11ff4c9e7ca7b4fa7ab506c360166960e455b
+TEST_SH_SHA ea2adeb779621e9625d1f80a17f9d19b6ecec017b8ad8974b668a4a0fbdeb4c3
+SOLVE_SHA 813eb810cf041466468703ef14fdb06ada533b9accddf774eecc7a7191d5cb79
+DATASET_SHA 7d4c27aca2f7443500f993bf0cc31fc7c7e4ef45bb5370ba890848ee1ef3cb04
+FIXTURE_SAMPLE_SHA 982a7441d4469c4b09eb0c9a27d5ca62f7fb38bdee6542b56a767e0c4b26ab66
+TOOL_SHA ea2d41ff5532f08b9e5ad9739bd8e08bc35bc787e73fd7425eeaf99cbd3e9b78
+CASE_TABLE_SHA ee76e2b5ae7477849fd74e66e969ae687bfb883a8affdae54091bea2d2839e73
+LANE_TIP fatal: not a git repository (or any parent up to mount point /)
+GRADER_SIDE python,pandas,scipy,pytest 3.13 2.3.2 1.16.1 8.4.1
+BUILDER_SIDE numpy 2.5.4
+GRADER_UNPINNED python 3.13.16
+HOST_BASH GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+HOST_USERNS 122865
+SANDBOX clearenv=1 unshare-all=1 etc-bound=0 bwrap=/usr/bin/bwrap
+LEG_ORDER bn_exists,ldag_exists,ldag_cols,ldag_struct,idag_exists,idag_cols,idag_struct,sample_cols,sample_data,reward
+OBSERVATIONS_BEGIN
+CASE C01 predicted=P,P,P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,P,P,1 ok=True
+DETAIL C01 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=982a7441d4469c4b solution
+CASE C02 predicted=F,F,E:FileNotFoundError,E:FileNotFoundError,F,E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,0 observed=F,F,E:FileNotFoundError,E:FileNotFoundError,F,E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,0 ok=True
+DETAIL C02 learned=absent intervened=absent final=absent absent
+CASE C03 predicted=P,P,P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,P,P,1 ok=True
+DETAIL C03 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=a9ad7f5f874cd77f marginal-only
+CASE C04 predicted=P,P,P,P,P,P,P,P,F,0 observed=P,P,P,P,P,P,P,P,F,0 ok=True
+DETAIL C04 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=ad562dce790c5d1b no-intervention
+CASE C05 predicted=P,P,P,P,P,P,P,P,F,0 observed=P,P,P,P,P,P,P,P,F,0 ok=True
+DETAIL C05 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=745ac854f4ad2517 rownames-column
+CASE C06 predicted=P,P,P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,P,P,1 ok=True
+DETAIL C06 learned=e8c925b78c2d1cb1 intervened=c573d02413abb251 final=982a7441d4469c4b header-to-from
+CASE C07 predicted=P,P,P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,P,P,1 ok=True
+DETAIL C07 learned=4dbcf4883df90412 intervened=458d8ecd0bc5dd7a final=982a7441d4469c4b dup-edges-extra
+CASE C08 predicted=P,P,P,F,P,P,P,P,P,0 observed=P,P,P,F,P,P,P,P,P,0 ok=True
+DETAIL C08 learned=dbaba0b87d639317 intervened=458d8ecd0bc5dd7a final=982a7441d4469c4b reversed-edge
+CASE C09 predicted=P,P,P,P,P,P,F,P,P,0 observed=P,P,P,P,P,P,F,P,P,0 ok=True
+DETAIL C09 learned=1efe8fe9a8c37901 intervened=1efe8fe9a8c37901 final=982a7441d4469c4b idag-not-dropped
+CASE C10 predicted=P,P,P,P,P,P,P,P,F,0 observed=P,P,P,P,P,P,P,P,F,0 ok=True
+DETAIL C10 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=4bd2e29cafbe3d57 rows-9999
+CASE C11 predicted=P,P,P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,P,P,1 ok=True
+DETAIL C11 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=8fc148c6643ee5f4 ks-shift-small
+CASE C12 predicted=P,P,P,P,P,P,P,P,F,0 observed=P,P,P,P,P,P,P,P,P,1 ok=False
+DETAIL C12 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=ae678248484dc82f ks-shift-large
+CASE C13 predicted=P,P,P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,P,P,1 ok=True
+DETAIL C13 learned=1efe8fe9a8c37901 intervened=458d8ecd0bc5dd7a final=390259ae5b321c23 quantile-grid
+OBSERVATIONS_END
+mismatches 1

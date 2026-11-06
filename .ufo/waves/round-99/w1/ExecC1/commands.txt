@@ -1,0 +1,18 @@
+VENV: cd /fast/scratch/hyaku/kengaku-r99/ExecC1 && uv venv -p 3.13 G && uv pip install --python G/bin/python pytest==8.4.1 pandas==2.3.2 scipy==1.16.1
+G/bin/python -c "import numpy,pytest,pandas,scipy;print(...)" -> numpy 2.5.4, pytest 8.4.1, pandas 2.3.2, scipy 1.16.1
+CLONE: git clone --shared /home/vgpnk/Projects/shokunin/kengaku-shokunin clone-T; git -C clone-T checkout -q f72a8bc710b12473b5c768004e2581f980d924f4
+C1-T: cd clone-T && python3 plans/round99_c1_replay.py --lane . --rev f72a8bc710b12473b5c768004e2581f980d924f4 --work /fast/scratch/hyaku/kengaku-r99/ExecC1/w --grader-venv /fast/scratch/hyaku/kengaku-r99/ExecC1/G   (rc=0)
+C1-BASE: cd clone-T && python3 plans/round99_c1_replay.py --lane . --rev 2233a66195e3d3d85856248fb8f66c1d8127cede --work /fast/scratch/hyaku/kengaku-r99/ExecC1/wBASE2 --grader-venv /fast/scratch/hyaku/kengaku-r99/ExecC1/G   (rc=1, PREDICATE fail; also tried BASE-clone path: plans/round99_c1_replay.py absent at BASE, rc=2)
+ARCHIVE: git -C clone-T archive f72a8bc710b12473b5c768004e2581f980d924f4 | tar -x -C archT
+PROBE-R1: cd archT && /fast/scratch/hyaku/kengaku-r99/ExecC1/G/bin/python plans/round99_bnfit_probe.py --lane . --work /fast/scratch/hyaku/kengaku-r99/ExecC1/wprobe1 --grader-venv /fast/scratch/hyaku/kengaku-r99/ExecC1/G  (rc=0)
+PROBE-R2: same with --work wprobe2 (rc=0)
+DIFF: diff obs1.txt obs-committed.txt -> identical; diff obs2.txt obs1.txt -> identical
+GAPS BUILD: G/bin/python build_gaps.py <marginal-only|dup-edges-extra|ks-shift-small|ks-shift-large> <Cxx/app> /fast/scratch/hyaku/kengaku-r99/ExecC1/archT/corpus/evidence/round99/bn-fit-modify-solution
+  BUILT marginal-only seed=20261106 KSstat=0.007433 p=0.635715
+  BUILT dup-edges-extra
+  BUILT ks-shift-small k=0.045 KSstat=0.018001 p=0.00302811
+  BUILT ks-shift-large k=0.05 KSstat=0.019995 p=0.00066432
+PYTEST: sed 's|/app/|/fast/scratch/hyaku/kengaku-r99/ExecC1/APP/|g' archT/.../test_outputs.py > test_template.py
+  per case: sed "s|APP|Cxx/app|" test_template.py > Cxx/tests/test_outputs.py
+  G/bin/python -m pytest Cxx/tests/test_outputs.py -q --no-header
+  C03 rc=0 (9 passed), C07 rc=0 (9 passed), C11 rc=0 (9 passed), C12 rc=1 (8 passed, 1 failed test_sampled_data)

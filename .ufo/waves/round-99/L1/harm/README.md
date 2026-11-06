@@ -16,3 +16,12 @@ Separately:
   every later member flips it at later revisions. `r98-c1-at-own-T.txt`: the same counter at its recorded
   revision 8e37fc65 still passes (rc 0); its SCORECARD counting command names that revision. Routed as a
   design note on revision-scoped set-equality legs, not a harm by this round.
+
+Correction after the wave (ExecHarm, `.ufo/waves/round-99/w1/ExecHarm.md:30`):
+- `plans/round82_c1_plans_registry.py` defaults `--tip` to `rev-parse master`, so in this battery's clones both
+  "BASE" and "fc65aa9a" logs read the clone's `master` (= the lane tip at clone time): the r82c1 rows above
+  are NOT revision-scoped and their 17 = 17 comparison is void (the same runner was used in round 98).
+- Revision-scoped re-run with `--tip REV` (`r82c1-tip-<rev8>.txt`): BASE 13 DEFECT, T f72a8bc7 17 DEFECT
+  (+4 `ROW-SELFTEST-UNBACKED` for the four round99 registry rows, whose selftest cell said `none — no
+  self-invocation mode` instead of the gate's literal `none declared`), 3fdecf31 13 DEFECT, DEFECT set equal
+  to BASE after the dated correction `3fdecf31` (lesson M5). Gate red at BASE throughout (MISSING scripts).

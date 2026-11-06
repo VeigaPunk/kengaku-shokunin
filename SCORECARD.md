@@ -4537,3 +4537,61 @@ rows; census rc 0 at start and end. **Assimilation:** none (L0 `kengaku | round-
 3. Next replay candidate `bn-fit-modify` (ConnectorOverlap §3: nine legs, pip-only); the remaining 45
    anchor-digest findings; carried merger wrong-pass states, absolute-L7 successors, r79 mteb-retrieve
    subject mismatch, R95 reward scope, round-92 items; L0 coverage-cap ruling (`kengaku | round-98`).
+
+## Round 99 (hyaku run 15, attempt 1, 2026-11-06): seventeenth located member replay `bn-fit-modify` (R99-C1) and 12 SOURCES digests re-verified through row-scoped, URL-free provenance with a symmetric census (R99-C2)
+
+BASE `2233a66195e3d3d85856248fb8f66c1d8127cede`; P0 `f9d29eb3`; P1 `e219e785`; P2 `b08a0192`; freeze F
+`24a5a5554130065917d55618ae10309403abf60d`; C = measured T `f72a8bc710b12473b5c768004e2581f980d924f4`;
+receipts `23d58036`; dated correction after T `b71b990a` (word counts, lesson M3). Lesson
+`corpus/lessons/round-99.md`; frozen contract `plans/round-99-claims.md`. All 18 frozen-instrument and 11
+candidate-byte sha256 match at T (`.ufo/waves/round-99/L1/freeze-tip.txt`); `git diff --name-status F T` is
+exactly the candidate files plus the receipt.
+
+| claim / axis | before → after measured at T | counting command | verdict / score delta |
+|---|---|---|---|
+| R99-C1 / **coverage** (lowest non-retired axis; L0 cap 7) | BASE: `PREDICATE R99-C1 fail` rc 1 (`L1/c1-base.txt`), ledger executed 42 of 88, `file-artifact` 33/76. T: `REV f72a8bc7…`, `LEGS L1..L11=pass`, `TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34 set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0`, `PREDICATE R99-C1 pass`, rc 0 (`L1/c1-tip.txt`) | `python3 plans/round99_c1_replay.py --lane . --rev REV --work DIR --grader-venv G` (G = `uv venv -p 3.13` + pytest 8.4.1, pandas 2.3.2, scipy 1.16.1; numpy 2.5.4 resolved) | **met** on the frozen predicate at T. Score 7 → 7, held at the L0 cap. New surface: the first member graded by a distribution test, whose positive control is a committed R/bnlearn fixture |
+| R99-C2 / **freshness** (held at ceiling 10, exercised) | BASE: `TARGET pop=12 cleared=0 still=12 …`, `PREDICATE R99-C2 fail` rc 1 (`L1/c2-base.txt`); gate findings 45. T: `LEGS K1..K7=pass`, `TARGET pop=12 cleared=12 still=0 outside_rows=313 outside_removed=0 outside_added=0 outside_rebound=0 url_channel_files=0 rows_changed=0 captures_changed=0`, `PREDICATE R99-C2 pass`, rc 0; gate findings 33 (`L1/c2-tip.txt`) | `python3 plans/round99_c2_rowscoped_bind.py --lane . --rev REV --work DIR` | **met** on the frozen predicate at T: exactly 12 findings cleared (45 → 33), with no outside row's gate findings or binding notes changed. The census is finding-level only: outside-row deletions that carry no gate output are invisible (CriticClaims F6, MutC2 M17). Score 10 → 10, held at ceiling |
+
+Controls (P2, two agreeing runs each, `.ufo/waves/round-99/L1/controls/README.md`):
+- C1: do-nothing, extra-member, forged-receipt, counter-edit and c2only fail; positive and both pass.
+- C2: do-nothing, partial-fixed, url-channel (re-binds S256), duplicate-line, sha-column, outside-rebind,
+  row-edit, gate-edit, capture-edit, c2counter-edit and c1only fail; positive and both pass.
+- The first `partial` control was invalid (a harness `git rm` failure; lesson M2) and is disclosed.
+
+**Other axis scores.** novelty 8, depth 10, operability 10, calibration 10, adjacency 9 — all held; no
+claim was made on them.
+
+**Harm.**
+- L1 battery (BASE vs `fc65aa9a`, `.ufo/waves/round-99/L1/harm/summary-fc65aa9a.txt`): every rc is
+  unchanged. The only finding deltas are anchor 45 → 33 and the r82c3 per-member delta 30 → 31.
+- `anchor_line_check` was red at T (`live=5`, typed word counts) and is green after `b71b990a`.
+- The round-98 C1 counter fails at later revisions by construction (set equality with its own BASE). It
+  passes at its recorded revision `8e37fc65` (`L1/harm/README.md`).
+
+**Sources.** S334–S339 admitted (tier A); S340 rejected (A) and S341 rejected (B). The registry went
+325 → 333 rows. Census rc 0 at start and at end. **Assimilation:** none (L0 `kengaku | round-54` hold).
+**considerthese:** `2026-11-06.md` §1 proposal 2 → QUALITY Q86.
+
+**Wave.** One v1 wave w1 of 12 seats: 4 executor, 2 reviewer, 1 critic, 2 mutation-tester, 1 scout,
+1 connector, 1 scribe. 5/12 are attack roles (`labrat` was refused by the validator, so the KS probe ran
+as executor ExecKS). All 12 settled and no seat died (`.ufo/waves/round-99/w1-results.json`).
+- Both claims were independently reproduced at T: C1 by ExecC1, ExecKS, ReviewC1, ScoutSources and
+  ScribeLesson; C2 by ExecC2, ReviewC2, ScoutSources, ExecKS and ConnectorOverlap.
+- Material findings: CriticClaims F6/F7 (K7 is finding-level: deleting an outside row with no gate output
+  passes; 105/313 outside rows carry no gate output) and F1 (L3 is ancestry-only); MutC1 30/40 killed;
+  MutC2 18/24 killed; ExecHarm found 4 new round82-c1 lines, fixed by the dated correction `3fdecf31`
+  (DEFECT set equals BASE).
+- CriticClaims F10 disputes the `freshness` axis name for a binding claim. This is recorded for the
+  closure, not resolved here.
+
+### Planned (round 100; not a claim until frozen)
+
+1. C1 member from a thinnest class (Q86: `min_class` 0.333 tie — crypto-credential, shell-exec,
+   subprocess-exec). ConnectorOverlap (c) ranks cobol-modernization, extract-elf,
+   adaptive-rejection-sampler, dna-insert and dna-assembly.
+2. Successor binding counter: a row-level census (every BASE SOURCES line equal), exactly three cells
+   per provenance line, ids that must exist in SOURCES, and run identity (LANE_TIP = F, the F..C file
+   set). Measured cheap target: 9 digest-wrong-capture rows with one three-column line each (33 → 24).
+3. Carried: L0 `kengaku | round-98` coverage-cap ruling, L0 `kengaku | round-54` hold, ledger class note
+   (bn-fit-modify's numeric-band test vs its `file-artifact`-only class), S225 pointer label (SS-11), and
+   the r98-C1 revision-scoped L7 design note.

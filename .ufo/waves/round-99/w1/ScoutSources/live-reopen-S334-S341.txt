@@ -1,0 +1,123 @@
+# ScoutSources live re-open receipt — round 99 (seat ScoutSources)
+
+Date: 2026-11-06 (host local). Lane: /home/vgpnk/Projects/shokunin/kengaku-shokunin
+Scratch: /fast/scratch/hyaku/kengaku-r99/ScoutSources (removed at yield)
+Tooling: python3 3.14.8 (host), urllib+hashlib, curl 8.23.0, git 2.56.0, sha256sum 0.8.0,
+uv 0.13.0 (venv python 3.13.16; pytest 8.4.1, pandas 2.3.2, scipy 1.16.1, numpy 2.5.4),
+R 4.4.3 / bnlearn 5.2.1 (read-only use). No installs beyond the pinned uv venv; no pacman
+transactions (host-wide pacman guard is PAUSED; nothing needed installing).
+
+All fetches: GET with User-Agent kengaku-scout/99, 2026-11-06.
+
+## A. S334-S341 re-opened live (raw.githubusercontent.com at pin 2fd12b88 / dataset pin 62ce2364)
+
+| row | URL | HTTP | bytes | sha256 | row-token sha | capture sha | live==capture | quote at stated line |
+|---|---|---|---|---|---|---|---|---|
+| S334 | .../2fd12b88/bn-fit-modify/tests/test_outputs.py | 200 | 5892 | 364069f8...e455b | same | same | yes | :150 "assert p_value >= 0.001, (" present |
+| S335 | .../2fd12b88/bn-fit-modify/tests/test.sh | 200 | 650 | ea2adeb7...eb4c3 | same | same | yes | :22 "-w scipy==1.16.1 \" present |
+| S336 | .../2fd12b88/bn-fit-modify/solution/solve.sh | 200 | 3932 | 813eb810...5cb79 | same | same | yes | :21 "learned_dag <- hc(samples)" present |
+| S337 | .../2fd12b88/bn-fit-modify/instruction.md | 200 | 1256 | 5f5207ce...94e5 | same | same | yes | :20 "3) Perform a causal intervention on Y, setting its value to 0.0." present |
+| S338 | .../2fd12b88/bn-fit-modify/environment/Dockerfile | 200 | 600 | 8b0b1056...5e6cc | same | same | yes | :20 RUN curl -fsSL "${BN_URL}" -o bn_sample_10k.csv present |
+| S339 | gdreiman1/t_bench_bn_dataset/62ce2364/bn_sample_10k.csv | 200 | 844949 | 7d4c27ac...3cb04 | same | same | yes | :1 "U","Y","R","D","M" present |
+| S340 | .../2fd12b88/bn-fit-modify/task.toml | 200 | 919 | 6493f716...7090 | same | same | yes | :29 docker_image = "alexgshaw/bn-fit-modify:20251031" present |
+| S341 | .../2fd12b88/bn-fit-modify/README.md | 200 | 1994 | 647d14a7...7919 | same | same | yes | :38 "Sampled data has 10,000 rows..." present |
+
+Row tokens parsed from corpus/SOURCES.md lines 350-357 at T (f72a8bc7); capture digests from
+corpus/evidence/round99/tb2-bn-fit-modify/ (SHA256SUMS agrees). Every quote occurs at exactly
+the cited line (quote_hits == [stated line] for all eight; no other occurrence).
+
+## B. Dataset unpinned main URL (Dockerfile BN_URL) vs pinned bytes
+
+Dockerfile ARG BN_URL=https://raw.githubusercontent.com/gdreiman1/t_bench_bn_dataset/main/bn_sample_10k.csv
+
+  unpinned main : HTTP 200, 844949 B, sha256 7d4c27aca2f7443500f993bf0cc31fc7c7e4ef45bb5370ba890848ee1ef3cb04
+  pinned 62ce2364: HTTP 200, 844949 B, sha256 7d4c27aca2f7443500f993bf0cc31fc7c7e4ef45bb5370ba890848ee1ef3cb04
+  -> STILL BYTE-EQUAL to the pinned bytes (also equal to the committed capture).
+
+GitHub API: repos/gdreiman1/t_bench_bn_dataset/commits/main -> sha 62ce2364212a5f96278e9e5a83a3bde73abcc7e3
+("Update README.md", 2025-08-27). main == the pinned commit today, so the Dockerfile's unpinned
+branch still yields the pinned bytes; the pin gap in S338's claim remains a live hazard (the
+branch can move) but has not moved.
+
+## C. C2 population upstream re-open (all 12 rows, not only the 3 named)
+
+| row | upstream URL | HTTP | live sha256 | bound capture sha | provenance sha256 col | agree |
+|---|---|---|---|---|---|---|
+| S173 | raw.githubusercontent.com/git/git/v2.56.0/Documentation/gitrepository-layout.adoc | 200 | 39ce8d13...9439 | same | same | yes |
+| S174 | .../git/v2.56.0/Documentation/git-init.adoc | 200 | 12309643...2f95 | same | same | yes |
+| S175 | .../git/v2.56.0/Documentation/git-worktree.adoc | 200 | ee8a3685...e8dc | same | same | yes |
+| S176 | .../git/v2.56.0/Documentation/git-replace.adoc | 200 | 3f61be3f...0631 | same | same | yes |
+| S177 | .../git/v2.56.0/Documentation/git-fetch.adoc | 200 | fd225a09...a41e | same | same | yes |
+| S180 | .../2fd12b88/README.md | 200 | 7dfa9992...2364 | same | same | yes |
+| S220 | .../2fd12b88/openssl-selfsigned-cert/solution/solve.sh | 200 | 58cf3c84...510e | same | same | yes |
+| S225 | encoding.spec.whatwg.org/index-windows-1252.txt | 200 | 2c5fa192...0795 | same | same | yes |
+| S270 | .../2fd12b88/pyproject.toml | 404 | body 14 B "404: Not Found", sha d5558cd4...12ed | same | same | yes (the row is a REJECTED row about the 404 body; capture == live body) |
+| S285 | .../2fd12b88/llm-inference-batching-scheduler/environment/task_file/input_data/requests_bucket_1.jsonl | 200 | 8b3cf1e2...7de | same | same | yes |
+| S293 | .../2fd12b88/schemelike-metacircular-eval/tests/test/01-factorial.scm | 200 | 2623000a...a6ad | same | same | yes |
+| S306 | raw.githubusercontent.com/bottlepy/bottle/0207a34f...49f3/bottle.py | 200 | abf64368...d802 | same | same | yes |
+
+Located quotes re-checked in the live bytes:
+  S173: ranges :26-28 (gitfile), :80-83 (objects/info/alternates), :261-273 (shallow, commondir)
+        all within the 319-line file; gitfile/alternates/commondir/shallow/worktrees all present.
+  S225: :7 "(EURO SIGN)", :13 "(DAGGER)", :25 "(RIGHT SINGLE QUOTATION MARK)",
+        :27 "(RIGHT DOUBLE QUOTATION MARK)", :105 "(LATIN SMALL LETTER A WITH CIRCUMFLEX)" present.
+        Pointer column of the live file runs 0..127 with one entry per byte: ptr 0->0x20AC,
+        6->0x2020, 18->0x2019, 20->0x201D, 98->0x00E2.
+        NOTE: S225's cell text says "pointer 226 byte 0xE2"; the file's own pointer column puts
+        0x00E2 at pointer 98 (byte 0xE2 = 226 decimal). The row's byte->codepoint mapping
+        (0x80->U+20AC, 0x86->U+2020, 0x92->U+2019, 0x94->U+201D, 0xE2->U+00E2) is correct.
+  S306: "if '\n' in key or '\r' in key or '\0' in key:" at line 1562 of the live file and of the
+        committed capture (only occurrence).
+
+## D. Census (read-only)
+
+  /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku
+  rc 0, 0 E-codes, 31 W04 (duplicate url across scopes) + final "kengaku ok .../corpus/SOURCES.md".
+  The same script on the BASE tree (2233a661) gives 30 W04, 0 E-codes: the +1 is S334, whose URL
+  equals S181's (same pinned grader file) across scopes — a warning, not an error, and the
+  round-98 pattern already had 30.
+
+## E. Independent gate / counter observations at T
+
+  python3 plans/anchor_digest_check.py --lane .    (clone at T) -> rows=333 tokens=217 defects=33, rc 1
+  ... at BASE (2233a661)                            -> rows=325 tokens=209 defects=45, rc 1
+  No DEFECT line at T names S334-S341 or any of the 12 population rows (grep: none).
+  All 12 population rows BIND by=provenance-row to their new capture and RESOLVE their own token.
+  Binding census BASE->T: 8 rows added (S334-S341), 0 removed, exactly 12 re-bound (the 12
+  population rows), 0 other row moved.
+
+  C1: python3 plans/round99_c1_replay.py --lane . --rev f72a8bc7 --work W --grader-venv G
+      LEGS L1..L11 pass; TARGET executed_rows=43 member=bn-fit-modify cells=file-artifact:34
+      set_equals_base_plus_member=1 located=1 executed=1 cases=13 legs=130 mismatches=0
+      new_rows=8 new_rows_flagged=0 defects=0; PREDICATE R99-C1 pass; rc 0. (26 s)
+  C2: python3 plans/round99_c2_rowscoped_bind.py --lane . --rev f72a8bc7 --work W2
+      GATE defects base=45 rev=33; LEGS K1..K7 pass;
+      TARGET pop=12 cleared=12 still=0 outside_rows=313 outside_removed=0 outside_added=0
+      outside_rebound=0 url_channel_files=0 rows_changed=0 captures_changed=0;
+      PREDICATE R99-C2 pass; rc 0. (9 s)
+  Both counters also pass at lane tip fc65aa9a (C1: identical TARGET; C2: identical TARGET).
+
+  Frozen-instrument table: all 19 hashes in plans/round-99-claims.md verified byte-exact at T
+  (18 instrument files + the 4 solution-fixture files) and the 11 candidate-bytes files at T.
+  git diff F(24a5a555)..T(f72a8bc7) touches exactly the 11 candidate files + the receipt
+  corpus/evidence/round99/bnfit-probe.txt.
+
+## F. Falsification probes (my own, in scratch clones; no lane write)
+
+  P1 (S334 anchor cell cites :151 instead of :150, word count left wrong):
+      C1 counter: LEGS L1..L11 all pass, PREDICATE R99-C1 pass, rc 0.
+      anchor_line_check: "ROW S334 state=live defects=line:1,words:1", live=5 cells=6.
+      => the C1 counter does not read the anchor-cell line/word cells; L10 only reads the
+         anchor-DIGEST gate's DEFECT lines. A defect class the lane's own anchor_line_check gate
+         calls live passes the frozen C1 predicate unchanged.
+  P2 (S334 word count -> "(99 words)"):
+      C1 counter: PREDICATE R99-C1 pass, rc 0; anchor_line_check: S334 live defects=words:1.
+  P3 (the five rows S334/S336/S337/S338/S339 as committed at T, before the post-T correction):
+      anchor_line_check at T: live=5 cells=5 rc 1 (S334,S336,S337,S338,S339 words:1).
+      Recomputing len(quote.split()) on the T cells: S334 4->5, S336 4->3, S337 11->12,
+      S338 5->6, S339 5->1 — identical to the L1's disclosed correction (commit b71b990a).
+      anchor_line_check at HEAD fc65aa9a: live=0 cells=0 rc 0.
+  P4 (gate exit code): anchor_digest_check.py returns 1 whenever defects>0, so at T the gate
+      exits 1 by design (33 residual defects from earlier rounds). The frozen C2 predicate treats
+      the GATE line as informational and the population as its own scope; that is consistent with
+      the claims file, not a defect.

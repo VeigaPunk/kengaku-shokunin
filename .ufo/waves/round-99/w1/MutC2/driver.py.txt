@@ -1,0 +1,249 @@
+#!/usr/bin/env python3
+"""MutC2 mutation driver — R99-C2 counter, one mutant per commit on top of T."""
+import hashlib, json, os, pathlib, re, shutil, subprocess, sys
+
+T = "f72a8bc710b12473b5c768004e2581f980d924f4"
+ROOT = pathlib.Path("/fast/scratch/hyaku/kengaku-r99/MutC2")
+FX = ROOT / "lane"
+OUT = ROOT / "out"
+OUT.mkdir(exist_ok=True)
+ENV = {**os.environ, "TMPDIR": str(ROOT), "GIT_CONFIG_NOSYSTEM": "1"}
+P = {
+    "r50": "corpus/evidence/round50/PROVENANCE.md",
+    "r59": "corpus/evidence/round59/PROVENANCE.md",
+    "r61": "corpus/evidence/round61/PROVENANCE.md",
+    "r62": "corpus/evidence/round62/PROVENANCE.md",
+    "r79": "corpus/evidence/round79/PROVENANCE.md",
+    "r82": "corpus/evidence/round82/PROVENANCE.md",
+    "r93": "corpus/evidence/round93/PROVENANCE.md",
+    "r95": "corpus/evidence/round95/PROVENANCE.md",
+    "base": "corpus/evidence/PROVENANCE.md",
+    "sources": "corpus/SOURCES.md",
+    "counter": "plans/round99_c2_rowscoped_bind.py",
+    "gate": "plans/anchor_digest_check.py",
+    "cap": "corpus/evidence/round50/git-init.adoc",
+}
+S173SHA = "39ce8d137a30e1fd80eeae146b1c424e56f688f4ddd001259eb98543d3209439"
+S174SHA = "123096436d7d47b718483fdfbc1660446474a77b2a5b33212f5360af89ca2f95"
+S225SHA = "2c5fa192d566f92b8b9e6e116255b1f94016b4ece5b9dacb3b98be70b8c60795"
+
+
+def sh(root, *args):
+    return subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, env=ENV)
+
+
+def sha(p):
+    return hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else "absent"
+
+
+def lines(p):
+    return p.read_text().splitlines(keepends=True)
+
+
+def write_lines(p, ls):
+    p.write_text("".join(ls))
+
+
+def find_line(ls, prefix):
+    hits = [i for i, l in enumerate(ls) if l.startswith(prefix)]
+    assert len(hits) == 1, (prefix, hits)
+    return hits[0]
+
+
+def rep(p, old, new, count=1):
+    t = p.read_text()
+    assert t.count(old) == count, (str(p), old[:40], t.count(old))
+    p.write_text(t.replace(old, new))
+
+
+def m01():
+    p = FX / P["r50"]; ls = lines(p); del ls[find_line(ls, "| S175 |")]; write_lines(p, ls)
+
+
+def m02():
+    p = FX / P["r50"]; ls = lines(p); i = find_line(ls, "| S173 |"); ls.insert(i + 1, ls[i]); write_lines(p, ls)
+
+
+def m03():
+    p = FX / P["r50"]; p.write_text(p.read_text() + "\nSee https://example.invalid/provenance for the upstream page.\n")
+
+
+def m04():
+    p = FX / P["r50"]; t = p.read_text()
+    assert t.count(S173SHA) == 1 and t.count(S174SHA) == 1
+    p.write_text(t.replace(S173SHA, "@@A@@").replace(S174SHA, S173SHA).replace("@@A@@", S174SHA))
+
+
+def m05():
+    rep(FX / P["r82"], "`fetch/candidate_pyproject.toml`", "`fetch/candidate_run-tests.sh`")
+
+
+def m06():
+    p = FX / P["r79"]
+    p.write_text(p.read_text() + f"| S179 | `sources/tb2-readme.md` | `7dfa9992c45c7e30744cda7ce659ba77309f43120a0990fce033eb8afd972364` |\n")
+
+
+def m07():
+    p = FX / P["r50"]
+    p.write_text(p.read_text() + f"| S001 | `git-init.adoc` | `{S174SHA}` |\n")
+
+
+def m08():
+    p = FX / P["r50"]
+    p.write_text(p.read_text() + f"| S999 | `git-init.adoc` | `{S174SHA}` |\n")
+
+
+def m09():
+    p = FX / P["r61"]; ls = lines(p); del ls[find_line(ls, "| S225 |")]; write_lines(p, ls)
+    q = FX / P["r62"]
+    q.write_text("# Row-scoped provenance bindings (round62; mutant)\n\n"
+                 "| row | file here | sha256 |\n|---|---|---|\n"
+                 f"| S225 | `whatwg-windows1252-reopen/index-windows-1252.txt` | `{S225SHA}` |\n")
+
+
+def m10():
+    p = FX / P["base"]; ls = lines(p); i = find_line(ls, "# Provenance bindings"); ls[i] = ls[i].rstrip("\n") + " \n"; write_lines(p, ls)
+
+
+def m11():
+    rep(FX / P["r50"], f"`{S173SHA}` |", f"`{S173SHA}` | note |")
+
+
+def m12():
+    rep(FX / P["r50"], f"`{S173SHA}` |", f"`{S173SHA}` | `git-init.adoc` |")
+
+
+def m13():
+    p = FX / P["r50"]; ls = lines(p); line = ls[find_line(ls, "| S173 |")]
+    q = FX / P["r93"]; q.write_text(q.read_text() + line)
+
+
+def m14():
+    (FX / P["r95"]).unlink()
+
+
+def m15():
+    p = FX / P["sources"]; ls = lines(p); i = find_line(ls, "| S173 |"); ls[i] = ls[i].rstrip("\n") + " \n"; write_lines(p, ls)
+
+
+def m16():
+    rep(FX / P["sources"], "SHA2561e1022f8d9b5a24433f7e28c2ee5c4ef42256e11ff0eef8abf7cad17fc8b9e0a",
+        "SHA2562e1022f8d9b5a24433f7e28c2ee5c4ef42256e11ff0eef8abf7cad17fc8b9e0a")
+
+
+def m17():
+    p = FX / P["sources"]; ls = lines(p); del ls[find_line(ls, "| S001 |")]; write_lines(p, ls)
+
+
+def m18():
+    p = FX / P["sources"]; ls = lines(p); i = find_line(ls, "| S025 |")
+    old = "corpus/evidence/attrib-r23-stream.log"
+    j = ls[i].find(old)
+    assert j >= 0
+    ls[i] = ls[i][:j] + "corpus/evidence/round25-calibration/attrib-calibration-selftest-v2.txt" + ls[i][j + len(old):]
+    write_lines(p, ls)
+
+
+def m19():
+    p = FX / P["cap"]; p.write_bytes(p.read_bytes() + b"\n")
+
+
+def m20():
+    rep(FX / P["counter"], '"S173": ("39ce8d13', '"S173": ("49ce8d13')
+
+
+def m21():
+    rep(FX / P["counter"], "k1 = k1_gate and k1_self", "k1 = True")
+
+
+def m22():
+    rep(FX / P["gate"], "ANCHOR_CELL = 5", "ANCHOR_CELL = 4")
+
+
+def m23():
+    p = FX / P["sources"]; ls = lines(p); del ls[find_line(ls, "| S025 |")]; write_lines(p, ls)
+
+
+def m24():
+    p = FX / P["sources"]; ls = lines(p); del ls[find_line(ls, "| S179 |")]; write_lines(p, ls)
+
+
+MUT = {
+    "M01": ("drop a line (S175, round50)", m01, ["corpus/evidence/round50/PROVENANCE.md"]),
+    "M02": ("duplicate a line (S173, round50)", m02, ["corpus/evidence/round50/PROVENANCE.md"]),
+    "M03": ("add a URL to a new provenance file (round50 header)", m03, ["corpus/evidence/round50/PROVENANCE.md"]),
+    "M04": ("swap two sha cells (S173/S174, round50)", m04, ["corpus/evidence/round50/PROVENANCE.md"]),
+    "M05": ("point S270 at a byte-identical twin in the same dir", m05, ["corpus/evidence/round82/PROVENANCE.md"]),
+    "M06": ("bind a real outside row (S179) that is defective", m06, ["corpus/evidence/round79/PROVENANCE.md"]),
+    "M07": ("bind a real outside row (S001) that is invisible", m07, ["corpus/evidence/round50/PROVENANCE.md"]),
+    "M08": ("bind a fabricated row id (S999)", m08, ["corpus/evidence/round50/PROVENANCE.md"]),
+    "M09": ("move S225's line to round62 against a byte-identical twin", m09,
+            ["corpus/evidence/round61/PROVENANCE.md", "corpus/evidence/round62/PROVENANCE.md"]),
+    "M10": ("edit the existing round-98 corpus/evidence/PROVENANCE.md (whitespace)", m10, ["corpus/evidence/PROVENANCE.md"]),
+    "M11": ("add a 4th plain-text column (S173)", m11, ["corpus/evidence/round50/PROVENANCE.md"]),
+    "M12": ("add a 4th column naming another committed file (S173)", m12, ["corpus/evidence/round50/PROVENANCE.md"]),
+    "M13": ("duplicate S173's line into another round dir's file (round93)", m13,
+            ["corpus/evidence/round93/PROVENANCE.md"]),
+    "M14": ("delete a whole new provenance file (round95)", m14, ["corpus/evidence/round95/PROVENANCE.md"]),
+    "M15": ("edit a POP SOURCES row (S173, trailing space)", m15, ["corpus/SOURCES.md"]),
+    "M16": ("edit an outside row's unparsed 64-hex token (S060)", m16, ["corpus/SOURCES.md"]),
+    "M17": ("delete an invisible outside SOURCES row (S001)", m17, ["corpus/SOURCES.md"]),
+    "M18": ("edit a bound outside row's capture path (S025)", m18, ["corpus/SOURCES.md"]),
+    "M19": ("mutate a POP capture (round50/git-init.adoc)", m19, ["corpus/evidence/round50/git-init.adoc"]),
+    "M20": ("edit the counter's POP token (S173)", m20, ["plans/round99_c2_rowscoped_bind.py"]),
+    "M21": ("neuter the counter's K1 self check", m21, ["plans/round99_c2_rowscoped_bind.py"]),
+    "M22": ("edit the gate's ANCHOR_CELL at rev", m22, ["plans/anchor_digest_check.py"]),
+    "M23": ("delete a bound outside SOURCES row (S025)", m23, ["corpus/SOURCES.md"]),
+    "M24": ("delete a defective outside SOURCES row (S179)", m24, ["corpus/SOURCES.md"]),
+}
+
+
+def run_counter(rev, work):
+    if work.exists():
+        shutil.rmtree(work)
+    proc = subprocess.run([sys.executable, "plans/round99_c2_rowscoped_bind.py", "--lane", ".", "--rev", rev,
+                           "--work", str(work)], cwd=str(FX), capture_output=True, text=True, env=ENV, timeout=600)
+    return proc.returncode, proc.stdout + (("\n[stderr]\n" + proc.stderr) if proc.stderr.strip() else "")
+
+
+def check_pristine():
+    top = sh(FX, "rev-parse", "--show-toplevel").stdout.strip()
+    assert top == str(FX), (top, str(FX))
+    head = sh(FX, "rev-parse", "HEAD").stdout.strip()
+    assert head == T, head
+    st = sh(FX, "status", "--porcelain").stdout.strip()
+    assert st == "", st
+
+
+def main(ids):
+    check_pristine()
+    summary = []
+    for mid in ids:
+        desc, fn, files = MUT[mid]
+        check_pristine()
+        before = {f: sha(FX / f) for f in files}
+        fn()
+        after = {f: sha(FX / f) for f in files}
+        assert before != after, mid
+        add = sh(FX, "add", "-A")
+        assert add.returncode == 0, add.stderr
+        c = sh(FX, "-c", "user.name=mutant", "-c", "user.email=mutant@local", "commit", "-q", "-m", f"mutant {mid}: {desc}")
+        assert c.returncode == 0, c.stderr
+        rev = sh(FX, "rev-parse", "HEAD").stdout.strip()
+        rc, out = run_counter(rev, ROOT / f"w-{mid}")
+        (OUT / f"{mid}.txt").write_text(f"# {mid}: {desc}\n# rev {rev}\n# rc {rc}\n# before {json.dumps(before)}\n# after {json.dumps(after)}\n\n{out}")
+        legs = next((l for l in out.splitlines() if l.startswith("LEGS ")), "LEGS -")
+        pred = next((l for l in out.splitlines() if l.startswith("PREDICATE ")), "PREDICATE -")
+        defects = [l for l in out.splitlines() if l.startswith("DEFECT ")]
+        summary.append({"id": mid, "desc": desc, "rev": rev, "rc": rc, "legs": legs, "predicate": pred,
+                        "defects": defects, "before": before, "after": after})
+        print(mid, rc, legs, pred, "|", " ; ".join(defects)[:300], flush=True)
+        sh(FX, "reset", "--hard", "-q", T)
+        sh(FX, "clean", "-fdq")
+        check_pristine()
+    (OUT / "summary.json").write_text(json.dumps(summary, indent=1))
+    print("SUMMARY", OUT / "summary.json")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
