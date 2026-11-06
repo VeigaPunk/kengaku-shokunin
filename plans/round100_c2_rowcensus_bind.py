@@ -43,11 +43,17 @@ Legs (every input read at the revision):
       (no fabricated or extra id — MutC2 M08)
   K5  at --rev the gate prints no DEFECT line carrying a POP row's POP token; the row's verbose notes
       are exactly `BIND <sid> capture=<POP capture> by=provenance-row` and one
-      `RESOLVED <sid> digest=<POP token> via=<POP capture> …`; and the row's OTHER DEFECT lines (loc
-      removed) are equal at BASE and --rev
+      `RESOLVED <sid> digest=<POP token> via=<POP capture> …`; and the TOKEN SET of the row's OTHER
+      DEFECT lines is equal at REF and --rev (none cleared, none added; a class that sharpens once the
+      row is bound is printed `RECLASS …` — amendment 1, S300 `fa53d657`)
   K6  every POP row's SOURCES.md line and every POP capture blob at --rev is byte-identical to BASE
   K7  symmetric finding-level census over every row id present at BASE and NOT in POP: DEFECT lines
-      and verbose notes (loc removed) EQUAL at BASE and --rev
+      and verbose notes (loc removed) EQUAL at REF and --rev
+
+REF (amendment 1, before the freeze) is the freeze commit's parent: the last pre-freeze tree, which
+already holds this round's P0 capture. That capture re-binds outside row S295 (a round-93 rejection of
+this very member) by url-task and clears its finding (gate 33 -> 32 at P1); C2 neither makes nor owns
+that change, so its censuses start from REF, printed as `REF <hash>`. Without a freeze K7 fails.
   K8  row-level census: every SOURCES row line present at BASE is present and byte-identical at --rev
       (deletions and rewrites of rows that carry no gate output now fail — CriticClaims F6/F7)
   K9  the live re-fetch receipt LIVE (committed before the freeze, its sha in the frozen table) has
@@ -308,6 +314,17 @@ def main(argv: list[str]) -> int:
     fcommit = freeze_commit(lane, rev)
     frozen = fenced(lane, fcommit, "frozen-instruments")
     candidates = fenced(lane, fcommit, "candidate-bytes")
+    # census reference (amendment 1): the freeze commit's parent, i.e. the last pre-freeze tree, which
+    # already holds this round's P0/P1 bytes; C1's P0 capture re-binds outside row S295 by url-task
+    # (33 -> 32 at P1, controls dry run), a change C2 neither makes nor may be blamed for
+    ref_proc = git(lane, "rev-parse", "--verify", "--quiet", f"{fcommit}^{{commit}}") if fcommit else None
+    if ref_proc is None or ref_proc.returncode != 0:
+        ref = BASE
+        defects.append("K7 no freeze commit: census reference falls back to BASE")
+    else:
+        ref = ref_proc.stdout.decode().strip()
+    print(f"REF {ref}")
+    ref_def, ref_notes = (base_def, base_notes) if ref == BASE else per_sid(run_gate(gate, lane, ref, work / "tree-ref"))
     self_sha = sha(blob(lane, rev, SELF))
     k1_gate = sha(blob(lane, rev, GATE)) == GATE_SHA
     k1_self = bool(frozen.get(SELF)) and frozen.get(SELF) == self_sha
@@ -379,11 +396,16 @@ def main(argv: list[str]) -> int:
         notes = rev_notes.get(sid, [])
         binds = [n for n in notes if n.startswith("BIND")]
         resolved = [n for n in notes if n.startswith("RESOLVED ")]
-        other_base = sorted(x for x in base_def.get(sid, []) if DEFECT.match(x).group(2) != token)
-        other_rev = sorted(x for x in rev_def.get(sid, []) if DEFECT.match(x).group(2) != token)
+        # amendment 1: the row's OTHER findings keep their token set (none cleared, none added); a class
+        # may sharpen once the row is bound (S300 fa53d657: anchor-unbound -> abbrev-unresolved)
+        other_ref = sorted(DEFECT.match(x).group(2) for x in ref_def.get(sid, []) if DEFECT.match(x).group(2) != token)
+        other_rev = sorted(DEFECT.match(x).group(2) for x in rev_def.get(sid, []) if DEFECT.match(x).group(2) != token)
+        for x in rev_def.get(sid, []):
+            if DEFECT.match(x).group(2) != token and x not in ref_def.get(sid, []):
+                print(f"RECLASS {x}")
         if binds != [f"BIND {sid} capture={cap} by=provenance-row"] or len(resolved) != 1 \
                 or not resolved[0].startswith(f"RESOLVED {sid} digest={token} via={cap} ") \
-                or other_base != other_rev:
+                or other_ref != other_rev:
             k5_bad.append(sid)
     k5 = bool(POP) and not still and not k5_bad
     if not k5:
@@ -401,16 +423,16 @@ def main(argv: list[str]) -> int:
     removed = added = rebound = 0
     moved = []
     for s in outside:
-        bd, rd_ = set(base_def.get(s, [])), set(rev_def.get(s, []))
-        bn, rn = set(base_notes.get(s, [])), set(rev_notes.get(s, []))
+        bd, rd_ = set(ref_def.get(s, [])), set(rev_def.get(s, []))
+        bn, rn = set(ref_notes.get(s, [])), set(rev_notes.get(s, []))
         removed += len(bd - rd_)
         added += len(rd_ - bd)
         if bn != rn:
             rebound += 1
         if bd != rd_ or bn != rn:
             moved.append(s)
-    k7 = not moved
-    if not k7:
+    k7 = not moved and bool(fcommit)
+    if moved:
         defects.append(f"K7 outside rows moved={','.join(moved)}")
 
     base_set = set(base_rows.values())
@@ -451,7 +473,8 @@ def main(argv: list[str]) -> int:
     ok = all(legs)
     base_total = sum(len(v) for v in base_def.values())
     rev_total = sum(len(v) for v in rev_def.values())
-    print(f"GATE defects base={base_total} rev={rev_total}")
+    ref_total = sum(len(v) for v in ref_def.values())
+    print(f"GATE defects base={base_total} ref={ref_total} rev={rev_total}")
     print("LEGS " + " ".join(f"K{i + 1}={'pass' if v else 'fail'}" for i, v in enumerate(legs)))
     print(f"TARGET pop={len(POP)} cleared={cleared} still={len(still)} outside_rows={len(outside)} "
           f"outside_removed={removed} outside_added={added} outside_rebound={rebound} "

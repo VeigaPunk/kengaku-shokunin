@@ -1,0 +1,22 @@
+# round 100 amendment 1 (before any freeze; after the P1a control dry battery, .ufo/waves/round-100/L1/controls/dryrun-p1a/)
+
+The P1a battery (instruments at 4df35de8) is a dry run, not the run of record. It exposed three defects,
+all fixed in instrument or candidate bytes BEFORE the freeze; no frozen predicate existed yet.
+
+1. C2 census reference (lesson M2). `c2-do-nothing` and `c2-positive` both failed K7 with `moved=S295`:
+   the P0 capture `corpus/evidence/round100/tb2-financial-document-processor/` (C1's) gives the frozen gate
+   a task.toml slug for this member, so outside row S295 (round 93's rejection of this same member)
+   re-binds by url-task and its `capture-unanchored` finding clears (gate 33 -> 32 at P1). K7 compared
+   against BASE, which predates C1's capture. Fix: K5/K7 compare against REF = the freeze commit's parent
+   (the last pre-freeze tree), printed `REF <hash>`; K7 fails when no freeze exists.
+2. C2 K5 over-strict (lesson M2). `c2-positive` failed K5 on S300: once the row binds to its solve.sh
+   capture, its unrelated 8-hex finding `fa53d657` sharpens from `anchor-unbound` to `abbrev-unresolved`
+   (the prefix is environment/main.rs's digest, not solve.sh's). Fix: K5 compares the TOKEN SET of a
+   population row's other findings (none cleared, none added) and prints `RECLASS …` for a class change.
+3. C1 L13 blind spot (lesson M3). `c1-typed-words` (S343's word count 3 -> 4) passed L13: the frozen line
+   gate does not cite a quote that ends in a backslash (`-w pytest-json-ctrf==0.3.5 \`), so 7 of 8 new rows
+   were checkable. Fix in the candidate: S343 quotes `-w pytest-json-ctrf==0.3.5` (2 words), now cited
+   (line gate cited 146 -> 147 on the candidate mirror; a +1 word forgery on S343 goes live=1). The
+   typed-words control is retargeted to the new count (2 -> 3).
+
+The C1 predictions and the case table are unchanged (15/15 in dry runs 1 and 2).
