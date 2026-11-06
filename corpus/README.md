@@ -1040,3 +1040,13 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 | `lessons/round-97.md` | Gate decisions S317–S325, registry kind-cell correction, sentinel staging failure, late Q80 load | frozen `plans/round-97-claims.md`; `.ufo/waves/round-97/L1/` |
 
 Frontier member `sparql-university` moved to executed core (population ledger 40→41); this does not close the other unexecuted members. Registry self-test *semantics* and the inherited standing-counter/freeze-history debt remain open.
+
+## Round-98 coverage-map addition
+
+| entry | newly held ground | source and execution |
+|---|---|---|
+| `knowledge/tb2-regex-chess-grader.md` | generated-set grading by per-line membership plus a count (duplicate-for-omission gap), a forgiving last-field fallback (invented en-passant square), and a fixed public position set (lookup-table pass) | S326–S330; `evidence/round98/regexchess-probe.txt`; 12 cases × 5 legs at `8e37fc65` |
+| `evidence/PROVENANCE.md` | provenance bindings that let the frozen anchor-digest gate re-verify 39 nested replay-capture digests (S181–S323) without moving captures or editing the gate | `plans/round98_c2_nested_bind.py` at `8e37fc65`: `pop=39 cleared=39` |
+| `lessons/round-98.md` | Gate decisions S326–S333, the pytest summary-line parsing failure (dry runs 1–2), claim-local predicates with two prefreeze runs | frozen `plans/round-98-claims.md`; `.ufo/waves/round-98/L1/` |
+
+Frontier member `regex-chess` moved to executed core (population ledger 41→42); other unexecuted members stay frontier. The 45 anchor-digest findings outside the C2 population (rows with no committed capture, wrong-capture digests, multi-token rows) remain open.
