@@ -52,7 +52,6 @@ INTERP_SHA = "efb8b5cdcf78b73afcf39d59600a1f355ca89b7bac9854bb01f110cc77bea2c1"
 SOLVE_SHA = "e2c5b0ac2bef4801a1891e13c108813381877426c1a7f01bab86b4fc1f712510"
 AFTER_CELLS = {"file-artifact": 28, "stdout-inspection": 12, "subprocess-exec": 14, "timing-wall": 4}
 EXECUTED_AFTER = 37
-SET_BASE = "28e9f8bf4e8a68b1a34babfa71be9de595b78c4e"  # round-93 BASE; L7 keyed to its executed set (round 96)
 ROW = re.compile(r"^([0-9a-f]{64})  (\S+)$")
 
 
@@ -220,19 +219,10 @@ def main(argv: list[str]) -> int:
     exec_total = sum(1 for v in members.values() if v.get("status") == "executed")
     cells = {cl: sum(1 for v in members.values() if v.get("status") == "executed" and cl in v.get("classes", []))
              for cl in AFTER_CELLS}
-    # round-96 re-key: the executed SET must contain the round-93 set (BASE plus this member);
-    # class cells may only grow — never an absolute executed total
-    base_bytes = blob(lane, SET_BASE, LEDGER)
-    base_set = ({n for n, v in json.loads(base_bytes.decode()).get("members", {}).items() if v.get("status") == "executed"}
-                if base_bytes else set())
-    rev_set = {n for n, v in members.items() if v.get("status") == "executed"}
-    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
-    cells_ok = all(cells[cl] >= want for cl, want in AFTER_CELLS.items())
     l7 = (member.get("status") == "executed" and member.get("round") == 93
-          and member.get("classes") == MEMBER_CLASSES and set_ok and cells_ok)
+          and member.get("classes") == MEMBER_CLASSES and exec_total == EXECUTED_AFTER and cells == AFTER_CELLS)
     if not l7:
-        defects.append(f"L7 ledger member={member.get('status')} round={member.get('round')} executed_total={exec_total} cells={cells} "
-                       f"set_removed={sorted((base_set | {MEMBER}) - rev_set)}")
+        defects.append(f"L7 ledger member={member.get('status')} round={member.get('round')} executed_total={exec_total} cells={cells}")
 
     tool_bytes = blob(lane, rev, TOOL)
     l8 = bool(frozen.get(TOOL)) and sha(tool_bytes) == frozen.get(TOOL)

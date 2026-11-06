@@ -58,7 +58,6 @@ LEDGER_ROUND = 90
 LEDGER_SUBJECT = "tb2-header"
 LEDGER_VERDICT = "cases"
 EXECUTED_AFTER = 34
-SET_BASE = "dcdd494ef4b4a6c0ae349ecb597527124ee54f91"  # round-90 BASE; L7 keyed to its executed set (round 96)
 MEMBERS_TOTAL = 88
 FROZEN_CELLS = {"git-plumbing": (2, 3), "serialization-schema": (4, 10), "file-artifact": (25, 76),
                 "stdout-inspection": (10, 29), "subprocess-exec": (12, 45)}
@@ -141,14 +140,6 @@ def ledger_doc(lane: Lane) -> dict | None:
     if raw is None:
         return None
     return json.loads(raw)
-
-
-def _r96_set_at(lane_root, rev: str, path: str) -> set:
-    """Round-96 L7 re-key: the executed member set of the ledger at a fixed commit."""
-    proc = subprocess.run(["git", "-C", str(lane_root), "show", f"{rev}:{path}"], capture_output=True, timeout=120)
-    if proc.returncode != 0:
-        return set()
-    return {n for n, v in json.loads(proc.stdout.decode()).get("members", {}).items() if v.get("status") == "executed"}
 
 
 def run(lane_root: Path, rev: str, work: Path) -> int:
@@ -274,15 +265,9 @@ def run(lane_root: Path, rev: str, work: Path) -> int:
         if doc:
             members = doc["members"]
             executed_rows = sum(1 for v in members.values() if v.get("status") == "executed")
-            # round-96 re-key: the executed SET must contain the round-90 set (BASE plus this
-            # member), never an absolute total — a later member no longer turns this red
-            rev_set = {n for n, v in members.items() if v.get("status") == "executed"}
-            base_set = _r96_set_at(lane_root, SET_BASE, LEDGER)
-            if (not base_set or MEMBER in base_set or not rev_set >= base_set | {MEMBER}
-                    or len(members) != MEMBERS_TOTAL):
+            if executed_rows != EXECUTED_AFTER or len(members) != MEMBERS_TOTAL:
                 defect("L7-ledger", f"executed={executed_rows} members={len(members)} "
-                                    f"set_removed={sorted((base_set | {MEMBER}) - rev_set)} "
-                                    f"base_set={len(base_set)} (frozen {EXECUTED_AFTER} of {MEMBERS_TOTAL})")
+                                    f"!= frozen {EXECUTED_AFTER} of {MEMBERS_TOTAL}")
             cells: dict[str, list[int]] = {}
             for m, v in members.items():
                 for c in v.get("classes", []):
@@ -292,7 +277,7 @@ def run(lane_root: Path, rev: str, work: Path) -> int:
                         slot[0] += 1
             for c, (want_done, want_total) in FROZEN_CELLS.items():
                 got = cells.get(c, [0, 0])
-                if got[0] < want_done or got[1] != want_total:
+                if (got[0], got[1]) != (want_done, want_total):
                     defect("L7-ledger", f"cell {c} {got[0]} of {got[1]} != frozen "
                                         f"{want_done} of {want_total}")
 
