@@ -1,0 +1,39 @@
+# surface (b): L7 shape of the repaired counters at T, 2026-11-05T23:53:57-03:00
+# command: grep -n on each named file (read-only)
+== plans/round87_c1_replay.py
+48:LEDGER_SUBJECT = "tb2-header"  # round-96 re-pin: the round-79 gate's frozen shape for this receipt's `# tb2 mteb-retrieve grader probe` header (lesson round-95 M2, Q78)
+== plans/round90_c1_replay.py
+58:LEDGER_SUBJECT = "tb2-header"
+60:EXECUTED_AFTER = 34
+61:SET_BASE = "dcdd494ef4b4a6c0ae349ecb597527124ee54f91"  # round-90 BASE; L7 keyed to its executed set (round 96)
+63:FROZEN_CELLS = {"git-plumbing": (2, 3), "serialization-schema": (4, 10), "file-artifact": (25, 76),
+281:            if (not base_set or MEMBER in base_set or not rev_set >= base_set | {MEMBER}
+== plans/round91_c1_replay.py
+44:AFTER_CELLS = {"file-artifact": 26, "filesystem-metadata": 3, "numeric-band": 4,
+46:EXECUTED_AFTER = 35
+47:SET_BASE = "59764383d4dd33d58faa50daad4c06d0cde410aa"  # round-91 BASE; L7 keyed to its executed set (round 96)
+221:    cells_ok = all(sum(1 for v in ledger.get("members", {}).values()
+227:    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
+== plans/round92_c1_replay.py
+43:AFTER_CELLS = {"crypto-credential": 4, "file-artifact": 27, "filesystem-metadata": 4,
+45:EXECUTED_AFTER = 36
+46:SET_BASE = "4ba56182307ccda1ec436bfe3d61cb3d92e56608"  # round-92 BASE; L7 keyed to its executed set (round 96)
+241:    cells_ok = all(sum(1 for v in ledger.get("members", {}).values()
+247:    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
+299:          % (EXECUTED_AFTER if (ledger and exec_total == EXECUTED_AFTER) else exec_total,
+== plans/round93_c1_replay.py
+53:AFTER_CELLS = {"file-artifact": 28, "stdout-inspection": 12, "subprocess-exec": 14, "timing-wall": 4}
+54:EXECUTED_AFTER = 37
+55:SET_BASE = "28e9f8bf4e8a68b1a34babfa71be9de595b78c4e"  # round-93 BASE; L7 keyed to its executed set (round 96)
+229:    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
+230:    cells_ok = all(cells[cl] >= want for cl, want in AFTER_CELLS.items())
+== plans/round94_c1_replay.py
+60:AFTER_CELLS = {"file-artifact": 29, "stdout-inspection": 13, "subprocess-exec": 15}
+61:EXECUTED_AFTER = 38
+235:    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
+== plans/round95_c1_replay.py
+60:AFTER_CELLS = {"file-artifact": 30, "serialization-schema": 6}
+61:EXECUTED_AFTER = 39
+243:    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
+== plans/round96_c1_replay.py
+252:    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}

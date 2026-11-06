@@ -4452,3 +4452,35 @@ false gates not claimed and shown narrower. The non-author closure rules.
    and a title-only normalisation case; `--clearenv` in the probe sandbox (SP1).
 3. One counter re-pin for the round-79 / round-87 `mteb-retrieve` subject disagreement; key the
    C1 counters' L7 to the member set, not an absolute executed total.
+
+
+## Round 96 (hyaku run 15, attempt 2, 2026-11-05/06): a fourteenth executed member, `multi-source-data-merger` (C1 met); standing-counter repair (C2 not met, repair reverted after T, calibration harmed)
+
+Base `45740a61`; P0 `ff6765a6`; P1 `cea469bd`; P1b `e8a80c0e`; P2 controls `a3b57321`; frozen claims
+F `be3ff962` (`plans/round-96-claims.md`); C `09717e49` = measured tip T; receipts `7b7a17d3`,
+`599c1fa1`; R96-C2 repair bytes reverted `3f300cbd`. Lesson: `corpus/lessons/round-96.md`. No file
+in the frozen-instruments table changed after F.
+
+| claim / axis | before → after at the measured tip | counting command | verdict / score |
+|---|---|---|---|
+| R96-C1 / **coverage** (lowest non-retired axis; held at its L0 cap 7): fourteenth located offline replay, `multi-source-data-merger` @ `2fd12b88` | BASE: ledger executed 39 of 88, `file-artifact` 30/76, `serialization-schema` 6/10; do-nothing `controls/c1-do-nothing.txt` all legs fail rc 1. T `09717e49`: `LEGS L1..L9=pass`, `TARGET executed_rows=40 member=multi-source-data-merger cells=file-artifact:31,serialization-schema:7 set_contains_base=1 located=1 executed=1 cases=17 legs=68 mismatches=0 defects=0`, `PREDICATE R96-C1 pass`, rc 0 (`.ufo/waves/round-96/L1/c1-tip.txt`); same at the landing tip `3f300cbd` (`.ufo/waves/round-96/L1a2/c1-landing.txt`) | `python3 plans/round96_c1_replay.py --lane . --rev REV --work DIR --env-venv E --grader-venv G` | **met**; non-author critic: verifies-narrowed (finding set incomplete: three more wrong-pass states, W-5). Score 7 held (L0 cap) |
+| R96-C2 / **calibration** (held at ceiling 10): standing C1 counters red while recorded met | BASE `ff6765a6`: `STANDING total=14 green=8 red=6`, `PREDICATE R96-C2 fail`. T: `STANDING total=14 green=14 red=0`, `BITES checked=12 bitten=12`, `GROWS checked=6 tolerant=5`, `PREDICATE R96-C2 fail`, rc 1 (`.ufo/waves/round-96/L1/c2-tip.txt`) | `python3 plans/round96_standing_battery.py --lane . --rev REV --work DIR` | **not met** (frozen predicate fail at T; kill-rule byte-scope clause also triggered, lesson M5). **Harm**: r93/r94/r95 freeze-integrity gates PASS → FAIL (permanent history touch), r87 counter red at its own tip until the revert `3f300cbd` (lesson M1). Calibration verdict **harmed**; score line not edited — the closure rules |
+
+**Other axis scores.** novelty 8, depth 10, operability 10, freshness 10, adjacency 9 — held; no claim.
+**Sources.** S310–S314 admitted (tier A), S315–S316 rejected with flips; registry 301 → 308 rows.
+**After the revert (landing tip `3f300cbd`).** r87 counter pass at T and at `10de494d`
+(`L1a2/r87-landing.txt`); round-79 gate back to `DEFECTS n=1` SUBJECT-MISMATCH `mteb-retrieve`
+(`L1a2/r79-landing.txt`, the BASE state); freeze-integrity r93/r94/r95 fail `touched-after-freeze=2`
+(`L1a2/freeze-landing.txt`); standing battery `STANDING total=14 green=7 red=7`, `PREDICATE R96-C2
+fail` (`L1a2/battery-landing.txt`: BASE's six reds plus r95, whose L7 pins 39 and turns red when
+C1 lands — the `c1-only` control state). Standing-counter mismatches 6 (BASE) → 7 (landing tip).
+
+### Planned (round 97; not a claim until frozen)
+
+1. Successor C1 counters for the absolute-L7 class (rounds 80, 81, 90–95) as new files, the
+   freeze tables untouched (Q79); a battery that keeps failing-run output and is run twice before
+   freeze (Q80); compose the grow forgery with the round-79 gate (CO-3); distinct forgery inputs
+   per counter (CO-2).
+2. The merger replay's three missing wrong-pass states (over-report, wrong name winner, partial
+   `values`) and an L6 stamp that compares only the pinned triples.
+3. Carried: R95-C1 at reward scope; R95-C2 held-out false gates; round-92 items.

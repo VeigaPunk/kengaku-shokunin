@@ -1,0 +1,11 @@
+PREDICT K1=P K2=F K3=F K4=F
+SERVED K1 requests=2 paths=['/simple/vectorops/', '/packages/vectorops-0.1.0-py3-none-any.whl']
+CASE K1 leg=test_api observed=P expected=P exception=none index_pid=1722905 wheel_sha256=6fad8ea86492def2ce9bb48ba80c11e2b35ce88d8d2ea3757c276754c9d0ced6 stderr_sha256=13ee97c15e782ffcbdc2b9ac86725f62b9c151cd80a5b5da44d69d8976efa1e8
+K2 ENDPOINT form=urllib3-host-port stderr_bytes=1526 file=k2-pip-stderr.txt
+CASE K2 leg=test_api observed=F expected=F exception=CalledProcessError index_pid=none wheel_sha256=none stderr_sha256=dedbc20d70cc292e39eec807222312473313ee274e3a8db8476e3e0d8565375d
+SERVED K3 requests=2 paths=['/simple/vectorops/', '/packages/vectorops-0.1.0-py3-none-any.whl']
+CASE K3 leg=test_api observed=F expected=F exception=AssertionError index_pid=1727220 wheel_sha256=df8d66ab40465261894ca5f17b354a3b079061303e12e97f9fc7d1d1393c07aa stderr_sha256=78609d445c16486c2bc9ad4c66383bde9544029f25726b2ca4b747814d9b4cf7
+SERVED K4 requests=1 paths=['/simple/vectorops/']
+CASE K4 leg=test_api observed=F expected=F exception=CalledProcessError index_pid=1727513 wheel_sha256=b97edcfcd8870426abed8d8100aab73ad26f022ed4a32d6756b7d6b1c4f9fe92 stderr_sha256=6a0ccd86a8b5606aa190add39cd8095eb5346b71d2a39eb08200b77e58e777ef
+PREDICATE R68-C1 pass
+rc=0

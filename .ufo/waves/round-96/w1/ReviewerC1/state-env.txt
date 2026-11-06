@@ -1,0 +1,1445 @@
+{
+ "C01": {
+  "app": "solve",
+  "why": "positive control: the captured solve.sh run unmodified in the image-equivalent environment (python 3.11, pandas 2.2.3, pyarrow 17.0.0) writes both files",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024-01-15",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01",
+   "status": "active"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false,
+  "total_conflicts": 3,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    101,
+    "email",
+    "john@a.com",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "john@a.com",
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    101,
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name",
+   "email",
+   "created_date"
+  ]
+ },
+ "C02": {
+  "app": "absent",
+  "why": "do-nothing: /app empty; the existence test asserts, the two value tests open a missing file",
+  "merged_exists": false,
+  "conflicts_exists": false,
+  "magic": "",
+  "merged_err": "FileNotFoundError: [Errno 2] No such file or directory: '/fast/scratch/hyaku/kengaku-r96/ReviewerC1/trees/C02/app/merged_users.parquet'"
+ },
+ "C03": {
+  "app": "parquet-only",
+  "why": "solve run, then conflicts.json removed: the parquet test is independent of the report",
+  "merged_exists": true,
+  "conflicts_exists": false,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024-01-15",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01",
+   "status": "active"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false
+ },
+ "C04": {
+  "app": "under-report",
+  "why": "the report keeps only the name conflict of user 101 (total 1): the email check is guarded by `if email_conflicts:` and nothing counts the conflicts, so an under-reporting report passes",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024-01-15",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01",
+   "status": "active"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false,
+  "total_conflicts": 1,
+  "len_conflicts": 1,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name"
+  ]
+ },
+ "C05": {
+  "app": "wrong-selected",
+  "why": "solve's report with the email conflict's selected value set to the source_b value: the guarded email check runs and fails",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024-01-15",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01",
+   "status": "active"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false,
+  "total_conflicts": 3,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    101,
+    "email",
+    "john@b.com",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "john@a.com",
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    101,
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name",
+   "email",
+   "created_date"
+  ]
+ },
+ "C06": {
+  "app": "rows-unchecked",
+  "why": "merged rows of users 102 and 103 carry wrong name and email and the status column is dropped: only users 101 and 104 are content-checked",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   4
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024-01-15"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false,
+  "total_conflicts": 3,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    101,
+    "email",
+    "john@a.com",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "john@a.com",
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    101,
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name",
+   "email",
+   "created_date"
+  ]
+ },
+ "C07": {
+  "app": "float-id",
+  "why": "user_id cast to float64: {101.0,...} == {101,...} and df['user_id'] == 101 still select, so the integer-type requirement is unchecked",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "float64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101.0",
+   "102.0",
+   "103.0",
+   "104.0"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101.0",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024-01-15",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104.0",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01",
+   "status": "active"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false,
+  "total_conflicts": 3,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    101,
+    "email",
+    "john@a.com",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "john@a.com",
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    101,
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name",
+   "email",
+   "created_date"
+  ]
+ },
+ "C08": {
+  "app": "string-id",
+  "why": "user_id cast to str: the set comparison with ints fails",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "object",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "'101'",
+   "'102'",
+   "'103'",
+   "'104'"
+  ],
+  "set_eq_101_104": false,
+  "row_101": null,
+  "row_104": null,
+  "u101_selects": 0,
+  "ts_eq_str": false,
+  "total_conflicts": 3,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    101,
+    "email",
+    "john@a.com",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "john@a.com",
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    101,
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name",
+   "email",
+   "created_date"
+  ]
+ },
+ "C09": {
+  "app": "datetime-date",
+  "why": "created_date stored as datetime64: a Timestamp does not equal the string '2024-01-15'",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "datetime64[ns]",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024-01-15 00:00:00",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01 00:00:00",
+   "status": "active"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false,
+  "total_conflicts": 3,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    101,
+    "email",
+    "john@a.com",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "john@a.com",
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    101,
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name",
+   "email",
+   "created_date"
+  ]
+ },
+ "C10": {
+  "app": "slash-date",
+  "why": "created_date as YYYY/MM/DD strings: the exact string comparison fails",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024/01/15",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024/04/01",
+   "status": "active"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false,
+  "total_conflicts": 3,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    101,
+    "email",
+    "john@a.com",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "john@a.com",
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    101,
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name",
+   "email",
+   "created_date"
+  ]
+ },
+ "C11": {
+  "app": "total-mismatch",
+  "why": "total_conflicts 2 while the list holds 3: the length check fails",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024-01-15",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01",
+   "status": "active"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false,
+  "total_conflicts": 2,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    101,
+    "email",
+    "john@a.com",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "john@a.com",
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    101,
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name",
+   "email",
+   "created_date"
+  ]
+ },
+ "C12": {
+  "app": "missing-source-a-key",
+  "why": "the email conflict's values dict lacks source_a: the grader indexes it and raises KeyError (an error, not an assertion)",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024-01-15",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01",
+   "status": "active"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false,
+  "total_conflicts": 3,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    101,
+    "email",
+    "john@a.com",
+    [
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    101,
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name",
+   "email",
+   "created_date"
+  ]
+ },
+ "C13": {
+  "app": "wrong-priority",
+  "why": "user 101 row taken from source_b (john@b.com, 2024-01-10): the user-101 checks fail",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@b.com",
+   "created_date": "2024-01-10",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01",
+   "status": "active"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false,
+  "total_conflicts": 3,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    101,
+    "email",
+    "john@a.com",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "john@a.com",
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    101,
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name",
+   "email",
+   "created_date"
+  ]
+ },
+ "C14": {
+  "app": "string-userid-conflicts",
+  "why": "conflict user_id serialised as the string '101': no conflict matches the int 101",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024-01-15",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01",
+   "status": "active"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false,
+  "total_conflicts": 3,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    "101",
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    "101",
+    "email",
+    "john@a.com",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "john@a.com",
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    "101",
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": []
+ },
+ "C15": {
+  "app": "duplicate-row",
+  "why": "merged parquet holds user 101 twice (5 rows): the row-count check fails",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   5,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104",
+   "101"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024-01-15",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01",
+   "status": "active"
+  },
+  "u101_selects": 2,
+  "ts_eq_str": false,
+  "total_conflicts": 3,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    101,
+    "email",
+    "john@a.com",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "john@a.com",
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    101,
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name",
+   "email",
+   "created_date"
+  ]
+ },
+ "C16": {
+  "app": "csv-as-parquet",
+  "why": "merged_users.parquet holds CSV bytes: pyarrow refuses the file (no parquet magic) with ArrowInvalid",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "user",
+  "merged_err": "ArrowInvalid: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parqu",
+  "total_conflicts": 3,
+  "len_conflicts": 3,
+  "conflicts": [
+   [
+    101,
+    "name",
+    "John Doe",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "John Doe",
+     "source_b": "John Doe",
+     "source_c": "John D."
+    }
+   ],
+   [
+    101,
+    "email",
+    "john@a.com",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "john@a.com",
+     "source_b": "john@b.com",
+     "source_c": "john@c.com"
+    }
+   ],
+   [
+    101,
+    "created_date",
+    "2024-01-15",
+    [
+     "source_a",
+     "source_b",
+     "source_c"
+    ],
+    {
+     "source_a": "2024-01-15",
+     "source_b": "2024-01-10",
+     "source_c": "2024-01-20"
+    }
+   ]
+  ],
+  "u101_fields": [
+   "name",
+   "email",
+   "created_date"
+  ]
+ },
+ "C17": {
+  "app": "empty-conflicts",
+  "why": "report with total_conflicts 0 and an empty list: the >= 1 check fails",
+  "merged_exists": true,
+  "conflicts_exists": true,
+  "magic": "PAR1",
+  "shape": [
+   4,
+   5
+  ],
+  "columns": [
+   "user_id",
+   "name",
+   "email",
+   "created_date",
+   "status"
+  ],
+  "dtypes": {
+   "user_id": "int64",
+   "name": "object",
+   "email": "object",
+   "created_date": "object",
+   "status": "object"
+  },
+  "user_ids_repr": [
+   "101",
+   "102",
+   "103",
+   "104"
+  ],
+  "set_eq_101_104": true,
+  "row_101": {
+   "user_id": "101",
+   "name": "John Doe",
+   "email": "john@a.com",
+   "created_date": "2024-01-15",
+   "status": "active"
+  },
+  "row_104": {
+   "user_id": "104",
+   "name": "Alice Brown",
+   "email": "alice@c.com",
+   "created_date": "2024-04-01",
+   "status": "active"
+  },
+  "u101_selects": 1,
+  "ts_eq_str": false,
+  "total_conflicts": 0,
+  "len_conflicts": 0,
+  "conflicts": [],
+  "u101_fields": []
+ }
+}

@@ -1,0 +1,72 @@
+# surface (b): sibling primitives nearest to the standing-counter battery, 2026-11-05T23:54:01-03:00
+# each block: file:line range, read-only
+
+== kumitate-shokunin/scripts/receipt-evidence.mjs:14-24
+ *      breaks the sidecar/digest/ledger binding is out (R57-V4, first half).
+ *   2. REPRODUCTION — each receipt's recorded argv is re-run inside a
+ *      `git archive` extraction of the judged rev and must match the
+ *      recorded exit and stdout/stderr sha256. A receipt fabricated at
+ *      commit time — whatever its self-consistent body claims — cannot
+ *      reproduce (R57-V4, second half: this is the arm A57's B8 lacked).
+ *   3. FRESHNESS — each receipt's body nonce (32 lowercase hex) must be
+ *      absent from the cross-round sweep
+ *        git grep -ohE '"nonce":\\s*"[0-9a-f]{32}"' <rev> --
+ *          ':(glob).ufo/waves/round-4[89]/**'
+ *          ':(glob).ufo/waves/round-5[0-7]/**'
+
+== tabi-shokunin/scripts/check-measurement-binding.mjs:1-22
+#!/usr/bin/env node
+// Measurement-identity binding gate (round 16, claim C1).
+//
+// Binds each counted claim to the identity of what measured it: the counter
+// script bytes (sha256 blob digest), the revision the count was measured at,
+// and the declared counted inputs. This routes the round-15 outside
+// spot-check defects 1 and 2 recorded at
+// corpus/lessons/round-15-verifier-spotcheck.md:120-121: the C1 counter was
+// pinned only by code revision (measure.mjs sha256 3ee59de0 at 27dfd98 vs
+// dd9c8675 at HEAD) and the report measured at b7cf044 rather than the
+// delivered 36240c7.
+//
+// Usage:
+//   node scripts/check-measurement-binding.mjs --check <manifest> [--at REV] [--reproduce] [--json] [--repo <dir>]
+//   node scripts/check-measurement-binding.mjs --legacy <round-15 measurements.json> [--at REV] [--json] [--repo <dir>]
+//   node scripts/check-measurement-binding.mjs --self-test [--repo <dir>]
+//   node scripts/check-measurement-binding.mjs --reasons
+//
+// --repo defaults to the git toplevel of the cwd. No token ever reaches a
+// shell: every child is spawned with an argv array under a minimal
+// environment (below). Git is additionally pinned against graft/replace/fsmonitor
+// manipulation, and every pathspec is literal.
+
+== kama-shokunin/tools/round72-receipt-tip-binding.py:1-14
+#!/usr/bin/env python3
+"""round72-receipt-tip-binding.py — bind every round-cited receipt to its revision.
+
+Round-71's spot-check (§8 item 4) described ``measured/after/pre-report-at-tip.out``
+as running "at the report tip" while the receipt header names ``4b284653``, two
+commits before the measured tip; the lesson's "the only commits after it add
+receipts" was a hand-written invariance argument no command checked. This tool
+makes the binding mechanical: every receipt path the round's self-record cites
+must exist at the tip, carry a ``# tip=<40-hex>`` / ``# rev=<40-hex>`` header,
+name a revision that is an ancestor of the tip, and every commit in
+``<rev>..<tip>`` must touch only the round's declared record paths.
+
+    RECEIPT_TIP_FINDING <unbound|shifted|stale> <path> :: <detail>
+    RECEIPT_TIP_BINDING round=<N> cited=<c> bound=<b> unbound=<u> shifted=<s> stale=<t>
+
+== mori-shokunin/tools/mori-retention-reconcile.py:1-3
+#!/usr/bin/env python3
+"""Reconcile committed retention accounting. Agreement never grants clearance."""
+from __future__ import annotations
+
+== kotodama-shokunin/tools/check-evidence-coupling.py:1-10
+#!/usr/bin/env python3
+"""Evidence-coupling guard for the bounded NON-CANON D3 culture packet
+(kotodama round 7, contract reports/round-7/d3-contract.json,
+profile kotodama-d3-evidence-coupling/1).
+
+Stdlib only. No network, no eval/exec, no shell interpolation, and no writes
+in normal runs: the guard only reads the packet given on argv, the frozen
+expectation file when --frozen is given, and the five CLOSED round-6 ledger
+paths embedded below (never an input-supplied path). Path handling is closed:
+frozen manifest keys must be relative, slash-separated, dot-free and resolve

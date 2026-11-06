@@ -1,0 +1,30 @@
+BATTERY B01 ok got=['intact']
+BATTERY B02 ok got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B03 ok got=['broken:touched-after-freeze=2']
+BATTERY B04 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+BATTERY B05 ok got=['broken:absent-at-rev+touched-after-freeze=1']
+BATTERY B06 ok got=['intact']
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 ok got=['broken:rev-bytes-differ+touched-after-freeze=1', 'intact']
+BATTERY B10 ok got=could-not-evaluate
+BATTERY B11 ok got=['broken:touched-after-freeze=2']
+BATTERY B12 ok got=could-not-evaluate
+BATTERY B13 ok got=could-not-evaluate
+BATTERY B14 ok got=['intact']
+BATTERY B15 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+SELFTEST cases=15 ok=15
+FREEZE d9cd18a7519a58a1fa6d1cb9768e3873c31cd545 REV 09717e49ff46fad5b255619d671aaaae52dfc180
+INSTRUMENT plans/round95_vuln_probe.py table=932e66b1e476 freeze=932e66b1e476 rev=932e66b1e476 touched=0 verdict=intact
+INSTRUMENT plans/round95-cases.json table=ff361d141561 freeze=ff361d141561 rev=ff361d141561 touched=0 verdict=intact
+INSTRUMENT plans/round95_c1_replay.py table=c7e13dc9146e freeze=c7e13dc9146e rev=110d7fd72608 touched=1 verdict=broken:rev-bytes-differ+touched-after-freeze=1
+INSTRUMENT plans/round95_c2_counter.py table=2fc2e7f0a1c2 freeze=2fc2e7f0a1c2 rev=2fc2e7f0a1c2 touched=0 verdict=intact
+INSTRUMENT plans/round95_false_gate_census.py table=38fed2c23d46 freeze=38fed2c23d46 rev=38fed2c23d46 touched=0 verdict=intact
+INSTRUMENT plans/round95-false-gates.tsv table=6b455d9e38c5 freeze=6b455d9e38c5 rev=6b455d9e38c5 touched=0 verdict=intact
+INSTRUMENT plans/round94_freeze_integrity.py table=8574b4d5dca7 freeze=8574b4d5dca7 rev=8574b4d5dca7 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round95/graders/fix-code-vulnerability/tests/test_outputs.py table=c006a5de95b6 freeze=c006a5de95b6 rev=c006a5de95b6 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round95/graders/fix-code-vulnerability/solution/solve.sh table=7a0131b369d8 freeze=7a0131b369d8 rev=7a0131b369d8 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round95/graders/fix-code-vulnerability/environment/Dockerfile table=091747098622 freeze=091747098622 rev=091747098622 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round95/graders/fix-code-vulnerability/upstream-bottle/bottle.py table=abf643683b48 freeze=abf643683b48 rev=abf643683b48 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=11 intact=10 broken=1
+PREDICATE freeze-integrity fail

@@ -1,0 +1,43 @@
+# post-T revert receipt
+## lane log
+3f300cbd round-96: revert R96-C2 repair bytes after T (non-author harm: r87 counter red at its own tip, r93-r95 freeze-integrity PASS->FAIL; Q78), keep C1
+599c1fa1 round-96: R96-C2 receipt at T (STANDING red 0, BITES 12/12, GROWS 5/6 -> PREDICATE fail), ledger counts, r91 grow diagnostic
+7b7a17d3 round-96: R96-C1 receipt at T (pass), misdirected-measurement receipts (lesson M3), wave w1 spec + validator dispatch (13 seats)
+## revert stat
+3f300cbd86546f7938193e3c8188c0f4c4ad2af0
+round-96: revert R96-C2 repair bytes after T (non-author harm: r87 counter red at its own tip, r93-r95 freeze-integrity PASS->FAIL; Q78), keep C1
+
+ plans/grader-population-ledger.json |  2 +-
+ plans/round87_c1_replay.py          |  2 +-
+ plans/round90_c1_replay.py          | 21 +++------------------
+ plans/round91_c1_replay.py          | 21 ++++-----------------
+ plans/round92_c1_replay.py          | 21 ++++-----------------
+ plans/round93_c1_replay.py          | 14 ++------------
+ plans/round94_c1_replay.py          |  6 ++----
+ plans/round95_c1_replay.py          |  6 ++----
+ 8 files changed, 19 insertions(+), 74 deletions(-)
+## diff T..landing stat
+ .ufo/waves/round-96/L1/c1-tip.txt                  |   4 +
+ .ufo/waves/round-96/L1/c2-tip.txt                  |  38 ++++
+ .ufo/waves/round-96/L1/diag-r91-grow/README.md     |   1 +
+ .ufo/waves/round-96/L1/diag-r91-grow/isolated.txt  |   2 +
+ .../waves/round-96/L1/diag-r91-grow/parallel-1.txt |   3 +
+ .../waves/round-96/L1/diag-r91-grow/parallel-2.txt |   3 +
+ .../waves/round-96/L1/diag-r91-grow/parallel-3.txt |   3 +
+ .../waves/round-96/L1/diag-r91-grow/parallel-4.txt |   3 +
+ .../waves/round-96/L1/diag-r91-grow/parallel-5.txt |   3 +
+ .../waves/round-96/L1/diag-r91-grow/parallel-6.txt |   3 +
+ .ufo/waves/round-96/L1/ledger-count.txt            |   2 +
+ .../round-96/L1/mistakes/M3-c2-tip-empty-rev.txt   |   4 +
+ .../L1/mistakes/M3-ledger-count-partial.txt        |   1 +
+ .ufo/waves/round-96/w1-dispatch.json               | 251 +++++++++++++++++++++
+ .ufo/waves/round-96/w1-spec.json                   |  78 +++++++
+ plans/grader-population-ledger.json                |   2 +-
+ plans/round87_c1_replay.py                         |   2 +-
+ plans/round90_c1_replay.py                         |  21 +-
+ plans/round91_c1_replay.py                         |  21 +-
+ plans/round92_c1_replay.py                         |  21 +-
+ plans/round93_c1_replay.py                         |  14 +-
+ plans/round94_c1_replay.py                         |   6 +-
+ plans/round95_c1_replay.py                         |   6 +-
+ 23 files changed, 418 insertions(+), 74 deletions(-)

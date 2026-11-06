@@ -1,0 +1,17 @@
+# mutant M05-L5-true
+# input I1-P1b
+# rev e8a80c0e23f8a2b365756b4e971b4210afa3f829
+# cwd /fast/scratch/hyaku/kengaku-r96/MutTesterC1/lane
+# cmd /usr/bin/python3 /fast/scratch/hyaku/kengaku-r96/MutTesterC1/mut/M05-L5-true.py --lane . --rev e8a80c0e23f8a2b365756b4e971b4210afa3f829 --work /fast/scratch/hyaku/kengaku-r96/MutTesterC1/work/M05-L5-true--I1-P1b --env-venv /fast/scratch/hyaku/kengaku-r96/MutTesterC1/E --grader-venv /fast/scratch/hyaku/kengaku-r96/MutTesterC1/G --bwrap /usr/bin/bwrap
+# rc 1
+LEGS L1=fail L2=fail L3=fail L4=fail L5=pass L6=fail L7=fail L8=fail L9=fail
+TARGET executed_rows=39 member=multi-source-data-merger cells=file-artifact:30,serialization-schema:6 set_contains_base=0 located=1 executed=0 cases=17 legs=0 mismatches=0 defects=8
+DEFECT L1 receipt absent at revision: corpus/evidence/round96/merger-probe.txt
+DEFECT L2 capture/receipt sha mismatch (cap=a070888930cf receipt=absent)
+DEFECT L3 LANE_TIP absent not an ancestor of e8a80c0e23f8
+DEFECT L4 case table b5efb7b00473 vs frozen absent
+DEFECT L6 rerun rc=0 obs=17 want=0 equal=False stamps_equal=False
+DEFECT L7 ledger member=unexecuted round=None executed_total=39 cells={'file-artifact': 30, 'serialization-schema': 6} legacy_fields=False set_added=[] set_removed=[]
+DEFECT L8 probe 78ce14ceab71 vs frozen absent
+DEFECT L9 stamps tool=absent table=absent bash=None
+PREDICATE R96-C1 fail

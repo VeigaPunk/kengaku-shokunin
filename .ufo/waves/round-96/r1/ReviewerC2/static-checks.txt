@@ -1,0 +1,62 @@
+# static checks at T 09717e49ff46fad5b255619d671aaaae52dfc180 (all reads are git objects at T, not the working tree)
+## frozen battery sha (claims 989eb10f...)
+989eb10f31b23beb3f34c9fa33a5e47a79230d77ce197d4899a64aea780d2c99  -
+## frozen files F..T diff (empty = unchanged)
+## candidate bytes at T vs the claims candidate-bytes table
+52ab93c021743c45aa380b9c852e61480550b2ae428143d774ba69f400e5a661  plans/round87_c1_replay.py
+f96014625fe90d27442c2319c720e85cea64a14f4b6941bbb4eae82c886cc5eb  plans/round90_c1_replay.py
+2be919c5f57d3c4f289e1494a67994e665b84fb4a8f3177709194acc8d51ab4a  plans/round91_c1_replay.py
+092ba438623f3ef7e6a6221b35b7f46f1f096111ec7a853f5c7d8a6becf9d0db  plans/round92_c1_replay.py
+78edd3a6abb6ffe92d104ea7e00dada9e93b74ef62bc926b46677061e122937f  plans/round93_c1_replay.py
+44e38899bbbb3035ba2042dfa63eb70aa64952280111321bb5d806581bcecbf9  plans/round94_c1_replay.py
+110d7fd72608b52222e064e8ff7aa8d18a25725255a6e090684a49a91f48be6b  plans/round95_c1_replay.py
+## SET_BASE commits: ancestor-of-T and executed count at each
+r90 dcdd494ef4b4a6c0ae349ecb597527124ee54f91 ancestor=yes executed=33 members=88
+r91 59764383d4dd33d58faa50daad4c06d0cde410aa ancestor=yes executed=34 members=88
+r92 4ba56182307ccda1ec436bfe3d61cb3d92e56608 ancestor=yes executed=35 members=88
+r93 28e9f8bf4e8a68b1a34babfa71be9de595b78c4e ancestor=yes executed=36 members=88
+r94 0cbb927914e07818e1aaee7e72d8b3c90a2d21c2 ancestor=yes executed=37 members=88
+r95 4524072dfae9c5e8210592b7c1da26959aa29dae ancestor=yes executed=38 members=88
+## r87 receipt line 1 and r79 shape table
+# tb2 mteb-retrieve grader probe
+33:    tb2-header       `^# tb2 <member> grader probe`
+95:    ("tb2-header", r"^# tb2 {m} grader probe"),
+504:                      "subject": "tb2-header"},
+## tb2-result-file references at T (plans/corpus, excluding the round-95 lesson)
+none
+## ledger mteb-retrieve row at T
+{"classes": ["file-artifact"], "evidence": "no-blocker: tests/test_outputs.py sha256=e4e6b21fed6662ad", "receipt": "corpus/evidence/round87/mteb-retrieve-probe.txt", "round": 87, "status": "executed", "subject": "tb2-header", "verdict": "cases"}
+## r87 counter pin at T
+48:LEDGER_SUBJECT = "tb2-header"  # round-96 re-pin: the round-79 gate's frozen shape for this receipt's `# tb2 mteb-retrieve grader probe` header (lesson round-95 M2, Q78)
+251:          row.get("verdict")) != ("executed", LEDGER_ROUND, RECEIPT, LEDGER_SUBJECT, LEDGER_VERDICT):
+## ledger diff F..T (the C2 repair byte outside the candidate table)
+diff --git a/plans/grader-population-ledger.json b/plans/grader-population-ledger.json
+index 03cc62b1..c70764ee 100644
+--- a/plans/grader-population-ledger.json
++++ b/plans/grader-population-ledger.json
+@@ -552,7 +552,7 @@
+    "receipt": "corpus/evidence/round87/mteb-retrieve-probe.txt",
+    "round": 87,
+    "status": "executed",
+-   "subject": "tb2-result-file",
++   "subject": "tb2-header",
+    "verdict": "cases"
+   },
+   "multi-source-data-merger": {
+@@ -560,9 +560,13 @@
+     "file-artifact",
+     "serialization-schema"
+    ],
+-   "evidence": "no-blocker: tests/test_outputs.py sha256=a070888930cf829a",
+-   "reason": "unattempted",
+-   "status": "unexecuted"
++   "evidence": "no-blocker: tests/test_outputs.py sha256=a070888930cf829a; receipt corpus/evidence/round96/merger-probe.txt",
++   "reason": "replayed",
++   "status": "executed",
++   "round": 96,
++   "receipt": "corpus/evidence/round96/merger-probe.txt",
++   "subject": "tb2-header",
++   "verdict": "cases"
+   },
+   "nginx-request-logging": {
+    "classes": [

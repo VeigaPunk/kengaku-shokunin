@@ -1,0 +1,59 @@
+# contract surface: freeze-integrity vs the seven repaired counters, 2026-11-05T23:54:04-03:00
+# source: plans/round94_freeze_integrity.py:1-20 (gate semantics) and .ufo/waves/round-96/w1/ExecHarm.md:57-90 (measured at T)
+
+#!/usr/bin/env python3
+"""Freeze-integrity gate v2 (round 94, R94-C2): did any frozen instrument change after its freeze?
+
+Successor of plans/round93_freeze_integrity.py (R93-C2, admitted). The lane's claims files
+assert that the counters, probes and case tables named at freeze are the bytes that scored
+the claim. This gate counts mismatches between that self-assessment and the repository:
+
+  claims mode  --claims PATH   the table is the ONE ```frozen-instruments block of PATH as it
+                               stood at --freeze (lines "<sha256>  <repo-relative path>")
+  paths mode   --paths P ...   legacy rounds without a table: the table is the bytes of
+                               each path at --freeze
+
+For every table row the instrument is `intact` only if (a) its bytes at --freeze hash to
+the table value, (b) its bytes at --rev hash to the table value, and (c) no commit in
+--freeze..--rev touches the path, counted with `git rev-list --full-history` so a side-branch
+edit that a TREESAME merge discarded still counts (round-93 wave finding W-2). An edit later
+reverted is still a breach: something scored in between may have used the edited bytes.
+
+Changes against v1 (round-93 lesson W-2, W-3, W-6; closure routed defect 4):
+  - touched count uses --full-history (v1 default simplification reported a discarded side
+
+== ExecHarm measured lines
+solely on the instruments round 96 itself repaired. Every other frozen
+instrument in those tables stays intact.
+
+### 3b. Round-95 C2 counters through their public CLI (`round95_c2_counter.py`)
+
+Run as rounds 95 ran it (`--lane . --rev <rev> --work <scratch>`, default
+tool file `plans/round94_freeze_integrity.py`):
+
+- BASE `45740a61`: `W4 pass freeze=d9cd18a7 rc=0 summary=(11,11,0)`,
+  `W4 INSTRUMENT plans/round95_c1_replay.py … rev=c7e13dc9146e … intact`.
+- T `09717e49`: `W4 fail freeze=d9cd18a7 rc=1 summary=(11,10,1)`,
+  `W4 INSTRUMENT plans/round95_c1_replay.py … rev=110d7fd72608 touched=1
+  verdict=broken:rev-bytes-differ+touched-after-freeze=1`,
+  `TARGET legs_passed=4 of 5`, `PREDICATE R95-C2 fail` rc=1.
+
+(The W1 r92 leg already fails at BASE — `W1a r92 rc=1 (4,1,3)` — that is the
+round-92 freeze's pre-existing state, unchanged by round 96. The T-run is
+otherwise identical: W2 `fixtures=20 ok=20`, W3 `probes=3`, W5
+`mutants=10 killed=10`.)
+
+Receipts: `receipts/r95c2-base.txt`, `receipts/r95c2-t.txt`.
+
+## 4. Harm or expected maintenance touch?
+
+The freeze-integrity gate's contract (its own docstring): a tabled
+instrument is `intact` only if its bytes at the freeze hash to the table
+*and* `git rev-list --full-history freeze..rev` never touches the path.
+The seven repaired counters are frozen instruments of rounds 87 and 90–95,
+and the repair is by design a byte-replace in round 96's commit C. The
+gate therefore reports them broken — a true positive under its own
+definition, not a false alarm.
+
+Is it a harm? Under the rules in force at those freezes, yes-if-unannounced:
+the claims files say "a frozen element that looks wrong is reported, not

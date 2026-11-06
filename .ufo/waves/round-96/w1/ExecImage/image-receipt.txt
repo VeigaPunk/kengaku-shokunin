@@ -1,0 +1,40 @@
+Image: alexgshaw/multi-source-data-merger:20251031
+RepoDigest (pull): sha256:8b32782078ff7383a1b4e5d3cecca8ce287e30f50bb4c0e5db009a18064e666e
+Image ID: sha256:8b32782078ff7383a1b4e5d3cecca8ce287e30f50bb4c0e5db009a18064e666e
+Size: 788MB (docker images reported), content size 221MB compressed
+Pull: docker pull alexgshaw/multi-source-data-merger:20251031 - rc 0, no sudo needed
+Image internals (docker run):
+  python 3.11.14 (GCC 14.2.0)
+  pandas 2.2.3
+  pyarrow 17.0.0
+  numpy 2.3.4 (unpinned, resolved at image build)
+Probe venv (merger-probe.txt ENV_SIDE): python 3.11.17 pandas 2.2.3 pyarrow 17.0.0 numpy 2.4.6
+Our E venv: python 3.11.17 pandas 2.2.3 pyarrow 17.0.0 numpy 2.4.6
+Grader venv: python 3.13.16 pandas 2.3.3 pyarrow 22.0.0 numpy 2.5.4
+
+/data file hashes (image vs lane capture):
+  users.json    895b60e8a6817d38a5806397d727f150 (md5) / 75e51e2d3ab0bdba2269d7cf3757576f84f3ee2c13407d2db94289a5958a1778 (sha256)
+  users.csv     235818ceab184f86e441de08f3d24478 (md5) / 8e87d16dc47d166edd8e56165955bad265b630d53d02762367c816affb5fa760 (sha256)
+  users.parquet ba8e65d5568c7cf7b8d77c78cee4cd35 (md5) / 23d1ea51c4170bdba53febb885a0f495e28de525a52667347b2932136b9a72fe (sha256)
+All three sha256 values match the frozen PINS in plans/round-96-claims.md and probe PINS table.
+
+Container solve.sh run (docker run -v solve.sh:/solve.sh:ro, bash /solve.sh in /app):
+  rc 0, printed "Total unique users: 4, Total conflicts detected: 3"
+  /app/merged_users.parquet sha256 39c8e4f447c9e56fa2a37cc30adb9f88ac193d7a56ee8faf96906a82fb921e0b
+  /app/conflicts.json           sha256 bce88c8209de60948edbca4c34caea4c8544e2f6f486aa30506d27ed2672a40a
+
+Probe venv solve.sh run (bwrap, E venv python 3.11.17/pandas 2.2.3/pyarrow 17.0.0/numpy 2.4.6):
+  rc 0, same output
+  /app/merged_users.parquet sha256 39c8e4f447c9e56fa2a37cc30adb9f88ac193d7a56ee8faf96906a82fb921e0b (identical)
+  /app/conflicts.json           sha256 bce88c8209de60948edbca4c34caea4c8544e2f6f486aa30506d27ed2672a40a (identical)
+
+Grading of container outputs:
+  bwrap harness with grader venv (3.13.16/2.3.3/22.0.0): PAYLOAD P,P,P,1 (matches C01 predicted)
+  Real pytest (grader venv + pytest 8.4.1, /app bind-mounted): 3 passed in 2.32s, rc 0
+
+Dtype roundtrip (pyarrow 17 write -> pyarrow 22 read):
+  user_id int64, name/email/created_date/status object/string - identical to pyarrow22-written parquet
+  df.equals() True between 17-written and 22-written versions
+  C07 float64 set {101.0,..}=={101,..} and selection works; C09 datetime64 Timestamp != string "2024-01-15"
+
+Disk: image 788MB (221MB compressed), removed via docker rmi after use. Net disk 0.

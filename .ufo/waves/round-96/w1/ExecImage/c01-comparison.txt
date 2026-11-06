@@ -1,0 +1,7 @@
+C01 comparison: container outputs vs probe C01
+  Container outputs: sha256 merged_users.parquet 39c8e4f447c9e56fa2a37cc30adb9f88ac193d7a56ee8faf96906a82fb921e0b
+                     sha256 conflicts.json        bce88c8209de60948edbca4c34caea4c8544e2f6f486aa30506d27ed2672a40a
+  Probe venv outputs: identical sha256 values for both files
+  Grade: P,P,P,1 in both harness and real pytest (matches predicted C01 P,P,P,1)
+  conflicts.json content (both): total_conflicts 3, three conflicts all on user 101 (name, email, created_date)
+  merged parquet (both): 4 rows (101,102,103,104), user 101 John Doe john@a.com 2024-01-15, user 104 Alice Brown alice@c.com 2024-04-01

@@ -3646,3 +3646,26 @@ No tabled file changed after F.
   2 mutation-tester, sentinel; attack share (reviewer, critic, mutation-tester) 5/12 = 42 %.
   Critic: C1 verifies-narrowed (six functions, not the reward); C2 verifies-narrowed (in-sample;
   not discrimination of unseen gates). Findings routed to round 96 (lesson W-table).
+
+## Round 96 — fourteenth executed member (`multi-source-data-merger`); standing-counter repair not met and reverted (KengakuR96 → KengakuR96a2)
+
+Order: P0 `ff6765a6` → P1 `cea469bd` → P1b `e8a80c0e` → P2 controls `a3b57321` → F `be3ff962` →
+C `09717e49` (= T) → receipts `7b7a17d3`, `599c1fa1` → (attempt 1 L1 died after dispatching w1) →
+revert of the R96-C2 repair bytes `3f300cbd` → integration. No tabled file changed after F.
+
+- **R96-C1 (coverage, L0 cap 7): met.** `multi-source-data-merger` @ `2fd12b88` replayed offline
+  through `plans/round96_merger_probe.py` (agent venv python 3.11 / pandas 2.2.3 / pyarrow 17.0.0,
+  grader venv python 3.13 / pandas 2.3.3 / pyarrow 22.0.0, bwrap `--unshare-all --clearenv`, no
+  `/etc`), 17 cases × 4 legs, captured solve.sh unmodified as C01. Receipt
+  `corpus/evidence/round96/merger-probe.txt`; at T and at the landing tip `PREDICATE R96-C1 pass`
+  rc 0. Grader gaps: C04 under-report passes, C06 rows 102/103 unchecked, C07 float64 `user_id`
+  passes; wave adds over-report, wrong name winner, partial `values`. Real pytest = harness reward
+  17/17; the real image's solve.sh outputs are byte-identical to the venv's.
+- **R96-C2 (calibration, ceiling 10): not met; harm.** Battery at T `GROWS 6/5` → fail; an
+  independent run passes 6/6 (nondeterministic, M2). The repair byte-replaced closed rounds'
+  frozen counters: freeze-integrity r93–r95 PASS → FAIL, r87 red at its own tip (M1). Bytes
+  reverted `3f300cbd`; the freeze-integrity break is permanent history.
+- **Sources & frontier.** S310–S314 admitted, S315–S316 rejected (S315 flip exercised by the
+  non-author ExecImage seat); registry 301 → 308; census exit 0 at start and end.
+- **Mistakes mined.** M1–M8 (`corpus/lessons/round-96.md`); Q79, Q80.
+- **Waves.** w1 13 seats (6 delivered, 7 lost with the orchestrator session); residual r1 4 seats.

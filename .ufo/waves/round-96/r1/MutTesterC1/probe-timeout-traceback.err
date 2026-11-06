@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/fast/scratch/hyaku/kengaku-r96/MutTesterC1/lane/plans/round96_merger_probe.py", line 330, in <module>
+    sys.exit(main(sys.argv[1:]))
+             ~~~~^^^^^^^^^^^^^^
+  File "/fast/scratch/hyaku/kengaku-r96/MutTesterC1/lane/plans/round96_merger_probe.py", line 315, in main
+    observed = run_case(box, app, tests, harness, grader_venv)
+  File "/fast/scratch/hyaku/kengaku-r96/MutTesterC1/lane/plans/round96_merger_probe.py", line 226, in run_case
+    proc = box.run([("--bind", str(app), "/app"), ("--ro-bind", str(tests), "/tests"),
+                    ("--ro-bind", str(harness), "/harness.py")], "/app", "%s/bin:/usr/bin" % grader_venv,
+                   [str(venv_python(grader_venv)), "-I", "-B", "/harness.py"])
+  File "/fast/scratch/hyaku/kengaku-r96/MutTesterC1/lane/plans/round96_merger_probe.py", line 166, in run
+    return subprocess.run(self.cmd(binds, chdir, path, argv), capture_output=True, text=True,
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                          timeout=CASE_TIMEOUT)
+                          ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['/usr/bin/bwrap', '--die-with-parent', '--unshare-all', '--clearenv', '--tmpfs', '/', '--ro-bind', '/usr', '/usr', '--symlink', 'usr/bin', '/bin', '--symlink', 'usr/lib', '/lib', '--symlink', 'usr/lib', '/lib64', '--symlink', 'usr/bin', '/sbin', '--dev', '/dev', '--proc', '/proc', '--tmpfs', '/tmp', '--ro-bind', '/fast/scratch/hyaku/kengaku-r96/MutTesterC1/E', '/fast/scratch/hyaku/kengaku-r96/MutTesterC1/E', '--ro-bind', '/fast/scratch/hyaku/kengaku-r96/MutTesterC1/G', '/fast/scratch/hyaku/kengaku-r96/MutTesterC1/G', '--ro-bind', '/home/vgpnk/.local/share/uv/python', '/home/vgpnk/.local/share/uv/python', '--bind', '/fast/scratch/hyaku/kengaku-r96/MutTesterC1/work/diag1/cases/C13/app', '/app', '--ro-bind', '/fast/scratch/hyaku/kengaku-r96/MutTesterC1/work/diag1/tests', '/tests', '--ro-bind', '/fast/scratch/hyaku/kengaku-r96/MutTesterC1/work/diag1/harness.py', '/harness.py', '--setenv', 'PATH', '/fast/scratch/hyaku/kengaku-r96/MutTesterC1/G/bin:/usr/bin', '--setenv', 'HOME', '/tmp', '--setenv', 'LANG', 'C.UTF-8', '--chdir', '/app', '/fast/scratch/hyaku/kengaku-r96/MutTesterC1/G/bin/python', '-I', '-B', '/harness.py']' timed out after 300 seconds

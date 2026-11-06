@@ -1,0 +1,14 @@
+diff --git a/plans/round90_c1_replay.py b/plans/round90_c1_replay.py
+index af6201d6..22248d17 100755
+--- a/plans/round90_c1_replay.py
++++ b/plans/round90_c1_replay.py
+@@ -278,7 +278,8 @@ def run(lane_root: Path, rev: str, work: Path) -> int:
+             # member), never an absolute total — a later member no longer turns this red
+             rev_set = {n for n, v in members.items() if v.get("status") == "executed"}
+             base_set = _r96_set_at(lane_root, SET_BASE, LEDGER)
+-            if (not base_set or MEMBER in base_set or not rev_set >= base_set | {MEMBER}
++            if (not base_set or MEMBER in base_set
++                    or not {"merge-diff-arc-agi-task", "build-pmars"} <= rev_set
+                     or len(members) != MEMBERS_TOTAL):
+                 defect("L7-ledger", f"executed={executed_rows} members={len(members)} "
+                                     f"set_removed={sorted((base_set | {MEMBER}) - rev_set)} "

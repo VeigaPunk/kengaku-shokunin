@@ -1,0 +1,239 @@
+diff --git a/plans/round87_c1_replay.py b/plans/round87_c1_replay.py
+index 15329068..68f02509 100755
+--- a/plans/round87_c1_replay.py
++++ b/plans/round87_c1_replay.py
+@@ -45,7 +45,7 @@ RECEIPT = "corpus/evidence/round87/mteb-retrieve-probe.txt"
+ LEDGER = "plans/grader-population-ledger.json"
+ SUBJECT_SHA = "e4e6b21fed6662adb4a42aba23d35609450392839a2282f3ba77c70c8d907c0b"
+ LEDGER_ROUND = 87
+-LEDGER_SUBJECT = "tb2-result-file"
++LEDGER_SUBJECT = "tb2-header"  # round-96 re-pin: the round-79 gate's frozen shape for this receipt's `# tb2 mteb-retrieve grader probe` header (lesson round-95 M2, Q78)
+ LEDGER_VERDICT = "cases"
+ FROZEN = (("exact", "P/P"), ("absent-file", "F/F"), ("two-lines", "P/F"), ("sibling-value", "P/F"),
+           ("trailing-space", "P/P"), ("empty-file", "P/F"), ("result-is-directory", "P/E"),
+diff --git a/plans/round90_c1_replay.py b/plans/round90_c1_replay.py
+index 366588a7..af6201d6 100755
+--- a/plans/round90_c1_replay.py
++++ b/plans/round90_c1_replay.py
+@@ -58,6 +58,7 @@ LEDGER_ROUND = 90
+ LEDGER_SUBJECT = "tb2-header"
+ LEDGER_VERDICT = "cases"
+ EXECUTED_AFTER = 34
++SET_BASE = "dcdd494ef4b4a6c0ae349ecb597527124ee54f91"  # round-90 BASE; L7 keyed to its executed set (round 96)
+ MEMBERS_TOTAL = 88
+ FROZEN_CELLS = {"git-plumbing": (2, 3), "serialization-schema": (4, 10), "file-artifact": (25, 76),
+                 "stdout-inspection": (10, 29), "subprocess-exec": (12, 45)}
+@@ -142,6 +143,14 @@ def ledger_doc(lane: Lane) -> dict | None:
+     return json.loads(raw)
+ 
+ 
++def _r96_set_at(lane_root, rev: str, path: str) -> set:
++    """Round-96 L7 re-key: the executed member set of the ledger at a fixed commit."""
++    proc = subprocess.run(["git", "-C", str(lane_root), "show", f"{rev}:{path}"], capture_output=True, timeout=120)
++    if proc.returncode != 0:
++        return set()
++    return {n for n, v in json.loads(proc.stdout.decode()).get("members", {}).items() if v.get("status") == "executed"}
++
++
+ def run(lane_root: Path, rev: str, work: Path) -> int:
+     lane = Lane(lane_root, rev)
+     defects: list[str] = []
+@@ -265,9 +274,15 @@ def run(lane_root: Path, rev: str, work: Path) -> int:
+         if doc:
+             members = doc["members"]
+             executed_rows = sum(1 for v in members.values() if v.get("status") == "executed")
+-            if executed_rows != EXECUTED_AFTER or len(members) != MEMBERS_TOTAL:
++            # round-96 re-key: the executed SET must contain the round-90 set (BASE plus this
++            # member), never an absolute total — a later member no longer turns this red
++            rev_set = {n for n, v in members.items() if v.get("status") == "executed"}
++            base_set = _r96_set_at(lane_root, SET_BASE, LEDGER)
++            if (not base_set or MEMBER in base_set or not rev_set >= base_set | {MEMBER}
++                    or len(members) != MEMBERS_TOTAL):
+                 defect("L7-ledger", f"executed={executed_rows} members={len(members)} "
+-                                    f"!= frozen {EXECUTED_AFTER} of {MEMBERS_TOTAL}")
++                                    f"set_removed={sorted((base_set | {MEMBER}) - rev_set)} "
++                                    f"base_set={len(base_set)} (frozen {EXECUTED_AFTER} of {MEMBERS_TOTAL})")
+             cells: dict[str, list[int]] = {}
+             for m, v in members.items():
+                 for c in v.get("classes", []):
+@@ -277,7 +292,7 @@ def run(lane_root: Path, rev: str, work: Path) -> int:
+                         slot[0] += 1
+             for c, (want_done, want_total) in FROZEN_CELLS.items():
+                 got = cells.get(c, [0, 0])
+-                if (got[0], got[1]) != (want_done, want_total):
++                if got[0] < want_done or got[1] != want_total:
+                     defect("L7-ledger", f"cell {c} {got[0]} of {got[1]} != frozen "
+                                         f"{want_done} of {want_total}")
+ 
+diff --git a/plans/round91_c1_replay.py b/plans/round91_c1_replay.py
+index a86581aa..2be6a459 100755
+--- a/plans/round91_c1_replay.py
++++ b/plans/round91_c1_replay.py
+@@ -23,6 +23,14 @@ import tarfile
+ from io import BytesIO
+ from pathlib import Path
+ 
++
++def _r96_set_at(lane_root, rev: str, path: str) -> set:
++    """Round-96 L7 re-key: the executed member set of the ledger at a fixed commit."""
++    proc = subprocess.run(["git", "-C", str(lane_root), "show", f"{rev}:{path}"], capture_output=True, timeout=120)
++    if proc.returncode != 0:
++        return set()
++    return {n for n, v in json.loads(proc.stdout.decode()).get("members", {}).items() if v.get("status") == "executed"}
++
+ CAP = "corpus/evidence/round52/graders/modernize-scientific-stack/tests/test_outputs.py"
+ TABLE = "plans/round91-cases.json"
+ TOOL = "plans/round91_modernize_probe.py"
+@@ -36,6 +44,7 @@ TABLE_SHA_A = "89fab14b457364826065b77435626e0a16669abeebe67afe93ce6d2fe198ddf8"
+ AFTER_CELLS = {"file-artifact": 26, "filesystem-metadata": 3, "numeric-band": 4,
+                "stdout-inspection": 11, "subprocess-exec": 13}
+ EXECUTED_AFTER = 35
++SET_BASE = "59764383d4dd33d58faa50daad4c06d0cde410aa"  # round-91 BASE; L7 keyed to its executed set (round 96)
+ BWRAP = "/usr/bin/bwrap"
+ 
+ 
+@@ -210,14 +219,18 @@ def main(argv: list[str]) -> int:
+     member = ledger.get("members", {}).get(MEMBER, {}) if ledger else {}
+     exec_total = sum(1 for v in ledger.get("members", {}).values() if v.get("status") == "executed") if ledger else 0
+     cells_ok = all(sum(1 for v in ledger.get("members", {}).values()
+-                       if v.get("status") == "executed" and cl in v.get("classes", [])) == want
++                       if v.get("status") == "executed" and cl in v.get("classes", [])) >= want
+                    for cl, want in AFTER_CELLS.items())
++    # round-96 re-key: the executed SET must contain the round-91 set (BASE plus this member)
++    rev_set = {n for n, v in ledger.get("members", {}).items() if v.get("status") == "executed"} if ledger else set()
++    base_set = _r96_set_at(Path(args.lane).resolve(), SET_BASE, LEDGER)
++    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
+     l7 = (member.get("status") == "executed" and member.get("round") == 91
+-          and member.get("classes") == table.get("class") and exec_total == EXECUTED_AFTER
++          and member.get("classes") == table.get("class") and set_ok
+           and cells_ok)
+     if not l7:
+-        defects.append("L7 ledger member=%s executed_total=%d cells_ok=%s"
+-                       % (member.get("status"), exec_total, cells_ok))
++        defects.append("L7 ledger member=%s executed_total=%d cells_ok=%s set_ok=%s"
++                       % (member.get("status"), exec_total, cells_ok, set_ok))
+ 
+     # L8: the probe bytes at the measured revision hash to the pinned TRUSTED_TOOL_SHA
+     pins_bytes = lane.blob(PINS, rev)
+diff --git a/plans/round92_c1_replay.py b/plans/round92_c1_replay.py
+index 8044e7af..77254239 100755
+--- a/plans/round92_c1_replay.py
++++ b/plans/round92_c1_replay.py
+@@ -19,6 +19,14 @@ import tarfile
+ from io import BytesIO
+ from pathlib import Path
+ 
++
++def _r96_set_at(lane_root, rev: str, path: str) -> set:
++    """Round-96 L7 re-key: the executed member set of the ledger at a fixed commit."""
++    proc = subprocess.run(["git", "-C", str(lane_root), "show", f"{rev}:{path}"], capture_output=True, timeout=120)
++    if proc.returncode != 0:
++        return set()
++    return {n for n, v in json.loads(proc.stdout.decode()).get("members", {}).items() if v.get("status") == "executed"}
++
+ CAP = "corpus/evidence/round92/graders/llm-inference-batching-scheduler/tests/test_outputs.py"
+ TABLE = "plans/round92-cases.json"
+ TOOL = "plans/round92_bs_probe.py"
+@@ -35,6 +43,7 @@ TABLE_SHA_A = "2249d5c0ea90930a5c36300b47a4b991d41ae9c5ff400deba5adf9be28d5a693"
+ AFTER_CELLS = {"crypto-credential": 4, "file-artifact": 27, "filesystem-metadata": 4,
+                "serialization-schema": 5}
+ EXECUTED_AFTER = 36
++SET_BASE = "4ba56182307ccda1ec436bfe3d61cb3d92e56608"  # round-92 BASE; L7 keyed to its executed set (round 96)
+ BWRAP = "/usr/bin/bwrap"
+ 
+ 
+@@ -230,14 +239,18 @@ def main(argv: list[str]) -> int:
+     member = ledger.get("members", {}).get(MEMBER, {}) if ledger else {}
+     exec_total = sum(1 for v in ledger.get("members", {}).values() if v.get("status") == "executed") if ledger else 0
+     cells_ok = all(sum(1 for v in ledger.get("members", {}).values()
+-                       if v.get("status") == "executed" and cl in v.get("classes", [])) == want
++                       if v.get("status") == "executed" and cl in v.get("classes", [])) >= want
+                    for cl, want in AFTER_CELLS.items())
++    # round-96 re-key: the executed SET must contain the round-92 set (BASE plus this member)
++    rev_set = {n for n, v in ledger.get("members", {}).items() if v.get("status") == "executed"} if ledger else set()
++    base_set = _r96_set_at(Path(args.lane).resolve(), SET_BASE, LEDGER)
++    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
+     l7 = (member.get("status") == "executed" and member.get("round") == 92
+-          and member.get("classes") == MEMBER_CLASSES and exec_total == EXECUTED_AFTER
++          and member.get("classes") == MEMBER_CLASSES and set_ok
+           and cells_ok)
+     if not l7:
+-        defects.append("L7 ledger member=%s round=%s executed_total=%s cells_ok=%s"
+-                       % (member.get("status"), member.get("round"), exec_total, cells_ok))
++        defects.append("L7 ledger member=%s round=%s executed_total=%s cells_ok=%s set_ok=%s"
++                       % (member.get("status"), member.get("round"), exec_total, cells_ok, set_ok))
+ 
+     # L8: the probe bytes at the measured revision hash to the ledger's pin for the tool
+     pins_bytes = lane.blob(PINS, rev)
+diff --git a/plans/round93_c1_replay.py b/plans/round93_c1_replay.py
+index 343e7eb0..117e427e 100755
+--- a/plans/round93_c1_replay.py
++++ b/plans/round93_c1_replay.py
+@@ -52,6 +52,7 @@ INTERP_SHA = "efb8b5cdcf78b73afcf39d59600a1f355ca89b7bac9854bb01f110cc77bea2c1"
+ SOLVE_SHA = "e2c5b0ac2bef4801a1891e13c108813381877426c1a7f01bab86b4fc1f712510"
+ AFTER_CELLS = {"file-artifact": 28, "stdout-inspection": 12, "subprocess-exec": 14, "timing-wall": 4}
+ EXECUTED_AFTER = 37
++SET_BASE = "28e9f8bf4e8a68b1a34babfa71be9de595b78c4e"  # round-93 BASE; L7 keyed to its executed set (round 96)
+ ROW = re.compile(r"^([0-9a-f]{64})  (\S+)$")
+ 
+ 
+@@ -219,10 +220,19 @@ def main(argv: list[str]) -> int:
+     exec_total = sum(1 for v in members.values() if v.get("status") == "executed")
+     cells = {cl: sum(1 for v in members.values() if v.get("status") == "executed" and cl in v.get("classes", []))
+              for cl in AFTER_CELLS}
++    # round-96 re-key: the executed SET must contain the round-93 set (BASE plus this member);
++    # class cells may only grow — never an absolute executed total
++    base_bytes = blob(lane, SET_BASE, LEDGER)
++    base_set = ({n for n, v in json.loads(base_bytes.decode()).get("members", {}).items() if v.get("status") == "executed"}
++                if base_bytes else set())
++    rev_set = {n for n, v in members.items() if v.get("status") == "executed"}
++    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
++    cells_ok = all(cells[cl] >= want for cl, want in AFTER_CELLS.items())
+     l7 = (member.get("status") == "executed" and member.get("round") == 93
+-          and member.get("classes") == MEMBER_CLASSES and exec_total == EXECUTED_AFTER and cells == AFTER_CELLS)
++          and member.get("classes") == MEMBER_CLASSES and set_ok and cells_ok)
+     if not l7:
+-        defects.append(f"L7 ledger member={member.get('status')} round={member.get('round')} executed_total={exec_total} cells={cells}")
++        defects.append(f"L7 ledger member={member.get('status')} round={member.get('round')} executed_total={exec_total} cells={cells} "
++                       f"set_removed={sorted((base_set | {MEMBER}) - rev_set)}")
+ 
+     tool_bytes = blob(lane, rev, TOOL)
+     l8 = bool(frozen.get(TOOL)) and sha(tool_bytes) == frozen.get(TOOL)
+diff --git a/plans/round94_c1_replay.py b/plans/round94_c1_replay.py
+index aab7b433..d0b61f22 100755
+--- a/plans/round94_c1_replay.py
++++ b/plans/round94_c1_replay.py
+@@ -230,9 +230,11 @@ def main(argv: list[str]) -> int:
+     base_members = json.loads(base_bytes.decode()).get("members", {}) if base_bytes else {}
+     base_set = {n for n, v in base_members.items() if v.get("status") == "executed"}
+     rev_set = {n for n, v in members.items() if v.get("status") == "executed"}
+-    set_ok = bool(base_set) and MEMBER not in base_set and rev_set == base_set | {MEMBER}
++    # round-96 re-key: the executed SET must CONTAIN BASE plus this member (was ==), and the
++    # class cells may only grow — never an absolute executed total
++    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
+     l7 = (member.get("status") == "executed" and member.get("round") == 94
+-          and member.get("classes") == MEMBER_CLASSES and exec_total == EXECUTED_AFTER and cells == AFTER_CELLS
++          and member.get("classes") == MEMBER_CLASSES and all(cells[cl] >= want for cl, want in AFTER_CELLS.items())
+           and set_ok)
+     if not l7:
+         defects.append(f"L7 ledger member={member.get('status')} round={member.get('round')} executed_total={exec_total} cells={cells} "
+diff --git a/plans/round95_c1_replay.py b/plans/round95_c1_replay.py
+index 416e333e..9611f7da 100755
+--- a/plans/round95_c1_replay.py
++++ b/plans/round95_c1_replay.py
+@@ -238,11 +238,13 @@ def main(argv: list[str]) -> int:
+     base_members = json.loads(base_bytes.decode()).get("members", {}) if base_bytes else {}
+     base_set = {n for n, v in base_members.items() if v.get("status") == "executed"}
+     rev_set = {n for n, v in members.items() if v.get("status") == "executed"}
+-    set_ok = bool(base_set) and MEMBER not in base_set and rev_set == base_set | {MEMBER}
++    # round-96 re-key: the executed SET must CONTAIN BASE plus this member (was ==), and the
++    # class cells may only grow — never an absolute executed total
++    set_ok = bool(base_set) and MEMBER not in base_set and rev_set >= base_set | {MEMBER}
+     legacy_ok = (member.get("receipt") == RECEIPT and member.get("subject") == "tb2-header"
+                  and member.get("verdict") == "cases")
+     l7 = (member.get("status") == "executed" and member.get("round") == 95
+-          and member.get("classes") == MEMBER_CLASSES and exec_total == EXECUTED_AFTER and cells == AFTER_CELLS
++          and member.get("classes") == MEMBER_CLASSES and all(cells[cl] >= want for cl, want in AFTER_CELLS.items())
+           and set_ok and legacy_ok)
+     if not l7:
+         defects.append(f"L7 ledger member={member.get('status')} round={member.get('round')} executed_total={exec_total} cells={cells} "

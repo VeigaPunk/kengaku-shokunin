@@ -1,0 +1,44 @@
+TOOL plans/round94_freeze_integrity.py@45740a616028 sha256=8574b4d5dca7f3817f1beb42c024c80791a0b958b04da94361e9e2a6cc4964de
+W1a r92 ok rc=1 summary=(4, 1, 3) intact=['plans/round92_c1_replay.py'] predicate_line_ok=True
+W1b r93 ok rc=0 summary=(9, 9, 0) predicate_line_ok=True
+W1 pass
+W2 w2-intact ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0) predicate_line_ok=True
+W2 w2-edited ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-edit-revert ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-lying-table ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-unrelated ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0) predicate_line_ok=True
+W2 w2-rev-below-head ok rc=0 want_rc=0 summary=(1, 1, 0) want=(1, 1, 0) predicate_line_ok=True
+W2 w2-edit-revert-unrelated ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-lie-repaired ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-treesame-merge ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-second-block ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 w2-duplicate-row ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 w2-not-ancestor ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 w2-paths-dup ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 w2-paths-absent ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 w2-paths-edited ok rc=1 want_rc=1 summary=(2, 1, 1) want=(2, 1, 1) predicate_line_ok=True
+W2 w2-octopus ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-delete-readd ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-rename ok rc=1 want_rc=1 summary=(1, 0, 1) want=(1, 0, 1) predicate_line_ok=True
+W2 w2-spaced-row ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 w2-unterminated ok rc=2 want_rc=2 summary=None want=None predicate_line_ok=True
+W2 pass fixtures=20 ok=20
+W3 echo SELFTEST cases=15 ok=15
+W3 echo SELFTEST cases=15 ok=15
+W3 P1-no-full-history ok rc=1 selftest=['cases=15 ok=14'] predicate=['fail'] want=battery-red,rc=1,fail
+W3 P2-touched-threshold-2 ok rc=1 selftest=['cases=15 ok=14'] predicate=['fail'] want=battery-red,rc=1,fail
+W3 P3-dups-ignored ok rc=1 selftest=['cases=15 ok=14'] predicate=['fail'] want=battery-red,rc=1,fail
+W3 pass probes=3
+W4 pass freeze=d9cd18a7519a rc=0 summary=(11, 11, 0)
+W4 INSTRUMENT plans/round95_vuln_probe.py table=932e66b1e476 freeze=932e66b1e476 rev=932e66b1e476 touched=0 verdict=intact
+W4 INSTRUMENT plans/round95-cases.json table=ff361d141561 freeze=ff361d141561 rev=ff361d141561 touched=0 verdict=intact
+W4 INSTRUMENT plans/round95_c1_replay.py table=c7e13dc9146e freeze=c7e13dc9146e rev=c7e13dc9146e touched=0 verdict=intact
+W4 INSTRUMENT plans/round95_c2_counter.py table=2fc2e7f0a1c2 freeze=2fc2e7f0a1c2 rev=2fc2e7f0a1c2 touched=0 verdict=intact
+W4 INSTRUMENT plans/round95_false_gate_census.py table=38fed2c23d46 freeze=38fed2c23d46 rev=38fed2c23d46 touched=0 verdict=intact
+W4 INSTRUMENT plans/round95-false-gates.tsv table=6b455d9e38c5 freeze=6b455d9e38c5 rev=6b455d9e38c5 touched=0 verdict=intact
+W4 INSTRUMENT plans/round94_freeze_integrity.py table=8574b4d5dca7 freeze=8574b4d5dca7 rev=8574b4d5dca7 touched=0 verdict=intact
+W4 INSTRUMENT corpus/evidence/round95/graders/fix-code-vulnerability/tests/test_outputs.py table=c006a5de95b6 freeze=c006a5de95b6 rev=c006a5de95b6 touched=0 verdict=intact
+W4 INSTRUMENT corpus/evidence/round95/graders/fix-code-vulnerability/solution/solve.sh table=7a0131b369d8 freeze=7a0131b369d8 rev=7a0131b369d8 touched=0 verdict=intact
+W4 INSTRUMENT corpus/evidence/round95/graders/fix-code-vulnerability/environment/Dockerfile table=091747098622 freeze=091747098622 rev=091747098622 touched=0 verdict=intact
+W4 INSTRUMENT corpus/evidence/round95/graders/fix-code-vulnerability/upstream-bottle/bottle.py table=abf643683b48 freeze=abf643683b48 rev=abf643683b48 touched=0 verdict=intact
+W5 null ok fixtures_ok=20 of 20
