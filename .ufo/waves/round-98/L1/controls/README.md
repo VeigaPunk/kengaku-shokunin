@@ -43,3 +43,10 @@ equals the frozen target string in both runs.
 with the candidate SOURCES.md → rc 0 (only the 30 pre-existing W04 warnings).
 `anchor_digest_check.py` on a fixture with the candidate SOURCES.md and the P0 flat captures: `rows=325
 defects=86` (BASE 86): none of S326–S333 flagged.
+
+## Amendment before F (no control re-run needed)
+
+`candidate/SKILL.md` gained the four `round98-*` registry rows (kind `probe`) after the runs above. No
+round-98 counter or probe reads SKILL.md (`grep -c SKILL plans/round98_*.py` → 0 for all), so no
+control verdict depends on those bytes. The ledger, SOURCES and PROVENANCE candidates are unchanged
+from the bytes the controls ran on.
