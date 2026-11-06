@@ -1,0 +1,40 @@
+# kengaku round 97 — R97-C1 mechanism predictions (filed at P0, before any grader run on the test graph)
+# member: sparql-university @ terminal-bench-2 2fd12b88aafdd04a52c298e3940bcb189f9766d6
+# grader: tests/test_outputs.py (3 functions) over /tests/university_graph_test.ttl; reward = pytest rc 0 (tests/test.sh)
+# leg order: exists, runs, results, reward      P returned · F AssertionError · E:<type> other exception
+# Only input run before filing: the captured solve.sh query against the AGENT graph environment/university_graph.ttl
+# (to build C17's literal): Orfeas Menis|GR, US · Pepe Attanasio|PT, GR · Aristotle Tympas|GR.
+#
+# Mechanism read from the test graph (tests/university_graph_test.ttl), reference date 2025-08-16:
+#   Stamou   full prof, NTUA CS (GR, EU) + Sloan MIT (US); CS101 has 12 current students -> in, GR, US
+#   Zerva    full prof, IST Math (PT, EU, no enrolments) + NTUA CS (>10)              -> in, PT, GR
+#   Tympas   full prof, NKUA STS101: 13 enrolled, student 21 graduated 2025-06-12 -> 12 current -> in, GR
+#   Dimakis  full prof, Berkeley EngUS302 (11 students, US) + UPM (ES, EU) + ETH (CH)  -> in, US, ES, CH
+#   Dubois   full prof, Sorbonne Math201 (FR, EU): 14 enrolled, 6 current at 2025-08-16 -> out; 14 if graduation ignored
+#   Smith    full prof, MIT only (US), Bio101 7 students                               -> out (fails EU and >10 both)
+#   Voulodimos ASSISTANT prof, NTUA CS (EU, >10)  -> out only because of the role filter
+#   Mueller  ASSISTANT prof, LMU (no enrolments)   -> out
+# Consequences: the EU criterion never decides any professor (every professor it would exclude is
+# excluded by >10 as well, every included one has an EU department) -> dropping or corrupting it passes;
+# no professor has an aggregate >10 without a single department >10 -> per-department and aggregate
+# counting both pass; graduations end 2026-06-12 and Tympas keeps 11 after it, Dubois drops to 4 ->
+# a query dated by NOW() passes on any run date after 2025-08-16.
+#
+C01 solve                    P,P,P,1   positive control: captured solve.sh run unmodified
+C02 absent                   F,E:FileNotFoundError,E:FileNotFoundError,0   no /app/solution.sparql; read_text raises
+C03 empty                    P,F,E:ParseException,0   empty query: test 2 wraps the parse error into assert False; test 3 does not
+C04 syntax-error             P,F,E:ParseException,0   final closing brace removed
+C05 no-eu-filter             P,P,P,1   GAP: VALUES ?euCountry block deleted — the EU criterion is never exercised
+C06 now-date                 P,P,P,1   GAP: both reference-date literals replaced by today's date from NOW()
+C07 no-graduation-filter     P,P,F,0   Dubois admitted (14 enrolled, graduation ignored)
+C08 contains-professor       P,P,F,0   CONTAINS(?role,"Professor") admits assistant professor Voulodimos
+C09 per-department           P,P,P,1   instruction-faithful per-department count (subquery) — same set as the aggregate solution
+C10 answer-literal           P,P,P,1   GAP: VALUES of the four reference tuples, no graph pattern
+C11 duplicate-rows           P,P,P,1   GAP: the solution SELECT unioned with itself (8 rows, 4 distinct); the grader compares sets
+C12 extra-column             P,P,P,1   GAP: an extra projected (COUNT ... AS ?n); the instruction fixes the projection
+C13 semicolon-separator      P,P,F,0   GROUP_CONCAT separator "; " — split on "," leaves one token
+C14 comma-no-space           P,P,P,1   separator "," — the grader strips each token
+C15 concat-no-distinct       P,P,F,0   GROUP_CONCAT without DISTINCT repeats countries across join rows
+C16 wrong-variable-name      P,P,E:AttributeError,0   ?professorName renamed ?name; ResultRow attribute lookup raises
+C17 agent-graph-literal      P,P,F,0   VALUES of the solve answers on the agent graph — the test graph names differ
+C18 ask-query                P,P,E:AttributeError,0   ASK form: the result iterates one bool, which has no professorName
