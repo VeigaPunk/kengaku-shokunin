@@ -1031,3 +1031,12 @@ A row here indexes a file; it does not admit it — the held entries stay held.
 - Lesson: `corpus/lessons/round-80.md` — Gate (S258 admit, two rejects with flips), M80-1, the
   V1–V6 corrections.
 - Wave: `.ufo/waves/round-80/` (one v1 wave, 14 seats), spec/dispatch/results beside it.
+
+## Round-97 coverage-map addition
+
+| entry | newly held ground | source and execution |
+|---|---|---|
+| `knowledge/tb2-sparql-university-grader.md` | SPARQL hidden-graph query grading: set/multiset output semantics, ignored projection, redundant EU criterion, aggregate versus per-department equivalence | S317–S322; `evidence/round97/sparql-probe.txt`; 18 cases × 4 legs at `f1083da6` |
+| `lessons/round-97.md` | Gate decisions S317–S325, registry kind-cell correction, sentinel staging failure, late Q80 load | frozen `plans/round-97-claims.md`; `.ufo/waves/round-97/L1/` |
+
+Frontier member `sparql-university` moved to executed core (population ledger 40→41); this does not close the other unexecuted members. Registry self-test *semantics* and the inherited standing-counter/freeze-history debt remain open.

@@ -1,0 +1,12 @@
+# clone /fast/scratch/hyaku/kengaku-r97/MutC1/fx5
+# detector rev 4e12692d9f887415593e7304b09d7522cc1cd07a
+# rc 1
+CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True
+CASE retype-green rc=1 want_rc=0 ids=MISMATCH want_ids=- ok=False
+CASE row-removed rc=1 want_rc=1 ids=MISMATCH,ROW-REMOVED want_ids=ROW-REMOVED ok=False
+CASE demoted rc=0 want_rc=1 ids=- want_ids=DEMOTED ok=False
+CASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED,MISMATCH want_ids=CELL-CHANGED ok=False
+CASE script-forged rc=1 want_rc=1 ids=MISMATCH,SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=False
+CASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True
+CASE duplicate rc=1 want_rc=1 ids=MISMATCH,ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=False
+SELFTEST cases=8 failed=6

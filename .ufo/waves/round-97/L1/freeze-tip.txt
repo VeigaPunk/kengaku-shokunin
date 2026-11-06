@@ -1,0 +1,29 @@
+BATTERY B01 ok got=['intact']
+BATTERY B02 ok got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B03 ok got=['broken:touched-after-freeze=2']
+BATTERY B04 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+BATTERY B05 ok got=['broken:absent-at-rev+touched-after-freeze=1']
+BATTERY B06 ok got=['intact']
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 ok got=['broken:rev-bytes-differ+touched-after-freeze=1', 'intact']
+BATTERY B10 ok got=could-not-evaluate
+BATTERY B11 ok got=['broken:touched-after-freeze=2']
+BATTERY B12 ok got=could-not-evaluate
+BATTERY B13 ok got=could-not-evaluate
+BATTERY B14 ok got=['intact']
+BATTERY B15 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+SELFTEST cases=15 ok=15
+FREEZE 8d9d271306c4e7e2d586e51cd546652249d286cb REV f1083da60e7ff6b88f7420aae7424f7762d14700
+INSTRUMENT plans/round97_sparql_probe.py table=13a4564d9431 freeze=13a4564d9431 rev=13a4564d9431 touched=0 verdict=intact
+INSTRUMENT plans/round97-cases.json table=7b8462708d35 freeze=7b8462708d35 rev=7b8462708d35 touched=0 verdict=intact
+INSTRUMENT plans/round97_c1_replay.py table=f736b04b938c freeze=f736b04b938c rev=f736b04b938c touched=0 verdict=intact
+INSTRUMENT plans/round97_gate_selftest_census.py table=a255e83009bc freeze=a255e83009bc rev=a255e83009bc touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round97/graders/sparql-university/tests/test_outputs.py table=ecf15840fc14 freeze=ecf15840fc14 rev=ecf15840fc14 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round97/graders/sparql-university/tests/test.sh table=45902b57bd0f freeze=45902b57bd0f rev=45902b57bd0f touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round97/graders/sparql-university/tests/university_graph_test.ttl table=368ce01d3251 freeze=368ce01d3251 rev=368ce01d3251 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round97/graders/sparql-university/solution/solve.sh table=d17995a8f29c freeze=d17995a8f29c rev=d17995a8f29c touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round97/graders/sparql-university/environment/Dockerfile table=dd0abcd64e90 freeze=dd0abcd64e90 rev=dd0abcd64e90 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round97/graders/sparql-university/environment/university_graph.ttl table=0b0b1f2c0ee7 freeze=0b0b1f2c0ee7 rev=0b0b1f2c0ee7 touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=10 intact=10 broken=0
+PREDICATE freeze-integrity pass

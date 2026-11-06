@@ -1,0 +1,31 @@
+mismatch rows 44
+--- round36-c1-battery plans/round36_c1_verify.py (1 lines)
+  194: ["d4-line", "--file", f("d4-notoken.txt", d4.replace("SELFTEST green failed", "SELFTEST red"))]))
+--- round41-c1-mutants plans/round41_c1_verify.py (1 lines)
+  194: f"{SK} '`2` usage error'; {SA}:1042 '--registry and --package are required unless --selftest'",
+--- defect-ledger plans/defect_ledger.py (4 lines)
+  70: """SCORECARD round-34 C2 row misattributed the red selftest (spot-check D4). Observation: the
+  71: counter draft's selftest line is green and the harness selftest is red. Self-assessment: an
+  77: and any("SELFTEST green failed" in l for l in harness[11:13]))
+  83: "R34C2CounterDraft.md:8", "cases=10 failed=0", "R34MutC2Harness.md:12", "SELFTEST green failed"))
+--- round35-hardening plans/round35_hardening.py (3 lines)
+  79: a = re.search(r"R34C2CounterDraft\.md:8\W{0,3}\s+records\s+\W?SELFTEST cases=10 failed=0", c)
+  80: b = re.search(r"R34MutC2Harness\.md:12\W{0,3}[^;]{0,80}?SELFTEST green failed", c)
+  81: green = re.search(r"counter draft's selftest was green", c)
+--- round46-c2 plans/round46_c2_verify.py (6 lines)
+  27: D  gate red fixture. `plans/anchor_line_check.py --selftest` exits 0 (RED exit 1, GREEN exit 0, JUNK exit 1).
+  28: Prints `D selftest exit=<rc>`.
+  33: grader_fail>=4, `C entry` with `source_ranges_bad=0 errata_marks=5/5`, `D selftest exit=0`, then
+  58: # QUOTE_RE escaped-quote fix + the three falsifier selftest fixtures changed the
+  193: r = subprocess.run([sys.executable, str(lane / ALC_REL), "--selftest"], capture_output=True, text=True,
+  219: ("D", "selftest", lambda: leg_d(lane))):
+--- freeze-integrity plans/round94_freeze_integrity.py (1 lines)
+  327: print(f"SELFTEST cases={len(bat)} ok={bat_ok}")
+--- round95-c2-counter plans/round95_c2_counter.py (9 lines)
+  20: `SELFTEST cases=15 ok=15` in both W1 runs (echoed); (b) for each of three probe
+  24: battery — a `SELFTEST cases=15 ok=<15` line, `PREDICATE freeze-integrity fail`,
+  59: SELFTEST = "SELFTEST cases=15 ok=15"
+  60: SELFTEST_LINE = re.compile(r"^SELFTEST cases=(\d+) ok=(\d+)$", re.M)
+  356: lines_a = re.findall(r"^SELFTEST .*$", out_a, re.M)
+  357: lines_b = re.findall(r"^SELFTEST .*$", out_b, re.M)
+scripts with any self-test spelling 7 of 44

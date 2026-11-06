@@ -4484,3 +4484,22 @@ C1 lands — the `c1-only` control state). Standing-counter mismatches 6 (BASE) 
 2. The merger replay's three missing wrong-pass states (over-report, wrong name winner, partial
    `values`) and an L6 stamp that compares only the pinned triples.
 3. Carried: R95-C1 at reward scope; R95-C2 held-out false gates; round-92 items.
+
+## Round 97 (2026-11-06): fifteenth located member replay; finite registry calibration, exact separability missed
+
+BASE `4992cd0e32b8db23ca20310deb7de12d485f8bcc`; P0 `5b41c1c3`; P1 `b2352135`; P2 `e40fd0c2`; freeze F `8d9d2713`; C=T `f1083da60e7ff6b88f7420aae7424f7762d14700`. Lesson `corpus/lessons/round-97.md`; frozen contract `plans/round-97-claims.md`.
+
+| claim / axis | before → after measured at T | counting command | verdict / score delta |
+|---|---|---|---|
+| R97-C1 / coverage, lowest non-retired axis | ledger40→41 executed of88; file-artifact31→32 of76; new sparql-university replay18 cases ×4 observed legs, mismatches0; no-work fails | `python3 plans/round97_c1_replay.py --lane . --rev REV --work DIR --grader-venv G` | target met at T, independently reproduced ExecC1/ReviewC1/CriticClaims; score7→7 held at L0 cap. `L1/c1-tip.txt` |
+| R97-C2 / calibration | registry gate-kind/no-selftest-spelling mismatches44→0; 44 kind-only demotions, no old script edited; rows168→171 | `python3 plans/round97_gate_selftest_census.py --lane . --rev REV` | target block reproduced, but **not admitted**: exact frozen ROWS171 embeds C1's two rows; c2-only prints169. Q80 second committed prefreeze runs missing. Score10→10 unchanged, no numeric bump. `L1/c2-base.txt`, `L1/c2-tip.txt`, `w1/ConnectorOverlap.md:99-113` |
+
+All ten frozen-instrument hashes match at T; freeze-integrity gate passes (`L1/freeze-tip.txt`). Candidate C scope exact (ExecHarm). No claim of repairing r96's permanent freeze-history harm, seven standing reds, or full Gate-standard semantics. MutC2 falsifies detector discrimination (nine exact-block forgeries,16/18 selftest mutants surviving); true finite44→0 is not a general soundness guarantee. Six new nested-capture findings increase already-red anchor-digest80→86 (ScoutSources); historical sweep27→28 (ConnectorOverlap), both disclosed. Other axis scores novelty8/depth10/operability10/freshness10/adjacency9 held, not independently re-scored here.
+
+Sources S317–S322 mined, S323–S325 rejected with flips; one sourced knowledge entry and coverage-map row. Outside discernment verification remains closure-owned. One v1 wave11 seats, all settled, no dead seats;5/11 attack roles. No new capability claim.
+
+### Planned (round 98; not a claim until frozen)
+
+1. A successor calibration instrument with prefreeze two-run receipts, disjoint claim populations, immutable old scripts, AST/CLI-backed self-test dispatch and a fixture for each load-bearing branch; preserve exact-block forgeries from MutC2.
+2. Resolve newly exposed nested-capture anchor-digest findings using a successor resolution path, not changes to frozen tools; do not count existing reds as repaired.
+3. Merger wrong-pass states, absolute-L7 successor work, r79 subject disagreement, R95 reward scope and round92 debts remain carried.

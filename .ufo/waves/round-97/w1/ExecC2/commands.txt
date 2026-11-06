@@ -1,0 +1,68 @@
+# ExecC2 — exact commands and return codes (round 97, C2)
+
+Lane: /home/vgpnk/Projects/shokunin/kengaku-shokunin
+Scratch clone: /fast/scratch/hyaku/kengaku-r97/ExecC2/lane (git clone --shared, detached at T)
+TMPDIR: /fast/scratch/hyaku/kengaku-r97/ExecC2/tmp
+
+## Official C2 predicate (lane root, read-only git show)
+
+BASE:
+  cd /home/vgpnk/Projects/shokunin/kengaku-shokunin
+  python3 plans/round97_gate_selftest_census.py --lane . --rev 4992cd0e32b8db23ca20310deb7de12d485f8bcc
+  rc=1  -> GATES total=127 with_selftest=83 without=44; MISMATCH_TOTAL n=44; PREDICATE R97-C2 fail
+
+T:
+  cd /home/vgpnk/Projects/shokunin/kengaku-shokunin
+  python3 plans/round97_gate_selftest_census.py --lane . --rev f1083da60e7ff6b88f7420aae7424f7762d14700
+  rc=0  -> ROWS base=168 rev=171 removed=0 duplicate=0 cells_changed=0
+           GATES total=84 with_selftest=84 without=0 demoted_with_selftest=0 scripts_changed=0
+           MISMATCH_TOTAL n=0; PREDICATE R97-C2 pass
+
+## Selftest public CLI (lane root)
+
+  python3 plans/round97_gate_selftest_census.py --selftest --work /fast/scratch/hyaku/kengaku-r97/ExecC2/ev/lane-selftest-work
+  rc=0  -> CASE base-red/retype-green/row-removed/demoted/cell-changed/script-forged/prose-only/duplicate all ok=True
+           SELFTEST cases=8 failed=0
+
+Fresh (non-existent) work dir:
+  python3 <clone>/plans/round97_gate_selftest_census.py --selftest --work ev/fresh-work
+  rc=0  -> SELFTEST cases=8 failed=0; work dir empty afterwards
+
+Edge cases:
+  --selftest without --work      -> rc=2 DEFECT SETUP --selftest needs --work DIR
+  --rev missing                  -> rc=2 DEFECT SETUP --rev REV is required
+  --rev deadbeef                 -> rc=2 DEFECT SETUP unresolved-revision deadbeef
+  --lane /tmp (not a repo)       -> rc=2 DEFECT SETUP unresolved-revision HEAD
+
+## Independent semantic count (AST + public CLI, not the census regex)
+
+  python3 /fast/scratch/hyaku/kengaku-r97/ExecC2/independent_count.py lane f1083da60e7ff6b88f7420aae7424f7762d14700
+  -> BASE rows=168 gates=127 with_mode=83 mismatches=44
+     REV  rows=171 gates=84  with_mode=84 mismatches=0
+     mismatch name set == census BASE MISMATCH set == the 44 gate->probe rows
+
+## Public-CLI probes of the 44 retyped scripts (bwrap: ro-bind /, no net, tmpfs /tmp)
+
+  for each script: python3 -I -B <script> --selftest
+  -> 34 x rc=2 "unrecognized arguments: --selftest"
+     10 x rc=2 "the following arguments are required: ..." (argparse checks required first)
+     those 10 re-run with dummy required args -> 10 x rc=2 "unrecognized arguments: --selftest"
+  same for --self-test -> 44 x rc=2 (34 direct, 10 with dummy required args)
+  --help for all 44 -> rc=0, zero help lines containing "self"
+  pkg_gate subcommands package/d4-line/d5-line -> all rc=2 "unrecognized arguments: --selftest"
+  round82_c2_checks positional "selftest" -> rc=2 invalid choice (u1..u7)
+
+## Detector sensitivity fixtures (isolated git repos under ev/detector-work)
+
+  python3 detector_probe.py ev/detector-work
+  -> underscore-flag (add_argument("--self_test")): rc=1 MISMATCH  (detector false positive)
+     docstring-prose (add_argument("--selftest") only in a docstring): rc=0 pass (false negative)
+     comment-prose (same in a comment): rc=0 pass (false negative)
+     hyphen-flag / subparser: rc=0 pass (controls)
+
+## Cross-checks
+
+  census sha at T == frozen a255e830...b7f
+  10 frozen instruments + 3 candidate bytes at T == F table (all OK)
+  168 scripts referenced at BASE: 0 changed; 3 new scripts at T
+  44 kind cells gate->probe; 0 non-kind cell changes; rows 168->171 (+3)

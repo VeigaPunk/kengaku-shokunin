@@ -1,0 +1,36 @@
+### S317 | kind code | tier A | status mined | opened 2026-11-06 | recheck on-release
+SCOPE: the three test functions this round's fifteenth offline replay grades, as the captured bytes define them
+TEACHES: the results test compares SETS of (name, sorted countries) built from row attributes: duplicate rows (C11), an extra projected column (C12) and a literal VALUES answer with no graph pattern (C10) all pass; a renamed variable raises AttributeError (C16)
+
+### S318 | kind dataset | tier A | status mined | opened 2026-11-06 | recheck on-release
+SCOPE: the knowledge graph the grader runs the agent query on, which differs from the graph the agent is given
+TEACHES: every professor the EU criterion would exclude is excluded by the >10 rule too, so dropping the EU filter passes (C05); no professor separates per-department from aggregate counting (C09); graduations end 2026-06-12, so a NOW()-dated query passes (C06)
+
+### S319 | kind code | tier A | status mined | opened 2026-11-06 | recheck on-release
+SCOPE: the task author's query: the replay's positive control and the base of every transform case
+TEACHES: run unmodified it writes /app/solution.sparql and all three functions pass (C01); it counts distinct students across ALL of a professor's departments, not per department as the instruction states, and the test graph cannot tell the two apart (C09)
+
+### S320 | kind code | tier A | status mined | opened 2026-11-06 | recheck on-release
+SCOPE: which interpreter and libraries grade, and that the reward is test_outputs.py alone
+TEACHES: uvx -p 3.13 with pytest 8.4.1 and rdflib 7.1.4 runs only /tests/test_outputs.py and writes reward 1 iff pytest exits 0; the replay's reward leg runs that pytest for real (no derived bit)
+
+### S321 | kind docs | tier A | status mined | opened 2026-11-06 | recheck on-release
+SCOPE: what the agent is told the query must satisfy
+TEACHES: the stated contract is stricter than the graded one: an EU-agnostic query (C05), a NOW()-dated query (C06), duplicate rows (C11), an extra column (C12) and a hardcoded answer (C10) all pass
+
+### S322 | kind dataset | tier A | status mined | opened 2026-11-06 | recheck on-release
+SCOPE: the graph the agent can query while writing the solution
+TEACHES: the agent graph names two professors the test graph replaces (Orfeas Menis, Pepe Attanasio), so a query that hardcodes the agent-graph answer fails (C17) while one that hardcodes the test answer passes (C10)
+
+### S323 | kind code | tier A | status rejected | opened 2026-11-06 | recheck on-release
+SCOPE: what the agent-side image contains
+TEACHES: REJECTED as an input: ubuntu:24.04 plus the agent graph, no package pins; the replay stages the same /app bytes and never runs agent-side code beyond solve.sh's heredoc; flip: a case whose verdict depends on an agent-side tool
+
+### S324 | kind code | tier A | status rejected | opened 2026-11-06 | recheck on-release
+SCOPE: which image the harness actually runs
+TEACHES: REJECTED as an input: the harness runs a prebuilt image the replay never pulls; the grader side is modelled by a pinned venv; flip: the image pulled and its /app and verifier versions compared to GRADER_SIDE
+
+### S325 | kind docs | tier B | status rejected | opened 2026-11-06 | recheck on-release
+SCOPE: a human summary of the task
+TEACHES: REJECTED: restates the instruction (S321) and carries no byte the grader or the replay reads; flip: a claim about the README's own statements
+

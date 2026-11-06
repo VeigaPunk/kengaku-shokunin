@@ -1,0 +1,110 @@
+{
+ "changed": [
+  "package-gate",
+  "round36-c1-battery",
+  "round37-c1-mutants",
+  "round37-c2",
+  "anchor-digest-check",
+  "ledger-tip",
+  "round38-c1-mutants",
+  "round38-c2",
+  "mutant-direction-check",
+  "tip-receipts",
+  "round39-c1-mutants",
+  "round39-c2",
+  "order-check",
+  "round39-c1-audit",
+  "round40-c1-mutants",
+  "round40-c2",
+  "round41-c1-mutants",
+  "round41-c2",
+  "round42-c1-mutants",
+  "round42-c2",
+  "round43-c1-mutants",
+  "round43-c2",
+  "round44-c1-mutants",
+  "round44-c2",
+  "adoption-check",
+  "defect-ledger",
+  "round28-census",
+  "round35-c1-coverage",
+  "round35-hardening",
+  "round36-c2",
+  "round45-c1",
+  "round45-c2",
+  "round46-c1",
+  "round46-c2",
+  "round46-c3",
+  "round50-c1",
+  "freeze-integrity",
+  "round95-c2-counter",
+  "round96-c1-replay",
+  "round96-standing-battery",
+  "round37-c1-attribution",
+  "round82-c2-checks",
+  "round88-c1-replay",
+  "round89-c1-replay"
+ ],
+ "bad": [],
+ "broad": [
+  [
+   "round36-c1-battery",
+   "plans/round36_c1_verify.py",
+   [
+    "[\"d4-line\", \"--file\", f(\"d4-notoken.txt\", d4.replace(\"SELFTEST green failed\", \"SELFTEST red\"))]))"
+   ]
+  ],
+  [
+   "round41-c1-mutants",
+   "plans/round41_c1_verify.py",
+   [
+    "f\"{SK} '`2` usage error'; {SA}:1042 '--registry and --package are required unless --selftest'\","
+   ]
+  ],
+  [
+   "defect-ledger",
+   "plans/defect_ledger.py",
+   [
+    "\"\"\"SCORECARD round-34 C2 row misattributed the red selftest (spot-check D4). Observation: the",
+    "counter draft's selftest line is green and the harness selftest is red. Self-assessment: an",
+    "and any(\"SELFTEST green failed\" in l for l in harness[11:13]))"
+   ]
+  ],
+  [
+   "round35-hardening",
+   "plans/round35_hardening.py",
+   [
+    "a = re.search(r\"R34C2CounterDraft\\.md:8\\W{0,3}\\s+records\\s+\\W?SELFTEST cases=10 failed=0\", c)",
+    "b = re.search(r\"R34MutC2Harness\\.md:12\\W{0,3}[^;]{0,80}?SELFTEST green failed\", c)",
+    "green = re.search(r\"counter draft's selftest was green\", c)"
+   ]
+  ],
+  [
+   "round46-c2",
+   "plans/round46_c2_verify.py",
+   [
+    "D  gate red fixture. `plans/anchor_line_check.py --selftest` exits 0 (RED exit 1, GREEN exit 0, JUNK",
+    "Prints `D selftest exit=<rc>`.",
+    "grader_fail>=4, `C entry` with `source_ranges_bad=0 errata_marks=5/5`, `D selftest exit=0`, then"
+   ]
+  ],
+  [
+   "freeze-integrity",
+   "plans/round94_freeze_integrity.py",
+   [
+    "print(f\"SELFTEST cases={len(bat)} ok={bat_ok}\")"
+   ]
+  ],
+  [
+   "round95-c2-counter",
+   "plans/round95_c2_counter.py",
+   [
+    "`SELFTEST cases=15 ok=15` in both W1 runs (echoed); (b) for each of three probe",
+    "battery \u2014 a `SELFTEST cases=15 ok=<15` line, `PREDICATE freeze-integrity fail`,",
+    "SELFTEST = \"SELFTEST cases=15 ok=15\""
+   ]
+  ]
+ ],
+ "scriptchg": [],
+ "tip_missing": []
+}

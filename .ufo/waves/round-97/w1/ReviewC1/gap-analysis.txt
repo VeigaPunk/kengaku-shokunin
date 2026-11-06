@@ -1,0 +1,28 @@
+A solve rows: [('Alex Dimakis', 'US, ES, CH'), ('Aristotle Tympas', 'GR'), ('Chrysoula Zerva', 'PT, GR'), ('Giorgos Stamou', 'GR, US')]
+A solve == REF: True
+B C05 no-eu == solve rows: True
+B EU-added: [] EU-removed: []
+C dept distinct-student counts@ref: [('http://university.org/ontology/ComputerScience_NTUA', '12'), ('http://university.org/ontology/HistoryAndPhilosophy_NKUA', '12'), ('http://university.org/ontology/Engineering_Berkeley', '11'), ('http://university.org/ontology/Biology_MIT', '7'), ('http://university.org/ontology/Mathematics_Sorbonne', '6')]
+D C09 per-department == solve rows: True n= 4
+E C06 fixed-date 2025-08-16 == REF: True names=['Alex Dimakis', 'Aristotle Tympas', 'Chrysoula Zerva', 'Giorgos Stamou']
+E C06 fixed-date 2026-11-06 == REF: True names=['Alex Dimakis', 'Aristotle Tympas', 'Chrysoula Zerva', 'Giorgos Stamou']
+E C06 fixed-date 2027-01-01 == REF: True names=['Alex Dimakis', 'Aristotle Tympas', 'Chrysoula Zerva', 'Giorgos Stamou']
+E C06 fixed-date 2030-06-01 == REF: True names=['Alex Dimakis', 'Aristotle Tympas', 'Chrysoula Zerva', 'Giorgos Stamou']
+E C06 fixed-date 2100-01-01 == REF: True names=['Alex Dimakis', 'Aristotle Tympas', 'Chrysoula Zerva', 'Giorgos Stamou']
+F C07 no-grad names: ['Alex Dimakis', 'Aristotle Tympas', 'Chrysoula Zerva', 'Giorgos Stamou', 'Marie Dubois']
+G C08 contains names: ['Alex Dimakis', 'Aristotle Tympas', 'Athanasios Voulodimos', 'Chrysoula Zerva', 'Giorgos Stamou']
+H C17 solve-on-agent-graph names: ['Aristotle Tympas', 'Orfeas Menis', 'Pepe Attanasio']
+H C17 agent-literal rows: 3
+I professor->(distinct students, rows) no-HAVING: {('Chrysoula Zerva', '12', '48'), ('Giorgos Stamou', '12', '24'), ('Aristotle Tympas', '12', '12'), ('Marie Dubois', '6', '6'), ('Alex Dimakis', '11', '33')}
+J ask-query delta-lines=4
+J comma-no-space delta-lines=2
+J concat-no-distinct delta-lines=2
+J contains-professor delta-lines=2
+J extra-column delta-lines=2
+J no-eu-filter delta-lines=5
+J no-graduation-filter delta-lines=3
+J now-date delta-lines=4
+J semicolon-separator delta-lines=2
+J syntax-error delta-lines=1
+J wrong-variable-name delta-lines=6
+DONE

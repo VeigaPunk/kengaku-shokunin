@@ -1,0 +1,17 @@
+# ExecHarm round-97 receipts — exact commands (scratch root /fast/scratch/hyaku/kengaku-r97/ExecHarm)
+# clones: laneT = --shared clone detached at T f1083da6; laneB = --shared clone detached at BASE 4992cd0e
+# venv G: uv venv -p 3.13 G; uv pip install --python G/bin/python rdflib==7.1.4 pytest==8.4.1  (3.13.16 / 7.1.4 / 8.4.1)
+C1-T     : cd laneT && python3 plans/round97_c1_replay.py --lane . --rev f1083da60e7ff6b88f7420aae7424f7762d14700 --work .../rerun --grader-venv .../G
+C1-BASE  : cd laneB && python3 ../laneT/plans/round97_c1_replay.py --lane . --rev 4992cd0e32b8db23ca20310deb7de12d485f8bcc --work .../rerun-base --grader-venv .../G
+C2-T     : cd laneT && python3 plans/round97_gate_selftest_census.py --lane . --rev f1083da60e7ff6b88f7420aae7424f7762d14700
+C2-BASE  : cd laneB && python3 ../laneT/plans/round97_gate_selftest_census.py --lane . --rev 4992cd0e32b8db23ca20310deb7de12d485f8bcc
+C2-SELF  : cd laneT && python3 plans/round97_gate_selftest_census.py --selftest --work .../c2self
+HARM     : cd laneB|laneT && python3 grader.py ; python3 plans/round68_capability_table.py --lane . --work .../w68{b,t} ;
+           python3 plans/round73_c2_registry_audit.py --lane . --work .../w73{b,t} ;
+           python3 plans/round74_c1_registry.py --lane . ;
+           python3 plans/round74_c2_registry_audit.py --lane . --work .../w74c2{b,t} ;
+           python3 plans/round79_c1_population_ledger.py --lane . --rev worktree --work .../w79{b,t}
+FIXTURES : f1..f8 = --shared clones of laneT at T + one commit each (git -C <fixture> -c user.name=ExecHarm -c user.email=execharm@local commit)
+           f1 receipt CASE C05 observed P->F ; f2 ledger reverted to BASE ; f3 blanket gate->probe (84 rows) ;
+           f4 package-gate row deleted ; f5 "--selftest" in sys.argv appended to plans/round36_c1_verify.py ;
+           f6 "mismatches 0"->"mismatches 9" ; f7 SANDBOX line inverted ; f8 LANE_TIP F->P1

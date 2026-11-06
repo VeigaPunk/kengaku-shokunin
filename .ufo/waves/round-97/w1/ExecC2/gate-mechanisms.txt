@@ -1,0 +1,85 @@
+T gates=84
+`hermetic-grader`                  grader.py                                    MODE add_argument --selftest; def+call run_selftest; def+call selftest_stats
+`interval-reverdict`               plans/attrib_calibration.py                  MODE add_argument --selftest; def+call selftest
+`state-assertion-check`            plans/state_check.py                         MODE add_argument --selftest; def+call extract_seed_text_for_selftest; def+call p3_selftest_red_run_ids
+`gate-timing`                      plans/gate_timing_check.py                   MODE add_argument --selftest; def+call run_selftest; def+call selftest_tree_inventory
+`benchmark-spec-audit`             plans/benchmark_spec_audit.py                MODE add_argument --selftest; def+call selftest
+`registry-reference-check`         plans/registry_check.py                      MODE add_argument --selftest; def+call selftest
+`config-projection`                plans/config_projection.py                   MODE add_argument --selftest; def+call selftest
+`sources-adopt`                    plans/sources_adopt.py                       MODE add_argument --selftest; def+call selftest
+`round-close-check`                plans/round_close.py                         MODE add_argument --selftest; def+call selftest
+`scratch-root-guard`               plans/scratch_guard.py                       MODE add_argument --selftest; def+call _selftest_in; def+call selftest
+`gate-flip-check`                  plans/gate_flip_check.py                     MODE add_argument --selftest; def+call run_selftest; def+call selftest_cases
+`round30-defects`                  plans/round30_defects.py                     MODE add_argument --selftest; def+call selftest
+`round31-c1-literals`              plans/round31_c1_verify.py                   MODE add_argument --selftest; def+call selftest
+`round31-defects`                  plans/round31_defects.py                     MODE add_argument --selftest; def+call selftest
+`round33-c1-literals`              plans/round33_c1_verify.py                   MODE add_argument --selftest; def+call selftest
+`round33-defects`                  plans/round33_defects.py                     MODE add_argument --selftest; def+call selftest
+`round50-c2`                       plans/round50_c2_audit.py                    MODE add_argument --selftest; def+call selftest
+`round51-routing`                  plans/round51_routing.py                     MODE add_argument --selftest; def+call _selftest
+`round51-surfaces`                 plans/round51_surfaces.py                    MODE add_argument --selftest; def+call _selftest
+`round52-c1`                       plans/round52_c1_grader_audit.py             MODE add_argument --selftest; def+call selftest
+`round52-c2`                       plans/round52_c2_registry.py                 MODE add_argument --selftest; def+call selftest; def+call selftest_unbacked
+`routed-findings`                  plans/routed_open.py                         MODE add_argument --selftest; def+call selftest
+`round53-c1`                       plans/round53_c1_triage.py                   MODE add_argument --selftest; def+call selftest
+`round53-c2`                       plans/round53_c2_tipstate.py                 MODE add_argument --selftest; argv dispatch: '--selftest' in argv; argv dispatch: not isinstance(ex, int) or isinstance(ex, bool) or st not in ('green',
+`stage-scan`                       plans/stage_scan.py                          MODE def+call selftest
+`round54-c1`                       plans/round54_c1_anchor.py                   MODE add_parser selftest; def+call _selftest
+`round54-c2`                       plans/round54_c2_entrytruth.py               MODE add_argument --selftest; def+call selftest
+`round55-c2`                       plans/round55_c2_entryargv.py                MODE add_argument --selftest; def+call selftest
+`round55-c2-controls`              plans/round55_c2_controls.py                 MODE add_argument --selftest; def+call _selftest
+`round56-landcheck`                plans/round56_landcheck.py                   MODE add_argument --selftest; def+call check_selftest; def+call selftest
+`anchor-line-check`                plans/anchor_line_check.py                   MODE add_argument --selftest; def+call selftest
+`receipt-consistency-check`        plans/receipt_consistency_check.py           MODE add_argument --selftest; def+call selftest
+`correction-command-check`         plans/correction_command_check.py            MODE add_argument --selftest; def+call selftest
+`round62-c1-class-survey`          plans/round62_c1_class_survey.py             MODE add_argument --selftest; def+call selftest
+`round63-gate-checks`              plans/round63_gate_checks.py                 MODE add_argument --selftest; add_parser selftest; def+call run_selftest
+`round64-trio-sweep`               plans/round64_trio_sweep.py                  MODE add_argument --selftest; def+call run_selftest
+`round68_c2_correction_gate`       plans/round68_c2_correction_gate.py          MODE add_argument --selftest; def+call selftest
+`round68_report_contract`          plans/round68_report_contract.py             MODE add_argument --selftest; def+call selftest
+`round68_capability_table`         plans/round68_capability_table.py            MODE add_argument --selftest; def+call selftest
+`round97-gate-selftest-census`     plans/round97_gate_selftest_census.py        MODE add_argument --selftest; def+call has_selftest; def+call selftest
+`round71-c1-hf-probe`              plans/round71_c1_hf_probe.py                 MODE add_argument --selftest; def+call run_selftest
+`round71-c2-routed-defects`        plans/round71_c2_routed_defects.py           MODE add_argument --selftest; def+call run_selftest
+`round72-c1-hf-probe`              plans/round72_c1_hf_probe.py                 MODE add_argument --selftest; def+call run_selftest
+`round72-c2-routed-defects`        plans/round72_c2_routed_defects.py           MODE add_argument --selftest; def+call run_selftest
+`round32-c1-verify`                plans/round32_c1_verify.py                   MODE add_argument --selftest; def+call selftest
+`round32-defects`                  plans/round32_defects.py                     MODE add_argument --selftest; def+call selftest
+`round66-c1-tensor-probe`          plans/round66_c1_tensor_probe.py             MODE add_argument --selftest; def+call cmd_selftest
+`round69-c1-nginx-probe`           plans/round69_c1_nginx_probe.py              MODE add_argument --selftest; def+call run_selftest
+`round69-c2-routed-defects`        plans/round69_c2_routed_defects.py           MODE add_argument --selftest; def+call _selftest_e7; def+call selftest
+`round70-c1-nginx-probe`           plans/round70_c1_nginx_probe.py              MODE add_argument --selftest; def+call run_selftest
+`round70-c2-routed-defects`        plans/round70_c2_routed_defects.py           MODE add_argument --selftest; def+call selftest
+`round73-c2-registry-audit`        plans/round73_c2_registry_audit.py           MODE add_argument --selftest; def+call selftest; def+call selftest_unbacked
+`round74-c1`                       plans/round74_c1_registry.py                 MODE add_argument --selftest; def+call selftest; def+call selftest_unbacked
+`round74-c2`                       plans/round74_c2_registry_audit.py           MODE add_argument --selftest; def+call selftest; def+call selftest_runner
+`round75-c1-index-parity`          plans/round75_c1_index_parity.py             MODE add_argument --selftest; def+call selftest
+`round75-c2-registry-audit`        plans/round75_c2_registry_audit.py           MODE add_argument --selftest
+`round76-c1-surface-resolver`      plans/round76_c1_surface_resolver.py         MODE add_argument --selftest; def+call selftest
+`round76-c2-defect-discharge`      plans/round76_c2_defect_discharge.py         MODE add_argument --selftest; def+call derive_selftest_counts; def+call selftest
+`round77-c1-declared-surfaces`     plans/round77_c1_declared_surfaces.py        MODE add_argument --selftest; def+call selftest
+`round77-c2-defect-discharge`      plans/round77_c2_defect_discharge.py         MODE add_argument --selftest; def+call selftest; def+call selftest_git
+`round78-c1-class-member-ledger`   plans/round78_c1_class_member_ledger.py      MODE add_argument --selftest; def+call selftest
+`round78-c2-stamp-location`        plans/round78_c2_stamp_location.py           MODE add_argument --selftest; def+call selftest
+`round79-c1-population-ledger`     plans/round79_c1_population_ledger.py        MODE add_argument --selftest; def+call selftest
+`round79-c2-closure-debt`          plans/round79_c2_closure_debt.py             MODE add_argument --selftest; def+call selftest
+`round80-c1-located-replay`        plans/round80_c1_located_replay.py           MODE add_argument --selftest; def+call selftest
+`round80-c2-spotcheck-debt`        plans/round80_c2_spotcheck_debt.py           MODE add_argument --selftest; def+call selftest
+`round81-c1-new-members`           plans/round81_c1_new_members.py              MODE add_argument --selftest; def+call selftest
+`round81-c2-spotcheck-debt`        plans/round81_c2_spotcheck_debt.py           MODE add_argument --selftest; def+call selftest
+`log-appendonly`                   plans/log_appendonly.py                      MODE add_argument --selftest; def+call selftest
+`round66-registry-check`           plans/round66_registry_check.py              MODE add_argument --selftest; def+call cmd_selftest
+`round82-c3-sweep`                 plans/round82_c3_sweep.py                    MODE add_argument --selftest; def+call selftest
+`round82-c1-plans-registry`        plans/round82_c1_plans_registry.py           MODE add_argument --selftest; def+call selftest
+`round82-c2-closure-debt`          plans/round82_c2_closure_debt.py             MODE add_argument --selftest; def+call selftest
+`round83-c1-replay`                plans/round83_c1_replay.py                   MODE add_argument --selftest; def+call selftest
+`round83-c2-debt`                  plans/round83_c2_debt.py                     MODE add_argument --selftest
+`round83-c2-checks`                plans/round83_c2_checks.py                   MODE add_argument --selftest
+`round84-c1-replay`                plans/round84_c1_replay.py                   MODE add_argument --selftest; def+call selftest
+`round84-c2-admission`             plans/round84_c2_admission.py                MODE add_argument --selftest; def+call selftest
+`round85-c1-replay`                plans/round85_c1_replay.py                   MODE def+call selftest; dynamic flag tuple
+`round85-c2-debt`                  plans/round85_c2_debt.py                     MODE add_argument --selftest; def+call selftest
+`round86-c1-replay`                plans/round86_c1_replay.py                   MODE def+call selftest; dynamic flag tuple
+`round86-c2-repin`                 plans/round86_c2_repin.py                    MODE def+call selftest; def+call state_selftest; dynamic flag tuple
+`round88-claim-figures`            plans/round88_claim_figures.py               MODE add_argument --selftest; def+call selftest
+`round89-claim-figures`            plans/round89_claim_figures.py               MODE add_argument --selftest; def+call selftest_defects

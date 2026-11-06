@@ -1,0 +1,25 @@
+PROBE /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round97_sparql_probe.py
+TABLE /home/vgpnk/Projects/shokunin/kengaku-shokunin/plans/round97-cases.json cases=18 variants=18
+CASE  KIND                 SOURCE-TYPE  OLD-LITERAL  NEW-LITERAL
+C01  solve                str          True         False
+C02  absent               NoneType     False        False
+C03  empty                str          False        False
+C04  syntax-error         str          True         False
+C05  no-eu-filter         str          True         False
+C06  now-date             str          True         False
+C07  no-graduation-filter str          True         False
+C08  contains-professor   str          True         False
+C09  per-department       str          False        False
+C10  answer-literal       str          False        False
+C11  duplicate-rows       str          True         False
+C12  extra-column         str          True         False
+C13  semicolon-separator  str          True         False
+C14  comma-no-space       str          True         False
+C15  concat-no-distinct   str          True         False
+C16  wrong-variable-name  str          True         False
+C17  agent-graph-literal  str          False        False
+C18  ask-query            str          True         False
+OLD_LEAKS n=13 ids=C01,C04,C05,C06,C07,C08,C11,C12,C13,C14,C15,C16,C18
+NEW_LEAKS n=0 ids=-
+CRITERION no-solve-case-stages-the-literal-sentinel old=fail new=pass
+RECONSTRUCTION ok

@@ -1,0 +1,57 @@
+# ScribeLesson — exact commands and outcomes (round 97)
+
+All commands run 2026-11-06. Scratch root `/fast/scratch/hyaku/kengaku-r97/ScribeLesson`
+(`TMPDIR` set to it). Lane root `/home/vgpnk/Projects/shokunin/kengaku-shokunin`.
+No lane write, no fixture git write, no task call.
+
+## 1. Gate-row verification (read-only over captured bytes at T)
+
+    cd /fast/scratch/hyaku/kengaku-r97/ScribeLesson
+    TMPDIR=$PWD python3 verify_gate_rows.py
+    # rc 0; ROWS 9 defects 0; gate-rows.txt
+
+    TMPDIR=$PWD python3 verify_gate_rows.py SOURCES-mutated.md \
+      /home/vgpnk/Projects/shokunin/kengaku-shokunin/corpus/evidence/round97/graders/sparql-university
+    # rc 1; ROWS 9 defects 3; gate-rows-mutated.txt
+
+The mutated copy was made in scratch from the lane's `corpus/SOURCES.md` with exactly three
+changes, to show the criterion can fail:
+- S317 cited line `tests/test_outputs.py:79` -> `:80`
+- S321 word count `(24 words)` -> `(23 words)`
+- S323 sha256 first nibble `d` -> `e`
+The verifier reports `on_line=NO` (and prints the actual line 79), `words=24/23`, `sha=MISMATCH`.
+
+## 2. Sentinel red/green reconstruction (dispatch level; no probe run)
+
+    cd /fast/scratch/hyaku/kengaku-r97/ScribeLesson
+    TMPDIR=$PWD python3 sentinel_redgreen.py
+    # rc 0; OLD_LEAKS n=13 ids=C01,C04,C05,C06,C07,C08,C11,C12,C13,C14,C15,C16,C18
+    #       NEW_LEAKS n=0; sentinel-redgreen.txt
+
+The script imports the frozen `VARIANTS` from `plans/round97_sparql_probe.py` and the frozen
+`plans/round97-cases.json`; it reconstructs only the two dispatch predicates:
+old `isinstance(source, str)`, fixed `source != "solve"`.
+
+## 3. C2 census self-test (isolated fixtures under scratch)
+
+    cd /home/vgpnk/Projects/shokunin/kengaku-shokunin
+    mkdir -p /fast/scratch/hyaku/kengaku-r97/ScribeLesson/c2-selftest-work
+    TMPDIR=/fast/scratch/hyaku/kengaku-r97/ScribeLesson \
+      python3 plans/round97_gate_selftest_census.py --selftest \
+      --work /fast/scratch/hyaku/kengaku-r97/ScribeLesson/c2-selftest-work
+    # rc 0; SELFTEST cases=8 failed=0; c2-selftest-rerun.txt
+
+## 4. Alternate self-test spelling scan (read-only; `git show BASE:<path>`)
+
+    cd /home/vgpnk/Projects/shokunin/kengaku-shokunin
+    # inline Python: read the 44 MISMATCH rows from L1/c2-base.txt, `git show
+    # 4992cd0e:<script>` for each, case-insensitive regex `self[-_]?test`; print matches.
+    # Result: 7 of 44 scripts contain the substring; all 7 are prose, fixture strings,
+    # regexes, a printed SELFTEST line, or a subprocess call to another tool's --selftest;
+    # none is a self-invocation mode. c2-alt-spellings.txt
+
+## 5. Not run here
+
+The C1 replay (`plans/round97_c1_replay.py`) and the full C2 census at T were not re-run; the
+official receipts `L1/c1-tip.txt`, `L1/c2-base.txt`, `L1/c2-tip.txt` are cited. Live HTTP re-open
+of S317-S325 is the ScoutSources seat's surface.

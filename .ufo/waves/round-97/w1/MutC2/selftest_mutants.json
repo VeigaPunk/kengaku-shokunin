@@ -1,0 +1,191 @@
+[
+ {
+  "name": "st-drop-case-duplicate",
+  "desc": "remove the `duplicate` case",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=7 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nSELFTEST cases=7 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-drop-case-script-forged",
+  "desc": "remove the `script-forged` case",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=7 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=7 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-drop-add_argument",
+  "desc": "drop add_argument pattern",
+  "changed": true,
+  "rc": 1,
+  "summary": "SELFTEST cases=8 failed=6",
+  "failing": [
+   "CASE retype-green rc=1 want_rc=0 ids=MISMATCH want_ids=- ok=False",
+   "CASE row-removed rc=1 want_rc=1 ids=MISMATCH,ROW-REMOVED want_ids=ROW-REMOVED ok=False",
+   "CASE demoted rc=0 want_rc=1 ids=- want_ids=DEMOTED ok=False",
+   "CASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED,MISMATCH want_ids=CELL-CHANGED ok=False",
+   "CASE script-forged rc=1 want_rc=1 ids=MISMATCH,SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=False",
+   "CASE duplicate rc=1 want_rc=1 ids=MISMATCH,ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=False"
+  ],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=1 want_rc=0 ids=MISMATCH want_ids=- ok=False\nCASE row-removed rc=1 want_rc=1 ids=MISMATCH,ROW-REMOVED want_ids=ROW-REMOVED ok=False\nCASE demoted rc=0 want_rc=1 ids=- want_ids=DEMOTED ok=False\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED,MISMATCH want_ids=CELL-CHANGED ok=False\nCASE script-forged rc=1 want_rc=1 ids=MISMATCH,SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=False\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=MISMATCH,ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=False\nSELFTEST cases=8 failed=6\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-drop-add_parser",
+  "desc": "drop add_parser pattern",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-drop-quoted-selftest-in",
+  "desc": "drop quoted `--selftest` + in/== pattern",
+  "changed": true,
+  "rc": 1,
+  "summary": "SELFTEST cases=8 failed=1",
+  "failing": [
+   "CASE script-forged rc=1 want_rc=1 ids=MISMATCH,SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=False"
+  ],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=MISMATCH,SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=False\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=1\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-drop-in-quoted-selftest",
+  "desc": "drop `in/==` + quoted `--selftest` pattern",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-drop-def-run_selftest",
+  "desc": "drop `def run_selftest` pattern",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-drop-in-quoted-plain",
+  "desc": "drop `in/==` + quoted `selftest` pattern",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-broaden-quoted-string",
+  "desc": "add a bare `\"--selftest\"` pattern",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-counts-zero",
+  "desc": "zero the ROWS count line",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-gates-zero",
+  "desc": "zero the GATES count line",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-predicate-lie",
+  "desc": "print `PREDICATE R97-C2 pass` unconditionally",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-ids-subset",
+  "desc": "assert want_ids subset of ids instead of equality",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-no-ids",
+  "desc": "assert rc only",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-demoted-unchanged-only",
+  "desc": "DEMOTED only when the script is unchanged",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-scriptchanged-gate-only",
+  "desc": "SCRIPT-CHANGED only while the row stays gate",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-rowfilter-broad",
+  "desc": "parse every `|` line, not only `| \\``",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ },
+ {
+  "name": "st-script-last-match",
+  "desc": "use the last .py token in the entry cell",
+  "changed": true,
+  "rc": 0,
+  "summary": "SELFTEST cases=8 failed=0",
+  "failing": [],
+  "stdout": "CASE base-red rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE retype-green rc=0 want_rc=0 ids=- want_ids=- ok=True\nCASE row-removed rc=1 want_rc=1 ids=ROW-REMOVED want_ids=ROW-REMOVED ok=True\nCASE demoted rc=1 want_rc=1 ids=DEMOTED want_ids=DEMOTED ok=True\nCASE cell-changed rc=1 want_rc=1 ids=CELL-CHANGED want_ids=CELL-CHANGED ok=True\nCASE script-forged rc=1 want_rc=1 ids=SCRIPT-CHANGED want_ids=SCRIPT-CHANGED ok=True\nCASE prose-only rc=1 want_rc=1 ids=MISMATCH want_ids=MISMATCH ok=True\nCASE duplicate rc=1 want_rc=1 ids=ROW-DUPLICATE want_ids=ROW-DUPLICATE ok=True\nSELFTEST cases=8 failed=0\n",
+  "stderr": ""
+ }
+]

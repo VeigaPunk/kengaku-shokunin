@@ -1,0 +1,16 @@
+== --selftest without --work
+DEFECT SETUP --selftest needs --work DIR
+PREDICATE R97-C2 could-not-evaluate
+rc=2
+== --rev missing
+DEFECT SETUP --rev REV is required (the measured revision is never inferred)
+PREDICATE R97-C2 could-not-evaluate
+rc=2
+== unresolved rev
+DEFECT SETUP unresolved-revision deadbeef
+PREDICATE R97-C2 could-not-evaluate
+rc=2
+== lane not a repo
+DEFECT SETUP unresolved-revision HEAD
+PREDICATE R97-C2 could-not-evaluate
+rc=2
