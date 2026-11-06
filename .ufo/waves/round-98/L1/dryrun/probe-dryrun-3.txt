@@ -1,0 +1,42 @@
+# tb2 regex-chess grader probe (round 98)
+MEMBER regex-chess
+SUBJECT_SHA 4983c44d21c56dd8191381eff0304afc8b87bb714527ea9036b3319c015a30b4
+TEST_SH_SHA 8f7f00a1c4dde7fcca6c918c768f2aba432b8c4007c15989716c68091950da87
+SOLVE_SHA b728bf0ea392a3d244afbd0818d36933c8d3e190e47743c1382cd518d518a2e9
+TOOL_SHA 871630782933871398922c510c5de1cebd2ace7fa081d014df90aeeff66d33db
+CASE_TABLE_SHA 02f30e6aff2f27fc01615879aea3c4e5c0892691fd189939c6b0f6481fe25da3
+LANE_TIP 5584a6f7d157ba491d6c64909bfe3c0670f46778
+GRADER_SIDE python,chess,pytest 3.13 1.11.2 8.4.1
+GRADER_UNPINNED python 3.13.16
+HOST_BASH GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+HOST_USERNS 122865
+SANDBOX clearenv=1 unshare-all=1 etc-bound=0 bwrap=/usr/bin/bwrap
+LEG_ORDER immortal,century,naroditsky,not_long,reward
+OBSERVATIONS_BEGIN
+CASE C01 predicted=P,P,P,P,1 observed=P,P,P,P,1 ok=True
+DETAIL C01 chars=2618134 pairs=40460 sha=19dbeb84c93f34f5 built=- solve
+CASE C02 predicted=E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,0 observed=E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,0 ok=True
+DETAIL C02 file=absent built=- absent
+CASE C03 predicted=F,F,F,P,0 observed=F,F,F,P,0 ok=True
+DETAIL C03 chars=2 pairs=0 sha=4f53cda18c2baa0c built=- empty-list
+CASE C04 predicted=P,P,P,P,1 observed=P,P,P,P,1 ok=True
+DETAIL C04 chars=2618175 pairs=40461 sha=5d122949b3c6816d built=- dup-first-drop-second
+CASE C05 predicted=F,F,F,P,0 observed=F,F,F,P,0 ok=True
+DETAIL C05 chars=2618157 pairs=40461 sha=eb37c9e3c8c5c5f5 built=- drop-last
+CASE C06 predicted=F,F,F,P,0 observed=F,F,F,P,0 ok=True
+DETAIL C06 chars=2618165 pairs=40461 sha=f8b4b0808f3b732d built=- extra-line
+CASE C07 predicted=P,P,P,P,1 observed=P,P,P,P,1 ok=True
+DETAIL C07 chars=2618172 pairs=40461 sha=1dfb1292feb72412 built=- invented-ep
+CASE C08 predicted=F,F,F,P,0 observed=F,F,F,P,0 ok=True
+DETAIL C08 chars=2618169 pairs=40461 sha=f454bd60633546c8 built=- castling-dropped
+CASE C09 predicted=P,P,P,P,1 observed=P,P,P,P,1 ok=True
+DETAIL C09 chars=188841 pairs=103 sha=dae5c342d89ebd7c built=recorded=108,unique=103,entries=103 lookup-table
+CASE C10 predicted=P,P,F,P,0 observed=P,P,F,P,0 ok=True
+DETAIL C10 chars=187779 pairs=102 sha=1c6a66f8ddc8f582 built=recorded=108,unique=103,entries=102 lookup-table-minus-last
+CASE C11 predicted=P,P,P,F,0 observed=P,P,P,F,0 ok=True
+DETAIL C11 chars=12618152 pairs=40461 sha=ab8236d599c08246 built=- oversize-chars
+CASE C12 predicted=P,P,P,F,0 observed=P,P,P,F,0 ok=True
+DETAIL C12 chars=3630314 pairs=100000 sha=4dc7986c2c20d5de built=- pair-count-limit
+OBSERVATIONS_END
+mismatches 0
+rc=0
