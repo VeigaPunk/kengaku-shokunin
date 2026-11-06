@@ -1,0 +1,106 @@
+{
+ "member": "financial-document-processor",
+ "leg_order": [
+  "dirs",
+  "invoices_moved",
+  "others_moved",
+  "summary_exists",
+  "summary_structure",
+  "summary_content",
+  "documents_empty",
+  "reward"
+ ],
+ "reward_rule": "reward 1 iff real pytest 8.4.1 over the captured test_outputs.py exits 0 (test.sh writes 1 on pytest rc 0)",
+ "cases": [
+  {
+   "id": "C01",
+   "app": "solution",
+   "predicted": "P,P,P,P,P,P,P,1",
+   "why": "maintainer OCR solution's committed placement + summary"
+  },
+  {
+   "id": "C02",
+   "app": "absent",
+   "predicted": "F,E:FileNotFoundError,E:FileNotFoundError,F,E:FileNotFoundError,E:FileNotFoundError,F,0",
+   "why": "no work: dirs missing (iterdir/open/read_csv raise), 17 files left"
+  },
+  {
+   "id": "C03",
+   "app": "all-total-rows",
+   "predicted": "P,P,P,P,P,P,P,1",
+   "why": "11 rows all \"total,81315.2,5402.48\": count 11, every row in table, no invoice row required"
+  },
+  {
+   "id": "C04",
+   "app": "one-invoice-repeated",
+   "predicted": "P,P,P,P,P,P,P,1",
+   "why": "10 rows naming the same invoice + total: no uniqueness"
+  },
+  {
+   "id": "C05",
+   "app": "json-in-invoices",
+   "predicted": "P,P,P,P,P,P,P,1",
+   "why": "an extra notes.json in /app/invoices is excluded by suffix"
+  },
+  {
+   "id": "C06",
+   "app": "txt-in-invoices",
+   "predicted": "P,F,P,P,P,P,P,0",
+   "why": "an extra notes.txt enters the hash set"
+  },
+  {
+   "id": "C07",
+   "app": "documents-subdir",
+   "predicted": "P,P,P,P,P,P,P,1",
+   "why": "copies of all 17 documents left in /app/documents/keep/: only top-level files counted"
+  },
+  {
+   "id": "C08",
+   "app": "duplicate-copy",
+   "predicted": "P,P,P,P,P,P,P,1",
+   "why": "a second copy of one invoice under another name: set collapses it"
+  },
+  {
+   "id": "C09",
+   "app": "misclassified-one",
+   "predicted": "P,F,F,P,F,F,P,0",
+   "why": "one invoice moved to other, summary 9 rows + total (10 rows)"
+  },
+  {
+   "id": "C10",
+   "app": "vat-zero",
+   "predicted": "P,P,P,P,P,P,P,1",
+   "why": "empty VAT written as 0: read as 0 == expected 0"
+  },
+  {
+   "id": "C11",
+   "app": "total-plus-0.009",
+   "predicted": "P,P,P,P,P,P,P,1",
+   "why": "one total 6204.19 -> 6204.199:"
+  },
+  {
+   "id": "C12",
+   "app": "total-plus-0.01",
+   "predicted": "P,P,P,P,P,F,P,0",
+   "why": "one total 6204.19 -> 6204.2:"
+  },
+  {
+   "id": "C13",
+   "app": "no-summary",
+   "predicted": "P,F,P,F,E:FileNotFoundError,E:FileNotFoundError,P,0",
+   "why": "summary absent: invoices set lacks \"summary.csv\""
+  },
+  {
+   "id": "C14",
+   "app": "headers-reordered",
+   "predicted": "P,P,P,P,F,P,P,0",
+   "why": "columns filename,vat_amount,total_amount: DictReader order fails, pandas by name passes"
+  },
+  {
+   "id": "C15",
+   "app": "bom-header",
+   "predicted": "P,P,P,P,F,P,P,0",
+   "why": "UTF-8 BOM: DictReader first field \"\\ufefffilename\" fails; pandas' C parser strips a leading BOM"
+  }
+ ]
+}
