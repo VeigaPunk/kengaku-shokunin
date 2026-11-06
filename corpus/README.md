@@ -1050,3 +1050,13 @@ Frontier member `sparql-university` moved to executed core (population ledger 40
 | `lessons/round-98.md` | Gate decisions S326–S333, the pytest summary-line parsing failure (dry runs 1–2), claim-local predicates with two prefreeze runs | frozen `plans/round-98-claims.md`; `.ufo/waves/round-98/L1/` |
 
 Frontier member `regex-chess` moved to executed core (population ledger 41→42); other unexecuted members stay frontier. The 45 anchor-digest findings outside the C2 population (rows with no committed capture, wrong-capture digests, multi-token rows) remain open.
+
+## Round-99 coverage-map addition
+
+| entry | newly held ground | source and execution |
+|---|---|---|
+| `knowledge/tb2-bn-fit-modify-grader.md` | grading a causal pipeline (structure learning, fit, do-intervention, sampling) through a one-column KS test: marginal-only and deterministic-grid samples pass, the p ≥ 0.001 band admits ~0.048 sd, set-based DAG checks ignore duplicates; first member whose positive control is a committed R/bnlearn fixture | S334–S339; `evidence/round99/bnfit-probe.txt`; 13 cases × 10 legs at `f72a8bc7` |
+| `evidence/round<N>/PROVENANCE.md` (rounds 50, 59, 61, 79, 82, 92, 93, 95) | row-scoped three-column provenance (no URL) re-verifying 12 SOURCES digests the frozen gate reported unbound, with a symmetric census that no row outside them moved | `plans/round99_c2_rowscoped_bind.py` at `f72a8bc7`: `pop=12 cleared=12 outside_removed=0 outside_added=0 outside_rebound=0` |
+| `lessons/round-99.md` | Gate decisions S334–S341, the stochastic-verdict prediction miss (dry run 1), the git-rm control-harness false pass, the typed word counts (Q76 recurrence) | frozen `plans/round-99-claims.md`; `.ufo/waves/round-99/L1/` |
+
+Frontier member `bn-fit-modify` moved to executed core (population ledger 42→43); other unexecuted members stay frontier. The 33 anchor-digest findings remaining at T (rows with no committed capture, wrong-capture digests, multi-token rows) remain open.
