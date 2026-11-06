@@ -1,0 +1,32 @@
+# R99-C1 mechanism predictions (bn-fit-modify @ 2fd12b88), filed at P0 before any case ran.
+# Runs that preceded this file (M5 rule: name every run that preceded the predictions):
+#   exactly one: the maintainer R script (solve.sh heredoc) run once to build the positive-control
+#   fixture (corpus/evidence/round99/bn-fit-modify-solution/, capture-time.txt). No grader run, no
+#   pytest, no case built. C01's prediction therefore rests on the fixture's printed fit equalling the
+#   grader's constants, not on an observed pytest verdict.
+#
+# Leg order (9 grader tests in file order + reward):
+#  bn_exists, ldag_exists, ldag_cols, ldag_struct, idag_exists, idag_cols, idag_struct, sample_cols, sample_data, reward
+# Verdict alphabet: P pass, F AssertionError, E:<type> other exception, reward 1 iff pytest rc 0.
+#
+# C01 solution          P,P,P,P,P,P,P,P,P,1   maintainer outputs; fit equals the grader constants, KS p well above 0.001
+# C02 absent            F,F,E:FileNotFoundError,E:FileNotFoundError,F,E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,0
+#                       exists-tests assert Path.exists; every other test calls pandas.read_csv on a missing file
+# C03 marginal-only     P,P,P,P,P,P,P,P,P,1   GAP: test_sampled_data reads only column D (KS vs N(true_mean,true_std));
+#                       U,R,Y,M all 0.0 and D drawn directly from the target normal (no BN, no fit) passes
+# C04 no-intervention   P,P,P,P,P,P,P,P,F,0   mechanism negative for C03: D sampled from the fitted BN with Y left at its
+#                       fitted conditional; E[D] shifts by 0.449*E[Y] (~+22) and KS rejects
+# C05 rownames-column   P,P,P,P,P,P,P,P,F,0   solution sample re-written with R's default row.names=TRUE leading column:
+#                       names test only checks inclusion (P); test_sampled_data requires exactly 5 columns (F)
+# C06 header-to-from    P,P,P,P,P,P,P,P,P,1   both DAG files with header "to,from" (the instruction's literal header) and
+#                       columns swapped so each row is child,parent: the grader reads by column name, so it passes
+# C07 dup-edges-extra   P,P,P,P,P,P,P,P,P,1   GAP: learned_dag with every edge listed twice plus an extra 'weight' column;
+#                       the grader builds a set of (from,to) and ignores other columns
+# C08 reversed-edge     P,P,P,F,P,P,P,P,P,0   learned_dag with R->M written M->R: set equality fails for ldag_struct only
+# C09 idag-not-dropped  P,P,P,P,P,P,F,P,P,0   intervened_dag = learned_dag (U->Y kept): idag_struct fails only
+# C10 rows-9999         P,P,P,P,P,P,P,P,F,0   solution sample minus its last row: the 10_000 row-count assert fails
+# C11 ks-shift-small    P,P,P,P,P,P,P,P,P,1   GAP (tolerance band): D ~ N(true_mean + 0.03*true_std, true_std); expected KS
+#                       D ~ 0.4*0.03 = 0.012 < 1.95/sqrt(10000) = 0.0195 (p=0.001 critical value), so it passes
+# C12 ks-shift-large    P,P,P,P,P,P,P,P,F,0   mechanism negative for C11: shift 0.10*true_std, expected D ~ 0.04 > 0.0195
+# C13 quantile-grid     P,P,P,P,P,P,P,P,P,1   GAP: no sampling at all; D = norm.ppf((i+0.5)/10000, true_mean, true_std),
+#                       other columns copied from the solution sample; a deterministic grid has KS p ~ 1

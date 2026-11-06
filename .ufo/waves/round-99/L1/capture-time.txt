@@ -1,0 +1,14 @@
+bn-fit-modify files opened 2026-11-06T10:28:43-03:00 .. 10:28:48-03:00 (curl, HTTP 200 x8) from
+https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/bn-fit-modify/{README.md,environment/Dockerfile,instruction.md,solution/solve.sh,task.toml,tests/test.sh,tests/test_outputs.py,.gitignore}
+tree listing: https://api.github.com/repos/harbor-framework/terminal-bench-2/git/trees/2fd12b88aafdd04a52c298e3940bcb189f9766d6:bn-fit-modify?recursive=1 (11 entries, 8 blobs)
+dataset (Dockerfile BN_URL, unpinned main): https://raw.githubusercontent.com/gdreiman1/t_bench_bn_dataset/main/bn_sample_10k.csv HTTP 200, 844949 B,
+  byte-equal to the commit-pinned URL .../62ce2364212a5f96278e9e5a83a3bde73abcc7e3/bn_sample_10k.csv (repo HEAD, committed 2025-08-27T22:27:47Z)
+  sha256 7d4c27aca2f7443500f993bf0cc31fc7c7e4ef45bb5370ba890848ee1ef3cb04
+.gitignore (177 B) opened, not captured (no grader or solution byte reads it).
+Maintainer solution run (positive-control fixture, corpus/evidence/round99/bn-fit-modify-solution/):
+  modify_bn.R = the heredoc of solve.sh lines between "cat > modify_bn.R << 'EOF'" and "EOF", byte-extracted (sha256 c0a54e0b...)
+  run 2026-11-06T10:29 -03 with micromamba conda-forge r-base 4.4.3 + r-bnlearn 5.2.1 (solve.sh pins bnlearn 4.9 via remotes from CRAN;
+  its install line was NOT run: offline sandbox, bwrap --unshare-net, /app bound), rc 0.
+  Fitted D | U + Y: (Intercept) -12.2965135, U 0.5495886, sd 14.09165 -- equal to the grader's hard-coded constants
+  (test_outputs.py: true_mean = -12.2965135 + 0.5495886 * 50.47989; std_res_d 14.0916).
+  rbn() is unseeded in the solution, so final_bn_sample.csv is one draw; the probe stages these committed bytes.
