@@ -1,0 +1,57 @@
+### c1_capture_byte
+DEFECT SETUP probe-rerun DEFECT SETUP capture sha mismatch instruction.md
+### g1_extra_executed_member
+DEFECT L7 ledger member=executed round=98 executed_total=43 cells={'file-artifact': 34, 'serialization-schema': 8} legacy_fields=True set_added=['bn-fit-modify', 'regex-chess'] set_removed=[]
+### g2_removed_executed_member
+DEFECT L7 ledger member=executed round=98 executed_total=41 cells={'file-artifact': 32, 'serialization-schema': 8} legacy_fields=True set_added=['regex-chess'] set_removed=['regex-log']
+### g3_legacy_receipt
+DEFECT L7 ledger member=executed round=98 executed_total=42 cells={'file-artifact': 33, 'serialization-schema': 8} legacy_fields=False set_added=['regex-chess'] set_removed=[]
+### g4_classes
+DEFECT L7 ledger member=executed round=98 executed_total=42 cells={'file-artifact': 33, 'serialization-schema': 7} legacy_fields=True set_added=['regex-chess'] set_removed=[]
+### p1_probe_comment
+DEFECT L6 rerun rc=0 obs=24 want=24 equal=True stamps_equal=False
+DEFECT L8 probe fbc5a033d318 vs frozen 871630782933
+DEFECT L9 stamps tool=871630782933 table=02f30e6aff2f bash=GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+### r10_receipt_absent
+DEFECT L1 receipt absent at revision: corpus/evidence/round98/regexchess-probe.txt
+DEFECT L2 capture/receipt sha mismatch (cap=4983c44d21c5 receipt=absent)
+DEFECT L3 LANE_TIP absent not an ancestor of 367895a59218
+DEFECT L5 case coverage 0 of 12
+DEFECT L6 rerun rc=0 obs=24 want=0 equal=False stamps_equal=False
+DEFECT L9 stamps tool=absent table=absent bash=None
+### r1_lanetip_nonancestor
+DEFECT L3 LANE_TIP 7747915e842e36a5320634d363cf0608cd981b6a not an ancestor of 88ace88c863f
+### r2_detail_digest
+DEFECT L6 rerun rc=0 obs=24 want=24 equal=False stamps_equal=True
+### r3_case_observed_flip
+DEFECT L5 case C08 predicted=F,F,F,P,0 observed=P,P,P,P,1 frozen=F,F,F,P,0
+DEFECT L6 rerun rc=0 obs=24 want=24 equal=False stamps_equal=True
+### r4_case_dropped
+DEFECT L5 case coverage 11 of 12
+DEFECT L6 rerun rc=0 obs=24 want=23 equal=False stamps_equal=True
+### r6_subject_sha
+DEFECT L2 capture/receipt sha mismatch (cap=4983c44d21c5 receipt=000000000000)
+### r7_tool_sha
+DEFECT L6 rerun rc=0 obs=24 want=24 equal=True stamps_equal=False
+DEFECT L9 stamps tool=000000000000 table=02f30e6aff2f bash=GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+### r8_host_bash
+DEFECT L9 stamps tool=871630782933 table=02f30e6aff2f bash=GNU bash, version 5.3.20(1)-release (mutant)
+### s1_bad_anchor_row
+DEFECT L10 new SOURCES rows=9 gate-flagged=S334
+### t1_predicted_flip
+DEFECT L4 case table 5fb8fb7636c8 vs frozen 02f30e6aff2f
+DEFECT L5 case C07 predicted=P,P,P,P,1 observed=P,P,P,P,1 frozen=F,F,F,P,0
+DEFECT L6 rerun rc=1 obs=24 want=24 equal=False stamps_equal=False
+DEFECT L9 stamps tool=871630782933 table=02f30e6aff2f bash=GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+### t2_app_swap
+DEFECT L4 case table 221df9100cc6 vs frozen 02f30e6aff2f
+DEFECT L6 rerun rc=0 obs=24 want=24 equal=False stamps_equal=False
+DEFECT L9 stamps tool=871630782933 table=02f30e6aff2f bash=GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+### t4_case_reorder
+DEFECT L4 case table 2e898f5f47a7 vs frozen 02f30e6aff2f
+DEFECT L6 rerun rc=0 obs=24 want=24 equal=False stamps_equal=False
+DEFECT L9 stamps tool=871630782933 table=02f30e6aff2f bash=GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+### t5_table_whitespace
+DEFECT L4 case table c57f170c230d vs frozen 02f30e6aff2f
+DEFECT L6 rerun rc=0 obs=24 want=24 equal=True stamps_equal=False
+DEFECT L9 stamps tool=871630782933 table=02f30e6aff2f bash=GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)

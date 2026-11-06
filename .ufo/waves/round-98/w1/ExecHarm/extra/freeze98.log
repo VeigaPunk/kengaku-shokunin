@@ -1,0 +1,34 @@
+### freeze-integrity T
+BATTERY B01 ok got=['intact']
+BATTERY B02 ok got=['broken:rev-bytes-differ+touched-after-freeze=1']
+BATTERY B03 ok got=['broken:touched-after-freeze=2']
+BATTERY B04 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+BATTERY B05 ok got=['broken:absent-at-rev+touched-after-freeze=1']
+BATTERY B06 ok got=['intact']
+BATTERY B07 ok got=could-not-evaluate
+BATTERY B08 ok got=could-not-evaluate
+BATTERY B09 ok got=['broken:rev-bytes-differ+touched-after-freeze=1', 'intact']
+BATTERY B10 ok got=could-not-evaluate
+BATTERY B11 ok got=['broken:touched-after-freeze=2']
+BATTERY B12 ok got=could-not-evaluate
+BATTERY B13 ok got=could-not-evaluate
+BATTERY B14 ok got=['intact']
+BATTERY B15 ok got=['broken:freeze-bytes-differ-from-table+rev-bytes-differ']
+SELFTEST cases=15 ok=15
+FREEZE e1a3afd9069a19e38fd0bc3b015970231f303fc7 REV 8e37fc65d5649bb37166fdd6b1657445a8cb55b9
+INSTRUMENT plans/round98_regexchess_probe.py table=871630782933 freeze=871630782933 rev=871630782933 touched=0 verdict=intact
+INSTRUMENT plans/round98-cases.json table=02f30e6aff2f freeze=02f30e6aff2f rev=02f30e6aff2f touched=0 verdict=intact
+INSTRUMENT plans/round98_c1_replay.py table=e361383249d9 freeze=e361383249d9 rev=e361383249d9 touched=0 verdict=intact
+INSTRUMENT plans/round98_c2_nested_bind.py table=77c6ba05a00a freeze=77c6ba05a00a rev=77c6ba05a00a touched=0 verdict=intact
+INSTRUMENT plans/round98_provenance_build.py table=314931463797 freeze=314931463797 rev=314931463797 touched=0 verdict=intact
+INSTRUMENT plans/anchor_digest_check.py table=11bb2cad87be freeze=11bb2cad87be rev=11bb2cad87be touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round98/tb2-regex-chess/test_outputs.py table=4983c44d21c5 freeze=4983c44d21c5 rev=4983c44d21c5 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round98/tb2-regex-chess/test.sh table=8f7f00a1c4dd freeze=8f7f00a1c4dd rev=8f7f00a1c4dd touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round98/tb2-regex-chess/solve.sh table=b728bf0ea392 freeze=b728bf0ea392 rev=b728bf0ea392 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round98/tb2-regex-chess/Dockerfile table=2616cd775252 freeze=2616cd775252 rev=2616cd775252 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round98/tb2-regex-chess/check.py table=f9c416ae9ea0 freeze=f9c416ae9ea0 rev=f9c416ae9ea0 touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round98/tb2-regex-chess/task.toml table=07fe52636fcc freeze=07fe52636fcc rev=07fe52636fcc touched=0 verdict=intact
+INSTRUMENT corpus/evidence/round98/tb2-regex-chess/instruction.md table=a6ed3fcc54fc freeze=a6ed3fcc54fc rev=a6ed3fcc54fc touched=0 verdict=intact
+FREEZE-INTEGRITY instruments=13 intact=13 broken=0
+PREDICATE freeze-integrity pass
+rc=0

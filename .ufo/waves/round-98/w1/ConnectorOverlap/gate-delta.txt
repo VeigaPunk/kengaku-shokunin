@@ -1,0 +1,21 @@
+gate at BASE 49a1c4f1: sids=82 lines=86
+gate at T    8e37fc65: sids=42 lines=45
+POP (frozen in round98_c2_nested_bind.py): 39
+POP rows defective at BASE: 39 ; still defective at T: 0
+fully cleared sids: 40  (POP 39 + non-POP ['S230'])
+new defects at T: none
+
+PARTIAL CLEAR (sid still defective, one defect line gone):
+  S213 BASE=[('token-outside-anchor', 'sha256-claim-in-cell-5-of-11'), ('anchor-unbound', 'no-capture-for-upstream-chess-best-move/tests/test_outputs.py-task=tests')]  T=[('token-outside-anchor', 'sha256-claim-in-cell-5-of-11')]
+
+line accounting: 86 - 40 (fully cleared) - 1 (S213 partial) = 45  == T lines 45
+
+non-POP rows whose state changed, with their BASE defect class:
+  S230 BASE=[('digest-wrong-capture', 'committed-capture-belonging-to-another-capture-corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py-not-the-capture-this-row-names-corpus/evidence/round52/graders/SHA256SUMS')]
+  S213 BASE=[('token-outside-anchor', 'sha256-claim-in-cell-5-of-11'), ('anchor-unbound', 'no-capture-for-upstream-chess-best-move/tests/test_outputs.py-task=tests')]
+
+mechanism: gate rule that binds them (from --verbose at T):
+BIND S201 capture=corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py by=provenance-row
+BIND S213 capture=corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py by=provenance-url
+BIND S230 capture=corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py by=provenance-url
+BIND S234 capture=corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py by=provenance-row

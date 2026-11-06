@@ -1,0 +1,24 @@
+# Gate verdict changes BASE(49a1c4f) -> T(8e37fc65), full census (DEFECT/BIND lines)
+# gate bytes identical both revs: 11bb2cad87be1c29c2d5abe8313d487d73f71ba49a40d7d0dc80ec26c70fd4c2
+
+## defect-count drops by sid (41 total; 39 in POP + S213 + S230)
+S181 S182 S183 S201 S213 S224 S230 S234 S241 S243 S273 S274 S275 S276 S277 S278 S280 S282 S283 S284 S290 S291 S292 S297 S299 S301 S302 S303 S304 S305 S308 S310 S311 S312 S313 S317 S318 S319 S320 S322 S323
+
+## outside-POP detail
+BASE UNBOUND S213 reason=no-capture-for-upstream-chess-best-move/tests/test_outputs.py-task=tests
+BASE BIND S230 capture=corpus/evidence/round52/graders/SHA256SUMS by=row-path
+BASE BIND S237 capture=corpus/evidence/round66/sources/kv-store-grpc-test_outputs.py by=row-path
+BASE DEFECT S213 anchor token=be class=token-outside-anchor detail=sha256-claim-in-cell-5-of-11 loc=corpus/SOURCES.md:228
+BASE DEFECT S213 anchor token=a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286 class=anchor-unbound detail=no-capture-for-upstream-chess-best-move/tests/test_outputs.py-task=tests loc=corpus/SOURCES.md:228
+BASE DEFECT S230 anchor token=115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e class=digest-wrong-capture detail=committed-capture-belonging-to-another-capture-corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py-not-the-capture-this-row-names-corpus/evidence/round52/graders/SHA256SUMS loc=corpus/SOURCES.md:246
+
+REV  BIND S213 capture=corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py by=provenance-url
+REV  BIND S230 capture=corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py by=provenance-url
+REV  BIND S237 capture=corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py by=provenance-url
+REV  BIND S272 capture=corpus/evidence/round52/graders/sqlite-db-truncate/tests/test_outputs.py by=provenance-url
+REV  RESOLVED S213 digest=a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286 via=corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py bind=provenance-url listed=corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py
+REV  RESOLVED S230 digest=115de2e964bbe689d07930527113422ef8a9e4be4eb958ad84594e3fcd2b1b0e via=corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py bind=provenance-url listed=corpus/evidence/round52/graders/kv-store-grpc/tests/test_outputs.py
+REV  DEFECT S213 anchor token=be class=token-outside-anchor detail=sha256-claim-in-cell-5-of-11 loc=corpus/SOURCES.md:228
+
+## class additions on BASE rows (K7-visible): none
+## BASE..T name-status under corpus/evidence: additions only (no M)

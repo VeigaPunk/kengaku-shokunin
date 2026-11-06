@@ -1,0 +1,40 @@
+id	kind	change	commit	failing_legs	predicate	rc	verdict
+M01	input	PROVENANCE: delete the S181 binding line	cdb6e5e5271a	K3,K4	fail	1	killed
+M02	input	PROVENANCE: delete the S181 and S323 binding lines (partial)	e79ea9241a50	K3,K4	fail	1	killed
+M03	input	PROVENANCE: swap the capture paths of S181 and S182	8bc11b27fca7	K3,K4,K7	fail	1	killed
+M04	input	PROVENANCE: rename the S181 row id to S999	0d81c45bf6ad	K4	fail	1	killed
+M05	input	PROVENANCE: change the S181 sha256 column to 64 zeros	b0392e9989ea	-	pass	0	SURVIVOR
+M06	input	PROVENANCE: point S181 at a non-committed path	98042951d559	K3,K4	fail	1	killed
+M07	input	SOURCES: edit the S181 anchor token	cdf6aecac592	K3,K4,K5,K7	fail	1	killed
+M08	input	SOURCES: append one space to the S181 row line (byte change, same cells)	6e1bf5305fd8	K5	fail	1	killed
+M09	input	capture: append one newline byte to the S181 capture	b5b0c979b508	K3,K4,K6,K7	fail	1	killed
+M10	input	capture: delete the S181 capture	10d932adb2dd	K3,K4,K6	fail	1	killed
+M11	input	second PROVENANCE.md under corpus/evidence binds S181 to a byte-identical copy	4462cc607766	-	pass	0	SURVIVOR
+M12	input	M11 plus the main PROVENANCE S181 line deleted (single binding, to the copy)	f1c3c4b86d49	K4	fail	1	killed
+M13	input	gate: append one comment line to plans/anchor_digest_check.py	77948a735777	K1	fail	1	killed
+M14	input	SOURCES: give the clean non-POP row S105 an unknown 64-hex token	6b510b67011e	K7	fail	1	killed
+M15	input	SOURCES: change the S306 upstream URL subpath (same anchor-unbound class)	a65f67e5e23b	-	pass	0	SURVIVOR
+M16	input	PROVENANCE: duplicate the S181 binding line (same path twice)	710f07b3d296	-	pass	0	SURVIVOR
+M17	input	delete corpus/evidence/PROVENANCE.md entirely (do-nothing shape)	08e10f970747	K3,K4	fail	1	killed
+M18	input	PROVENANCE: change the S181 pinned-URL column to a novel URL	da06ea6ccf13	-	pass	0	SURVIVOR
+M19	input	lessons: add an erratum line naming POP row S181 with an unresolved token	d67a8fcfd2be	K3,K7	fail	1	killed
+M20	input	second PROVENANCE.md at corpus/evidence/0-mutant sorts FIRST and binds S181 to a copy	0bec11d557e1	K4	fail	1	killed
+M21	input	second PROVENANCE.md adds a binding of S181 to a foreign capture (different bytes)	76a7b3eec2a4	K3,K7	fail	1	killed
+L1@M13	logic	counter: k1 = True (K1 disabled)	-	-	pass	0	SURVIVOR
+L2@T	logic	counter: k2 = True (K2 disabled)	-	-	pass	0	SURVIVOR
+L2@M17	logic	counter: k2 = True (K2 disabled)	-	K3,K4	fail	1	killed
+L3@T	logic	counter: k3 = True (K3 disabled)	-	-	pass	0	SURVIVOR
+L3@M17	logic	counter: k3 = True (K3 disabled)	-	K4	fail	1	killed
+L3@M19	logic	counter: k3 = True (K3 disabled)	-	K7	fail	1	killed
+L4@T	logic	counter: k4 = True (K4 disabled)	-	-	pass	0	SURVIVOR
+L4@M11	logic	counter: k4 = True (K4 disabled)	-	-	pass	0	SURVIVOR
+L4@M12	logic	counter: k4 = True (K4 disabled)	-	-	pass	0	SURVIVOR
+L4@M16	logic	counter: k4 = True (K4 disabled)	-	-	pass	0	SURVIVOR
+L5@T	logic	counter: k5 = True (K5 disabled)	-	-	pass	0	SURVIVOR
+L5@M08	logic	counter: k5 = True (K5 disabled)	-	-	pass	0	SURVIVOR
+L6@T	logic	counter: k6 = True (K6 disabled)	-	-	pass	0	SURVIVOR
+L6@M09	logic	counter: k6 = True (K6 disabled)	-	K3,K4,K7	fail	1	killed
+L6@M10	logic	counter: k6 = True (K6 disabled)	-	K3,K4	fail	1	killed
+L7@T	logic	counter: k7 = True (K7 disabled)	-	-	pass	0	SURVIVOR
+L7@M14	logic	counter: k7 = True (K7 disabled)	-	-	pass	0	SURVIVOR
+L8@T	logic	counter: drop S181 from the frozen POP dict	-	K2	fail	1	killed

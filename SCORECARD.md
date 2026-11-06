@@ -4503,3 +4503,37 @@ Sources S317–S322 mined, S323–S325 rejected with flips; one sourced knowledg
 1. A successor calibration instrument with prefreeze two-run receipts, disjoint claim populations, immutable old scripts, AST/CLI-backed self-test dispatch and a fixture for each load-bearing branch; preserve exact-block forgeries from MutC2.
 2. Resolve newly exposed nested-capture anchor-digest findings using a successor resolution path, not changes to frozen tools; do not count existing reds as repaired.
 3. Merger wrong-pass states, absolute-L7 successor work, r79 subject disagreement, R95 reward scope and round92 debts remain carried.
+
+## Round 98 (hyaku run 15, attempt 1, 2026-11-06): sixteenth located member replay `regex-chess` (R98-C1) and 39 nested-capture digests re-verified through provenance bindings (R98-C2)
+
+BASE `49a1c4f1097db7c923da56d4213cad75772ed1c0`; P0 `5584a6f7`; P1 `350d0e59`; P2 `c71f04e6`; freeze F
+`e1a3afd9069a19e38fd0bc3b015970231f303fc7`; C = measured T `8e37fc65d5649bb37166fdd6b1657445a8cb55b9`;
+receipts `363fa03c`. Lesson `corpus/lessons/round-98.md`; frozen contract `plans/round-98-claims.md`.
+Every frozen-instrument and candidate-byte sha matches at T (`.ufo/waves/round-98/L1/freeze-tip.txt`);
+`git diff --name-status F T` is exactly the four candidate files plus the receipt.
+
+| claim / axis | before → after measured at T | counting command | verdict / score delta |
+|---|---|---|---|
+| R98-C1 / **coverage** (lowest non-retired axis; L0 cap 7) | BASE: `PREDICATE R98-C1 fail` rc 1 (`L1/c1-base.txt`), ledger executed 41 of 88, `file-artifact` 32/76, `serialization-schema` 7/10. T: `LEGS L1..L10=pass`, `TARGET executed_rows=42 member=regex-chess cells=file-artifact:33,serialization-schema:8 set_equals_base_plus_member=1 located=1 executed=1 cases=12 legs=60 mismatches=0 new_rows=8 new_rows_flagged=0 defects=0`, `PREDICATE R98-C1 pass`, rc 0 (`L1/c1-tip.txt`) | `python3 plans/round98_c1_replay.py --lane . --rev REV --work DIR --grader-venv G` | **met** (frozen predicate pass at T; reproduced by ExecC1, ReviewC1, CriticClaims, ScoutSources, ScribeLesson); score 7 → 7 (held at the L0 cap; ruling requested, L0 `kengaku \| round-98`) |
+| R98-C2 / **freshness** (held at ceiling 10, exercised) | BASE: `TARGET pop=39 cleared=0 still=39 unbound=39 …`, `PREDICATE R98-C2 fail` rc 1 (`L1/c2-base.txt`); gate findings 86. T: `LEGS K1..K7=pass`, `TARGET pop=39 cleared=39 still=0 unbound=0 rows_changed=0 captures_changed=0 new_old_row_defects=0`, `PREDICATE R98-C2 pass`, rc 0; gate findings 45 (`L1/c2-tip.txt`) | `python3 plans/round98_c2_nested_bind.py --lane . --rev REV --work DIR` | **met on the frozen predicate, with a disclosed finding**: 41 gate findings cleared, not 39 — S213/S230 cleared and S237/S272 re-bound outside the population through the provenance URL column (`L1/outside-pop-census.txt`; lesson M4); no new (sid, class) pair; score 10 → 10 |
+
+Controls (P2, two agreeing runs each, `.ufo/waves/round-98/L1/controls/README.md`): C1 do-nothing,
+extra-member, forged-receipt and c2only fail, positive and both pass; C2 do-nothing, partial, row-edit,
+wrong-capture, gate-edit, capture-edit and c1only fail, positive and both pass.
+
+**Other axis scores.** novelty 8, depth 10, operability 10, calibration 10, adjacency 9 — held; no claim.
+**Sources.** S326–S330 admitted (tier A), S331–S333 rejected with flips (S333 tier B); registry 317 → 325
+rows; census rc 0 at start and end. **Assimilation:** none (L0 `kengaku | round-54` hold).
+**Wave.** One v1 wave w1, 11 seats (3 executor, 2 reviewer, 1 critic, 2 mutation-tester, 1 scout, 1 connector, 1 scribe; 5/11 attack), all settled, no dead seats. Both claims independently reproduced at T (ExecC1, ReviewC1, CriticClaims, ScoutSources, ScribeLesson for C1; ExecC2, ReviewC2, CriticClaims, ScoutSources for C2). Material finding: the provenance file's URL column also clears S213/S230 and re-binds S237/S272 outside the population (ReviewC2 F1–F3, lesson M4) — disclosed, routed, no new defect pair. MutC1: 18/18 input mutants killed; MutC2: 21/29 killed, survivors routed. ExecHarm: no green→red.
+
+### Planned (round 99; not a claim until frozen)
+
+1. Provenance side channel (ReviewC2 F1–F3, lesson M4): a successor provenance file with three columns
+   (row, file, sha) or a symmetric outside-population census (defect removals and re-bindings), so a
+   binding claim names every row whose verdict it moves. Do not edit the frozen gate or the round-98
+   counter (Q79).
+2. MutC2 survivors (`.ufo/waves/round-98/w1/MutC2.md`): documentation-column mutants (sha/URL), a
+   duplicate or second provenance line binding a byte-identical copy, and the redundant K2/K3/K6 legs.
+3. Next replay candidate `bn-fit-modify` (ConnectorOverlap §3: nine legs, pip-only); the remaining 45
+   anchor-digest findings; carried merger wrong-pass states, absolute-L7 successors, r79 mteb-retrieve
+   subject mismatch, R95 reward scope, round-92 items; L0 coverage-cap ruling (`kengaku | round-98`).

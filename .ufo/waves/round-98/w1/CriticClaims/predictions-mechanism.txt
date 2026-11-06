@@ -1,0 +1,14 @@
+# round 98 mechanism predictions (filed before any case ran against the grader; L1 KengakuR98)
+# source: captured test_outputs.py sha 4983c44d..., read only; positive-run timing job bg_5 was the only grader execution so far (unmodified solve.sh)
+C01 solve predicted=P,P,P,P,1 :: positive control: captured solve.sh run unmodified (40460 pairs)
+C02 absent predicted=E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,0 :: no /app/re.json: every test opens it
+C03 empty-list predicted=F,F,F,P,0 :: no-work: [] returns the white-to-move input itself, never a black-to-move successor
+C04 dup-first-drop-second predicted=P,P,P,P,1 :: GAP: first successor duplicated, second removed; membership is per line and the count still matches, so one legal move is missing and the grader passes
+C05 drop-last predicted=F,F,F,P,0 :: one successor removed: count check fails
+C06 extra-line predicted=F,F,F,P,0 :: one successor duplicated without removal: count check fails
+C07 invented-ep predicted=P,P,P,P,1 :: GAP: an en-passant square h6 invented on every line whose true field is '-'; the grader's rpartition fallback rewrites any last field to '-'
+C08 castling-dropped predicted=F,F,F,P,0 :: mechanism negative: castling field forced to '-'; every game starts with KQkq, which the fallback does not forgive
+C09 lookup-table predicted=P,P,P,P,1 :: GAP: one anchored literal pair per tested position (three public games), no move generation at all
+C10 lookup-table-minus-last predicted=P,P,F,P,0 :: lookup table without the last recorded position (a Naroditsky-Ivanchuk position): only that game fails
+C11 oversize-chars predicted=P,P,P,F,0 :: solution plus one never-matching pair with a 10,000,001-char replacement: the size test alone fails
+C12 pair-count-limit predicted=P,P,P,F,0 :: solution padded with never-matching pairs to exactly 100000: len < 1e5 fails, the size in chars stays under 10e6

@@ -19,17 +19,18 @@ Twelve cases × five legs reproduce their P0 mechanism predictions (`plans/round
 
 | intervention | observed (immortal, century, naroditsky, not_long, reward) | interpretation |
 |---|---|---|
-| captured solve.sh, unchanged (40460 pairs) | P,P,P,P,1 | positive control; about four minutes of grading per run on this host |
-| no re.json | FileNotFoundError ×4, 0 | no-work is rejected |
-| `[]` | F,F,F,P,0 | the identity transform returns the input position |
-| first successor duplicated, second removed | P,P,P,P,1 | **gap**: a missing legal move hides behind a duplicate; per-line membership plus an equal count is weaker than set equality |
-| one successor removed / one duplicated without removal | F,F,F,P,0 | the count check has witnesses |
-| en-passant square `h6` invented on every line whose true field is `-` | P,P,P,P,1 | **gap**: the `rpartition` fallback forgives any last field, so a wrong en-passant square is never caught when none is legal |
-| castling field forced to `-` | F,F,F,P,0 | mechanism negative: the fallback reaches only the last field; castling rights are checked |
-| 103-entry lookup table, one anchored literal pair per tested position, no move generation | P,P,P,P,1 | **gap**: the hidden positions are a fixed public set; the instruction's "tested on other positions as well" is not enforced by these bytes |
-| the same table minus its last entry | P,P,F,P,0 | each game has a witness: one missing position fails only its game |
-| solution + one never-matching pair with a 10,000,001-char replacement | P,P,P,F,0 | the character cap has a witness |
-| solution padded to exactly 100000 pairs | P,P,P,F,0 | the pair cap has a witness, independently of the character cap |
+| C01 captured solve.sh, unchanged (40460 pairs) | P,P,P,P,1 | positive control; one timed host run took 233 s (L1 timing run, not a committed receipt) |
+| C02 no re.json | E:FileNotFoundError ×4, 0 | no-work is rejected (errors, not assertion failures) |
+| C03 `[]` | F,F,F,P,0 | the identity transform returns the input position |
+| C04 first successor duplicated, second removed | P,P,P,P,1 | **gap**: a missing legal move hides behind a duplicate; per-line membership plus an equal count is weaker than set equality |
+| C05 one successor removed | F,F,F,P,0 | the count check catches an omission |
+| C06 one successor duplicated without removal | F,F,F,P,0 | the count check catches an extra line |
+| C07 en-passant square `h6` invented on every line whose true field is `-` | P,P,P,P,1 | **gap**: the `rpartition` fallback forgives any last field, so a wrong en-passant square is never caught when none is legal |
+| C08 castling field forced to `-` | F,F,F,P,0 | mechanism negative: the fallback reaches only the last field, so a castling field is compared verbatim; at positions whose true castling field is already `-` this corruption is invisible (ScribeLesson B: 47 of 108 tested positions) |
+| C09 lookup table: 103 anchored literal pairs, one per distinct tested FEN (108 calls), contents precomputed offline with python-chess | P,P,P,P,1 | **gap**: the hidden positions are a fixed public set; the artefact does no move generation at grading time, and the instruction's "tested on other positions as well" is not enforced by these bytes |
+| C10 the same table minus its last entry (a Naroditsky–Ivanchuk position) | P,P,F,P,0 | that game has a witness; only the third game's witness was exercised here |
+| C11 solution + one never-matching pair with a 10,000,001-char replacement | P,P,P,F,0 | the character cap has a witness |
+| C12 solution padded to exactly 100000 pairs | P,P,P,F,0 | the pair cap has a witness, independently of the character cap |
 
 ## Reuse rule
 

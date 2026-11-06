@@ -1,0 +1,31 @@
+# ExecC2 R98-C2 independent re-measurement
+# Lane: /home/vgpnk/Projects/shokunin/kengaku-shokunin; scratch: /fast/scratch/hyaku/kengaku-r98/ExecC2
+# BASE=49a1c4f1097db7c923da56d4213cad75772ed1c0; T=8e37fc65d5649bb37166fdd6b1657445a8cb55b9
+# clones: git clone --shared <lane> clone-T && git checkout --detach T ; clone-BASE at BASE
+# TMPDIR=/fast/scratch/hyaku/kengaku-r98/ExecC2 (not /tmp)
+
+# A. Frozen counter (official)
+cd clone-T && python3 plans/round98_c2_nested_bind.py --lane . --rev 8e37fc65d5649bb37166fdd6b1657445a8cb55b9 --work /fast/scratch/hyaku/kengaku-r98/ExecC2/w
+cd clone-T && python3 plans/round98_c2_nested_bind.py --lane . --rev 49a1c4f1097db7c923da56d4213cad75772ed1c0 --work /fast/scratch/hyaku/kengaku-r98/ExecC2/w2
+
+# B. Gate standalone (frozen gate = BASE bytes; verified sha256 identical BASE vs T)
+cd clone-T && python3 plans/anchor_digest_check.py --lane . --verbose   # at T
+cd clone-BASE && python3 plans/anchor_digest_check.py --lane . --verbose # at BASE
+
+# C. Independent check (own script, no round98 counter, no gate):
+# for each of the 39 POP rows:  git show T:<expected-path> | sha256sum   == POP token == token in SOURCES row
+# and: gate-T.txt contains "BIND <sid> capture=<path> by=provenance-row" and no "DEFECT <sid> ..."
+# and: DEFECT sid+class sets BASE vs T diff (new / gone), with per-line explanation incl. S213/S230 provenance-url spillover.
+# (python check invoked inline; see independent-check.py below)
+
+# D. shell-style spot check
+git -C clone-T show 8e37fc65d5649bb37166fdd6b1657445a8cb55b9:corpus/evidence/round52/graders/chess-best-move/tests/test_outputs.py | sha256sum
+# -> a540714e0156fc14564badedcb48d1f7b69a4b457d876036535439b30cb8f286 == S201 POP token
+
+# E. gate byte identity
+git -C clone-T show 49a1c4f1097db7c923da56d4213cad75772ed1c0:plans/anchor_digest_check.py | sha256sum
+git -C clone-T show 8e37fc65d5649bb37166fdd6b1657445a8cb55b9:plans/anchor_digest_check.py | sha256sum
+# -> both 11bb2cad87be1c29c2d5abe8313d487d73f71ba49a40d7d0dc80ec26c70fd4c2 (GATE_SHA in counter + claims)
+
+# F. census (host read-only)
+timeout 120 /home/vgpnk/Projects/shokunin/scripts/sources-census.sh validate --root /home/vgpnk/Projects/shokunin kengaku

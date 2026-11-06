@@ -1,0 +1,33 @@
+| mutant | target | before sha256 | after sha256 | restored sha256 | restored clean | fixture commit |
+|---|---|---|---|---|---|---|
+| r1_lanetip_nonancestor | corpus/evidence/round98/regexchess-probe.txt | 575e5298a7ca8f60… | 39b942579e2fe66a… | 575e5298a7ca8f60… | True | 88ace88c863f |
+| r2_detail_digest | corpus/evidence/round98/regexchess-probe.txt | 575e5298a7ca8f60… | 91efe03f04339a9a… | 575e5298a7ca8f60… | True | b4facc084a7a |
+| r3_case_observed_flip | corpus/evidence/round98/regexchess-probe.txt | 575e5298a7ca8f60… | 41ea2df277be24da… | 575e5298a7ca8f60… | True | b311ab24cfdf |
+| r4_case_dropped | corpus/evidence/round98/regexchess-probe.txt | 575e5298a7ca8f60… | 498e0d8072c42ad6… | 575e5298a7ca8f60… | True | 0ee6b0777759 |
+| r6_subject_sha | corpus/evidence/round98/regexchess-probe.txt | 575e5298a7ca8f60… | 63ba4499d2ff8d6e… | 575e5298a7ca8f60… | True | 45e1f735e4a4 |
+| r7_tool_sha | corpus/evidence/round98/regexchess-probe.txt | 575e5298a7ca8f60… | 2daf1dd5ce29d7ec… | 575e5298a7ca8f60… | True | 711e0fea28f5 |
+| r8_host_bash | corpus/evidence/round98/regexchess-probe.txt | 575e5298a7ca8f60… | 14cc108ea6cd5b4b… | 575e5298a7ca8f60… | True | d52c2690bd96 |
+| r10_receipt_absent | corpus/evidence/round98/regexchess-probe.txt | 575e5298a7ca8f60… | absent… | 575e5298a7ca8f60… | True | 367895a59218 |
+| t1_predicted_flip | plans/round98-cases.json | 02f30e6aff2f27fc… | 5fb8fb7636c8be7d… | 02f30e6aff2f27fc… | True | 2318f86601a9 |
+| t2_app_swap | plans/round98-cases.json | 02f30e6aff2f27fc… | 221df9100cc62fd3… | 02f30e6aff2f27fc… | True | 2a8ac5839084 |
+| t4_case_reorder | plans/round98-cases.json | 02f30e6aff2f27fc… | 2e898f5f47a777f5… | 02f30e6aff2f27fc… | True | 65cd35f0dbf9 |
+| t5_table_whitespace | plans/round98-cases.json | 02f30e6aff2f27fc… | c57f170c230d9f06… | 02f30e6aff2f27fc… | True | 992821818de1 |
+| g1_extra_executed_member | plans/grader-population-ledger.json | 915c3b44dc5854e2… | 58f86d2294f11390… | 915c3b44dc5854e2… | True | aa2f4ad88456 |
+| g2_removed_executed_member | plans/grader-population-ledger.json | 915c3b44dc5854e2… | 3bdbf2dba45a8012… | 915c3b44dc5854e2… | True | edde4446e3c8 |
+| g3_legacy_receipt | plans/grader-population-ledger.json | 915c3b44dc5854e2… | a45d10924e7f5d93… | 915c3b44dc5854e2… | True | 623aa302a9fd |
+| g4_classes | plans/grader-population-ledger.json | 915c3b44dc5854e2… | e10e722cb1b4c85b… | 915c3b44dc5854e2… | True | 79de5c06f546 |
+| s1_bad_anchor_row | corpus/SOURCES.md | 793b0520be4ac6b0… | 517735d495576eba… | 793b0520be4ac6b0… | True | 9fab790369b9 |
+| s2_valid_anchor_row | corpus/SOURCES.md | 793b0520be4ac6b0… | 841e972afb704de5… | 793b0520be4ac6b0… | True | dd84a4927422 |
+| p1_probe_comment | plans/round98_regexchess_probe.py | 8716307829338713… | fbc5a033d3188d4b… | 8716307829338713… | True | a8b7d85ade4c |
+| c1_capture_byte | corpus/evidence/round98/tb2-regex-chess/instruction.md | a6ed3fcc54fc92d7… | 1bfdb402148731cc… | a6ed3fcc54fc92d7… | True | 77ac90bd3303 |
+| k1_l10_ignore_flagged | plans/round98_c1_replay.py | e361383249d9bdf5… | dd7a1a8845c970e9… | e361383249d9bdf5… | True | 00ac4669608c |
+| k2_l7_superset | plans/round98_c1_replay.py | e361383249d9bdf5… | 8a1785f840b93199… | e361383249d9bdf5… | True | ca2830d9245a |
+| d1_k1_s1 | plans/round98_c1_replay.py | e361383249d9bdf5… | dd7a1a8845c970e9… | e361383249d9bdf5… | True | 140e70503aab |
+| d1_k1_s1 | corpus/SOURCES.md | 793b0520be4ac6b0… | 517735d495576eba… | 793b0520be4ac6b0… | True | 140e70503aab |
+| d2_k2_g1 | plans/round98_c1_replay.py | e361383249d9bdf5… | 8a1785f840b93199… | e361383249d9bdf5… | True | f3177f775b0a |
+| d2_k2_g1 | plans/grader-population-ledger.json | 915c3b44dc5854e2… | 58f86d2294f11390… | 915c3b44dc5854e2… | True | f3177f775b0a |
+| r11_receipt_mismatches_field | corpus/evidence/round98/regexchess-probe.txt | 575e5298a7ca8f60… | d3c0d455d58ea3b9… | 575e5298a7ca8f60… | True | e0db5b0c2e2a |
+| d3_t5_table_stamp_coordinated | /fast/scratch/hyaku/kengaku-r98/MutC1/mutants/d3_t5_table_stamp_coordinated/plans/round98-cases.json | 02f30e6aff2f27fc… | c57f170c230d9f06… | 02f30e6aff2f27fc… | True | a5b399117b40 |
+| d3_t5_table_stamp_coordinated | /fast/scratch/hyaku/kengaku-r98/MutC1/mutants/d3_t5_table_stamp_coordinated/corpus/evidence/round98/regexchess-probe.txt | 575e5298a7ca8f60… | 9a473c5c6330ff7a… | 575e5298a7ca8f60… | True | a5b399117b40 |
+| d4_p1_probe_stamp_coordinated | /fast/scratch/hyaku/kengaku-r98/MutC1/mutants/d4_p1_probe_stamp_coordinated/plans/round98_regexchess_probe.py | 8716307829338713… | fbc5a033d3188d4b… | 8716307829338713… | True | 906ca08a1829 |
+| d4_p1_probe_stamp_coordinated | /fast/scratch/hyaku/kengaku-r98/MutC1/mutants/d4_p1_probe_stamp_coordinated/corpus/evidence/round98/regexchess-probe.txt | 575e5298a7ca8f60… | 52133af1f5cd0109… | 575e5298a7ca8f60… | True | 906ca08a1829 |
