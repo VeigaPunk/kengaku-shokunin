@@ -1,0 +1,85 @@
+{
+ "member": "regex-chess",
+ "leg_order": [
+  "immortal",
+  "century",
+  "naroditsky",
+  "not_long",
+  "reward"
+ ],
+ "reward_rule": "reward 1 iff real pytest 8.4.1 over the captured test_outputs.py exits 0 (test.sh writes 1 on pytest rc 0)",
+ "cases": [
+  {
+   "id": "C01",
+   "app": "solve",
+   "predicted": "P,P,P,P,1",
+   "why": "positive control: captured solve.sh run unmodified (40460 pairs)"
+  },
+  {
+   "id": "C02",
+   "app": "absent",
+   "predicted": "E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,0",
+   "why": "no /app/re.json: every test opens it"
+  },
+  {
+   "id": "C03",
+   "app": "empty-list",
+   "predicted": "F,F,F,P,0",
+   "why": "no-work: [] returns the white-to-move input itself, never a black-to-move successor"
+  },
+  {
+   "id": "C04",
+   "app": "dup-first-drop-second",
+   "predicted": "P,P,P,P,1",
+   "why": "GAP: first successor duplicated, second removed; membership is per line and the count still matches, so one legal move is missing and the grader passes"
+  },
+  {
+   "id": "C05",
+   "app": "drop-last",
+   "predicted": "F,F,F,P,0",
+   "why": "one successor removed: count check fails"
+  },
+  {
+   "id": "C06",
+   "app": "extra-line",
+   "predicted": "F,F,F,P,0",
+   "why": "one successor duplicated without removal: count check fails"
+  },
+  {
+   "id": "C07",
+   "app": "invented-ep",
+   "predicted": "P,P,P,P,1",
+   "why": "GAP: an en-passant square h6 invented on every line whose true field is '-'; the grader's rpartition fallback rewrites any last field to '-'"
+  },
+  {
+   "id": "C08",
+   "app": "castling-dropped",
+   "predicted": "F,F,F,P,0",
+   "why": "mechanism negative: castling field forced to '-'; every game starts with KQkq, which the fallback does not forgive"
+  },
+  {
+   "id": "C09",
+   "app": "lookup-table",
+   "predicted": "P,P,P,P,1",
+   "why": "GAP: one anchored literal pair per tested position (three public games), no move generation at all"
+  },
+  {
+   "id": "C10",
+   "app": "lookup-table-minus-last",
+   "predicted": "P,P,F,P,0",
+   "why": "lookup table without the last recorded position (a Naroditsky-Ivanchuk position): only that game fails"
+  },
+  {
+   "id": "C11",
+   "app": "oversize-chars",
+   "predicted": "P,P,P,F,0",
+   "why": "solution plus one never-matching pair with a 10,000,001-char replacement: the size test alone fails"
+  },
+  {
+   "id": "C12",
+   "app": "pair-count-limit",
+   "predicted": "P,P,P,F,0",
+   "why": "solution padded with never-matching pairs to exactly 100000: len < 1e5 fails, the size in chars stays under 10e6"
+  }
+ ]
+}
