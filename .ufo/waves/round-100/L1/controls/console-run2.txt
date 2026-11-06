@@ -1,0 +1,55 @@
+c1 do-nothing: LEGS L1=fail L2=fail L3=fail L4=pass L5=fail L6=fail L7=fail L8=pass L9=fail L10=fail L11=pass L12=fail L13=pass PREDICATE R100-C1 fail rc=1 
+c2 do-nothing: LEGS K1=pass K2=pass K3=pass K4=fail K5=fail K6=pass K7=pass K8=pass K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+c1 positive: LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=pass L11=pass L12=pass L13=pass PREDICATE R100-C1 pass rc=0 
+c2 c1only: LEGS K1=pass K2=pass K3=pass K4=fail K5=fail K6=pass K7=pass K8=pass K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+c2 positive: LEGS K1=pass K2=pass K3=pass K4=pass K5=pass K6=pass K7=pass K8=pass K9=pass K10=pass PREDICATE R100-C2 pass rc=0 
+c1 c2only: LEGS L1=fail L2=fail L3=fail L4=pass L5=fail L6=fail L7=fail L8=pass L9=fail L10=fail L11=pass L12=fail L13=pass PREDICATE R100-C1 fail rc=1 
+c1 both: LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=pass L11=pass L12=pass L13=pass PREDICATE R100-C1 pass rc=0 
+c2 both: LEGS K1=pass K2=pass K3=pass K4=pass K5=pass K6=pass K7=pass K8=pass K9=pass K10=pass PREDICATE R100-C2 pass rc=0 
+prefreeze both: VERDICT clean rc=0 
+TREE-DIFF extra-member vs c1only: 3 paths
+c1 extra-member: LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=fail L8=pass L9=pass L10=pass L11=pass L12=fail L13=pass PREDICATE R100-C1 fail rc=1 
+TREE-DIFF forged-receipt vs c1only: 2 paths
+c1 forged-receipt: LEGS L1=pass L2=pass L3=fail L4=pass L5=pass L6=fail L7=pass L8=pass L9=pass L10=pass L11=pass L12=pass L13=pass PREDICATE R100-C1 fail rc=1 
+TREE-DIFF receipt-identity vs c1only: 2 paths
+c1 receipt-identity: LEGS L1=pass L2=pass L3=fail L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=pass L11=pass L12=pass L13=pass PREDICATE R100-C1 fail rc=1 
+TREE-DIFF counter-edit vs c1only: 3 paths
+c1 counter-edit: LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=pass L11=fail L12=fail L13=pass PREDICATE R100-C1 fail rc=1 
+TREE-DIFF extra-file vs c1only: 3 paths
+c1 extra-file: LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=pass L11=pass L12=fail L13=pass PREDICATE R100-C1 fail rc=1 
+TREE-DIFF skill-cell vs c1only: 3 paths
+c1 skill-cell: LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=pass L11=pass L12=fail L13=pass PREDICATE R100-C1 fail rc=1 
+TREE-DIFF extra-row vs c1only: 3 paths
+c1 extra-row: LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=fail L11=pass L12=fail L13=pass PREDICATE R100-C1 fail rc=1 
+TREE-DIFF typed-words vs c1only: 3 paths
+c1 typed-words: LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=pass L11=pass L12=fail L13=fail PREDICATE R100-C1 fail rc=1 
+TREE-DIFF partial vs c2only: 2 paths
+c2 partial: LEGS K1=pass K2=pass K3=pass K4=fail K5=fail K6=pass K7=pass K8=pass K9=pass K10=pass PREDICATE R100-C2 fail rc=1 
+TREE-DIFF url-channel vs c2only: 2 paths
+c2 url-channel: LEGS K1=pass K2=pass K3=fail K4=fail K5=pass K6=pass K7=pass K8=pass K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+TREE-DIFF duplicate-line vs c2only: 2 paths
+c2 duplicate-line: LEGS K1=pass K2=pass K3=pass K4=fail K5=fail K6=pass K7=pass K8=pass K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+TREE-DIFF sha-column vs c2only: 2 paths
+c2 sha-column: LEGS K1=pass K2=pass K3=pass K4=fail K5=pass K6=pass K7=pass K8=pass K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+TREE-DIFF fabricated-id vs c2only: 2 paths
+c2 fabricated-id: LEGS K1=pass K2=pass K3=pass K4=fail K5=pass K6=pass K7=pass K8=pass K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+TREE-DIFF fourth-cell vs c2only: 2 paths
+c2 fourth-cell: LEGS K1=pass K2=pass K3=fail K4=pass K5=pass K6=pass K7=pass K8=pass K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+TREE-DIFF outside-rebind vs c2only: 2 paths
+c2 outside-rebind: LEGS K1=pass K2=pass K3=pass K4=fail K5=pass K6=pass K7=fail K8=pass K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+DELETED S001
+TREE-DIFF outside-row-delete vs c2only: 2 paths
+c2 outside-row-delete: LEGS K1=pass K2=pass K3=pass K4=pass K5=pass K6=pass K7=pass K8=fail K9=pass K10=pass PREDICATE R100-C2 fail rc=1 
+TREE-DIFF row-edit vs c2only: 5 paths
+c2 row-edit: LEGS K1=pass K2=pass K3=pass K4=fail K5=fail K6=fail K7=pass K8=fail K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+TREE-DIFF gate-edit vs c2only: 2 paths
+c2 gate-edit: LEGS K1=fail K2=pass K3=pass K4=pass K5=pass K6=pass K7=pass K8=pass K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+TREE-DIFF capture-edit vs c2only: 2 paths
+c2 capture-edit: LEGS K1=pass K2=pass K3=pass K4=fail K5=fail K6=fail K7=pass K8=pass K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+TREE-DIFF c2counter-edit vs c2only: 2 paths
+c2 c2counter-edit: LEGS K1=fail K2=pass K3=pass K4=pass K5=pass K6=pass K7=pass K8=pass K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+TREE-DIFF live-forged vs c2only: 2 paths
+c2 live-forged: LEGS K1=pass K2=pass K3=pass K4=pass K5=pass K6=pass K7=pass K8=pass K9=fail K10=fail PREDICATE R100-C2 fail rc=1 
+TREE-DIFF c2-extra-file vs c2only: 2 paths
+c2 c2-extra-file: LEGS K1=pass K2=pass K3=pass K4=pass K5=pass K6=pass K7=pass K8=pass K9=pass K10=fail PREDICATE R100-C2 fail rc=1 
+BATTERY run2 complete

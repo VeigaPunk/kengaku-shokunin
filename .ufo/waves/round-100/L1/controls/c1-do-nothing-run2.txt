@@ -1,0 +1,14 @@
+REV feda7450fe02658928f0f4f302043142bfbe70b8
+LEGS L1=fail L2=fail L3=fail L4=pass L5=fail L6=fail L7=fail L8=pass L9=fail L10=fail L11=pass L12=fail L13=pass
+TARGET executed_rows=43 member=financial-document-processor cells=crypto-credential:4,file-artifact:34 set_equals_base_plus_member=0 located=1 executed=0 cases=15 legs=0 mismatches=0 new_rows=0 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=9
+DEFECT L1 receipt absent at revision: corpus/evidence/round100/fdp-probe.txt
+DEFECT L2 capture/receipt sha mismatch (cap=978f506ad5c1 receipt=absent)
+DEFECT L3 LANE_TIP absent is not the freeze commit feda7450fe02658928f0f4f302043142bfbe70b8
+DEFECT L5 case coverage 0 of 15
+DEFECT L6 rerun rc=0 obs=30 want=0 equal=False stamps_equal=False
+DEFECT L7 ledger member=unexecuted round=None executed_total=43 cells={'crypto-credential': 4, 'file-artifact': 34} legacy_fields=False set_added=[] set_removed=[]
+DEFECT L9 stamps tool=absent table=absent bash=None
+DEFECT L10 new SOURCES rows=0 want=8 gate-flagged=-
+DEFECT L12 freeze=yes outside_table=- own_unbound=['SKILL.md', 'corpus/SOURCES.md', 'plans/grader-population-ledger.json']
+PREDICATE R100-C1 fail
+rc=1
