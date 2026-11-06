@@ -1,0 +1,96 @@
+{
+ "member": "bn-fit-modify",
+ "leg_order": [
+  "bn_exists",
+  "ldag_exists",
+  "ldag_cols",
+  "ldag_struct",
+  "idag_exists",
+  "idag_cols",
+  "idag_struct",
+  "sample_cols",
+  "sample_data",
+  "reward"
+ ],
+ "reward_rule": "reward 1 iff real pytest 8.4.1 over the captured test_outputs.py exits 0 (test.sh writes 1 on pytest rc 0)",
+ "cases": [
+  {
+   "id": "C01",
+   "app": "solution",
+   "predicted": "P,P,P,P,P,P,P,P,P,1",
+   "why": "positive control: the maintainer R solution's committed outputs (fit equals the grader constants)"
+  },
+  {
+   "id": "C02",
+   "app": "absent",
+   "predicted": "F,F,E:FileNotFoundError,E:FileNotFoundError,F,E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,E:FileNotFoundError,0",
+   "why": "no output files: exists-tests assert, every other test's read_csv raises"
+  },
+  {
+   "id": "C03",
+   "app": "marginal-only",
+   "predicted": "P,P,P,P,P,P,P,P,P,1",
+   "why": "GAP: only column D is tested; U,R,Y,M all 0.0 and D drawn from the target normal with no BN passes"
+  },
+  {
+   "id": "C04",
+   "app": "no-intervention",
+   "predicted": "P,P,P,P,P,P,P,P,F,0",
+   "why": "mechanism negative for C03: D from the fitted BN without the Y intervention; KS rejects the shifted mean"
+  },
+  {
+   "id": "C05",
+   "app": "rownames-column",
+   "predicted": "P,P,P,P,P,P,P,P,F,0",
+   "why": "R write.csv row.names=TRUE leading column: inclusion-only names test passes, exactly-5-columns assert fails"
+  },
+  {
+   "id": "C06",
+   "app": "header-to-from",
+   "predicted": "P,P,P,P,P,P,P,P,P,1",
+   "why": "the instruction's literal 'to,from' header with columns swapped (rows child,parent): grader reads by name"
+  },
+  {
+   "id": "C07",
+   "app": "dup-edges-extra",
+   "predicted": "P,P,P,P,P,P,P,P,P,1",
+   "why": "GAP: every learned edge listed twice plus an extra column; the grader compares a set of (from,to)"
+  },
+  {
+   "id": "C08",
+   "app": "reversed-edge",
+   "predicted": "P,P,P,F,P,P,P,P,P,0",
+   "why": "R->M written M->R: learned-structure set equality fails only"
+  },
+  {
+   "id": "C09",
+   "app": "idag-not-dropped",
+   "predicted": "P,P,P,P,P,P,F,P,P,0",
+   "why": "intervened DAG keeps U->Y: intervened-structure set equality fails only"
+  },
+  {
+   "id": "C10",
+   "app": "rows-9999",
+   "predicted": "P,P,P,P,P,P,P,P,F,0",
+   "why": "solution sample minus one row: the 10_000-row assert fails"
+  },
+  {
+   "id": "C11",
+   "app": "ks-shift-small",
+   "predicted": "P,P,P,P,P,P,P,P,P,1",
+   "why": "GAP (tolerance band): D a normal quantile grid shifted by +0.045 sd: KS D = 0.0180 < 0.0195, p = 0.0030 >= 0.001, passes"
+  },
+  {
+   "id": "C12",
+   "app": "ks-shift-large",
+   "predicted": "P,P,P,P,P,P,P,P,F,0",
+   "why": "mechanism negative for C11: the same grid shifted by +0.050 sd: KS D = 0.0200, p = 0.00066 < 0.001, fails"
+  },
+  {
+   "id": "C13",
+   "app": "quantile-grid",
+   "predicted": "P,P,P,P,P,P,P,P,P,1",
+   "why": "GAP: no sampling; D a deterministic normal quantile grid (KS p ~ 1)"
+  }
+ ]
+}

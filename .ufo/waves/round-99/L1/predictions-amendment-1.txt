@@ -1,0 +1,9 @@
+# R99-C1 prediction amendment 1 (after dry run 1, before freeze). The P0 file is unchanged.
+# Dry run 1 (dryrun/probe-dryrun-1.txt): 12/13 held; C11 (seeded random draw, D shifted +0.03 sd) predicted pass, observed
+# test_sampled_data F. The P0 power arithmetic used the expected KS statistic (0.012 < 0.0195) and ignored sampling noise:
+# over 200 seeds at that shift 49 fail (24.5 %), seed 5 among them. The prediction was wrong; the mechanism holds only in
+# expectation. Fix (lesson M1): C11/C12 become deterministic quantile grids so the statistic is exact:
+#   C11 ks-shift-small  grid + 0.045 sd   KS D 0.0180  p 0.00303  predicted P,P,P,P,P,P,P,P,P,1  (unchanged vector)
+#   C12 ks-shift-large  grid + 0.050 sd   KS D 0.0200  p 0.00066  predicted P,P,P,P,P,P,P,P,F,0  (unchanged vector)
+# The pass/fail edge of the grader's p >= 0.001 rule sits at a mean shift of about 0.048 sd (D 0.0192, p 0.00124).
+# Values computed in the grader venv (scipy 1.16.1) before dry run 2; no other case changed.
