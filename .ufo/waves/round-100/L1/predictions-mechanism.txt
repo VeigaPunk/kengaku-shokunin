@@ -1,0 +1,38 @@
+# round 100 P0 — mechanism predictions for financial-document-processor (written before any grader run)
+
+Grader: corpus/evidence/round100/tb2-financial-document-processor/test_outputs.py (pin 2fd12b88).
+Legs (test order in the file): dirs, invoices_moved, others_moved, summary_exists, summary_structure,
+summary_content, documents_empty, reward (1 iff pytest rc 0, test.sh).
+Codes: P passed, F AssertionError, E:<type> any other exception.
+
+Mechanism read from the bytes:
+- invoices_moved: set of sha512 over every regular file in /app/invoices whose name does not end in
+  .json, with the literal name summary.csv mapped to itself; compared by SET equality.
+  -> duplicate copies of one invoice collapse; .json files are invisible; any other extra file fails;
+     a missing summary.csv fails this leg too (the expected set contains "summary.csv").
+- others_moved: same set rule over /app/other (no .json exclusion).
+- summary_structure: csv.DictReader fieldnames == [filename,total_amount,vat_amount] (ORDER-sensitive,
+  BOM-sensitive) and exactly 11 data rows.
+- summary_content: pandas read_csv; len == 11; per row: filename "total" or sha512 of
+  /app/invoices/<filename> must be a key of the expected table; |total - want| < 0.01 and
+  |vat - want| < 0.01 (empty/NaN vat read as 0). No uniqueness, no coverage of all ten invoices,
+  no position for the total row, column access by NAME.
+- documents_empty: only regular FILES directly in /app/documents count; subdirectories are ignored.
+
+| id | kind | predicted | mechanism |
+|---|---|---|---|
+| C01 | solution | P,P,P,P,P,P,P,1 | maintainer OCR solution's committed placement + summary |
+| C02 | absent | F,E:FileNotFoundError,E:FileNotFoundError,F,E:FileNotFoundError,E:FileNotFoundError,F,0 | no work: dirs missing (iterdir/open/read_csv raise), 17 files left |
+| C03 | all-total-rows | P,P,P,P,P,P,P,1 | 11 rows all "total,81315.2,5402.48": count 11, every row in table, no invoice row required |
+| C04 | one-invoice-repeated | P,P,P,P,P,P,P,1 | 10 rows naming the same invoice + total: no uniqueness |
+| C05 | json-in-invoices | P,P,P,P,P,P,P,1 | an extra notes.json in /app/invoices is excluded by suffix |
+| C06 | txt-in-invoices | P,F,P,P,P,P,P,0 | an extra notes.txt enters the hash set |
+| C07 | documents-subdir | P,P,P,P,P,P,P,1 | copies of all 17 documents left in /app/documents/keep/: only top-level files counted |
+| C08 | duplicate-copy | P,P,P,P,P,P,P,1 | a second copy of one invoice under another name: set collapses it |
+| C09 | misclassified-one | P,F,F,P,F,F,P,0 | one invoice moved to other, summary 9 rows + total (10 rows) |
+| C10 | vat-zero | P,P,P,P,P,P,P,1 | empty VAT written as 0: read as 0 == expected 0 |
+| C11 | total-plus-0.009 | P,P,P,P,P,P,P,1 | one total 6204.19 -> 6204.199: |d| = 0.009 < 0.01 |
+| C12 | total-plus-0.01 | P,P,P,P,P,F,P,0 | one total 6204.19 -> 6204.2: |d| = 0.0100000000002 >= 0.01 |
+| C13 | no-summary | P,F,P,F,E:FileNotFoundError,E:FileNotFoundError,P,0 | summary absent: invoices set lacks "summary.csv" |
+| C14 | headers-reordered | P,P,P,P,F,P,P,0 | columns filename,vat_amount,total_amount: DictReader order fails, pandas by name passes |
+| C15 | bom-header | P,P,P,P,F,P,P,0 | UTF-8 BOM: DictReader first field "\ufefffilename" fails; pandas' C parser strips a leading BOM |
