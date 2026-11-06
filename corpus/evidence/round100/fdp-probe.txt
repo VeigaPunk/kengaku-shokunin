@@ -1,0 +1,49 @@
+# tb2 financial-document-processor grader probe (round 100)
+MEMBER financial-document-processor
+SUBJECT_SHA 978f506ad5c1bfaf28f9bc774dfe4347d33d046ca009b8496eb513956b7f5a9a
+TEST_SH_SHA 48abbda713ace5cee00dd28c7398959f28280062350eb88206a6697a28c72790
+SOLVE_SHA 90861b79c4bd7733909616ffa058151847eb67a4d43395a964c449cf7e24c4fb
+CAPTURE_SUMS_SHA 0a137bdb179c5d4e9056565e8fa18725bf94f56b43fa78547db888bb1cb46fa3
+FIXTURE_SUMS_SHA 97fbf7930b838bc28556a67ba296b131660b8d1e18272b288c169e9a5183ed6f
+TOOL_SHA b255a4287b025dcb9e9b4cf8ab1083640c10edb6585c45b110b8474ab737b90b
+CASE_TABLE_SHA 286d1772ff9e0e1b7ebee303f672a3e1771d56d4dfa51b5552df43307b565142
+LANE_TIP 54df15ca1f9b689b25c6ffc3b2fccd1253bdd6c2
+GRADER_SIDE python,pytest,pandas,pytest-json-ctrf 3.13 8.4.1 2.3.2 0.3.5
+GRADER_UNPINNED python 3.13.16 numpy 2.5.4
+HOST_BASH GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+HOST_USERNS 122865
+SANDBOX clearenv=1 unshare-all=1 etc-bound=0 bwrap=/usr/bin/bwrap
+LEG_ORDER dirs,invoices_moved,others_moved,summary_exists,summary_structure,summary_content,documents_empty,reward
+OBSERVATIONS_BEGIN
+CASE C01 predicted=P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,1 ok=True
+DETAIL C01 documents=0 invoices=21 other=7 summary=08724ad988ea1fe1 solution
+CASE C02 predicted=F,E:FileNotFoundError,E:FileNotFoundError,F,E:FileNotFoundError,E:FileNotFoundError,F,0 observed=F,E:FileNotFoundError,E:FileNotFoundError,F,E:FileNotFoundError,E:FileNotFoundError,F,0 ok=True
+DETAIL C02 documents=17 invoices=absent other=absent summary=absent absent
+CASE C03 predicted=P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,1 ok=True
+DETAIL C03 documents=0 invoices=21 other=7 summary=a64eacd07a70e320 all-total-rows
+CASE C04 predicted=P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,1 ok=True
+DETAIL C04 documents=0 invoices=21 other=7 summary=ba31a9a6c6c19914 one-invoice-repeated
+CASE C05 predicted=P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,1 ok=True
+DETAIL C05 documents=0 invoices=22 other=7 summary=08724ad988ea1fe1 json-in-invoices
+CASE C06 predicted=P,F,P,P,P,P,P,0 observed=P,F,P,P,P,P,P,0 ok=True
+DETAIL C06 documents=0 invoices=22 other=7 summary=08724ad988ea1fe1 txt-in-invoices
+CASE C07 predicted=P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,1 ok=True
+DETAIL C07 documents=17 invoices=21 other=7 summary=08724ad988ea1fe1 documents-subdir
+CASE C08 predicted=P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,1 ok=True
+DETAIL C08 documents=0 invoices=22 other=7 summary=08724ad988ea1fe1 duplicate-copy
+CASE C09 predicted=P,F,F,P,F,F,P,0 observed=P,F,F,P,F,F,P,0 ok=True
+DETAIL C09 documents=0 invoices=19 other=8 summary=b62aa315809ca91a misclassified-one
+CASE C10 predicted=P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,1 ok=True
+DETAIL C10 documents=0 invoices=21 other=7 summary=e840161191fc5c7d vat-zero
+CASE C11 predicted=P,P,P,P,P,P,P,1 observed=P,P,P,P,P,P,P,1 ok=True
+DETAIL C11 documents=0 invoices=21 other=7 summary=287a1f908c2455ce total-plus-0.009
+CASE C12 predicted=P,P,P,P,P,F,P,0 observed=P,P,P,P,P,F,P,0 ok=True
+DETAIL C12 documents=0 invoices=21 other=7 summary=7ff064e3043f1f7b total-plus-0.01
+CASE C13 predicted=P,F,P,F,E:FileNotFoundError,E:FileNotFoundError,P,0 observed=P,F,P,F,E:FileNotFoundError,E:FileNotFoundError,P,0 ok=True
+DETAIL C13 documents=0 invoices=20 other=7 summary=absent no-summary
+CASE C14 predicted=P,P,P,P,F,P,P,0 observed=P,P,P,P,F,P,P,0 ok=True
+DETAIL C14 documents=0 invoices=21 other=7 summary=bc3f049341bd4072 headers-reordered
+CASE C15 predicted=P,P,P,P,F,P,P,0 observed=P,P,P,P,F,P,P,0 ok=True
+DETAIL C15 documents=0 invoices=21 other=7 summary=0739580ad47a894e bom-header
+OBSERVATIONS_END
+mismatches 0
