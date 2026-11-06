@@ -1,0 +1,35 @@
+# tb2 multi-source-data-merger grader probe (round 96)
+MEMBER multi-source-data-merger
+SUBJECT_SHA a070888930cf829aeca039771260b1386bda990ea805f313468d381ba3608ca5
+TEST_SH_SHA d5a00e64413c0e1ae452f38a1aa1a47c3ed7b4416bbfccae1a4c053025a336d1
+SOLVE_SHA 1b3d0d50e31930d042495d48f4c8e95f1a9c1a979c803b7f7cec651322537e1e
+TOOL_SHA 78ce14ceab7156c230536e02aeb42abd2f49daaed737213a5f97a2f0ef776f17
+CASE_TABLE_SHA b5efb7b004730ebd6756c32471fccc84bb91c9833faf82be000a894adf3d5354
+LANE_TIP ff6765a662425d65ead297bc0c9fd86f5577be5f
+ENV_SIDE python,pandas,pyarrow,numpy 3.11.17 2.2.3 17.0.0 2.4.6
+GRADER_SIDE python,pandas,pyarrow,numpy 3.13.16 2.3.3 22.0.0 2.5.4
+HOST_BASH GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+HOST_USERNS 122865
+SANDBOX clearenv=1 unshare-all=1 etc-bound=0
+LEG_ORDER exists,merged,conflicts,reward
+OBSERVATIONS_BEGIN
+CASE C01 predicted=P,P,P,1 observed=P,P,P,1 ok=True
+CASE C02 predicted=F,E:FileNotFoundError,E:FileNotFoundError,0 observed=F,E:FileNotFoundError,E:FileNotFoundError,0 ok=True
+CASE C03 predicted=F,P,E:FileNotFoundError,0 observed=F,P,E:FileNotFoundError,0 ok=True
+CASE C04 predicted=P,P,P,1 observed=P,P,P,1 ok=True
+CASE C05 predicted=P,P,F,0 observed=P,P,F,0 ok=True
+CASE C06 predicted=P,P,P,1 observed=P,P,P,1 ok=True
+CASE C07 predicted=P,P,P,1 observed=P,P,P,1 ok=True
+CASE C08 predicted=P,F,P,0 observed=P,F,P,0 ok=True
+CASE C09 predicted=P,F,P,0 observed=P,F,P,0 ok=True
+CASE C10 predicted=P,F,P,0 observed=P,F,P,0 ok=True
+CASE C11 predicted=P,P,F,0 observed=P,P,F,0 ok=True
+CASE C12 predicted=P,P,E:KeyError,0 observed=P,P,E:KeyError,0 ok=True
+CASE C13 predicted=P,F,P,0 observed=P,F,P,0 ok=True
+CASE C14 predicted=P,P,F,0 observed=P,P,F,0 ok=True
+CASE C15 predicted=P,F,P,0 observed=P,F,P,0 ok=True
+CASE C16 predicted=P,E:ArrowInvalid,P,0 observed=P,E:ArrowInvalid,P,0 ok=True
+CASE C17 predicted=P,P,F,0 observed=P,P,F,0 ok=True
+OBSERVATIONS_END
+mismatches 0
+rc=0
