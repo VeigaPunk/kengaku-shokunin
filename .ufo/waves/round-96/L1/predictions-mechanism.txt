@@ -1,0 +1,19 @@
+# round 96 P0 mechanism predictions (filed before any probe run; L1 KengakuR96)
+# member multi-source-data-merger; legs exists,merged,conflicts,reward
+C01 solve predicted=P,P,P,1 :: positive control: the captured solve.sh run unmodified in the image-equivalent environment (python 3.11, pandas 2.2.3, pyarrow 17.0.0) writes both files
+C02 absent predicted=F,E:FileNotFoundError,E:FileNotFoundError,0 :: do-nothing: /app empty; the existence test asserts, the two value tests open a missing file
+C03 parquet-only predicted=F,P,E:FileNotFoundError,0 :: solve run, then conflicts.json removed: the parquet test is independent of the report
+C04 under-report predicted=P,P,P,1 :: the report keeps only the name conflict of user 101 (total 1): the email check is guarded by `if email_conflicts:` and nothing counts the conflicts, so an under-reporting report passes
+C05 wrong-selected predicted=P,P,F,0 :: solve's report with the email conflict's selected value set to the source_b value: the guarded email check runs and fails
+C06 rows-unchecked predicted=P,P,P,1 :: merged rows of users 102 and 103 carry wrong name and email and the status column is dropped: only users 101 and 104 are content-checked
+C07 float-id predicted=P,P,P,1 :: user_id cast to float64: {101.0,...} == {101,...} and df['user_id'] == 101 still select, so the integer-type requirement is unchecked
+C08 string-id predicted=P,F,P,0 :: user_id cast to str: the set comparison with ints fails
+C09 datetime-date predicted=P,F,P,0 :: created_date stored as datetime64: a Timestamp does not equal the string '2024-01-15'
+C10 slash-date predicted=P,F,P,0 :: created_date as YYYY/MM/DD strings: the exact string comparison fails
+C11 total-mismatch predicted=P,P,F,0 :: total_conflicts 2 while the list holds 3: the length check fails
+C12 missing-source-a-key predicted=P,P,E:KeyError,0 :: the email conflict's values dict lacks source_a: the grader indexes it and raises KeyError (an error, not an assertion)
+C13 wrong-priority predicted=P,F,P,0 :: user 101 row taken from source_b (john@b.com, 2024-01-10): the user-101 checks fail
+C14 string-userid-conflicts predicted=P,P,F,0 :: conflict user_id serialised as the string '101': no conflict matches the int 101
+C15 duplicate-row predicted=P,F,P,0 :: merged parquet holds user 101 twice (5 rows): the row-count check fails
+C16 csv-as-parquet predicted=P,E:ArrowInvalid,P,0 :: merged_users.parquet holds CSV bytes: pyarrow refuses the file (no parquet magic) with ArrowInvalid
+C17 empty-conflicts predicted=P,P,F,0 :: report with total_conflicts 0 and an empty list: the >= 1 check fails

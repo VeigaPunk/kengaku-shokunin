@@ -1,0 +1,114 @@
+{
+ "member": "multi-source-data-merger",
+ "leg_order": [
+  "exists",
+  "merged",
+  "conflicts",
+  "reward"
+ ],
+ "reward_rule": "reward 1 iff the three test functions return (tests/test.sh runs only /tests/test_outputs.py and writes 1 on pytest rc 0)",
+ "cases": [
+  {
+   "id": "C01",
+   "app": "solve",
+   "predicted": "P,P,P,1",
+   "why": "positive control: the captured solve.sh run unmodified in the image-equivalent environment (python 3.11, pandas 2.2.3, pyarrow 17.0.0) writes both files"
+  },
+  {
+   "id": "C02",
+   "app": "absent",
+   "predicted": "F,E:FileNotFoundError,E:FileNotFoundError,0",
+   "why": "do-nothing: /app empty; the existence test asserts, the two value tests open a missing file"
+  },
+  {
+   "id": "C03",
+   "app": "parquet-only",
+   "predicted": "F,P,E:FileNotFoundError,0",
+   "why": "solve run, then conflicts.json removed: the parquet test is independent of the report"
+  },
+  {
+   "id": "C04",
+   "app": "under-report",
+   "predicted": "P,P,P,1",
+   "why": "the report keeps only the name conflict of user 101 (total 1): the email check is guarded by `if email_conflicts:` and nothing counts the conflicts, so an under-reporting report passes"
+  },
+  {
+   "id": "C05",
+   "app": "wrong-selected",
+   "predicted": "P,P,F,0",
+   "why": "solve's report with the email conflict's selected value set to the source_b value: the guarded email check runs and fails"
+  },
+  {
+   "id": "C06",
+   "app": "rows-unchecked",
+   "predicted": "P,P,P,1",
+   "why": "merged rows of users 102 and 103 carry wrong name and email and the status column is dropped: only users 101 and 104 are content-checked"
+  },
+  {
+   "id": "C07",
+   "app": "float-id",
+   "predicted": "P,P,P,1",
+   "why": "user_id cast to float64: {101.0,...} == {101,...} and df['user_id'] == 101 still select, so the integer-type requirement is unchecked"
+  },
+  {
+   "id": "C08",
+   "app": "string-id",
+   "predicted": "P,F,P,0",
+   "why": "user_id cast to str: the set comparison with ints fails"
+  },
+  {
+   "id": "C09",
+   "app": "datetime-date",
+   "predicted": "P,F,P,0",
+   "why": "created_date stored as datetime64: a Timestamp does not equal the string '2024-01-15'"
+  },
+  {
+   "id": "C10",
+   "app": "slash-date",
+   "predicted": "P,F,P,0",
+   "why": "created_date as YYYY/MM/DD strings: the exact string comparison fails"
+  },
+  {
+   "id": "C11",
+   "app": "total-mismatch",
+   "predicted": "P,P,F,0",
+   "why": "total_conflicts 2 while the list holds 3: the length check fails"
+  },
+  {
+   "id": "C12",
+   "app": "missing-source-a-key",
+   "predicted": "P,P,E:KeyError,0",
+   "why": "the email conflict's values dict lacks source_a: the grader indexes it and raises KeyError (an error, not an assertion)"
+  },
+  {
+   "id": "C13",
+   "app": "wrong-priority",
+   "predicted": "P,F,P,0",
+   "why": "user 101 row taken from source_b (john@b.com, 2024-01-10): the user-101 checks fail"
+  },
+  {
+   "id": "C14",
+   "app": "string-userid-conflicts",
+   "predicted": "P,P,F,0",
+   "why": "conflict user_id serialised as the string '101': no conflict matches the int 101"
+  },
+  {
+   "id": "C15",
+   "app": "duplicate-row",
+   "predicted": "P,F,P,0",
+   "why": "merged parquet holds user 101 twice (5 rows): the row-count check fails"
+  },
+  {
+   "id": "C16",
+   "app": "csv-as-parquet",
+   "predicted": "P,E:ArrowInvalid,P,0",
+   "why": "merged_users.parquet holds CSV bytes: pyarrow refuses the file (no parquet magic) with ArrowInvalid"
+  },
+  {
+   "id": "C17",
+   "app": "empty-conflicts",
+   "predicted": "P,P,F,0",
+   "why": "report with total_conflicts 0 and an empty list: the >= 1 check fails"
+  }
+ ]
+}
