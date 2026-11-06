@@ -1,0 +1,37 @@
+{
+ "id": "T30",
+ "kind": "tree",
+ "expect": "K7",
+ "desc": "no freeze commit at all (claims file absent)",
+ "rc": 1,
+ "predicate": "fail",
+ "legs": {
+  "K1": "fail",
+  "K2": "pass",
+  "K3": "pass",
+  "K4": "pass",
+  "K5": "pass",
+  "K6": "pass",
+  "K7": "fail",
+  "K8": "pass",
+  "K9": "fail",
+  "K10": "fail"
+ },
+ "defects": [
+  "DEFECT K7 no freeze commit: census reference falls back to BASE",
+  "DEFECT K1 gate_equal=True self=unfrozen",
+  "DEFECT K7 outside rows moved=S295",
+  "DEFECT K9 receipt_frozen=False bad=- extra=-",
+  "DEFECT K10 freeze=absent outside_table=['<no-freeze>'] own_unbound=['corpus/evidence/round52/PROVENANCE.md', 'corpus/evidence/round58/PROVENANCE.md', 'corpus/evidence/round94/PROVENANCE.md']"
+ ],
+ "rev": "82179b8435fff20250c2239d33eec64f235182ec",
+ "fcommit": "f8ca8a1b318fcc449edbdabb111113a81101f908",
+ "tree_rev": "acc6b5404d6b1279788d1559be14082645877f12",
+ "counter_sha": "e0eec212059b415fc4889c4e0e53bdd76b81736fcaf3275472ef017e46278bcc",
+ "new_prov": [
+  "corpus/evidence/round52/PROVENANCE.md",
+  "corpus/evidence/round58/PROVENANCE.md",
+  "corpus/evidence/round94/PROVENANCE.md"
+ ],
+ "out": "REV 82179b8435fff20250c2239d33eec64f235182ec\nREF 7846037679de77d050141c785996471801e5a19a\nRECLASS DEFECT S300 anchor token=fa53d657 class=abbrev-unresolved detail=no-digest-of-the-capture-this-row-names-starts-with-this-prefix capture=corpus/evidence/round94/graders/write-compressor/solution/solve.sh\nGATE defects base=33 ref=33 rev=23\nLEGS K1=fail K2=pass K3=pass K4=pass K5=pass K6=pass K7=fail K8=pass K9=fail K10=fail\nTARGET pop=9 cleared=9 still=0 outside_rows=324 outside_removed=1 outside_added=0 outside_rebound=1 base_rows=333 base_rows_not_equal=0 new_provenance_files=3 url_channel_files=0 not_three_cells=0 ids_not_in_pop=0 live_rows=9 rows_changed=0 captures_changed=0\nDEFECT K7 no freeze commit: census reference falls back to BASE\nDEFECT K1 gate_equal=True self=unfrozen\nDEFECT K7 outside rows moved=S295\nDEFECT K9 receipt_frozen=False bad=- extra=-\nDEFECT K10 freeze=absent outside_table=['<no-freeze>'] own_unbound=['corpus/evidence/round52/PROVENANCE.md', 'corpus/evidence/round58/PROVENANCE.md', 'corpus/evidence/round94/PROVENANCE.md']\nPREDICATE R100-C2 fail\n"
+}

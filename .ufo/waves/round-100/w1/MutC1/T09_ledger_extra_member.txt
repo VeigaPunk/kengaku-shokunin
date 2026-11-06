@@ -1,0 +1,21 @@
+# mutant T09_ledger_extra_member (tree)
+FREEZE 5b3184ceb3b585afb7a7a5df8f25479e60e43c7c
+REV 036a529e65c895a688b31149515d195b60961786
+TREE-DIFF F..rev: 7 paths
+  SKILL.md
+  corpus/SOURCES.md
+  corpus/evidence/round100/fdp-probe.txt
+  corpus/evidence/round52/PROVENANCE.md
+  corpus/evidence/round58/PROVENANCE.md
+  corpus/evidence/round94/PROVENANCE.md
+  plans/grader-population-ledger.json
+INSTR none
+DEFECT-PRESENT no
+EXPECT L7
+RC 1
+
+REV 036a529e65c895a688b31149515d195b60961786
+LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=fail L8=pass L9=pass L10=pass L11=pass L12=pass L13=pass
+TARGET executed_rows=45 member=financial-document-processor cells=crypto-credential:6,file-artifact:36 set_equals_base_plus_member=0 located=1 executed=0 cases=15 legs=120 mismatches=0 new_rows=8 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=1
+DEFECT L7 ledger member=executed round=100 executed_total=45 cells={'crypto-credential': 6, 'file-artifact': 36} legacy_fields=True set_added=['financial-document-processor', 'winning-avg-corewars'] set_removed=[]
+PREDICATE R100-C1 fail

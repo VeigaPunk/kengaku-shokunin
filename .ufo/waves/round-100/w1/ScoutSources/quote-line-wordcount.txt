@@ -1,0 +1,51 @@
+# quote / cited-line / word-count check for S342-S349 (live bytes and committed capture)
+# word count = len(quote.split()); declared = the "(N words)" cell of the SOURCES row
+
+S342 cite=tests/test_outputs.py:66 quote='assert actual_file_hashes == expected_original_documents, ('
+   declared_words=5 len(quote.split())=5 equal=True
+   live_line='assert actual_file_hashes == expected_original_documents, ('
+   quote_in_live_line=True quote_in_capture_line=True
+   capture_sha256=978f506ad5c1bfaf28f9bc774dfe4347d33d046ca009b8496eb513956b7f5a9a equals_row_sha256=True
+
+S343 cite=tests/test.sh:22 quote='-w pytest-json-ctrf==0.3.5'
+   declared_words=2 len(quote.split())=2 equal=True
+   live_line='-w pytest-json-ctrf==0.3.5 \\'
+   quote_in_live_line=True quote_in_capture_line=True
+   capture_sha256=48abbda713ace5cee00dd28c7398959f28280062350eb88206a6697a28c72790 equals_row_sha256=True
+
+S344 cite=solution/solve.sh:62 quote="text = pytesseract.image_to_string(image, config='--psm 6')"
+   declared_words=5 len(quote.split())=5 equal=True
+   live_line="text = pytesseract.image_to_string(image, config='--psm 6')"
+   quote_in_live_line=True quote_in_capture_line=True
+   capture_sha256=90861b79c4bd7733909616ffa058151847eb67a4d43395a964c449cf7e24c4fb equals_row_sha256=True
+
+S345 cite=instruction.md:12 quote="add a final row with the filename 'total'"
+   declared_words=8 len(quote.split())=8 equal=True
+   live_line="- In the summary.csv file, add a final row with the filename 'total' and the calculated total of total_amount and vat_amount columns from the individual invoices."
+   quote_in_live_line=True quote_in_capture_line=True
+   capture_sha256=b21cf2af1891922732327bf586d14b250d36d96de7867479c15bd1c58ef0db58 equals_row_sha256=True
+
+S346 cite=environment/Dockerfile:14 quote='RUN uv run /root/randomize_filenames.py'
+   declared_words=4 len(quote.split())=4 equal=True
+   live_line='RUN uv run /root/randomize_filenames.py'
+   quote_in_live_line=True quote_in_capture_line=True
+   capture_sha256=2ea485aead008998d7a551e8c80b6bd354a74cbffc310a1f4b88d0b7c53d23ff equals_row_sha256=True
+
+S347 cite=environment/randomize_filenames.py:14 quote='random_base = secrets.token_urlsafe(9)'
+   declared_words=3 len(quote.split())=3 equal=True
+   live_line='random_base = secrets.token_urlsafe(9)  # ~12 chars after base64 encoding'
+   quote_in_live_line=True quote_in_capture_line=True
+   capture_sha256=09828ee53e8f2165a9888c5de84e40fcb057bb889d93bfc90d9aeca8c4e23be4 equals_row_sha256=True
+
+S348 cite=task.toml:29 quote='docker_image = "alexgshaw/financial-document-processor:20251031"'
+   declared_words=3 len(quote.split())=3 equal=True
+   live_line='docker_image = "alexgshaw/financial-document-processor:20251031"'
+   quote_in_live_line=True quote_in_capture_line=True
+   capture_sha256=163ee252895c05d36ca37137dba4d6c24b46be28d56ce84ef8bb35bb5b894bda equals_row_sha256=True
+
+S349 cite=README.md:40 quote='Correct summation in the final "total" row'
+   declared_words=7 len(quote.split())=7 equal=True
+   live_line='6. Correct summation in the final "total" row'
+   quote_in_live_line=True quote_in_capture_line=True
+   capture_sha256=32438e7780d235dd609f4740e36512c4cd2f34ef26842ea52c5bbde46fcf5e86 equals_row_sha256=True
+

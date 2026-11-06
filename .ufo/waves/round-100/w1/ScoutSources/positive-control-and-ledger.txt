@@ -1,0 +1,20 @@
+# ScoutSources positive-control verification (independent of the counters)
+# committed placement.tsv + summary.csv of one offline run of the maintainer OCR solution
+
+sha256sum -c tb2-financial-document-processor/SHA256SUMS -> rc=0 (./test.sh: OK)
+sha256sum -c fdp-solution/SHA256SUMS -> rc=0 (./summary.csv: OK)
+
+placement.tsv rows=17  invoices=10 other=7
+placement sha256 vs captured document bytes: mismatches=[]
+
+summary.csv rows=11 (10 invoice + 1 total); grader expected_data entries=10
+summary vs grader expected_data mismatches=[]
+grader total=(81315.20, 5402.48)  summary total=(81315.2, 5402.48)
+sum of the 10 summary invoice total_amount = 81315.2
+
+ledger BASE: executed=43 of 88  crypto-credential=4/12  file-artifact=34/76
+ledger T: executed=44 of 88  crypto-credential=5/12  file-artifact=35/76
+ledger changed members=['financial-document-processor']; executed set at T == BASE set + {financial-document-processor} -> True
+
+SOURCES BASE rows=333  T rows=341  added=['S342', 'S343', 'S344', 'S345', 'S346', 'S347', 'S348', 'S349']  removed=[]
+rows common to BASE and T whose text changed: []

@@ -1,0 +1,23 @@
+# mutant T20_table_stray_key (tree)
+FREEZE c2e0dd1345fdffb379fd6e245e594916c7711d03
+REV 0d9499b3af970b4a1b33d10d48e9fda8bf87f38e
+TREE-DIFF F..rev: 7 paths
+  SKILL.md
+  corpus/SOURCES.md
+  corpus/evidence/round100/fdp-probe.txt
+  corpus/evidence/round52/PROVENANCE.md
+  corpus/evidence/round58/PROVENANCE.md
+  corpus/evidence/round94/PROVENANCE.md
+  plans/grader-population-ledger.json
+INSTR plans/round100-cases.json=changed
+DEFECT-PRESENT yes
+EXPECT L4
+RC 1
+
+REV 0d9499b3af970b4a1b33d10d48e9fda8bf87f38e
+LEGS L1=pass L2=pass L3=pass L4=fail L5=pass L6=fail L7=pass L8=pass L9=fail L10=pass L11=pass L12=pass L13=pass
+TARGET executed_rows=44 member=financial-document-processor cells=crypto-credential:5,file-artifact:35 set_equals_base_plus_member=1 located=1 executed=0 cases=15 legs=120 mismatches=0 new_rows=8 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=3
+DEFECT L4 case table 061b5bd42092 vs frozen 286d1772ff9e
+DEFECT L6 rerun rc=0 obs=30 want=30 equal=True stamps_equal=False
+DEFECT L9 stamps tool=b255a4287b02 table=286d1772ff9e bash=GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+PREDICATE R100-C1 fail

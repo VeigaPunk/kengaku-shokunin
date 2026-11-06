@@ -1,0 +1,22 @@
+# mutant T07_receipt_flip_case (tree)
+FREEZE 92cedfc3e7be36f1f0d26365ef671e70c6c2d137
+REV 337b4eefc8f6cd1cdb3313a1803a839e6c44b5ca
+TREE-DIFF F..rev: 7 paths
+  SKILL.md
+  corpus/SOURCES.md
+  corpus/evidence/round100/fdp-probe.txt
+  corpus/evidence/round52/PROVENANCE.md
+  corpus/evidence/round58/PROVENANCE.md
+  corpus/evidence/round94/PROVENANCE.md
+  plans/grader-population-ledger.json
+INSTR none
+DEFECT-PRESENT no
+EXPECT L5/L6
+RC 1
+
+REV 337b4eefc8f6cd1cdb3313a1803a839e6c44b5ca
+LEGS L1=pass L2=pass L3=pass L4=pass L5=fail L6=fail L7=pass L8=pass L9=pass L10=pass L11=pass L12=pass L13=pass
+TARGET executed_rows=44 member=financial-document-processor cells=crypto-credential:5,file-artifact:35 set_equals_base_plus_member=1 located=1 executed=0 cases=15 legs=120 mismatches=1 new_rows=8 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=2
+DEFECT L5 case C01 predicted=P,P,P,P,P,P,P,1 observed=F,P,P,P,P,P,P,1 frozen=P,P,P,P,P,P,P,1
+DEFECT L6 rerun rc=0 obs=30 want=30 equal=False stamps_equal=True
+PREDICATE R100-C1 fail

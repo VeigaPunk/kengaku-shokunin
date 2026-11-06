@@ -4595,3 +4595,61 @@ as executor ExecKS). All 12 settled and no seat died (`.ufo/waves/round-99/w1-re
 3. Carried: L0 `kengaku | round-98` coverage-cap ruling, L0 `kengaku | round-54` hold, ledger class note
    (bn-fit-modify's numeric-band test vs its `file-artifact`-only class), S225 pointer label (SS-11), and
    the r98-C1 revision-scoped L7 design note.
+
+## Round 100 (hyaku run 15, attempt 1, 2026-11-06): eighteenth located member replay `financial-document-processor` (R100-C1) and 9 wrongly bound TB2 rows re-bound to the very files their URLs name, re-fetched live, under a row-level census (R100-C2)
+
+BASE `7846037679de77d050141c785996471801e5a19a`; P0 `fb0f125c`; P1 `4df35de8`; P1b `934b984a` and P1c
+`f07c026e` (amendments 1/1b, before any freeze); P2 `5220b71d`; freeze F
+`54df15ca1f9b689b25c6ffc3b2fccd1253bdd6c2`; C = measured T `dbe0cefa607cf57f7f58346fce64bcc127144ca0`;
+receipts `d8ed39bd`. Lesson `corpus/lessons/round-100.md`; frozen contract `plans/round-100-claims.md`. All
+16 frozen-instrument and 6 candidate-byte sha256 match at T (`.ufo/waves/round-100/L1/freeze-tip.txt`);
+`git diff --name-status F T` is exactly the candidate files plus the receipt. No dated correction after T.
+
+| claim / axis | before → after measured at T | counting command | verdict / score delta |
+|---|---|---|---|
+| R100-C1 / **coverage** (lowest non-retired axis; L0 cap 7) | BASE: `PREDICATE R100-C1 fail` rc 1 (`L1/c1-base.txt`), ledger executed 43 of 88, `crypto-credential` 4/12, `file-artifact` 34/76. T: `REV dbe0cefa…`, `LEGS L1..L13=pass`, `TARGET executed_rows=44 member=financial-document-processor cells=crypto-credential:5,file-artifact:35 set_equals_base_plus_member=1 located=1 executed=1 cases=15 legs=120 mismatches=0 new_rows=8 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=0`, `PREDICATE R100-C1 pass`, rc 0 (`L1/c1-tip.txt`) | `python3 plans/round100_c1_replay.py --lane . --rev REV --work DIR --grader-venv G` (G = `uv venv -p 3.13` + pytest 8.4.1, pandas 2.3.2, pytest-json-ctrf 0.3.5; numpy 2.5.4 resolved) | **met** on the frozen predicate at T. Score 7 → 7, held at the L0 cap. New surface: the first `crypto-credential` member graded through content digests of agent-moved files (sha512 sets), with an OCR positive control; the class leaves the three-way minimum (Q86) |
+| R100-C2 / **freshness** (held at ceiling 10, exercised) | BASE: `TARGET pop=9 cleared=0 still=9 …`, `PREDICATE R100-C2 fail` rc 1 (`L1/c2-base.txt`). T: `REF 5220b71d…` (= F~1), `GATE defects base=33 ref=32 rev=23`, `LEGS K1..K10=pass`, `TARGET pop=9 cleared=9 still=0 outside_rows=324 outside_removed=0 outside_added=0 outside_rebound=0 base_rows=333 base_rows_not_equal=0 new_provenance_files=3 url_channel_files=0 not_three_cells=0 ids_not_in_pop=0 live_rows=9 rows_changed=0 captures_changed=0`, `PREDICATE R100-C2 pass`, rc 0 (`L1/c2-tip.txt`) | `python3 plans/round100_c2_rowcensus_bind.py --lane . --rev REV --work DIR` | **met** on the frozen predicate at T: 9 findings cleared (32 → 23 from REF), every one of the 9 upstream files re-fetched live and still equal to its row digest, all 333 BASE rows byte-equal (row-level census, round-99 F6/M17 closed). Score 10 → 10, held at the ceiling |
+
+Controls of record (P2, two agreeing runs each, 32 controls, `.ufo/waves/round-100/L1/controls/README.md`):
+- C1: do-nothing, c2only, extra-member, forged-receipt, receipt-identity (L3 only), counter-edit,
+  extra-file (L12 only), skill-cell (L12 only), extra-row (L10, L12), typed-words (L12, L13) fail; positive
+  and both pass.
+- C2: do-nothing, c1only, partial, url-channel, duplicate-line, sha-column, fabricated-id, fourth-cell,
+  outside-rebind, outside-row-delete (K8 only), row-edit, gate-edit, capture-edit, c2counter-edit,
+  live-forged, c2-extra-file fail; positive and both pass.
+- Every forgery asserted a non-empty tree diff from its positive (Q85). The pre-freeze standing-gate check
+  on the candidate tree is clean (Q87). Two dry batteries before the freeze (P1a, P1b) exposed M2–M4 and
+  are archived, not of record.
+
+**Other axis scores.** novelty 8, depth 10, operability 10, calibration 10, adjacency 9 — all held; no
+claim was made on them.
+
+**Harm.** L1 battery BASE vs T (`.ufo/waves/round-100/L1/harm/README.md`): every rc unchanged (23/23);
+finding-set deltas are the C2 clears (+ S295 by C1's capture, + S300's reclass) and the per-member count
+drift of r77c1/r78c1/r81c1/r82c3 (red at BASE, rounds 97–99 precedent). The historical frozen-instruments
+union (considerthese 2026-11-06 proposal 1) is 0/99 different at T.
+
+**Sources.** S342–S347 admitted (tier A); S348 rejected (A) and S349 rejected (B). Registry 333 → 341 rows.
+Census rc 0 at start and at end. **Assimilation:** none (L0 `kengaku | round-54` hold).
+**considerthese:** `2026-11-06.md` §1 proposal 1 → measured (lesson §Gate), not yet a standing gate.
+
+### Round 100 — wave w1 outcome (appended after WAVE-DONE; the rows above stay as filed)
+
+One v1 wave of 12 seats (4 executor, 2 reviewer, 1 critic, 2 mutation-tester, 1 scout, 1 connector,
+1 scribe; 5/12 attack). 11 settled with reports; **ScribeLesson died** (no report after 2 h 13 min,
+cancelled by the orchestrator; not evidence). Both claims were independently reproduced at T (C1: ExecC1,
+ReviewC1, ScoutSources, ExecHarm; C2: ExecC2, ReviewC2, ScoutSources, ExecHarm). ExecOCR falsified the
+OCR-version sensitivity of the positive control (5.5.3 and the pinned 5.3.4 give byte-identical
+placement and summary). Routed (not repaired): CriticClaims F1 (receipt run identity is self-reported),
+F2 (C2 alone does not bind C1-owned files), F3 (K9 checks a receipt, not liveness); MutC1 19/47 survivors
+and its F1 (TARGET printed, not asserted); MutC2 T21 (a duplicated same-id SOURCES row is invisible to
+K8/K10/L10); ReviewC2 minors.
+
+### Planned (next steered round, if any; round 100 is the campaign target)
+
+1. C1 member `build-cython-ext` (subprocess-exec; ConnectorOverlap r100 (c)); shell-exec has no feasible
+   member offline.
+2. Counter successors: assert TARGET fields in-counter (MutC1 F1); count SOURCES rows by line, not id set
+   (MutC2 T21); C2 binds non-owned candidate files (Critic F2).
+3. Anchor backlog: 3 zero-byte cell edits (S213, S300 ×2) measured 23 → 20.
+4. Carried: L0 `kengaku | round-98` coverage-cap ruling, L0 `kengaku | round-54` hold.

@@ -1,0 +1,21 @@
+# mutant T21_counter_comment (tree)
+FREEZE a05b45387587beb36cbf018c21d278899d5693d2
+REV 5ab8754b18be5f382af4f20c84372c5174c090ad
+TREE-DIFF F..rev: 7 paths
+  SKILL.md
+  corpus/SOURCES.md
+  corpus/evidence/round100/fdp-probe.txt
+  corpus/evidence/round52/PROVENANCE.md
+  corpus/evidence/round58/PROVENANCE.md
+  corpus/evidence/round94/PROVENANCE.md
+  plans/grader-population-ledger.json
+INSTR plans/round100_c1_replay.py=changed
+DEFECT-PRESENT yes
+EXPECT L11
+RC 1
+
+REV 5ab8754b18be5f382af4f20c84372c5174c090ad
+LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=pass L11=fail L12=pass L13=pass
+TARGET executed_rows=44 member=financial-document-processor cells=crypto-credential:5,file-artifact:35 set_equals_base_plus_member=1 located=1 executed=0 cases=15 legs=120 mismatches=0 new_rows=8 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=1
+DEFECT L11 counter cc75e37a1331 vs frozen 96fdf22fa793
+PREDICATE R100-C1 fail

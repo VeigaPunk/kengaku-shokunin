@@ -3737,3 +3737,32 @@ revert of the R96-C2 repair bytes `3f300cbd` → integration. No tabled file cha
   - ConnectorOverlap planned round 100 (thinnest-class members, 9 more anchor rows clearable).
 - considerthese: `2026-11-06.md` §1 proposal 2 → QUALITY Q86. Assimilation: none (L0 `kengaku | round-54` hold).
 - Misroot sweep: fleet `git status --porcelain` shows only the orchestrator's `.scratch/run15-kernel.py` and `.scratch/run15-state.json`, plus the unattributed `w4lines.txt` that predates this round. Nothing at the fleet root was written by this round's seats.
+
+## Round 100 — financial-document-processor grader replay; 9 wrongly bound TB2 rows re-bound to their URLs' own files, re-fetched live, under a row-level census
+
+- Order and landed changes:
+  - P0 `fb0f125cb272be31143a0bc57685b093b356b984`: flat capture of the 25 financial-document-processor blobs (17 documents under `documents/`, git blob ids equal to the pin tree); maintainer OCR solution fixture (one offline run, host tesseract 5.5.3); mechanism predictions; census start.
+  - P1 `4df35de800425ca1dbe66681368f372361b891fe`: probe, 15-case table, C1 replay counter (L1–L13), C2 row-census bind counter (K1–K10), provenance builder, pre-freeze standing-gate check; C2 BASE population (9) and live re-fetch (9/9 equal); dry runs 1–2 (15/15, observations equal); pre-freeze check able-to-fail receipts; candidate bytes.
+  - P1b `934b984a1d200e61aad84f67cacd7293f394ed9a` and P1c `f07c026ec1b1ac47bb925ffdc70afcf5a8c782d8`: amendments 1/1b before any freeze (C2 censuses from REF = F~1; K5 token-set rule; S343 quote visible to the line gate); dry batteries archived.
+  - P2 `5220b71d337a3703eaba4cdf6b85eaf343497ae0`: 32 controls, two agreeing runs each (Q80), every forgery tree-diff asserted (Q85); pre-freeze check clean on the candidate tree (Q87).
+  - F `54df15ca1f9b689b25c6ffc3b2fccd1253bdd6c2`: frozen claims.
+  - C = T `dbe0cefa607cf57f7f58346fce64bcc127144ca0`: candidate bytes and the official probe receipt.
+  - Receipts `d8ed39bd`; integration `e40b332a`; harm battery `cd0705f6`.
+- R100-C1 coverage:
+  - Command: `python3 plans/round100_c1_replay.py --lane . --rev REV --work DIR --grader-venv G`.
+  - BASE: fail, rc 1. T: `LEGS L1..L13=pass`, `TARGET executed_rows=44 member=financial-document-processor cells=crypto-credential:5,file-artifact:35 … cases=15 legs=120 mismatches=0 new_rows=8 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=0`, `PREDICATE R100-C1 pass`, rc 0 (`.ufo/waves/round-100/L1/c1-tip.txt`).
+  - Gaps located: eleven `total` rows pass (C03); ten copies of one invoice row pass (C04); copies kept in a subdirectory of `/app/documents` pass (C07); a duplicate invoice copy passes (C08). The 0.01 band is strict (C11/C12); header order and a BOM fail the structure test but not the content test (C14/C15).
+- R100-C2 freshness:
+  - Command: `python3 plans/round100_c2_rowcensus_bind.py --lane . --rev REV --work DIR`.
+  - BASE: `still=9`, fail, rc 1. T: `REF 5220b71d…`, `pop=9 cleared=9 still=0 outside_rows=324 outside_removed=0 outside_added=0 outside_rebound=0 base_rows=333 base_rows_not_equal=0 … live_rows=9`, pass, rc 0 (`L1/c2-tip.txt`).
+  - Anchor-digest gate: 33 (BASE) / 32 (REF) → 23 findings. Every population upstream file re-fetched live 2026-11-06 12:11 -03 and equal to its row digest (`L1/c2-live-refetch.txt`).
+- Sources/knowledge:
+  - S342–S347 mined (tier A); S348 and S349 rejected with flips. Registry 333 → 341; census rc 0 at start and end (32 W04; the new one is S342's cross-scope duplicate URL).
+  - New `corpus/knowledge/tb2-financial-document-processor-grader.md` and coverage-map rows in `corpus/README.md`.
+  - QUALITY Q87 (pre-freeze standing-gate set diff), Q88 (census reference F~1), Q89 (new quotes visible to the line gate).
+  - Mistakes M1–M4 in `corpus/lessons/round-100.md`.
+- Harm (`.ufo/waves/round-100/L1/harm/`): 23 standing checks BASE vs T, every rc unchanged; finding-set deltas are the C2 clears and per-member count drift red at BASE. Historical frozen-instruments union: 0 of 99 rows differ at T.
+- Tooling: none installed. Scratch uv venvs (python 3.13.16; pytest 8.4.1, pandas 2.3.2, pytest-json-ctrf 0.3.5, numpy 2.5.4; and the solve.sh PEP 723 pins for the one OCR run) under `/fast/scratch/hyaku/kengaku-r100/`; host tesseract 5.5.3 (preinstalled).
+- considerthese: `2026-11-06.md` §1 proposal 1 measured (8 tables, 99 rows, 0 differ at T). Assimilation: none (L0 `kengaku | round-54` hold).
+- Wave: one v1 wave w1, 12 seats (4 executor, 2 reviewer, 1 critic, 2 mutation-tester, 1 scout, 1 connector, 1 scribe; 5/12 attack). 11 settled; ScribeLesson dead (cancelled after 2 h 13 min without a report). Both claims independently reproduced; ExecOCR showed the positive control is identical under the pinned tesseract 5.3.4; MutC1 27/47 and MutC2 44/63 killed, survivors and CriticClaims F1–F3 routed (`corpus/lessons/round-100.md` §Wave findings).
+- Misroot sweep: fleet `git status --porcelain` shows the orchestrator's `.scratch/` files and two untracked files not written by this round (`w4lines.txt`, 2026-11-05; `versions.html`, 12:35, a Read-the-Docs 404 page naming no lane). Nothing moved.

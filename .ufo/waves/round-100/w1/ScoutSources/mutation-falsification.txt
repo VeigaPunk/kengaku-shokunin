@@ -1,0 +1,67 @@
+# ScoutSources independent falsification of the two frozen counters (scratch clone only, never the lane)
+# every mutation was committed in /fast/scratch/hyaku/kengaku-r100/ScoutSources/clone (branch scout/falsify)
+# and the counter was re-run at the mutated commit; the lane was never written to.
+
+M1  C1  tamper S342's anchor digest in corpus/SOURCES.md (978f506a... -> a78f506a...)
+    commit 4f8fb1adbc1bf8fb204b59ebf9ab945a6c52463d
+    REV 4f8fb1adbc1bf8fb204b59ebf9ab945a6c52463d
+    LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=pass L11=pass L12=fail L13=pass
+    TARGET ... new_rows=8 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=1
+    DEFECT L12 freeze=yes outside_table=- own_unbound=['corpus/SOURCES.md']
+    PREDICATE R100-C1 fail
+    -> L12 (candidate-byte equality of the owned SOURCES file) is falsifiable by a single digest nibble.
+
+M2  C1  change S349's cited line 40 -> 41 in corpus/SOURCES.md
+    commit 4b24b56596634e065cf2910ba30319c1afc61b5f
+    REV 4b24b56596634e065cf2910ba30319c1afc61b5f
+    LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=pass L11=pass L12=fail L13=fail
+    TARGET ... new_rows=8 new_rows_flagged=0 new_rows_line_live=1 changed_outside_table=0 defects=2
+    DEFECT L12 freeze=yes outside_table=- own_unbound=['corpus/SOURCES.md']
+    DEFECT L13 new rows live in the line gate=S349
+    PREDICATE R100-C1 fail
+    -> L13 (line gate on the new rows) is falsifiable by moving one cited line.
+
+M5  C1  add a 9th new SOURCES row S350 (same URL, mined) to corpus/SOURCES.md
+    commit 93cc76456d39e072e2101175d5f0152f6f652ca3
+    REV 93cc76456d39e072e2101175d5f0152f6f652ca3
+    LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=pass L9=pass L10=fail L11=pass L12=fail L13=pass
+    TARGET ... new_rows=9 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=2
+    DEFECT L10 new SOURCES rows=9 want=8 gate-flagged=-
+    DEFECT L12 freeze=yes outside_table=- own_unbound=['corpus/SOURCES.md']
+    PREDICATE R100-C1 fail
+    -> L10 (exact new-row count = 8) is falsifiable by one extra row.
+    (census on that mutated file: W03 "S350 mined but unused", rc 0 - the census alone does NOT catch it; L10 does.)
+
+M3  C2  add a 4th cell to the S210 row of corpus/evidence/round52/PROVENANCE.md
+    commit 3d2319c37c1ae50f625288cf9ee3879aa216a86f
+    REV 3d2319c37c1ae50f625288cf9ee3879aa216a86f
+    LEGS K1=pass K2=pass K3=fail K4=pass K5=pass K6=pass K7=pass K8=pass K9=pass K10=fail
+    TARGET pop=9 cleared=9 still=0 ... not_three_cells=1 ids_not_in_pop=0 live_rows=9 rows_changed=0 captures_changed=0
+    DEFECT K3 new_provenance_with_url=- not_three_cells=['corpus/evidence/round52/PROVENANCE.md'] old_provenance_changed=-
+    DEFECT K10 freeze=yes outside_table=- own_unbound=['corpus/evidence/round52/PROVENANCE.md']
+    PREDICATE R100-C2 fail
+    -> K3 (exactly three cells) and K10 (F..rev file set) are falsifiable by one extra cell.
+
+M4  C2  delete the BASE row S001 from corpus/SOURCES.md (a row with no gate output)
+    commit b37baf9f3bf14918a64d778e160c847ccf7af3bd
+    REV b37baf9f3bf14918a64d778e160c847ccf7af3bd
+    LEGS K1=pass K2=pass K3=pass K4=pass K5=pass K6=pass K7=pass K8=fail K9=pass K10=pass
+    TARGET pop=9 cleared=9 still=0 outside_rows=324 outside_removed=0 outside_added=0 outside_rebound=0 base_rows=333 base_rows_not_equal=1 new_provenance_files=3 url_channel_files=0 not_three_cells=0 ids_not_in_pop=0 live_rows=9 rows_changed=0 captures_changed=0
+    DEFECT K8 base_rows_not_byte_equal=S001
+    PREDICATE R100-C2 fail
+    -> K8 (row-level census of all 333 BASE rows) is falsifiable by deleting one unrelated BASE row.
+
+Baseline (unmutated, at T):
+  C1: REV dbe0cefa607cf57f7f58346fce64bcc127144ca0
+      LEGS L1..L13 all pass
+      TARGET executed_rows=44 member=financial-document-processor cells=crypto-credential:5,file-artifact:35
+              set_equals_base_plus_member=1 located=1 executed=1 cases=15 legs=120 mismatches=0
+              new_rows=8 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=0
+      PREDICATE R100-C1 pass
+  C2: REV dbe0cefa607cf57f7f58346fce64bcc127144ca0  REF 5220b71d337a3703eaba4cdf6b85eaf343497ae0
+      GATE defects base=33 ref=32 rev=23
+      LEGS K1..K10 all pass
+      TARGET pop=9 cleared=9 still=0 outside_rows=324 outside_removed=0 outside_added=0 outside_rebound=0
+              base_rows=333 base_rows_not_equal=0 new_provenance_files=3 url_channel_files=0 not_three_cells=0
+              ids_not_in_pop=0 live_rows=9 rows_changed=0 captures_changed=0
+      PREDICATE R100-C2 pass

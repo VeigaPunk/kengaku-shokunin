@@ -1,0 +1,21 @@
+# mutant T19_probe_comment (tree)
+FREEZE 2149183060761a2ba9210cb61dfa95f3d665c0d0
+REV 7a389325b532d90d976a136199c485b9293dcfd2
+TREE-DIFF F..rev: 7 paths
+  SKILL.md
+  corpus/SOURCES.md
+  corpus/evidence/round100/fdp-probe.txt
+  corpus/evidence/round52/PROVENANCE.md
+  corpus/evidence/round58/PROVENANCE.md
+  corpus/evidence/round94/PROVENANCE.md
+  plans/grader-population-ledger.json
+INSTR plans/round100_fdp_probe.py=changed
+DEFECT-PRESENT yes
+EXPECT L8
+RC 1
+
+REV 7a389325b532d90d976a136199c485b9293dcfd2
+LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=pass L7=pass L8=fail L9=pass L10=pass L11=pass L12=pass L13=pass
+TARGET executed_rows=44 member=financial-document-processor cells=crypto-credential:5,file-artifact:35 set_equals_base_plus_member=1 located=1 executed=0 cases=15 legs=120 mismatches=0 new_rows=8 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=1
+DEFECT L8 probe 2e30593e73b1 vs frozen b255a4287b02
+PREDICATE R100-C1 fail

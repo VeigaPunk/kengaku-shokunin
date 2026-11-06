@@ -1,0 +1,25 @@
+# mutant T08_receipt_absent (tree)
+FREEZE 77f99358579dbaa5e3c7b324fe0802266cf81d1f
+REV 2dccfe117733158fc1d7443eb11ab90d0e60ab81
+TREE-DIFF F..rev: 6 paths
+  SKILL.md
+  corpus/SOURCES.md
+  corpus/evidence/round52/PROVENANCE.md
+  corpus/evidence/round58/PROVENANCE.md
+  corpus/evidence/round94/PROVENANCE.md
+  plans/grader-population-ledger.json
+INSTR none
+DEFECT-PRESENT yes
+EXPECT L1..
+RC 1
+
+REV 2dccfe117733158fc1d7443eb11ab90d0e60ab81
+LEGS L1=fail L2=fail L3=fail L4=pass L5=fail L6=fail L7=pass L8=pass L9=fail L10=pass L11=pass L12=pass L13=pass
+TARGET executed_rows=44 member=financial-document-processor cells=crypto-credential:5,file-artifact:35 set_equals_base_plus_member=1 located=1 executed=0 cases=15 legs=0 mismatches=0 new_rows=8 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=6
+DEFECT L1 receipt absent at revision: corpus/evidence/round100/fdp-probe.txt
+DEFECT L2 capture/receipt sha mismatch (cap=978f506ad5c1 receipt=absent)
+DEFECT L3 LANE_TIP absent is not the freeze commit 77f99358579dbaa5e3c7b324fe0802266cf81d1f
+DEFECT L5 case coverage 0 of 15
+DEFECT L6 rerun rc=0 obs=30 want=0 equal=False stamps_equal=False
+DEFECT L9 stamps tool=absent table=absent bash=None
+PREDICATE R100-C1 fail

@@ -1,0 +1,84 @@
+# ScoutSources live re-fetch of S342-S349 at their pinned URLs (2026-11-06)
+# curl 8.23.0, one GET per row, no cache-busting; body hashed in memory
+# capture = corpus/evidence/round100/tb2-financial-document-processor/ (flat, 8 files)
+
+S342 url=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/financial-document-processor/tests/test_outputs.py
+  live: http=200 bytes=10336 sha256=978f506ad5c1bfaf28f9bc774dfe4347d33d046ca009b8496eb513956b7f5a9a
+  row : http=200 bytes=10336 sha256=978f506ad5c1bfaf28f9bc774dfe4347d33d046ca009b8496eb513956b7f5a9a  fetched=2026-11-06
+  AGREE_live_vs_row = True
+  capture test_outputs.py: exists=True sha256=978f506ad5c1bfaf28f9bc774dfe4347d33d046ca009b8496eb513956b7f5a9a capture_sha256==row_sha256=True
+  cite tests/test_outputs.py:66  quote='assert actual_file_hashes == expected_original_documents, ('
+  words declared=5 len(quote.split())=5 match=True
+  quote_on_cited_line live=True capture=True
+  cited_line_live='assert actual_file_hashes == expected_original_documents, ('
+
+S343 url=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/financial-document-processor/tests/test.sh
+  live: http=200 bytes=629 sha256=48abbda713ace5cee00dd28c7398959f28280062350eb88206a6697a28c72790
+  row : http=200 bytes=629 sha256=48abbda713ace5cee00dd28c7398959f28280062350eb88206a6697a28c72790  fetched=2026-11-06
+  AGREE_live_vs_row = True
+  capture test.sh: exists=True sha256=48abbda713ace5cee00dd28c7398959f28280062350eb88206a6697a28c72790 capture_sha256==row_sha256=True
+  cite tests/test.sh:22  quote='-w pytest-json-ctrf==0.3.5'
+  words declared=2 len(quote.split())=2 match=True
+  quote_on_cited_line live=True capture=True
+  cited_line_live='-w pytest-json-ctrf==0.3.5 \\'
+
+S344 url=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/financial-document-processor/solution/solve.sh
+  live: http=200 bytes=11635 sha256=90861b79c4bd7733909616ffa058151847eb67a4d43395a964c449cf7e24c4fb
+  row : http=200 bytes=11635 sha256=90861b79c4bd7733909616ffa058151847eb67a4d43395a964c449cf7e24c4fb  fetched=2026-11-06
+  AGREE_live_vs_row = True
+  capture solve.sh: exists=True sha256=90861b79c4bd7733909616ffa058151847eb67a4d43395a964c449cf7e24c4fb capture_sha256==row_sha256=True
+  cite solution/solve.sh:62  quote="text = pytesseract.image_to_string(image, config='--psm 6')"
+  words declared=5 len(quote.split())=5 match=True
+  quote_on_cited_line live=True capture=True
+  cited_line_live="text = pytesseract.image_to_string(image, config='--psm 6')"
+
+S345 url=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/financial-document-processor/instruction.md
+  live: http=200 bytes=1055 sha256=b21cf2af1891922732327bf586d14b250d36d96de7867479c15bd1c58ef0db58
+  row : http=200 bytes=1055 sha256=b21cf2af1891922732327bf586d14b250d36d96de7867479c15bd1c58ef0db58  fetched=2026-11-06
+  AGREE_live_vs_row = True
+  capture instruction.md: exists=True sha256=b21cf2af1891922732327bf586d14b250d36d96de7867479c15bd1c58ef0db58 capture_sha256==row_sha256=True
+  cite instruction.md:12  quote="add a final row with the filename 'total'"
+  words declared=8 len(quote.split())=8 match=True
+  quote_on_cited_line live=True capture=True
+  cited_line_live="- In the summary.csv file, add a final row with the filename 'total' and the calculated total of total_amount and vat_am"
+
+S346 url=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/financial-document-processor/environment/Dockerfile
+  live: http=200 bytes=623 sha256=2ea485aead008998d7a551e8c80b6bd354a74cbffc310a1f4b88d0b7c53d23ff
+  row : http=200 bytes=623 sha256=2ea485aead008998d7a551e8c80b6bd354a74cbffc310a1f4b88d0b7c53d23ff  fetched=2026-11-06
+  AGREE_live_vs_row = True
+  capture Dockerfile: exists=True sha256=2ea485aead008998d7a551e8c80b6bd354a74cbffc310a1f4b88d0b7c53d23ff capture_sha256==row_sha256=True
+  cite environment/Dockerfile:14  quote='RUN uv run /root/randomize_filenames.py'
+  words declared=4 len(quote.split())=4 match=True
+  quote_on_cited_line live=True capture=True
+  cited_line_live='RUN uv run /root/randomize_filenames.py'
+
+S347 url=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/financial-document-processor/environment/randomize_filenames.py
+  live: http=200 bytes=1392 sha256=09828ee53e8f2165a9888c5de84e40fcb057bb889d93bfc90d9aeca8c4e23be4
+  row : http=200 bytes=1392 sha256=09828ee53e8f2165a9888c5de84e40fcb057bb889d93bfc90d9aeca8c4e23be4  fetched=2026-11-06
+  AGREE_live_vs_row = True
+  capture randomize_filenames.py: exists=True sha256=09828ee53e8f2165a9888c5de84e40fcb057bb889d93bfc90d9aeca8c4e23be4 capture_sha256==row_sha256=True
+  cite environment/randomize_filenames.py:14  quote='random_base = secrets.token_urlsafe(9)'
+  words declared=3 len(quote.split())=3 match=True
+  quote_on_cited_line live=True capture=True
+  cited_line_live='random_base = secrets.token_urlsafe(9)  # ~12 chars after base64 encoding'
+
+S348 url=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/financial-document-processor/task.toml
+  live: http=200 bytes=985 sha256=163ee252895c05d36ca37137dba4d6c24b46be28d56ce84ef8bb35bb5b894bda
+  row : http=200 bytes=985 sha256=163ee252895c05d36ca37137dba4d6c24b46be28d56ce84ef8bb35bb5b894bda  fetched=2026-11-06
+  AGREE_live_vs_row = True
+  capture task.toml: exists=True sha256=163ee252895c05d36ca37137dba4d6c24b46be28d56ce84ef8bb35bb5b894bda capture_sha256==row_sha256=True
+  cite task.toml:29  quote='docker_image = "alexgshaw/financial-document-processor:20251031"'
+  words declared=3 len(quote.split())=3 match=True
+  quote_on_cited_line live=True capture=True
+  cited_line_live='docker_image = "alexgshaw/financial-document-processor:20251031"'
+
+S349 url=https://raw.githubusercontent.com/harbor-framework/terminal-bench-2/2fd12b88aafdd04a52c298e3940bcb189f9766d6/financial-document-processor/README.md
+  live: http=200 bytes=1992 sha256=32438e7780d235dd609f4740e36512c4cd2f34ef26842ea52c5bbde46fcf5e86
+  row : http=200 bytes=1992 sha256=32438e7780d235dd609f4740e36512c4cd2f34ef26842ea52c5bbde46fcf5e86  fetched=2026-11-06
+  AGREE_live_vs_row = True
+  capture README.md: exists=True sha256=32438e7780d235dd609f4740e36512c4cd2f34ef26842ea52c5bbde46fcf5e86 capture_sha256==row_sha256=True
+  cite README.md:40  quote='Correct summation in the final "total" row'
+  words declared=7 len(quote.split())=7 match=True
+  quote_on_cited_line live=True capture=True
+  cited_line_live='6. Correct summation in the final "total" row'
+

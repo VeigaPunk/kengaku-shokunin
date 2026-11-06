@@ -1,0 +1,16 @@
+# CriticClaims round-100 independent reproduction (clone --shared at T, own venv)
+# T = dbe0cefa607cf57f7f58346fce64bcc127144ca0  F = 54df15ca1f9b689b25c6ffc3b2fccd1253bdd6c2
+uv venv -p 3.13 G && uv pip install --python G/bin/python pytest==8.4.1 pandas==2.3.2 pytest-json-ctrf==0.3.5
+cd lane   # detached at T
+python3 plans/round100_c1_replay.py --lane . --rev T --work ../w --grader-venv ../G
+python3 plans/round100_c2_rowcensus_bind.py --lane . --rev T --work ../w2
+python3 plans/round100_fdp_probe.py --lane . --work ../pr --grader-venv ../G
+python3 plans/round100_prefreeze_check.py --lane . --base 7846037679de77d050141c785996471801e5a19a --cand T --work ../pf
+python3 plans/anchor_digest_check.py --lane . ; python3 plans/anchor_line_check.py --lane .
+# fixtures (children of T, ephemeral clone): 8d506f10 added SOURCES row; d4642992 SKILL cell 5->4;
+# 6659dc1e probe output at T with LANE_TIP=T
+python3 plans/round100_c2_rowcensus_bind.py --lane . --rev 8d506f10 --work ../w3
+python3 plans/round100_c1_replay.py --lane . --rev 8d506f10 --work ../w4 --grader-venv ../G
+python3 plans/round100_c2_rowcensus_bind.py --lane . --rev d4642992 --work ../w6
+python3 plans/round100_c1_replay.py --lane . --rev d4642992 --work ../w7 --grader-venv ../G
+python3 plans/round100_c1_replay.py --lane . --rev 6659dc1e --work ../w5 --grader-venv ../G

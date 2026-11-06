@@ -1,0 +1,22 @@
+# mutant M05_L4_true (counter)
+FREEZE df99c6b6d27d368c002557274da2711d16958ce1
+REV af6b2aba727af26c20839c9763f5cf5b5be29c0b
+TREE-DIFF F..rev: 7 paths
+  SKILL.md
+  corpus/SOURCES.md
+  corpus/evidence/round100/fdp-probe.txt
+  corpus/evidence/round52/PROVENANCE.md
+  corpus/evidence/round58/PROVENANCE.md
+  corpus/evidence/round94/PROVENANCE.md
+  plans/grader-population-ledger.json
+INSTR plans/round100-cases.json=changed, plans/round100_c1_replay.py=changed
+DEFECT-PRESENT yes
+EXPECT L4
+RC 1
+
+REV af6b2aba727af26c20839c9763f5cf5b5be29c0b
+LEGS L1=pass L2=pass L3=pass L4=pass L5=pass L6=fail L7=pass L8=pass L9=fail L10=pass L11=pass L12=pass L13=pass
+TARGET executed_rows=44 member=financial-document-processor cells=crypto-credential:5,file-artifact:35 set_equals_base_plus_member=1 located=1 executed=0 cases=15 legs=120 mismatches=0 new_rows=8 new_rows_flagged=0 new_rows_line_live=0 changed_outside_table=0 defects=2
+DEFECT L6 rerun rc=0 obs=30 want=30 equal=True stamps_equal=False
+DEFECT L9 stamps tool=b255a4287b02 table=286d1772ff9e bash=GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+PREDICATE R100-C1 fail

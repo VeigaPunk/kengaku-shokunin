@@ -103,4 +103,25 @@ round; it is not yet a standing gate (no counter reads it), and Q79 already stat
 
 ## Wave findings
 
-(Appended after WAVE-DONE.)
+Wave w1: 12 seats (ExecC1, ExecC2, ExecHarm, ExecOCR, ReviewC1, ReviewC2, CriticClaims, MutC1, MutC2,
+ScoutSources, ConnectorOverlap, ScribeLesson). Role mix: 4 executor, 2 reviewer, 1 critic, 2
+mutation-tester, 1 scout, 1 connector, 1 scribe; 5/12 attack seats. The planner seat is held by the L1;
+ConnectorOverlap (c) carried the bounded next-round planning data-walk. **Dead seat: ScribeLesson** — it ran
+2 h 13 min without writing a report and was cancelled by the orchestrator; its partial scratch
+(`.ufo/waves/round-100/w1/ScribeLesson/`) is not evidence and nothing below rests on it. 11 reports at
+`.ufo/waves/round-100/w1/<seat>.md`.
+
+| seat / finding | observed verdict or defect | disposition |
+|---|---|---|
+| ExecC1 | counter pass at T, fail at BASE; two archive probe runs byte-identical to the receipt; C03, C04, C07, C08 rebuilt with its own code under real pytest: 7/7 pass, reward 1 each | C1 met, gaps independently reproduced |
+| ExecC2 | its own checker: 90 PASS / 0 FAIL (blob = token = sha cell, one three-cell no-URL line per row); REF→T gate diff over BASE rows = exactly the 9 tokens cleared + the S300 reclass; 333 BASE rows byte-equal | C2 met, independently reproduced |
+| ExecHarm | no standing gate green→red; r82c1 `--tip` sets equal; pre-freeze check clean; frozen-instruments union unchanged; round-99 C1 (L7) and C2 (K7) counters fail at T by construction (their BASE sets predate this round's member and bindings) | no harm; by-construction fails noted |
+| ExecOCR (hypothesis seat) | **falsified**: host tesseract 5.5.3 and conda-forge 5.3.4 (the pinned version) both reproduce `placement.tsv` and `summary.csv` byte-for-byte and the grader passes 7/7 on each; raw OCR text differs word-level between engines | positive control is engine-version-robust on these 17 documents |
+| ReviewC1 | hook observe-only; all 15 builder kinds realise their `why`; captured-name staging grader-equivalent (sha512 recomputed); L1–L13 match the frozen text | no defect |
+| ReviewC2 | population re-derived independently (9/9); bindings semantically right (S298 binds `tests/original-decomp.c`); REF amendment sound; K8 row-level; builder re-run at REF reproduces the three files. MINOR: S210/S219 have two byte-identical eligible copies (lexicographic pick); `c2-pop.txt` labels `REV fb0f125c` though derivation is at BASE; K9 ignores `bytes=` | no defect above MINOR; routed |
+| CriticClaims | F1 L3+L6 cannot distinguish a probe run at F from one at T (LANE_TIP is self-reported; outputs equal); F2 C2 alone accepts an added SOURCES row or a SKILL edit (C1 catches them); F3 K9 checks a receipt, not liveness (its own 9/9 re-fetch is what proves freshness); F4 `freshness` defensible this round; F5 Q86 choice defensible; F6 separability disclosed; F7 no frozen-clause violation; F8 no do-nothing control reaches either TARGET | F1–F3 routed |
+| MutC1 | 47 mutants: 27 killed, 19 survived (+1 inconclusive), every tree forgery killed by its named leg; survivors are sole-guard clauses (L3, L7 conjuncts, L10 count, L12, L13) and F1: the TARGET line is printed, never asserted by the counter's rc | routed: assert TARGET fields in the counter |
+| MutC2 | 65 mutants / 87 runs: 44 killed, 19 survived; one real gap T21 — a duplicated SOURCES row (same id) is invisible to K8/K10 and to C1 L10 (ids are a set); other survivors sole-detector or unreachable | T21 routed |
+| ScoutSources | S342–S349 re-opened live: 8/8 agree (bytes, quote line, computed words); 9/9 C2 URLs equal; gates, census and counters agree; Gate decisions agree (admit S342, reject S348, S349) | agree |
+| ConnectorOverlap | no sibling replays this member or uses row-scoped provenance; next members by Q86: `build-cython-ext` (subprocess-exec, highest summed lift), shell-exec none feasible; 23 remaining anchor findings grouped, 3 zero-byte cell edits measured 23 → 20 | next-round planning input |
+| ScribeLesson | dead (no report) | disclosed; not evidence |

@@ -1,0 +1,60 @@
+# python3 /fast/scratch/hyaku/kengaku-r100/ReviewC2/indep.py (2026-11-06T12:50:41-03:00)
+GATE_AT_BASE_SHA 11bb2cad87be1c29c2d5abe8313d487d73f71ba49a40d7d0dc80ec26c70fd4c2
+GATE_BASE_RC 1
+EVIDENCE_FILES 1636
+BASE_ROWS 333
+
+DERIVED_POP
+S210 OK cls=digest-wrong-capture tok=02bca54db484 cap=corpus/evidence/round52/graders/distribution-search/tests/test_outputs.py
+S211 OK cls=digest-wrong-capture tok=19daaee18d53 cap=corpus/evidence/round58/tb2-distribution-search/solution/solve.sh
+S219 OK cls=digest-wrong-capture tok=90970bb3c372 cap=corpus/evidence/round52/graders/openssl-selfsigned-cert/tests/test_outputs.py
+S228 OK cls=digest-wrong-capture tok=82c6351722e9 cap=corpus/evidence/round52/graders/pypi-server/tests/test_outputs.py
+S232 OK cls=digest-wrong-capture tok=b165f8504bb9 cap=corpus/evidence/round52/graders/sqlite-with-gcov/tests/test_outputs.py
+S279 OK cls=digest-wrong-capture tok=2754ba6c5c5f cap=corpus/evidence/round52/graders/merge-diff-arc-agi-task/tests/test_outputs.py
+S281 OK cls=digest-wrong-capture tok=0c24195ff465 cap=corpus/evidence/round52/graders/modernize-scientific-stack/tests/test_outputs.py
+S298 OK cls=digest-wrong-capture tok=7f8d9ef66943 cap=corpus/evidence/round94/graders/write-compressor/tests/original-decomp.c
+S300 OK cls=anchor-unbound tok=01550b7de7ab cap=corpus/evidence/round94/graders/write-compressor/solution/solve.sh
+
+SET_DIFF derived-POP: []  POP-derived: []
+VALUE_MISMATCH []
+
+AMBIGUITY (suffix-matching cands | all files with token)
+S210 suffix_cands=['corpus/evidence/round52/graders/distribution-search/tests/test_outputs.py', 'corpus/evidence/round58/tb2-distribution-search/tests/test_outputs.py'] all_token_files=2
+S211 suffix_cands=['corpus/evidence/round58/tb2-distribution-search/solution/solve.sh'] all_token_files=1
+S219 suffix_cands=['corpus/evidence/round52/graders/openssl-selfsigned-cert/tests/test_outputs.py', 'corpus/evidence/round59/tb2-openssl-selfsigned-cert/tests/test_outputs.py'] all_token_files=2
+S228 suffix_cands=['corpus/evidence/round52/graders/pypi-server/tests/test_outputs.py'] all_token_files=1
+S232 suffix_cands=['corpus/evidence/round52/graders/sqlite-with-gcov/tests/test_outputs.py'] all_token_files=1
+S279 suffix_cands=['corpus/evidence/round52/graders/merge-diff-arc-agi-task/tests/test_outputs.py'] all_token_files=1
+S281 suffix_cands=['corpus/evidence/round52/graders/modernize-scientific-stack/tests/test_outputs.py'] all_token_files=1
+S298 suffix_cands=['corpus/evidence/round94/graders/write-compressor/tests/original-decomp.c'] all_token_files=2
+S300 suffix_cands=['corpus/evidence/round94/graders/write-compressor/solution/solve.sh'] all_token_files=1
+
+BASE_DEFECT_CLASS_FOR_POP
+S210 [('02bca54db484', 'digest-wrong-capture')] BINDS_AT_BASE= [('corpus/evidence/round58/kl-oracle.md', 'row-path')]
+S211 [('19daaee18d53', 'digest-wrong-capture')] BINDS_AT_BASE= [('corpus/evidence/round58/kl-oracle.md', 'row-path')]
+S219 [('90970bb3c372', 'digest-wrong-capture')] BINDS_AT_BASE= [('corpus/evidence/round59/openssl-probe.txt', 'row-path')]
+S228 [('82c6351722e9', 'digest-wrong-capture')] BINDS_AT_BASE= [('corpus/evidence/round52/graders/SHA256SUMS', 'row-path')]
+S232 [('b165f8504bb9', 'digest-wrong-capture')] BINDS_AT_BASE= [('corpus/evidence/round52/graders/SHA256SUMS', 'row-path')]
+S279 [('2754ba6c5c5f', 'digest-wrong-capture')] BINDS_AT_BASE= [('corpus/evidence/round90/merge-diff-probe.txt', 'row-path')]
+S281 [('0c24195ff465', 'digest-wrong-capture')] BINDS_AT_BASE= [('corpus/evidence/round91/modernize-probe.txt', 'row-path')]
+S298 [('7f8d9ef66943', 'digest-wrong-capture')] BINDS_AT_BASE= [('corpus/evidence/round94/decomp-opt-divergence.txt', 'row-path')]
+S300 [('01550b7de7ab', 'anchor-unbound'), ('fa53d657', 'anchor-unbound'), ('3a905a56', 'token-outside-anchor')] BINDS_AT_BASE= None
+
+S298_DECOMP_CHECK
+corpus/evidence/round52/graders/write-compressor/tests/test.sh 4770437ea96c3cc8
+corpus/evidence/round52/graders/write-compressor/tests/test_outputs.py 809f486053e3ffbc
+corpus/evidence/round94/graders/write-compressor/environment/Dockerfile 9a583d29d46818f6
+corpus/evidence/round94/graders/write-compressor/environment/data.txt 0fc483d0fb31128d
+corpus/evidence/round94/graders/write-compressor/environment/decomp.c 7f8d9ef66943f912
+corpus/evidence/round94/graders/write-compressor/environment/main.rs fa53d6572fca9590
+corpus/evidence/round94/graders/write-compressor/instruction.md c4fc3e73e44deeac
+corpus/evidence/round94/graders/write-compressor/solution/solve.sh 01550b7de7ab1320
+corpus/evidence/round94/graders/write-compressor/task.toml 6066a509066433c9
+corpus/evidence/round94/graders/write-compressor/tests/original-data.txt 0fc483d0fb31128d
+corpus/evidence/round94/graders/write-compressor/tests/original-decomp.c 7f8d9ef66943f912
+corpus/evidence/round94/graders/write-compressor/tests/test.sh 4770437ea96c3cc8
+corpus/evidence/round94/graders/write-compressor/tests/test_outputs.py 809f486053e3ffbc
+S298_token 7f8d9ef66943f912 match_original_decomp: False
+
+NAMED_AT_BASE (strict any-pipe-line): []  table-only: []
+rc=0
