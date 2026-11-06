@@ -1,0 +1,54 @@
+# tb2 sparql-university grader probe (round 97)
+MEMBER sparql-university
+SUBJECT_SHA ecf15840fc14f1eeff2f3b6317d7f0febc8fa81f688d24e3054205ba13207b39
+TEST_SH_SHA 45902b57bd0f1dd6959216bc9943ab27bb349edc7ff557035a1ecc8732e4cc6b
+TEST_GRAPH_SHA 368ce01d32513ee04dfe592784b0c976086e514c1eab9b3165a016ca7b0192cb
+SOLVE_SHA d17995a8f29c6d656c749271fd28e10d31afee6aa75f40ad28fea1c907f2a791
+TOOL_SHA 13a4564d9431535f94465d5872b192e8d7173f1a87802bd298bcdb7c676f300b
+CASE_TABLE_SHA 7b8462708d351d0c14939d128bce421eea41a92d220dc08da965614dcaa0bf01
+LANE_TIP 5b41c1c3e1a8e542d3a38c9f20965f7ea6404019
+GRADER_SIDE python,rdflib,pytest 3.13 7.1.4 8.4.1
+GRADER_UNPINNED python,pyparsing 3.13.16 3.3.3
+HOST_BASH GNU bash, version 5.3.20(1)-release (x86_64-pc-linux-gnu)
+HOST_USERNS 122865
+SANDBOX clearenv=1 unshare-all=1 etc-bound=0
+LEG_ORDER exists,runs,results,reward
+OBSERVATIONS_BEGIN
+CASE C01 predicted=P,P,P,1 observed=P,P,P,1 ok=True
+DETAIL C01 form=SELECT vars=professorName+countries rows=4 distinct=4 names=Alex_Dimakis|Aristotle_Tympas|Chrysoula_Zerva|Giorgos_Stamou solve
+CASE C02 predicted=F,E:FileNotFoundError,E:FileNotFoundError,0 observed=F,E:FileNotFoundError,E:FileNotFoundError,0 ok=True
+DETAIL C02 error=FileNotFoundError absent
+CASE C03 predicted=P,F,E:ParseException,0 observed=P,F,E:ParseException,0 ok=True
+DETAIL C03 error=ParseException empty
+CASE C04 predicted=P,F,E:ParseException,0 observed=P,F,E:ParseException,0 ok=True
+DETAIL C04 error=ParseException syntax-error
+CASE C05 predicted=P,P,P,1 observed=P,P,P,1 ok=True
+DETAIL C05 form=SELECT vars=professorName+countries rows=4 distinct=4 names=Alex_Dimakis|Aristotle_Tympas|Chrysoula_Zerva|Giorgos_Stamou no-eu-filter
+CASE C06 predicted=P,P,P,1 observed=P,P,P,1 ok=True
+DETAIL C06 form=SELECT vars=professorName+countries rows=4 distinct=4 names=Alex_Dimakis|Aristotle_Tympas|Chrysoula_Zerva|Giorgos_Stamou now-date
+CASE C07 predicted=P,P,F,0 observed=P,P,F,0 ok=True
+DETAIL C07 form=SELECT vars=professorName+countries rows=5 distinct=5 names=Alex_Dimakis|Aristotle_Tympas|Chrysoula_Zerva|Giorgos_Stamou|Marie_Dubois no-graduation-filter
+CASE C08 predicted=P,P,F,0 observed=P,P,F,0 ok=True
+DETAIL C08 form=SELECT vars=professorName+countries rows=5 distinct=5 names=Alex_Dimakis|Aristotle_Tympas|Athanasios_Voulodimos|Chrysoula_Zerva|Giorgos_Stamou contains-professor
+CASE C09 predicted=P,P,P,1 observed=P,P,P,1 ok=True
+DETAIL C09 form=SELECT vars=professorName+countries rows=4 distinct=4 names=Alex_Dimakis|Aristotle_Tympas|Chrysoula_Zerva|Giorgos_Stamou per-department
+CASE C10 predicted=P,P,P,1 observed=P,P,P,1 ok=True
+DETAIL C10 form=SELECT vars=professorName+countries rows=4 distinct=4 names=Alex_Dimakis|Aristotle_Tympas|Chrysoula_Zerva|Giorgos_Stamou answer-literal
+CASE C11 predicted=P,P,P,1 observed=P,P,P,1 ok=True
+DETAIL C11 form=SELECT vars=professorName+countries rows=8 distinct=4 names=Alex_Dimakis|Aristotle_Tympas|Chrysoula_Zerva|Giorgos_Stamou duplicate-rows
+CASE C12 predicted=P,P,P,1 observed=P,P,P,1 ok=True
+DETAIL C12 form=SELECT vars=professorName+countries+n rows=4 distinct=4 names=Alex_Dimakis|Aristotle_Tympas|Chrysoula_Zerva|Giorgos_Stamou extra-column
+CASE C13 predicted=P,P,F,0 observed=P,P,F,0 ok=True
+DETAIL C13 form=SELECT vars=professorName+countries rows=4 distinct=4 names=Alex_Dimakis|Aristotle_Tympas|Chrysoula_Zerva|Giorgos_Stamou semicolon-separator
+CASE C14 predicted=P,P,P,1 observed=P,P,P,1 ok=True
+DETAIL C14 form=SELECT vars=professorName+countries rows=4 distinct=4 names=Alex_Dimakis|Aristotle_Tympas|Chrysoula_Zerva|Giorgos_Stamou comma-no-space
+CASE C15 predicted=P,P,F,0 observed=P,P,F,0 ok=True
+DETAIL C15 form=SELECT vars=professorName+countries rows=4 distinct=4 names=Alex_Dimakis|Aristotle_Tympas|Chrysoula_Zerva|Giorgos_Stamou concat-no-distinct
+CASE C16 predicted=P,P,E:AttributeError,0 observed=P,P,E:AttributeError,0 ok=True
+DETAIL C16 form=SELECT vars=name+countries rows=4 distinct=4 names=- wrong-variable-name
+CASE C17 predicted=P,P,F,0 observed=P,P,F,0 ok=True
+DETAIL C17 form=SELECT vars=professorName+countries rows=3 distinct=3 names=Aristotle_Tympas|Orfeas_Menis|Pepe_Attanasio agent-graph-literal
+CASE C18 predicted=P,P,E:AttributeError,0 observed=P,P,E:AttributeError,0 ok=True
+DETAIL C18 form=ASK vars=- rows=0 distinct=0 names=- ask-query
+OBSERVATIONS_END
+mismatches 0

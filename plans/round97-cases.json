@@ -1,0 +1,120 @@
+{
+ "member": "sparql-university",
+ "leg_order": [
+  "exists",
+  "runs",
+  "results",
+  "reward"
+ ],
+ "reward_rule": "reward 1 iff real pytest 8.4.1 over the captured tests/test_outputs.py exits 0 (tests/test.sh writes 1 on pytest rc 0)",
+ "cases": [
+  {
+   "id": "C01",
+   "app": "solve",
+   "predicted": "P,P,P,1",
+   "why": "positive control: captured solve.sh run unmodified"
+  },
+  {
+   "id": "C02",
+   "app": "absent",
+   "predicted": "F,E:FileNotFoundError,E:FileNotFoundError,0",
+   "why": "no /app/solution.sparql; read_text raises"
+  },
+  {
+   "id": "C03",
+   "app": "empty",
+   "predicted": "P,F,E:ParseException,0",
+   "why": "empty query: test 2 wraps the parse error into assert False; test 3 does not"
+  },
+  {
+   "id": "C04",
+   "app": "syntax-error",
+   "predicted": "P,F,E:ParseException,0",
+   "why": "final closing brace removed"
+  },
+  {
+   "id": "C05",
+   "app": "no-eu-filter",
+   "predicted": "P,P,P,1",
+   "why": "GAP: VALUES ?euCountry block deleted \u2014 the EU criterion is never exercised"
+  },
+  {
+   "id": "C06",
+   "app": "now-date",
+   "predicted": "P,P,P,1",
+   "why": "GAP: both reference-date literals replaced by today's date from NOW()"
+  },
+  {
+   "id": "C07",
+   "app": "no-graduation-filter",
+   "predicted": "P,P,F,0",
+   "why": "Dubois admitted (14 enrolled, graduation ignored)"
+  },
+  {
+   "id": "C08",
+   "app": "contains-professor",
+   "predicted": "P,P,F,0",
+   "why": "CONTAINS(?role,\"Professor\") admits assistant professor Voulodimos"
+  },
+  {
+   "id": "C09",
+   "app": "per-department",
+   "predicted": "P,P,P,1",
+   "why": "instruction-faithful per-department count (subquery) \u2014 same set as the aggregate solution"
+  },
+  {
+   "id": "C10",
+   "app": "answer-literal",
+   "predicted": "P,P,P,1",
+   "why": "GAP: VALUES of the four reference tuples, no graph pattern"
+  },
+  {
+   "id": "C11",
+   "app": "duplicate-rows",
+   "predicted": "P,P,P,1",
+   "why": "GAP: the solution SELECT unioned with itself (8 rows, 4 distinct); the grader compares sets"
+  },
+  {
+   "id": "C12",
+   "app": "extra-column",
+   "predicted": "P,P,P,1",
+   "why": "GAP: an extra projected (COUNT ... AS ?n); the instruction fixes the projection"
+  },
+  {
+   "id": "C13",
+   "app": "semicolon-separator",
+   "predicted": "P,P,F,0",
+   "why": "GROUP_CONCAT separator \"; \" \u2014 split on \",\" leaves one token"
+  },
+  {
+   "id": "C14",
+   "app": "comma-no-space",
+   "predicted": "P,P,P,1",
+   "why": "separator \",\" \u2014 the grader strips each token"
+  },
+  {
+   "id": "C15",
+   "app": "concat-no-distinct",
+   "predicted": "P,P,F,0",
+   "why": "GROUP_CONCAT without DISTINCT repeats countries across join rows"
+  },
+  {
+   "id": "C16",
+   "app": "wrong-variable-name",
+   "predicted": "P,P,E:AttributeError,0",
+   "why": "?professorName renamed ?name; ResultRow attribute lookup raises"
+  },
+  {
+   "id": "C17",
+   "app": "agent-graph-literal",
+   "predicted": "P,P,F,0",
+   "why": "VALUES of the solve answers on the agent graph \u2014 the test graph names differ"
+  },
+  {
+   "id": "C18",
+   "app": "ask-query",
+   "predicted": "P,P,E:AttributeError,0",
+   "why": "ASK form: the result iterates one bool, which has no professorName"
+  }
+ ]
+}
