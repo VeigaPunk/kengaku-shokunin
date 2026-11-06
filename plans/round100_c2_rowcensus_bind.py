@@ -317,7 +317,7 @@ def main(argv: list[str]) -> int:
     # census reference (amendment 1): the freeze commit's parent, i.e. the last pre-freeze tree, which
     # already holds this round's P0/P1 bytes; C1's P0 capture re-binds outside row S295 by url-task
     # (33 -> 32 at P1, controls dry run), a change C2 neither makes nor may be blamed for
-    ref_proc = git(lane, "rev-parse", "--verify", "--quiet", f"{fcommit}^{{commit}}") if fcommit else None
+    ref_proc = git(lane, "rev-parse", "--verify", "--quiet", f"{fcommit}~1") if fcommit else None
     if ref_proc is None or ref_proc.returncode != 0:
         ref = BASE
         defects.append("K7 no freeze commit: census reference falls back to BASE")
