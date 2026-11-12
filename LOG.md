@@ -3766,3 +3766,10 @@ revert of the R96-C2 repair bytes `3f300cbd` → integration. No tabled file cha
 - considerthese: `2026-11-06.md` §1 proposal 1 measured (8 tables, 99 rows, 0 differ at T). Assimilation: none (L0 `kengaku | round-54` hold).
 - Wave: one v1 wave w1, 12 seats (4 executor, 2 reviewer, 1 critic, 2 mutation-tester, 1 scout, 1 connector, 1 scribe; 5/12 attack). 11 settled; ScribeLesson dead (cancelled after 2 h 13 min without a report). Both claims independently reproduced; ExecOCR showed the positive control is identical under the pinned tesseract 5.3.4; MutC1 27/47 and MutC2 44/63 killed, survivors and CriticClaims F1–F3 routed (`corpus/lessons/round-100.md` §Wave findings).
 - Misroot sweep: fleet `git status --porcelain` shows the orchestrator's `.scratch/` files and two untracked files not written by this round (`w4lines.txt`, 2026-11-05; `versions.html`, 12:35, a Read-the-Docs 404 page naming no lane). Nothing moved.
+
+
+## 2026-11-12: publish reviewed curation notes
+
+Published 1 independently reviewed original reading note(s) from the saved curation copies. The note text and source/rights boundaries are preserved exactly; any preparation-time statement such as Space hold, no repository change, or unperformed exercises describes the original note preparation. This entry records publication only, not source-code reuse, capability admission, training, or assimilation. No private receipts or source captures are included.
+
+- `considerthese/2026-11-09-brier-reporting-scale.md`: source `Shokunin-Kengaku-Brier-Score-Scaling-2026-11-09.md`; SHA-256 `2cca68c059991573d3bce55913fa042790d2b3b80afacbae9929cc3142da7b26`.
